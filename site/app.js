@@ -1,0 +1,33 @@
+const state = { data: null, tab: "recommendations", role: "combat", layers: new Set(["fast_travel", "alpha_pal", "boss_tower"]), selected: null };
+const labels = { combat:"전투",base:"거점",support:"서포트",travel:"이동",breeding:"교배",early:"초반",fast_travel:"빠른 이동",alpha_pal:"알파 팰",boss_tower:"보스 타워",bounty_target:"현상수배",predator_pal:"포식자 팰",oil_rig:"오일 리그",world_tree:"월드 트리",sunreach:"선리치" };
+const colors = { fast_travel:"#38bdf8",alpha_pal:"#f472b6",boss_tower:"#fb7185",bounty_target:"#fbbf24",predator_pal:"#c084fc",oil_rig:"#94a3b8",world_tree:"#4ade80",sunreach:"#2dd4bf" };
+const content = document.querySelector("#content");
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[character]);
+const safeUrl = (value) => { try { const url = new URL(value); return url.protocol === "https:" ? url.href : "#"; } catch { return "#"; } };
+
+function renderRecommendations() {
+  const items = state.data.editorial[state.role] ?? [];
+  content.innerHTML = `<div class="heading"><div><span>01</span><h2>목적별 추천</h2></div><p>편집형 추천은 공식 순위가 아니며 패치에 따라 달라집니다.</p></div><div class="roles">${["combat","base","support","travel","breeding","early"].map((role) => `<button data-role="${role}" class="${state.role===role?"active":""}">${labels[role]}</button>`).join("")}</div><div class="cards">${items.map((item) => `<article><span>#${Number(item.rank)||1}</span><h3>${escapeHtml(item.pal)}</h3><strong>${escapeHtml(item.workType||item.role||"추천")}</strong><p>${escapeHtml(item.reason||"")}</p>${item.limitation?`<small>주의: ${escapeHtml(item.limitation)}</small>`:""}${item.alternative?`<small>대안: ${escapeHtml(item.alternative)}</small>`:""}</article>`).join("")}</div>`;
+  content.querySelectorAll("[data-role]").forEach((button) => button.addEventListener("click", () => { state.role=button.dataset.role; renderRecommendations(); }));
+}
+
+function renderBuilds() {
+  content.innerHTML = `<div class="heading"><div><span>02</span><h2>종결 빌드</h2></div><p>원문과 게임 버전을 함께 확인하세요.</p></div><div class="builds">${state.data.builds.map((build) => `<article><header><span>${escapeHtml(build.kind.toUpperCase())} · v${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(build.pal)} · ${escapeHtml(build.title)}</h3><p>${escapeHtml(build.summary)}</p></header><div class="build-grid"><div><h4>추천 패시브</h4><ul>${build.passives.map((item)=>`<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>추천 스킬</h4><ul>${build.skills.map((item)=>`<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div><p class="usage">${escapeHtml(build.usage)}</p><a href="${safeUrl(build.sourceUrl)}" target="_blank" rel="noopener noreferrer">원문 공략 ↗</a></article>`).join("")}</div>`;
+}
+
+function renderMap() {
+  const categories = [...new Set(state.data.map.points.map((point)=>point.category))].sort();
+  const points = state.data.map.points.filter((point)=>point.mapId==="main"&&state.layers.has(point.category));
+  const b = state.data.map.bounds;
+  content.innerHTML = `<div class="heading"><div><span>03</span><h2>좌표형 탐험 지도</h2></div><p>지형 이미지를 복제하지 않은 참고 지도 · ${points.length}개 표시</p></div><div class="map-layout"><aside>${categories.map((category)=>`<label><input type="checkbox" data-layer="${escapeHtml(category)}" ${state.layers.has(category)?"checked":""}><i style="background:${colors[category]||"#94a3b8"}"></i><strong>${escapeHtml(labels[category]||category)}</strong></label>`).join("")}</aside><div class="map">${points.map((point)=>{const left=(point.x-b.minX)/(b.maxX-b.minX)*100;const top=(1-(point.y-b.minY)/(b.maxY-b.minY))*100;if(left<0||left>100||top<0||top>100)return "";return `<button class="marker" data-point="${escapeHtml(point.id)}" title="${escapeHtml(point.label)}" style="left:${left}%;top:${top}%;background:${colors[point.category]||"#94a3b8"}"></button>`}).join("")}<span>SCHEMATIC MAP · NOT TERRAIN</span></div><aside id="point-detail">${pointDetail()}</aside></div>`;
+  content.querySelectorAll("[data-layer]").forEach((input)=>input.addEventListener("change",()=>{input.checked?state.layers.add(input.dataset.layer):state.layers.delete(input.dataset.layer);renderMap();}));
+  content.querySelectorAll("[data-point]").forEach((button)=>button.addEventListener("click",()=>{state.selected=state.data.map.points.find((point)=>point.id===button.dataset.point)||null;document.querySelector("#point-detail").innerHTML=pointDetail();}));
+}
+
+function pointDetail(){const point=state.selected;if(!point)return `<span>POINT INSPECTOR</span><h3>지점을 선택하세요</h3><p>마커를 누르면 좌표와 원문 출처를 표시합니다.</p>`;return `<span>${escapeHtml(labels[point.category]||point.category)}</span><h3>${escapeHtml(point.label)}</h3><p>X ${Number(point.x).toLocaleString()} · Y ${Number(point.y).toLocaleString()}</p>${point.source.map((source)=>`<a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.name)} ↗</a>`).join("")}`;}
+
+function renderSources(){content.innerHTML=`<div class="heading"><div><span>04</span><h2>출처·공개 범위</h2></div><p>구조화된 짧은 사실과 원문 링크만 표시합니다.</p></div><div class="sources">${state.data.sources.map((source)=>`<article><span>${escapeHtml(source.kind)}</span><h3>${escapeHtml(source.name)}</h3><p>대상 ${escapeHtml(source.gameVersion)} · ${new Date(source.checkedAt).toLocaleDateString("ko-KR")}</p><a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">출처 열기 ↗</a></article>`).join("")}</div><div class="security"><h3>공개 보안 경계</h3><p>${state.data.publication.excludes.map(escapeHtml).join(" · ")}</p><p>GitHub Actions가 홈 서버와 분리된 환경에서 새로 수집하며 장기 배포 토큰을 사용하지 않습니다.</p></div>`;}
+function render(){ if(state.tab==="recommendations")renderRecommendations();else if(state.tab==="builds")renderBuilds();else if(state.tab==="map")renderMap();else renderSources(); }
+
+document.querySelectorAll("#tabs button").forEach((button)=>button.addEventListener("click",()=>{document.querySelectorAll("#tabs button").forEach((item)=>item.classList.remove("active"));button.classList.add("active");state.tab=button.dataset.tab;render();}));
+fetch("./data/guide-data.json",{cache:"no-store"}).then((response)=>{if(!response.ok)throw new Error(response.status);return response.json();}).then((data)=>{state.data=data;document.querySelector("#freshness").textContent=`갱신 ${new Date(data.generatedAt).toLocaleString("ko-KR")}`;document.querySelector("#metrics").innerHTML=`<div><dt>등록 펠</dt><dd>${data.pals.length}</dd></div><div><dt>추천 빌드</dt><dd>${data.builds.length}</dd></div><div><dt>지도 지점</dt><dd>${data.map.points.length}</dd></div><div><dt>공개 범위</dt><dd>GUIDE ONLY</dd></div>`;render();}).catch(()=>{content.innerHTML=`<div class="error">공략 데이터를 불러오지 못했습니다. 잠시 뒤 다시 확인하세요.</div>`;});
