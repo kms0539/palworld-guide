@@ -1,12 +1,20 @@
 const defaultLayers = [
   "fast_travel", "alpha_pal", "boss_tower", "resource_copper", "resource_coal",
-  "resource_quartz", "resource_sulfur", "resource_oil", "resource_hexolite",
+  "resource_quartz", "resource_sulfur", "resource_oil", "resource_hexolite", "world_tree", "sunreach",
 ];
 
 const state = {
   data: null, assets: null, tab: "recommendations", role: "combat", palRole: "combat",
-  palQuery: "", mapQuery: "", buildKind: "combat", layers: new Set(defaultLayers), selected: null,
+  palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", layers: new Set(defaultLayers), selected: null,
 };
+
+const fallbackMapRegions = {
+  main: { label: "Palpagos", terrain: true, bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 } },
+  world_tree: { label: "World Tree", terrain: true, bounds: { minX: 347351.5, maxX: 689148.5, minY: -818197, maxY: -476400 } },
+  sunreach: { label: "Sunreach", terrain: false, bounds: null },
+};
+
+const mapRegionLabels = { main: "팰파고스", world_tree: "세계수", sunreach: "선리치" };
 
 const labels = {
   combat: "전투", base: "거점", support: "지원", travel: "이동", breeding: "교배", early: "초반",
@@ -177,8 +185,8 @@ function mapLabel(point) {
   if (point.category.startsWith("resource_")) return raw;
   if (point.category === "boss_tower") return towerLabels[raw] || "보스 탑";
   if (point.category === "fast_travel") return "빠른 이동 지점";
-  if (point.category === "sunreach") return "선리치 지역 이동 지점";
-  if (point.category === "world_tree") return "세계수 지역 지점";
+  if (point.category === "sunreach") return `선리치 · ${raw}`;
+  if (point.category === "world_tree") return `세계수 · ${raw}`;
   if (point.category === "bounty_target") return "현상수배 대상";
   if (point.category === "oil_rig") {
     const level = raw.match(/Lv\s*(\d+)/i)?.[1];
@@ -281,6 +289,10 @@ function mapPosition(point, bounds) {
   return { x: Math.max(0.5, Math.min(99.5, screenX * 100)), y: Math.max(0.5, Math.min(99.5, screenY * 100)) };
 }
 
+function pointWithinBounds(point, bounds) {
+  return point.x >= bounds.minX && point.x <= bounds.maxX && point.y >= bounds.minY && point.y <= bounds.maxY;
+}
+
 function hudCoordinate(point) {
   return { x: (point.y - 158000) / 459, y: (point.x + 123888) / 459 };
 }
@@ -297,24 +309,34 @@ function pointDetail() {
 
 function filteredMapPoints() {
   const query = state.mapQuery.trim().toLocaleLowerCase();
-  return state.data.map.points.filter((point) => point.mapId === "main" && state.layers.has(point.category)
+  return state.data.map.points.filter((point) => point.mapId === state.mapId && state.layers.has(point.category)
     && (!query || point.label.toLocaleLowerCase().includes(query) || mapLabel(point).toLocaleLowerCase().includes(query) || (labels[point.category] || "").includes(query)));
 }
 
 function renderMap() {
-  const categories = [...new Set(state.data.map.points.map((point) => point.category))].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b, "ko"));
+  const regions = state.data.map.regions ?? fallbackMapRegions;
+  const region = regions[state.mapId] ?? fallbackMapRegions.main;
+  const regionIds = ["main", "world_tree", "sunreach"].filter((mapId) => state.data.map.points.some((point) => point.mapId === mapId));
+  const regionPoints = state.data.map.points.filter((point) => point.mapId === state.mapId);
+  const categories = [...new Set(regionPoints.map((point) => point.category))].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b, "ko"));
   const points = filteredMapPoints();
-  const bounds = state.data.map.bounds;
+  const bounds = region.bounds ?? state.data.map.bounds;
+  const plottedPoints = region.terrain ? points.filter((point) => pointWithinBounds(point, bounds)) : [];
+  const mapContent = region.terrain
+    ? `<div class="map map-${escapeHtml(state.mapId)}" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 실제 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="지도 지점">${plottedPoints.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>실제 지형 텍스처 · 지형 내 ${plottedPoints.length}개 표시</span></div>`
+    : `<div class="map map-coordinates-only" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 좌표 목록"><div><strong>지형 이미지 준비 중</strong><p>현행 자료는 좌표만 검증되어 아래 목록으로 제공합니다.</p></div></div>`;
   content.innerHTML = `${sectionHeading("04", "실제 지형 탐험 지도", `보스·이동·광석 ${points.length}개 표시`)}
+    <div class="map-region-tabs" role="group" aria-label="지도 지역">${regionIds.map((mapId) => `<button type="button" data-map-region="${escapeHtml(mapId)}" aria-pressed="${state.mapId === mapId}">${escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId)}<small>${state.data.map.points.filter((point) => point.mapId === mapId).length}</small></button>`).join("")}</div>
     <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, Jetragon" autocomplete="off"></div>
     <div class="map-layout"><aside class="layer-panel"><div class="layer-actions"><button type="button" data-layer-action="all">전체 선택</button><button type="button" data-layer-action="none">모두 해제</button></div>
       ${categories.map((category) => `<label><input type="checkbox" data-layer="${escapeHtml(category)}" ${state.layers.has(category) ? "checked" : ""}><i class="${categoryClass(category)}"></i><strong>${escapeHtml(labels[category] || category)}</strong></label>`).join("")}</aside>
-      <div class="map" aria-label="팰월드 실제 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" aria-label="지도 지점">${points.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>실제 지형 텍스처 · 좌표는 참고용</span></div>
+      ${mapContent}
       <aside id="point-detail">${pointDetail()}</aside></div>
     <div class="point-list">${points.slice(0, 80).map((point) => { const hud = hudCoordinate(point); return `<button type="button" data-point="${escapeHtml(point.id)}"><i class="${categoryClass(point.category)}"></i><span>${escapeHtml(mapLabel(point))}</span><small>X ${Math.round(hud.x).toLocaleString()} · Y ${Math.round(hud.y).toLocaleString()}</small></button>`; }).join("")}</div>
     ${points.length > 80 ? `<p class="result-note">목록은 80개까지만 표시하지만 지도에는 검색 결과 전체가 표시됩니다.</p>` : ""}`;
   content.querySelectorAll("[data-layer]").forEach((input) => input.addEventListener("change", () => { input.checked ? state.layers.add(input.dataset.layer) : state.layers.delete(input.dataset.layer); renderMap(); }));
   content.querySelectorAll("[data-layer-action]").forEach((button) => button.addEventListener("click", () => { state.layers = button.dataset.layerAction === "all" ? new Set(categories) : new Set(); renderMap(); }));
+  content.querySelectorAll("[data-map-region]").forEach((button) => button.addEventListener("click", () => { state.mapId = button.dataset.mapRegion; state.selected = null; renderMap(); }));
   content.querySelectorAll("[data-point]").forEach((button) => button.addEventListener("click", () => { state.selected = state.data.map.points.find((point) => point.id === button.dataset.point) || null; document.querySelector("#point-detail").innerHTML = pointDetail(); }));
   content.querySelectorAll("circle[data-point]").forEach((marker) => marker.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); marker.dispatchEvent(new MouseEvent("click", { bubbles: true })); } }));
   document.querySelector("#map-search").addEventListener("input", (event) => { state.mapQuery = event.target.value; renderMap(); const input = document.querySelector("#map-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length); });

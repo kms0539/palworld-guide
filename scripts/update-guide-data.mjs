@@ -468,6 +468,23 @@ async function main() {
     builds,
     map: {
       bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 },
+      regions: {
+        main: {
+          label: "Palpagos",
+          terrain: true,
+          bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 },
+        },
+        world_tree: {
+          label: "World Tree",
+          terrain: true,
+          bounds: { minX: 347351.5, maxX: 689148.5, minY: -818197, maxY: -476400 },
+        },
+        sunreach: {
+          label: "Sunreach",
+          terrain: false,
+          bounds: null,
+        },
+      },
       points: [...mapPoints, ...resourcePoints],
       counts: {
         sourcePoints: mapPoints.length,

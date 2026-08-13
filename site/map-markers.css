@@ -44,3 +44,71 @@
 .map-markers .category-resource_sulfur { fill: #fde047; }
 .map-markers .category-resource_oil { fill: #a78bfa; }
 .map-markers .category-resource_hexolite { fill: #22d3ee; }
+
+.map-region-tabs {
+  display: flex;
+  gap: 7px;
+  overflow: auto;
+  margin-top: 17px;
+}
+
+.map-region-tabs button {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #091826;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.map-region-tabs button[aria-pressed="true"] {
+  border-color: rgba(89, 200, 255, .62);
+  background: rgba(89, 200, 255, .13);
+  color: #e3f7ff;
+}
+
+.map-region-tabs small {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  font-size: 9px;
+}
+
+.map-main {
+  background-image: url("./assets/visuals/palworld-map.webp");
+}
+
+.map-world_tree {
+  background-image: url("./assets/visuals/palworld-world-tree.webp");
+}
+
+.map-coordinates-only {
+  display: grid;
+  place-items: center;
+  background: #0d161e;
+}
+
+.map-coordinates-only > div {
+  max-width: 300px;
+  padding: 26px;
+  text-align: center;
+}
+
+.map-coordinates-only strong {
+  font-size: 18px;
+}
+
+.map-coordinates-only p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.65;
+}

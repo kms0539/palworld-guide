@@ -26,6 +26,8 @@ test("published data excludes server-only material", async () => {
   assert.ok(guide.builds.some((build) => build.party?.length === 5 && build.strongAgainst?.length && build.weakAgainst?.length));
   assert.ok(guide.map.points.length >= 300);
   assert.ok(guide.map.points.some((point) => point.category.startsWith("resource_")));
+  assert.ok(guide.map.points.some((point) => point.mapId === "world_tree"));
+  assert.equal(guide.map.regions.world_tree.terrain, true);
   assert.ok(guide.sources.some((source) => source.id === "map-collectables"));
   assert.equal(guide.publication.scope, "guide-only");
 });
@@ -58,6 +60,8 @@ test("site exposes a searchable Pal encyclopedia and resource map controls", asy
   assert.match(app, /추천 사유/);
   assert.match(app, /전투 지표/);
   assert.match(app, /mapStatusLabels/);
+  assert.match(app, /data-map-region/);
+  assert.match(app, /world_tree/);
   assert.match(app, /빠른 이동 지점/);
   assert.match(app, /추천 5인 파티와 채용 사유/);
   assert.match(app, /피해야 할 상대/);
@@ -81,6 +85,7 @@ test("Korean visual guide publishes local verified images with attribution", asy
   assert.ok(Object.values(assets.koreanNames).filter((name) => /[가-힣]/.test(name)).length >= 260);
   assert.equal(assets.koreanNames.jetragon, "제트래곤");
   assert.ok(assets.visuals["world-map"].bytes > 1_000_000);
+  assert.ok(assets.visuals["world-tree-map"].bytes > 1_000_000);
   assert.ok(assets.attribution.some((item) => item.name === "PalDex" && item.license === "MIT"));
   assert.ok(assets.attribution.some((item) => item.name.includes("Pocketpair")));
   assert.ok(assets.attribution.some((item) => item.name.includes("Palworld.gg")));
@@ -91,6 +96,7 @@ test("Korean visual guide publishes local verified images with attribution", asy
     assert.match(asset.sha256, /^[a-f0-9]{64}$/);
   }
   assert.ok((await stat(new URL("site/assets/visuals/palworld-map.webp", root))).size > 1_000_000);
+  assert.ok((await stat(new URL("site/assets/visuals/palworld-world-tree.webp", root))).size > 1_000_000);
 });
 
 test("daily Pages build refreshes data and verifies local visual assets", async () => {

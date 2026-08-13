@@ -146,6 +146,7 @@ if (Object.values(localizedNames).filter((name) => /[가-힣]/.test(name)).lengt
 
 const fixedAssets = [
   { id: "world-map", url: `${PALDEX_RAW}/frontend/assets/map.webp`, destination: join(visualDirectory, "palworld-map.webp"), path: "./assets/visuals/palworld-map.webp" },
+  { id: "world-tree-map", url: `${PALDEX_RAW}/frontend/assets/tree.webp`, destination: join(visualDirectory, "palworld-world-tree.webp"), path: "./assets/visuals/palworld-world-tree.webp" },
   { id: "official-hero", url: `${OFFICIAL_CDN}/03/img-features-01.jpg`, destination: join(visualDirectory, "official-hero.jpg"), path: "./assets/visuals/official-hero.jpg" },
   { id: "official-adventure", url: `${OFFICIAL_CDN}/03/img-features-02.jpg`, destination: join(visualDirectory, "official-adventure.jpg"), path: "./assets/visuals/official-adventure.jpg" },
   { id: "official-anubis", url: `${OFFICIAL_CDN}/03/img-anubis-01.png`, destination: join(visualDirectory, "official-anubis.png"), path: "./assets/visuals/official-anubis.png" },

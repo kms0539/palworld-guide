@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T22:23:31.121Z",
+  "generatedAt": "2026-08-13T22:48:37.378Z",
   "pals": {
     "hartalis": {
       "path": "./assets/pals/hartalis.png",
@@ -2316,6 +2316,12 @@
       "sourceUrl": "https://raw.githubusercontent.com/catrenelle/PalDex/5a0f591582e91e2f9c294bcc6cb186ad87094523/frontend/assets/map.webp",
       "bytes": 4835094,
       "sha256": "86ffeaca0bfec9006abd147588c1ac8962361b76815b67d842b734988f95a37a"
+    },
+    "world-tree-map": {
+      "path": "./assets/visuals/palworld-world-tree.webp",
+      "sourceUrl": "https://raw.githubusercontent.com/catrenelle/PalDex/5a0f591582e91e2f9c294bcc6cb186ad87094523/frontend/assets/tree.webp",
+      "bytes": 7086980,
+      "sha256": "28aaad119e8456114f3f5d50244b64f54d96e9e8b2a76a2565fe70c4ff04e06f"
     },
     "official-hero": {
       "path": "./assets/visuals/official-hero.jpg",

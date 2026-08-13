@@ -23,6 +23,7 @@ const publicGuide = {
   builds: guide.builds,
   map: {
     bounds: guide.map.bounds,
+    regions: guide.map.regions,
     points: guide.map.points,
     counts: guide.map.counts,
   },
