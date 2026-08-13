@@ -28,6 +28,13 @@ test("published data excludes server-only material", async () => {
   assert.equal(guide.publication.scope, "guide-only");
 });
 
+test("guide release remains UAC-free and rejects private server material", async () => {
+  const release = await readFile(new URL("scripts/Publish-GuideRelease.ps1", root), "utf8");
+  assert.match(release, /GitHub Pages via OIDC/);
+  assert.match(release, /settings\\\.ini/);
+  assert.doesNotMatch(release, /-Verb\s+RunAs|New-NetFirewallRule|Register-ScheduledTask|Start-ScheduledTask/i);
+});
+
 test("sanitizer keeps an explicit public boundary", async () => {
   const source = await readFile(new URL("scripts/build-public-guide.mjs", root), "utf8");
   for (const required of ["server status", "players", "IP addresses", "credentials", "Discord configuration"]) {
