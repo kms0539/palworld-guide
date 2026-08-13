@@ -22,6 +22,8 @@ test("published data excludes server-only material", async () => {
   }
   const guide = JSON.parse(serialized);
   assert.ok(guide.pals.length >= 250);
+  assert.ok(guide.builds.length >= 12);
+  assert.ok(guide.builds.some((build) => build.party?.length === 5 && build.strongAgainst?.length && build.weakAgainst?.length));
   assert.ok(guide.map.points.length >= 300);
   assert.ok(guide.map.points.some((point) => point.category.startsWith("resource_")));
   assert.ok(guide.sources.some((source) => source.id === "map-collectables"));
@@ -57,6 +59,9 @@ test("site exposes a searchable Pal encyclopedia and resource map controls", asy
   assert.match(app, /전투 지표/);
   assert.match(app, /mapStatusLabels/);
   assert.match(app, /빠른 이동 지점/);
+  assert.match(app, /추천 5인 파티와 채용 사유/);
+  assert.match(app, /피해야 할 상대/);
+  assert.match(app, /data-build-kind/);
   assert.doesNotMatch(app, /style=|\.style\b/);
 });
 

@@ -5,7 +5,7 @@ const defaultLayers = [
 
 const state = {
   data: null, assets: null, tab: "recommendations", role: "combat", palRole: "combat",
-  palQuery: "", mapQuery: "", layers: new Set(defaultLayers), selected: null,
+  palQuery: "", mapQuery: "", buildKind: "combat", layers: new Set(defaultLayers), selected: null,
 };
 
 const labels = {
@@ -23,6 +23,7 @@ const labels = {
 
 const sourceNames = {
   "palworld-official": "팰월드 공식 Steam 페이지",
+  "palworld-official-1-0-3": "팰월드 공식 v1.0.3 패치 노트",
   "palworld-server-docs": "팰월드 공식 서버 안내서",
   "palworld-tools": "palworld.tools 역할별 계산 순위",
   palcompass: "PalCompass 추천 펠 공략",
@@ -31,6 +32,9 @@ const sourceNames = {
   "paldex-assets": "PalDex 오픈소스 지도·펠 아이콘",
   "pocketpair-official-media": "Pocketpair 공식 Palworld 이미지",
   "palworld-gg-korean-names": "Palworld.gg 한국어 펠 도감",
+  "palmods-combat-meta": "PalMods 1.0 전투 데이터와 조합",
+  "palmods-element-teams": "PalMods 속성 파티와 중첩 규칙",
+  "allthings-combat-builds": "All Things How 1.0 전투 빌드",
 };
 
 const koText = new Map(Object.entries({
@@ -123,6 +127,10 @@ const towerLabels = {
   "Moonflower Tower": "달꽃 탑", "Feybreak Tower": "페이브레이크 탑",
   "Tower of the Rayne Syndicate": "레인 밀렵단 탑", "Tower of the Free Pal Alliance": "팰 애호단체 탑",
 };
+const elementLabels = {
+  Fire: "불", Water: "물", Grass: "풀", Electric: "번개", Ice: "얼음", Ground: "땅",
+  Dark: "어둠", Dragon: "용", Neutral: "무", "Poison immune": "중독 면역",
+};
 
 function displayPalName(value) {
   const pal = palRecord(value);
@@ -190,6 +198,14 @@ function pointSourceName(source) {
   return source.name;
 }
 
+function buildSourceLabel(url) {
+  if (/store\.steampowered\.com\/news/.test(url)) return "공식 v1.0.3 패치 확인";
+  if (/strongest-pals/.test(url)) return "전투 종족값·파트너 스킬";
+  if (/guides\/teams/.test(url)) return "속성 파티·중첩 규칙";
+  if (/damage-party-builds/.test(url)) return "상성·패시브 공략";
+  return "근거 자료";
+}
+
 function sectionHeading(number, title, note) {
   return `<div class="heading"><div><span>${number}</span><h2>${title}</h2></div><p>${note}</p></div>`;
 }
@@ -236,13 +252,27 @@ function renderPals() {
 }
 
 function renderBuilds() {
-  content.innerHTML = `${sectionHeading("03", "추천 빌드", "출처가 확인된 빌드만 한글로 요약")}
-    <div class="builds">${state.data.builds.map((build) => {
+  const builds = state.data.builds.filter((build) => build.kind === state.buildKind);
+  content.innerHTML = `${sectionHeading("03", "추천 빌드", "상성·서포트 펠·파티 운용까지 확인하는 실전 구성")}
+    <div class="roles"><button type="button" data-build-kind="combat" class="${state.buildKind === "combat" ? "active" : ""}">전투 파티</button><button type="button" data-build-kind="base" class="${state.buildKind === "base" ? "active" : ""}">거점 작업</button></div>
+    ${state.buildKind === "combat" ? `<div class="build-guide-note"><strong>읽는 법</strong><span>강점은 공격 속성 기준이며, 약점은 주력 펠이 받는 상성입니다. 같은 종의 지원 효과는 대개 중복되지 않으므로 서로 다른 서포트 펠을 우선합니다.</span></div>` : ""}
+    <div class="builds">${builds.map((build) => {
       const translated = buildKo[build.id] ?? build;
-      return `<article><div class="build-hero">${palImage(build.pal, "build-pal-image")}<div><span>${build.kind === "base" ? "거점 작업" : "전투"} · v${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(displayPalName(build.pal))} · ${escapeHtml(translated.title)}</h3><p>${escapeHtml(translated.summary)}</p></div></div>
+      if (build.party?.length) {
+        return `<article class="team-build"><div class="build-hero">${palImage(build.pal, "build-pal-image")}<div><span>${escapeHtml(build.archetype)} · ${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(translated.title)}</h3><p>${escapeHtml(translated.summary)}</p>
+          <div class="element-badges">${(build.elements ?? []).map((element) => `<b>${escapeHtml(elementLabels[element] || element)}</b>`).join("")}</div></div></div>
+          <div class="matchup-grid"><div><small>강한 상대</small><strong>${(build.strongAgainst ?? []).map((element) => elementLabels[element] || element).join(" · ")}</strong></div><div><small>피해야 할 상대</small><strong>${(build.weakAgainst ?? []).map((element) => elementLabels[element] || element).join(" · ")}</strong></div>${build.stats ? `<div><small>주력 종족값</small><strong>공 ${build.stats.attack} · 방 ${build.stats.defense} · 체 ${build.stats.hp}</strong></div>` : ""}</div>
+          <section class="party-section"><h4>추천 5인 파티와 채용 사유</h4><div class="party-grid">${build.party.map((member, index) => `<article>${palImage(member.pal, "party-pal-image")}<div><span>${index === 0 ? "주력" : `서포트 ${index}`}</span><h5>${escapeHtml(displayPalName(member.pal))}</h5><b>${escapeHtml(member.role)}</b><p>${escapeHtml(member.effect)}</p></div></article>`).join("")}</div></section>
+          <div class="build-grid rich"><div><h4>추천 패시브</h4><ul>${translated.passives.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>실전 운용 순서</h4><ol>${(build.rotation ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></div></div>
+          ${translated.skills?.length ? `<div class="skill-line"><strong>추천 기술</strong><span>${translated.skills.map(escapeHtml).join(" · ")}</span></div>` : ""}
+          <div class="build-advice"><p><strong>교체 기준</strong> ${escapeHtml(build.swapAdvice)}</p><p><strong>주의</strong> ${escapeHtml(build.warning)}</p></div>
+          <div class="build-sources">${(build.sourceUrls ?? [build.sourceUrl]).filter(Boolean).map((url) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(buildSourceLabel(url))} ↗</a>`).join("")}<small>${escapeHtml(build.confidence)}</small></div></article>`;
+      }
+      return `<article><div class="build-hero">${palImage(build.pal, "build-pal-image")}<div><span>${build.kind === "base" ? "거점 작업" : "개별 전투"} · v${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(displayPalName(build.pal))} · ${escapeHtml(translated.title)}</h3><p>${escapeHtml(translated.summary)}</p></div></div>
         <div class="build-grid"><div><h4>추천 패시브</h4><ul>${translated.passives.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>추천 스킬</h4><ul>${translated.skills.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
         <p class="usage">${escapeHtml(translated.usage)}</p><a href="${safeUrl(build.sourceUrl)}" target="_blank" rel="noopener noreferrer">원문 공략 확인 ↗</a></article>`;
     }).join("")}</div>`;
+  content.querySelectorAll("[data-build-kind]").forEach((button) => button.addEventListener("click", () => { state.buildKind = button.dataset.buildKind; renderBuilds(); }));
 }
 
 function mapPosition(point, bounds) {

@@ -2,6 +2,8 @@
 
 매일 갱신되는 공개 팰월드 공략집과 GitHub Pages 배포만 포함하는 독립 저장소입니다.
 
+추천 빌드는 단일 펠의 패시브뿐 아니라 속성 상성, 5인 파티, 서포트 펠 채용 사유, 실전 운용 순서와 교체 조건을 함께 제공합니다.
+
 - 공개 사이트: https://kms0539.github.io/palworld-guide/
 - 화면: `site/`
 - 자료 수집·정제: `scripts/update-guide-data.mjs`
