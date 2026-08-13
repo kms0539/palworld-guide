@@ -1,0 +1,15 @@
+.card-body p strong {
+  color: #d8efff;
+}
+
+.card-metric {
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 11px;
+  border: 1px solid rgba(89, 200, 255, 0.24);
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(89, 200, 255, 0.08);
+  color: var(--sky2);
+  font-size: 9px;
+}

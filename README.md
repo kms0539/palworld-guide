@@ -19,7 +19,8 @@ pnpm test
 
 ## 이미지 출처
 
-- 펠 아이콘과 실제 월드 지도는 MIT로 공개된 [PalDex](https://github.com/catrenelle/PalDex) 자료를 사용합니다.
+- 펠 아이콘과 실제 월드 지도는 MIT로 공개된 [PalDex](https://github.com/catrenelle/PalDex) 자료를 우선 사용합니다.
+- PalDex에 아직 반영되지 않은 최신 펠 아이콘은 [Palworld.gg 펠 도감](https://palworld.gg/ko/pals)에서 보완하며, 게임 이미지 권리는 Pocketpair에 있습니다.
 - 상단 소개 이미지는 [Pocketpair 공식 Palworld 사이트](https://www.pocketpair.jp/games/palworld/)의 홍보 자료를 사용합니다.
 - 한글 펠 명칭은 [Palworld.gg 한국어 도감](https://palworld.gg/ko/pals)과 대조합니다.
 - Palworld, 캐릭터, 지도 및 게임 자산의 권리는 Pocketpair에 있습니다.

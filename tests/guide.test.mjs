@@ -53,6 +53,10 @@ test("site exposes a searchable Pal encyclopedia and resource map controls", asy
   assert.match(app, /renderPals/);
   assert.match(app, /pal-search/);
   assert.match(app, /resource_copper/);
+  assert.match(app, /추천 사유/);
+  assert.match(app, /전투 지표/);
+  assert.match(app, /mapStatusLabels/);
+  assert.match(app, /빠른 이동 지점/);
   assert.doesNotMatch(app, /style=|\.style\b/);
 });
 
@@ -67,12 +71,15 @@ test("Korean visual guide publishes local verified images with attribution", asy
   assert.match(html, /실제 지도/);
   assert.match(app, /실제 지형 탐험 지도/);
   assert.ok(Object.keys(assets.pals).length >= 260);
+  assert.equal(Object.keys(assets.pals).length, 288);
+  assert.deepEqual(assets.missingPalImages, []);
   assert.ok(Object.values(assets.koreanNames).filter((name) => /[가-힣]/.test(name)).length >= 260);
   assert.equal(assets.koreanNames.jetragon, "제트래곤");
   assert.ok(assets.visuals["world-map"].bytes > 1_000_000);
   assert.ok(assets.attribution.some((item) => item.name === "PalDex" && item.license === "MIT"));
   assert.ok(assets.attribution.some((item) => item.name.includes("Pocketpair")));
-  assert.ok(assets.attribution.some((item) => item.name.includes("한국어 도감")));
+  assert.ok(assets.attribution.some((item) => item.name.includes("Palworld.gg")));
+  assert.ok(Object.values(assets.pals).some((item) => item.sourceProvider === "Palworld.gg"));
   assert.match(assets.attribution.find((item) => item.name === "PalDex").url, /\/tree\/[a-f0-9]{40}$/);
   for (const asset of Object.values(assets.pals)) {
     assert.match(asset.path, /^\.\/assets\/pals\/[a-z0-9-]+\.png$/);

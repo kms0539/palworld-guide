@@ -100,6 +100,30 @@ const categoryClass = (category) => `category-${String(category).replace(/[^a-z0
 const cleanPalName = (value) => String(value ?? "").replace(/\s+(?:Lv\s*)?\d+(?:\.\d+)?\s*g?$/i, "").trim();
 const ko = (value) => koText.get(String(value)) ?? String(value ?? "");
 
+const travelReasons = {
+  Jetragon: "현행 비행 이동 지표 1위로, 장거리 왕복과 탐험 시간을 가장 크게 줄여줍니다.",
+  Eidrolon: "최상위권 비행 속도와 전투 성능을 함께 갖춰 1.0 지역 탐험에 유용합니다.",
+  Faleris: "비행 이동과 화염 속성 전투를 한 슬롯에서 해결해 중후반 탐험 편성이 편해집니다.",
+  Ragnahawk: "획득 난도와 비행 속도의 균형이 좋아 최고급 탈것을 얻기 전까지 쓰기 좋습니다.",
+};
+
+const metricLabels = {
+  combat: "전투 지표", base: "거점 지표", early: "초반 획득 Lv",
+  groundMount: "지상 속도", flyingMount: "비행 속도", waterMount: "수상 속도",
+};
+
+const mapStatusLabels = {
+  current_1_0: "1.0 현행 자료", legacy_pre_1_0: "1.0 이전 자료", invalidated_1_0: "1.0에서 무효화됨",
+  legacy_unverified: "이전 버전·재확인 필요", unknown: "확인 필요",
+};
+const confidenceLabels = { high: "높음", medium: "보통", low: "낮음", unknown: "확인 필요" };
+const towerLabels = {
+  "Tower of the Brothers of the Eternal Pyre": "영원한 불꽃의 동지 탑",
+  "Tower of the PIDF": "PIDF 탑", "Tower of the PAL Genetic Research Unit": "PAL 유전자 연구부대 탑",
+  "Moonflower Tower": "달꽃 탑", "Feybreak Tower": "페이브레이크 탑",
+  "Tower of the Rayne Syndicate": "레인 밀렵단 탑", "Tower of the Free Pal Alliance": "팰 애호단체 탑",
+};
+
 function displayPalName(value) {
   const pal = palRecord(value);
   return pal ? (state.assets.koreanNames?.[pal.slug] || cleanPalName(pal.name)) : cleanPalName(value);
@@ -117,6 +141,55 @@ function palImage(name, className = "pal-image") {
   return path ? `<img class="${className}" src="${path}" alt="${escapeHtml(displayPalName(name))}" loading="lazy" decoding="async">` : `<div class="${className} placeholder" aria-hidden="true">PAL</div>`;
 }
 
+function roleEntry(role, palName) {
+  const target = cleanPalName(palName).toLocaleLowerCase();
+  return (state.data.roles[role] ?? []).find((pal) => cleanPalName(pal.name).toLocaleLowerCase() === target) ?? null;
+}
+
+function recommendationMetric(palName) {
+  const preferred = state.role === "travel" ? ["flyingMount", "groundMount", "waterMount"]
+    : state.role === "early" ? ["early"] : state.role === "base" ? ["base"] : state.role === "combat" ? ["combat"] : [];
+  for (const role of preferred) {
+    const entry = roleEntry(role, palName);
+    if (entry && Number.isFinite(entry.score)) return `${metricLabels[role]} ${Number(entry.score).toLocaleString()} · 역할 순위 #${entry.rank}`;
+  }
+  return "";
+}
+
+function recommendationReason(item) {
+  if (state.role === "early" && item.note) return ko(item.note);
+  if (item.reason) return ko(item.reason);
+  if (state.role === "travel" && travelReasons[item.pal]) return travelReasons[item.pal];
+  return `${displayPalName(item.pal || item.role)}의 ${ko(item.workType || item.role || labels[state.role])} 활용도를 기준으로 고른 추천입니다.`;
+}
+
+function mapLabel(point) {
+  const raw = String(point.label ?? "").trim();
+  if (!raw) return labels[point.category] || "지도 지점";
+  if (point.category.startsWith("resource_")) return raw;
+  if (point.category === "boss_tower") return towerLabels[raw] || "보스 탑";
+  if (point.category === "fast_travel") return "빠른 이동 지점";
+  if (point.category === "sunreach") return "선리치 지역 이동 지점";
+  if (point.category === "world_tree") return "세계수 지역 지점";
+  if (point.category === "bounty_target") return "현상수배 대상";
+  if (point.category === "oil_rig") {
+    const level = raw.match(/Lv\s*(\d+)/i)?.[1];
+    return `${level ? `Lv ${level} ` : ""}레인 밀렵단 오일 리그`;
+  }
+  if (point.category === "alpha_pal" || point.category === "predator_pal") {
+    const englishName = raw.replace(/^(Alpha|Predator)\s+/i, "");
+    const localized = displayPalName(englishName);
+    return `${point.category === "alpha_pal" ? "알파" : "포식자"} ${localized}`;
+  }
+  return labels[point.category] || "지도 지점";
+}
+
+function pointSourceName(source) {
+  if (/interactive map/i.test(source.name)) return "팰월드 인터랙티브 지도";
+  if (/MapCollectablesMod/i.test(source.name)) return "MapCollectablesMod 공개 좌표";
+  return source.name;
+}
+
 function sectionHeading(number, title, note) {
   return `<div class="heading"><div><span>${number}</span><h2>${title}</h2></div><p>${note}</p></div>`;
 }
@@ -128,11 +201,14 @@ function renderRecommendations() {
       `<button type="button" data-role="${role}" class="${state.role === role ? "active" : ""}">${labels[role]}</button>`).join("")}</div>
     <div class="cards">${items.map((item) => {
       const palName = state.role === "early" ? item.role : item.pal;
+      const metric = recommendationMetric(palName);
       return `<article><div class="card-visual">${palImage(palName)}<span>#${Number(item.rank) || 1}</span></div>
         <div class="card-body"><p class="card-kicker">${escapeHtml(ko(item.workType || item.role || labels[state.role]))}</p>
-        <h3>${escapeHtml(displayPalName(palName))}</h3><p>${escapeHtml(ko(item.reason || item.note || ""))}</p>
+        <h3>${escapeHtml(displayPalName(palName))}</h3>
+        ${metric ? `<div class="card-metric">${escapeHtml(metric)}</div>` : ""}
+        <p><strong>추천 사유</strong> · ${escapeHtml(recommendationReason(item))}</p>
         ${item.limitation ? `<small>주의 · ${escapeHtml(ko(item.limitation))}</small>` : ""}
-        ${item.alternative ? `<small>대안 · ${escapeHtml(item.alternative)}</small>` : ""}</div></article>`;
+        ${item.alternative ? `<small>대안 · ${escapeHtml(displayPalName(item.alternative))}</small>` : ""}</div></article>`;
     }).join("")}</div>`;
   content.querySelectorAll("[data-role]").forEach((button) => button.addEventListener("click", () => {
     state.role = button.dataset.role; renderRecommendations();
@@ -183,16 +259,16 @@ function pointDetail() {
   const point = state.selected;
   if (!point) return `<span>지점 정보</span><h3>지도에서 마커를 선택하세요</h3><p>좌표와 자료 상태, 원문 출처를 확인할 수 있습니다.</p>`;
   const hud = hudCoordinate(point);
-  return `<span>${escapeHtml(labels[point.category] || point.category)}</span><h3>${escapeHtml(point.label)}</h3>
+  return `<span>${escapeHtml(labels[point.category] || point.category)}</span><h3>${escapeHtml(mapLabel(point))}</h3>
     <p>게임 지도 좌표 X ${Math.round(hud.x).toLocaleString()} · Y ${Math.round(hud.y).toLocaleString()}${point.count ? ` · ${Number(point.count)}개 묶음` : ""}</p>
-    <p>자료 상태 ${escapeHtml(point.versionStatus || "확인 필요")} · 신뢰도 ${escapeHtml(point.confidence || "확인 필요")}</p>
-    ${(point.source ?? []).map((source) => `<a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.name)} ↗</a>`).join("")}`;
+    <p>자료 상태 ${escapeHtml(mapStatusLabels[point.versionStatus] || "확인 필요")} · 신뢰도 ${escapeHtml(confidenceLabels[point.confidence] || "확인 필요")}</p>
+    ${(point.source ?? []).map((source) => `<a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(pointSourceName(source))} ↗</a>`).join("")}`;
 }
 
 function filteredMapPoints() {
   const query = state.mapQuery.trim().toLocaleLowerCase();
   return state.data.map.points.filter((point) => point.mapId === "main" && state.layers.has(point.category)
-    && (!query || point.label.toLocaleLowerCase().includes(query) || (labels[point.category] || "").includes(query)));
+    && (!query || point.label.toLocaleLowerCase().includes(query) || mapLabel(point).toLocaleLowerCase().includes(query) || (labels[point.category] || "").includes(query)));
 }
 
 function renderMap() {
@@ -203,9 +279,9 @@ function renderMap() {
     <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, Jetragon" autocomplete="off"></div>
     <div class="map-layout"><aside class="layer-panel"><div class="layer-actions"><button type="button" data-layer-action="all">전체 선택</button><button type="button" data-layer-action="none">모두 해제</button></div>
       ${categories.map((category) => `<label><input type="checkbox" data-layer="${escapeHtml(category)}" ${state.layers.has(category) ? "checked" : ""}><i class="${categoryClass(category)}"></i><strong>${escapeHtml(labels[category] || category)}</strong></label>`).join("")}</aside>
-      <div class="map" aria-label="팰월드 실제 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" aria-label="지도 지점">${points.map((point) => { const position = mapPosition(point, bounds); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(point.label)}"><title>${escapeHtml(point.label)}</title></circle>`; }).join("")}</svg><span>실제 지형 텍스처 · 좌표는 참고용</span></div>
+      <div class="map" aria-label="팰월드 실제 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" aria-label="지도 지점">${points.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>실제 지형 텍스처 · 좌표는 참고용</span></div>
       <aside id="point-detail">${pointDetail()}</aside></div>
-    <div class="point-list">${points.slice(0, 80).map((point) => { const hud = hudCoordinate(point); return `<button type="button" data-point="${escapeHtml(point.id)}"><i class="${categoryClass(point.category)}"></i><span>${escapeHtml(point.label)}</span><small>X ${Math.round(hud.x).toLocaleString()} · Y ${Math.round(hud.y).toLocaleString()}</small></button>`; }).join("")}</div>
+    <div class="point-list">${points.slice(0, 80).map((point) => { const hud = hudCoordinate(point); return `<button type="button" data-point="${escapeHtml(point.id)}"><i class="${categoryClass(point.category)}"></i><span>${escapeHtml(mapLabel(point))}</span><small>X ${Math.round(hud.x).toLocaleString()} · Y ${Math.round(hud.y).toLocaleString()}</small></button>`; }).join("")}</div>
     ${points.length > 80 ? `<p class="result-note">목록은 80개까지만 표시하지만 지도에는 검색 결과 전체가 표시됩니다.</p>` : ""}`;
   content.querySelectorAll("[data-layer]").forEach((input) => input.addEventListener("change", () => { input.checked ? state.layers.add(input.dataset.layer) : state.layers.delete(input.dataset.layer); renderMap(); }));
   content.querySelectorAll("[data-layer-action]").forEach((button) => button.addEventListener("click", () => { state.layers = button.dataset.layerAction === "all" ? new Set(categories) : new Set(); renderMap(); }));

@@ -112,19 +112,23 @@ for (const entry of bossData) {
 const palJobs = guide.pals.map((pal) => {
   const name = cleanPalName(pal.name);
   const icon = iconByName.get(name) ?? (overrides[pal.slug] ? `Pal_${overrides[pal.slug]}.png` : "");
-  if (!icon) return { ...pal, name, missing: true };
+  const palworldGgCode = codeBySlug.get(pal.slug);
+  if (!icon && !palworldGgCode) return { ...pal, name, missing: true };
   return {
     ...pal,
     name,
-    icon,
-    sourceUrl: `${PALDEX_RAW}/frontend/assets/boss_icons/${encodeURIComponent(icon)}`,
+    icon: icon || `Pal_${palworldGgCode}.png`,
+    sourceProvider: icon ? "PalDex" : "Palworld.gg",
+    sourceUrl: icon
+      ? `${PALDEX_RAW}/frontend/assets/boss_icons/${encodeURIComponent(icon)}`
+      : `https://palworld.gg/images/full_palicon/T_${encodeURIComponent(palworldGgCode)}_icon_normal.png`,
     destination: join(palDirectory, `${pal.slug}.png`),
   };
 });
 
 const downloaded = await runPool(palJobs.filter((job) => !job.missing), async (job) => {
   const file = await saveImage(job.sourceUrl, job.destination);
-  return [job.slug, { path: `./assets/pals/${job.slug}.png`, name: job.name, ...file }];
+  return [job.slug, { path: `./assets/pals/${job.slug}.png`, name: job.name, sourceProvider: job.sourceProvider, ...file }];
 });
 const palAssets = Object.fromEntries(downloaded);
 if (Object.keys(palAssets).length < 260) {
@@ -161,7 +165,7 @@ const manifest = {
   attribution: [
     { name: "PalDex", url: `https://github.com/catrenelle/PalDex/tree/${PALDEX_COMMIT}`, license: "MIT", usage: "펠 아이콘과 월드 지도 텍스처" },
     { name: "Pocketpair 공식 Palworld 사이트", url: "https://www.pocketpair.jp/games/palworld/", license: "공식 홍보 자료 · 게임 및 캐릭터 저작권은 Pocketpair에 있음", usage: "상단 및 소개 이미지" },
-    { name: "Palworld.gg 한국어 도감", url: "https://palworld.gg/ko/pals", license: "공개 도감의 구조화된 펠 명칭", usage: "펠 한글 명칭 대조" },
+    { name: "Palworld.gg 펠 도감", url: "https://palworld.gg/ko/pals", license: "게임 이미지의 저작권은 Pocketpair에 있음", usage: "최신 펠 아이콘 보완 및 한글 명칭 대조" },
   ],
 };
 await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
