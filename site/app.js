@@ -5,8 +5,75 @@ const defaultLayers = [
 
 const state = {
   data: null, assets: null, tab: "recommendations", role: "combat", palRole: "combat",
-  palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", layers: new Set(defaultLayers), selected: null,
+  palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", progressionStage: "early",
+  layers: new Set(defaultLayers), selected: null,
 };
+
+const progressionStages = [
+  {
+    id: "early", label: "초반", levels: "Lv 1–15", checkpoint: "바람이 부는 언덕 · 첫 번째 타워",
+    summary: "운반과 포획 재료, 첫 화력과 지상 이동을 먼저 해결하는 구간입니다.",
+    pals: [
+      { pal: "Cattiva", role: "운반·초기 거점", reason: "소지 중량과 여러 기초 작업을 한 번에 보완합니다.", replace: "운반 전용 펠과 작업 전문 펠이 갖춰질 때" },
+      { pal: "Foxparks", role: "전투·불 피우기", reason: "하네스로 화염방사기처럼 쓰면서 화로도 전담할 수 있습니다.", replace: "헬고트나 적토조처럼 상위 불 펠을 확보할 때" },
+      { pal: "Vixy", role: "목장·포획 재료", reason: "목장에서 팰 스피어와 화살, 골드를 보충해 초반 채집 부담을 줄입니다.", replace: "팰 스피어를 대량 생산할 수 있을 때" },
+      { pal: "Daedream", role: "전투 보조", reason: "전용 장비를 갖추면 플레이어와 함께 추가 공격해 포획 중에도 화력을 냅니다.", replace: "파트너 장비 피해가 주력 전투에 부족해질 때" },
+      { pal: "Chillet", role: "초기 전투·탑승", reason: "초반 알파로 확보하기 쉽고 얼음·용 상성을 함께 준비할 수 있습니다.", replace: "상대 속성별 전투 주력과 빠른 탈것이 생길 때" },
+      { pal: "Direhowl", role: "지상 이동", reason: "낮은 기술 레벨부터 빠르게 탈 수 있어 탐험 시간을 즉시 줄여줍니다.", replace: "파이린·라이버드 또는 실용적인 비행 펠을 얻을 때" },
+    ],
+  },
+  {
+    id: "early_mid", label: "초중반", levels: "Lv 16–30", checkpoint: "팰 애호단체 · 화산 진입 준비",
+    summary: "첫 비행과 채광, 번식 재료 생산을 시작하며 거점을 역할별로 나누는 구간입니다.",
+    pals: [
+      { pal: "Penking", role: "다목적 거점", reason: "관개·냉각·채광·수작업·운반을 넓게 맡아 빈 작업을 줄입니다.", replace: "각 작업 레벨이 높은 전문 펠을 배치할 때" },
+      { pal: "Digtoise", role: "채광", reason: "광석 수요가 급증하는 시점에 전용 채광 인력으로 효율이 좋습니다.", replace: "아누비스·아스테곤 계열 채광 라인이 갖춰질 때" },
+      { pal: "Mossanda", role: "거점·전투", reason: "파종·벌목·수작업·운반과 유탄 전투를 함께 처리합니다.", replace: "거점 전문화 후 단일 작업 고레벨 펠을 쓸 때" },
+      { pal: "Elphidran", role: "첫 실용 비행", reason: "나이트윙 다음 단계에서 체감 속도가 좋은 비행 선택지입니다.", replace: "라이버드나 적토조 안장을 사용할 수 있을 때" },
+      { pal: "Beakon", role: "비행·번개 전투", reason: "레벨 30 전후에 확보 가능한 빠르고 안정적인 중반 비행 펠입니다.", replace: "적토조·호루스·셀레문 등 상위 비행 펠을 얻을 때" },
+      { pal: "Grintale", role: "알 수집 보조", reason: "전용 장비 장착 시 필드 알을 추가로 획득할 확률을 제공합니다.", replace: "교체보다 알 수집 경로를 돌 때만 파티에 투입" },
+    ],
+  },
+  {
+    id: "mid", label: "중반", levels: "Lv 31–45", checkpoint: "화산 · 사막 · 생산 거점 전문화",
+    summary: "비행 속도와 전투 상성을 올리고 제작·발전·채광을 전문화하는 구간입니다.",
+    pals: [
+      { pal: "Ragnahawk", role: "비행·화염", reason: "빠른 비행과 화염 속성 부여, 불 피우기·운반까지 겸합니다.", replace: "호루스·셀레문 또는 종결 비행 펠을 확보할 때" },
+      { pal: "Warsect", role: "전투 탱커", reason: "높은 내구와 방어 보조 덕분에 종결 전까지 안정적인 주력으로 쓸 수 있습니다.", replace: "고난도 보스별 속성 주력 펠을 완성할 때" },
+      { pal: "Quivern", role: "용 전투·탑승", reason: "용 속성 대응과 탑승 전투, 거점 보조를 한 슬롯에서 해결합니다.", replace: "레이번·제트래곤 등 상위 용 비행 펠을 얻을 때" },
+      { pal: "Anubis", role: "수작업·채광", reason: "제작 속도와 채광, 운반을 모두 맡고 전투에서도 오랫동안 유효합니다.", replace: "교체하지 않고 종반에는 세크메트 조합이나 전문 펠과 병행" },
+      { pal: "Omascul", role: "경험치 육성", reason: "파티 경험치 보조로 새 전투 펠과 후보군을 빠르게 따라오게 합니다.", replace: "교체보다 집중 육성할 때만 파티에 투입" },
+      { pal: "Grizzbolt", role: "발전·전투", reason: "발전 거점과 중반 총기형 전투를 동시에 맡기 좋은 연결 펠입니다.", replace: "세계수 발전 전문 펠을 확보할 때" },
+    ],
+  },
+  {
+    id: "mid_late", label: "중후반", levels: "Lv 46–60", checkpoint: "설산 · 사쿠라지마 · 페이브레이크",
+    summary: "회복과 고속 비행, 고레벨 생산을 갖추고 레이드 준비를 시작하는 구간입니다.",
+    pals: [
+      { pal: "Shadowbeak", role: "어둠 전투", reason: "높은 전투 성능과 기동성을 갖춰 후반 보스 진입 전 주력으로 좋습니다.", replace: "약점 상성에 맞춘 전설·세계수 펠을 완성할 때" },
+      { pal: "Lyleen", role: "회복·파종", reason: "파티 회복과 높은 파종·제약 작업으로 전투와 거점 양쪽에 가치가 있습니다.", replace: "회복이 필요하면 계속 사용하고 거점에서는 세계수 전문 펠과 교대" },
+      { pal: "Selyne", role: "전투·비행", reason: "사쿠라지마 단계에서 전투와 이동을 함께 끌어올리는 선택지입니다.", replace: "순수 이동은 레이번·제트래곤, 전투는 보스별 종결 펠로 교체" },
+      { pal: "Faleris", role: "고속 비행·화염", reason: "중후반 장거리 이동과 화염 대응을 안정적으로 담당합니다.", replace: "선리치·세계수 단계의 최상위 비행 펠을 확보할 때" },
+      { pal: "Jormuntide Ignis", name: "아그니드라", role: "불 피우기·화염 전투", reason: "고급 제련과 대량 조리의 병목을 줄이면서 화염 전투에도 투입할 수 있습니다.", replace: "종반 전문 불 피우기 펠을 확보해도 보조 인력으로 유지" },
+      { pal: "Astegon", role: "채광·어둠 전투", reason: "고급 광석 생산과 어둠·용 전투를 함께 준비할 수 있습니다.", replace: "세계수 채광·운반 전문 펠이 확보될 때" },
+      { pal: "Dogen", role: "귀환 편의", reason: "탐험 중 거점으로 돌아가는 시간을 줄여 장거리 파밍에 유용합니다.", replace: "교체하지 않고 장거리 채집 시 선택적으로 투입" },
+    ],
+  },
+  {
+    id: "late", label: "후반", levels: "Lv 61–80", checkpoint: "선리치 · 세계수 · 종결 레이드",
+    summary: "최고속 이동, 보스별 속성 파티와 세계수 전문 작업 펠을 완성하는 구간입니다.",
+    pals: [
+      { pal: "Eidrolon", role: "종결 비행·용/어둠", reason: "용·어둠 파티 구성과 결합하면 최상위 이동과 전투를 함께 노릴 수 있습니다.", replace: "파티 조건 없는 단순 최고속 이동이 필요하면 제트래곤과 비교" },
+      { pal: "Jetragon", role: "최고속 이동·용 전투", reason: "장거리 왕복을 가장 단순하게 줄여주는 종결급 비행 선택지입니다.", replace: "교체 대상이 아니라 파티 조건과 전투 목적에 따라 레이번과 선택" },
+      { pal: "Frostallion", role: "얼음 전투", reason: "용 속성 보스 대응과 생존, 비행을 함께 맡는 종결급 얼음 펠입니다.", replace: "교체보다 적의 약점과 파티 속성에 맞춰 순환" },
+      { pal: "Necromus", role: "어둠 전투·지상 이동", reason: "높은 공격력과 내구, 빠른 지상 이동을 함께 제공합니다.", replace: "교체보다 보스 속성에 따라 다른 종결 펠과 순환" },
+      { pal: "Shaolong", role: "용 전투", reason: "1.0 후반 콘텐츠에서 강력한 용 속성 주력 후보입니다.", replace: "보스 내성이나 약점에 따라 넵티오스·빙천마 계열과 교대" },
+      { pal: "Neptilius", role: "물 전투", reason: "높은 종족값과 물 속성 화력으로 화염 보스와 종반 전투에 적합합니다.", replace: "교체하지 않고 화염 약점 전투의 주력으로 유지" },
+      { pal: "Orserk", role: "전투 지원·발전", reason: "전투 파티 강화와 고부하 발전 설비에 모두 가치가 높은 후반 핵심 펠입니다.", replace: "역할을 나눠 전투 개체와 작업 개체를 별도로 육성" },
+      { pal: "Solenne", role: "수작업·파티 지원", reason: "세계수 단계의 높은 수작업 성능과 서로 다른 종의 파티 지원을 제공합니다.", replace: "종결 작업·지원 펠이므로 목적별 개체를 유지" },
+    ],
+  },
+];
 
 const fallbackMapRegions = {
   main: { label: "Palpagos", terrain: true, bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 } },
@@ -239,6 +306,23 @@ function renderRecommendations() {
   }));
 }
 
+function progressionPalName(item) {
+  return item.name || displayPalName(item.pal);
+}
+
+function renderProgression() {
+  const stage = progressionStages.find((item) => item.id === state.progressionStage) || progressionStages[0];
+  content.innerHTML = `${sectionHeading("02", "성장 단계별 추천", "획득 시점·역할·다음 교체 시점을 함께 확인")}
+    <div class="stage-timeline" role="tablist" aria-label="성장 단계 선택">${progressionStages.map((item, index) => `<button type="button" role="tab" data-stage="${item.id}" aria-selected="${stage.id === item.id}" class="${stage.id === item.id ? "active" : ""}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${item.label}</strong><small>${item.levels}</small></button>`).join("")}</div>
+    <section class="stage-summary"><div><span>${escapeHtml(stage.levels)}</span><h3>${escapeHtml(stage.label)} 추천 펠</h3><p>${escapeHtml(stage.summary)}</p></div><strong>${escapeHtml(stage.checkpoint)}</strong></section>
+    <div class="progression-grid">${stage.pals.map((item) => `<article><div class="progression-visual">${palImage(item.pal, "progression-pal-image")}<span>${escapeHtml(item.role)}</span></div><div class="progression-body"><h3>${escapeHtml(progressionPalName(item))}</h3><p><strong>추천 이유</strong>${escapeHtml(item.reason)}</p><p class="replace"><strong>교체 기준</strong>${escapeHtml(item.replace)}</p></div></article>`).join("")}</div>
+    <div class="progression-notes"><p><strong>분류 기준</strong> 공식 1.0 최고 레벨 80과 타워·지역 진행 순서, 실제 안장 및 파트너 장비 활용 시점을 기준으로 나눴습니다.</p><div><a href="https://steamcommunity.com/games/1623730/announcements/detail/686383649529010624" target="_blank" rel="noopener noreferrer">공식 1.0 변경 내역 ↗</a><a href="https://www.palmods.gg/guides/best-early-game-pals" target="_blank" rel="noopener noreferrer">초반 추천 근거 ↗</a><a href="https://www.palmods.gg/blog/palworld-mid-game-guide" target="_blank" rel="noopener noreferrer">중반 진행 근거 ↗</a><a href="https://mobalytics.gg/gamebase/guides/palworld-best-mounts" target="_blank" rel="noopener noreferrer">탈것 비교 ↗</a></div></div>`;
+  content.querySelectorAll("[data-stage]").forEach((button) => button.addEventListener("click", () => {
+    state.progressionStage = button.dataset.stage;
+    renderProgression();
+  }));
+}
+
 function rolePals() {
   const source = state.data.roles[state.palRole] ?? [];
   const query = state.palQuery.trim().toLocaleLowerCase();
@@ -271,13 +355,13 @@ function renderBuilds() {
           <div class="element-badges">${(build.elements ?? []).map((element) => `<b>${escapeHtml(elementLabels[element] || element)}</b>`).join("")}</div></div></div>
           <div class="matchup-grid"><div><small>강한 상대</small><strong>${(build.strongAgainst ?? []).map((element) => elementLabels[element] || element).join(" · ")}</strong></div><div><small>피해야 할 상대</small><strong>${(build.weakAgainst ?? []).map((element) => elementLabels[element] || element).join(" · ")}</strong></div>${build.stats ? `<div><small>주력 종족값</small><strong>공 ${build.stats.attack} · 방 ${build.stats.defense} · 체 ${build.stats.hp}</strong></div>` : ""}</div>
           <section class="party-section"><h4>추천 5인 파티와 채용 사유</h4><div class="party-grid">${build.party.map((member, index) => `<article>${palImage(member.pal, "party-pal-image")}<div><span>${index === 0 ? "주력" : `서포트 ${index}`}</span><h5>${escapeHtml(displayPalName(member.pal))}</h5><b>${escapeHtml(member.role)}</b><p>${escapeHtml(member.effect)}</p></div></article>`).join("")}</div></section>
-          <div class="build-grid rich"><div><h4>추천 패시브</h4><ul>${translated.passives.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>실전 운용 순서</h4><ol>${(build.rotation ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></div></div>
+          <div class="build-grid rich"><div><h4>추천 패시브</h4><ul>${(translated.passives ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>실전 운용 순서</h4><ol>${(build.rotation ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></div></div>
           ${translated.skills?.length ? `<div class="skill-line"><strong>추천 기술</strong><span>${translated.skills.map(escapeHtml).join(" · ")}</span></div>` : ""}
-          <div class="build-advice"><p><strong>교체 기준</strong> ${escapeHtml(build.swapAdvice)}</p><p><strong>주의</strong> ${escapeHtml(build.warning)}</p></div>
+          <div class="build-advice"><p><strong>교체 기준</strong> ${escapeHtml(build.swapAdvice || "보스 속성과 보유 펠에 맞춰 교체하세요.")}</p><p><strong>주의</strong> ${escapeHtml(build.warning || "패치와 월드 설정에 따라 효율이 달라질 수 있습니다.")}</p></div>
           <div class="build-sources">${(build.sourceUrls ?? [build.sourceUrl]).filter(Boolean).map((url) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(buildSourceLabel(url))} ↗</a>`).join("")}<small>${escapeHtml(build.confidence)}</small></div></article>`;
       }
       return `<article><div class="build-hero">${palImage(build.pal, "build-pal-image")}<div><span>${build.kind === "base" ? "거점 작업" : "개별 전투"} · v${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(displayPalName(build.pal))} · ${escapeHtml(translated.title)}</h3><p>${escapeHtml(translated.summary)}</p></div></div>
-        <div class="build-grid"><div><h4>추천 패시브</h4><ul>${translated.passives.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>추천 스킬</h4><ul>${translated.skills.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
+        <div class="build-grid"><div><h4>추천 패시브</h4><ul>${(translated.passives ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>추천 스킬</h4><ul>${(translated.skills ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
         <p class="usage">${escapeHtml(translated.usage)}</p><a href="${safeUrl(build.sourceUrl)}" target="_blank" rel="noopener noreferrer">원문 공략 확인 ↗</a></article>`;
     }).join("")}</div>`;
   content.querySelectorAll("[data-build-kind]").forEach((button) => button.addEventListener("click", () => { state.buildKind = button.dataset.buildKind; renderBuilds(); }));
@@ -350,11 +434,12 @@ function renderSources() {
 }
 
 function render() {
-  if (state.tab === "recommendations") renderRecommendations(); else if (state.tab === "pals") renderPals();
+  if (state.tab === "recommendations") renderRecommendations(); else if (state.tab === "progression") renderProgression(); else if (state.tab === "pals") renderPals();
   else if (state.tab === "builds") renderBuilds(); else if (state.tab === "map") renderMap(); else renderSources();
 }
 
 function selectTab(tab) {
+  if (!["recommendations", "progression", "pals", "builds", "map", "sources"].includes(tab)) return;
   document.querySelectorAll("#tabs button").forEach((item) => item.classList.toggle("active", item.dataset.tab === tab));
   state.tab = tab; render(); document.querySelector("#tabs").scrollIntoView({ behavior: "smooth", block: "start" });
 }

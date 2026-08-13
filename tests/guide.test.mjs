@@ -49,12 +49,20 @@ test("sanitizer keeps an explicit public boundary", async () => {
 });
 
 test("site exposes a searchable Pal encyclopedia and resource map controls", async () => {
-  const [html, app] = await Promise.all([
+  const [html, app, progressionStyles] = await Promise.all([
     readFile(new URL("site/index.html", root), "utf8"),
     readFile(new URL("site/app.js", root), "utf8"),
+    readFile(new URL("site/progression.css", root), "utf8"),
   ]);
+  assert.match(html, /progression\.css/);
   assert.match(html, /data-tab="pals"/);
+  assert.match(html, /data-tab="progression"/);
   assert.match(app, /renderPals/);
+  assert.match(app, /renderProgression/);
+  assert.match(app, /초중반/);
+  assert.match(app, /교체 기준/);
+  assert.match(progressionStyles, /stage-timeline/);
+  assert.match(progressionStyles, /progression-grid/);
   assert.match(app, /pal-search/);
   assert.match(app, /resource_copper/);
   assert.match(app, /추천 사유/);
