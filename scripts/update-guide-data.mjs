@@ -6,7 +6,6 @@ import { dirname, join } from "node:path";
 const args = process.argv.slice(2);
 const rootArg = args.indexOf("--root");
 const root = rootArg >= 0 && args[rootArg + 1] ? args[rootArg + 1] : process.cwd();
-const publicMode = args.includes("--public");
 const workDirectory = join(root, ".work");
 const outputPath = join(workDirectory, "guide-data.json");
 const historyDir = join(workDirectory, "history");
@@ -15,6 +14,8 @@ const now = new Date();
 const checkedAt = now.toISOString();
 
 const SOURCE = {
+  official: "https://store.steampowered.com/app/1623730/Palworld/",
+  serverDocs: "https://docs.palworldgame.com/",
   tiers: "https://www.palworld.tools/tier-list",
   editorial: "https://palcompass.com/guides/best-pals",
   orserk: "https://palcompass.com/pals/orserk",
@@ -290,7 +291,7 @@ async function main() {
   const mapPoints = mapSourcePoints.filter((point) => allowedMapCategories.has(point.category)).map(normalizeMapPoint).filter(Boolean);
 
   const resourceBase = "https://raw.githubusercontent.com/miapuffia/MapCollectablesMod/main/Content/Mods/MapCollectablesMod/Data/";
-  const resourceResults = publicMode ? [] : await Promise.all(Object.entries(RESOURCE_FILES).map(async ([resource, file]) => {
+  const resourceResults = await Promise.all(Object.entries(RESOURCE_FILES).map(async ([resource, file]) => {
     const raw = await fetchText(`${resourceBase}${file}`);
     const parsed = JSON.parse(raw);
     return { resource, rawCount: parsed.Locations?.length ?? 0, points: clusterResources(parsed.Locations ?? [], resource) };
@@ -301,18 +302,20 @@ async function main() {
   const guide = {
     schemaVersion: 1,
     generatedAt: checkedAt,
-    gameVersion: "1.0",
+    gameVersion: "1.0.x",
     freshness: { status: "current", nextScheduledUpdateLocal: "매일 05:00", staleAfterHours: 36 },
     notices: [
       "종결 빌드와 순위는 공식 정답이 아닌 외부 편집형 추천이며 패치·월드 설정·보유 패시브에 따라 달라집니다.",
-      "광석 밀집 지점은 1.0 이전 커뮤니티 좌표를 묶어 표시한 참고값이므로 게임 안에서 재확인해야 합니다.",
+      "광석 밀집 지점은 1.0 이전 공개 커뮤니티 좌표를 넓은 구역으로 묶은 참고값이므로 게임 안에서 재확인해야 합니다.",
       "외부 사이트의 본문·이미지는 복제하지 않고 짧은 구조화 사실과 원문 링크만 보관합니다.",
     ],
     sources: [
+      { id: "palworld-official", name: "Palworld official Steam page", url: SOURCE.official, checkedAt, gameVersion: "1.0.x", kind: "official", license: null },
+      { id: "palworld-server-docs", name: "Official Palworld Server Guide", url: SOURCE.serverDocs, checkedAt, gameVersion: "1.0.0", kind: "official-docs", license: null },
       { id: "palworld-tools", name: "palworld.tools 1.0 computed tier lists", url: SOURCE.tiers, checkedAt, gameVersion: "1.0", kind: "computed", license: null },
       { id: "palcompass", name: "PalCompass best Pals editorial", url: SOURCE.editorial, checkedAt, gameVersion: "1.0.1", kind: "editorial", license: null },
       { id: "palworld-map", name: "Palworld Interactive Map 1.0 Beta", url: SOURCE.map, checkedAt, gameVersion: "1.0", kind: "map-aggregation", license: "per-record" },
-      ...(!publicMode ? [{ id: "map-collectables", name: "MapCollectablesMod community coordinates", url: SOURCE.resources, checkedAt, gameVersion: "pre-1.0", kind: "private-cache-factual", license: null }] : []),
+      { id: "map-collectables", name: "MapCollectablesMod public community coordinates", url: SOURCE.resources, checkedAt, gameVersion: "pre-1.0", kind: "community-factual", license: null },
     ],
     pals: palRoster.map((pal) => ({ ...pal, sourceUrl: `${SOURCE.tiers.replace(/\/tier-list$/, "")}/pals/${pal.slug}` })),
     roles,

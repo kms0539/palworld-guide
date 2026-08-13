@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="매일 갱신되는 Palworld 1.0 펠 추천, 빌드와 좌표형 탐험 지도">
+  <meta name="description" content="매일 갱신되는 Palworld 1.0.x 펠 추천, 역할별 도감, 빌드와 자원·보스 탐험 지도">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
   <title>MS Palworld 공략집</title>
@@ -20,8 +20,9 @@
         <a class="repo-button" href="https://github.com/kms0539/palworld-dashboard" target="_blank" rel="noopener noreferrer">대시보드 GitHub</a>
       </div>
     </header>
-    <section class="hero"><div><p class="eyebrow">PALWORLD 1.0</p><h2>거점 운영부터<br>종결 빌드까지.</h2><p>게임 데이터 기반 순위와 외부 편집형 추천을 구분하고 모든 자료에 원문 출처를 남깁니다.</p></div><dl id="metrics"></dl></section>
-    <nav id="tabs"><button data-tab="recommendations" class="active">목적별 추천</button><button data-tab="builds">종결 빌드</button><button data-tab="map">탐험 지도</button><button data-tab="sources">출처·보안</button></nav>
+    <section class="hero"><div><p class="eyebrow">PALWORLD 1.0.x</p><h2>찾고, 고르고,<br>바로 게임으로.</h2><p>역할별 펠 순위와 편집형 추천을 분리하고, 보스·빠른 이동·광석 밀집 좌표를 한곳에서 찾습니다.</p></div><dl id="metrics"></dl></section>
+    <section id="freshness-panel" class="freshness-panel" aria-live="polite"></section>
+    <nav id="tabs" aria-label="공략 메뉴"><button type="button" data-tab="recommendations" class="active">목적별 추천</button><button type="button" data-tab="pals">펠 도감</button><button type="button" data-tab="builds">빌드</button><button type="button" data-tab="map">탐험 지도</button><button type="button" data-tab="sources">출처·보안</button></nav>
     <section id="content" class="content"><div class="loading">공략 데이터를 불러오고 있습니다.</div></section>
     <footer>이 공개 페이지에는 홈 서버 상태, 사용자, IP, 비밀번호, Discord 설정이 포함되지 않습니다.</footer>
   </main>

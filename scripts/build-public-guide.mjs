@@ -15,29 +15,30 @@ const publicGuide = {
   generatedAt: guide.generatedAt,
   gameVersion: guide.gameVersion,
   freshness: guide.freshness,
-  notices: guide.notices.filter((notice) => !notice.includes("광석")),
-  sources: guide.sources.filter((source) => source.id !== "map-collectables"),
+  notices: guide.notices,
+  sources: guide.sources,
   pals: guide.pals,
   roles: guide.roles,
   editorial: guide.editorial,
   builds: guide.builds,
   map: {
     bounds: guide.map.bounds,
-    points: guide.map.points.filter((point) => !point.category.startsWith("resource_")),
+    points: guide.map.points,
+    counts: guide.map.counts,
   },
   publication: {
     scope: "guide-only",
-    excludes: ["server status", "players", "IP addresses", "credentials", "Discord configuration", "private resource coordinates"],
+    excludes: ["server status", "players", "IP addresses", "credentials", "Discord configuration"],
     generatedBy: "GitHub Actions without access to the home server",
   },
 };
 
-if (publicGuide.pals.length < 250 || publicGuide.map.points.length < 200 || publicGuide.sources.some((source) => source.id === "map-collectables")) {
+if (publicGuide.pals.length < 250 || publicGuide.map.points.length < 300 || !publicGuide.sources.some((source) => source.id === "map-collectables")) {
   throw new Error("public guide sanitization validation failed");
 }
 
 const serialized = `${JSON.stringify(publicGuide, null, 2)}\n`;
-const forbidden = [/discordToken/i, /adminPassword/i, /192\.168\./, /player-registry/i, /resource_(?:coal|copper|quartz|sulfur|oil|hexolite)/i];
+const forbidden = [/discordToken/i, /adminPassword/i, /192\.168\./, /player-registry/i];
 for (const pattern of forbidden) {
   if (pattern.test(serialized)) throw new Error(`forbidden public data matched ${pattern}`);
 }

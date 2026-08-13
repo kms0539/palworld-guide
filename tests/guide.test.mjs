@@ -17,20 +17,34 @@ test("site uses a restrictive browser policy and links both repositories", async
 
 test("published data excludes server-only material", async () => {
   const serialized = await readFile(new URL("site/data/guide-data.json", root), "utf8");
-  for (const forbidden of [/192\.168\./, /AdminPassword/i, /ServerPassword/i, /discordToken/i, /player-registry/i, /resource_(coal|copper|quartz|sulfur|oil|hexolite)/i]) {
+  for (const forbidden of [/192\.168\./, /AdminPassword/i, /ServerPassword/i, /discordToken/i, /player-registry/i]) {
     assert.doesNotMatch(serialized, forbidden);
   }
   const guide = JSON.parse(serialized);
   assert.ok(guide.pals.length >= 250);
-  assert.ok(guide.map.points.length >= 200);
+  assert.ok(guide.map.points.length >= 300);
+  assert.ok(guide.map.points.some((point) => point.category.startsWith("resource_")));
+  assert.ok(guide.sources.some((source) => source.id === "map-collectables"));
   assert.equal(guide.publication.scope, "guide-only");
 });
 
 test("sanitizer keeps an explicit public boundary", async () => {
   const source = await readFile(new URL("scripts/build-public-guide.mjs", root), "utf8");
-  for (const required of ["server status", "players", "IP addresses", "credentials", "Discord configuration", "private resource coordinates"]) {
+  for (const required of ["server status", "players", "IP addresses", "credentials", "Discord configuration"]) {
     assert.match(source, new RegExp(required, "i"));
   }
-  assert.match(source, /point\.category\.startsWith\("resource_"\)/);
+  assert.match(source, /points: guide\.map\.points/);
   assert.match(source, /192\\\.168/);
+});
+
+test("site exposes a searchable Pal encyclopedia and resource map controls", async () => {
+  const [html, app] = await Promise.all([
+    readFile(new URL("site/index.html", root), "utf8"),
+    readFile(new URL("site/app.js", root), "utf8"),
+  ]);
+  assert.match(html, /data-tab="pals"/);
+  assert.match(app, /renderPals/);
+  assert.match(app, /pal-search/);
+  assert.match(app, /resource_copper/);
+  assert.doesNotMatch(app, /style=|\.style\b/);
 });
