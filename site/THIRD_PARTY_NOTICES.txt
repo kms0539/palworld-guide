@@ -1,0 +1,19 @@
+MS 팰월드 공략집 이미지 이용 안내
+
+1. PalDex
+- 출처: https://github.com/catrenelle/PalDex
+- 용도: 펠 아이콘 및 월드 지도 텍스처
+- 코드 저장소 라이선스: MIT License
+- 원본 저장소의 LICENSE 고지와 저작권 조건을 따릅니다.
+
+2. Pocketpair 공식 Palworld 사이트
+- 출처: https://www.pocketpair.jp/games/palworld/
+- 용도: 공략집 상단 및 소개용 공식 홍보 이미지
+- Palworld, 캐릭터, 지도 및 게임 자산의 권리는 Pocketpair에 있습니다.
+
+3. Palworld.gg 한국어 도감
+- 출처: https://palworld.gg/ko/pals
+- 용도: 공개 도감에 표시된 펠 한글 명칭 대조
+- 이미지나 본문은 복제하지 않고 구조화된 명칭만 사용합니다.
+
+이 사이트는 Pocketpair가 운영하거나 보증하는 공식 서비스가 아닌 비공식 팬 공략집입니다.

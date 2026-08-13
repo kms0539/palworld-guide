@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 
-test("site uses a restrictive browser policy and links both repositories", async () => {
+test("site uses a restrictive browser policy and links its public repository", async () => {
   const html = await readFile(new URL("site/index.html", root), "utf8");
   assert.match(html, /Content-Security-Policy/);
   assert.match(html, /connect-src 'self'/);
@@ -12,7 +12,7 @@ test("site uses a restrictive browser policy and links both repositories", async
   assert.match(html, /form-action 'none'/);
   assert.doesNotMatch(html, /<script(?![^>]+src=)/i);
   assert.match(html, /github\.com\/kms0539\/palworld-guide/);
-  assert.match(html, /github\.com\/kms0539\/palworld-dashboard/);
+  assert.doesNotMatch(html, /192\.168\.|palworld-dashboard/);
 });
 
 test("published data excludes server-only material", async () => {
@@ -54,4 +54,37 @@ test("site exposes a searchable Pal encyclopedia and resource map controls", asy
   assert.match(app, /pal-search/);
   assert.match(app, /resource_copper/);
   assert.doesNotMatch(app, /style=|\.style\b/);
+});
+
+test("Korean visual guide publishes local verified images with attribution", async () => {
+  const [html, app, assetsText] = await Promise.all([
+    readFile(new URL("site/index.html", root), "utf8"),
+    readFile(new URL("site/app.js", root), "utf8"),
+    readFile(new URL("site/data/visual-assets.json", root), "utf8"),
+  ]);
+  const assets = JSON.parse(assetsText);
+  assert.match(html, /MS 팰월드 공략집/);
+  assert.match(html, /실제 지도/);
+  assert.match(app, /실제 지형 탐험 지도/);
+  assert.ok(Object.keys(assets.pals).length >= 260);
+  assert.ok(Object.values(assets.koreanNames).filter((name) => /[가-힣]/.test(name)).length >= 260);
+  assert.equal(assets.koreanNames.jetragon, "제트래곤");
+  assert.ok(assets.visuals["world-map"].bytes > 1_000_000);
+  assert.ok(assets.attribution.some((item) => item.name === "PalDex" && item.license === "MIT"));
+  assert.ok(assets.attribution.some((item) => item.name.includes("Pocketpair")));
+  assert.ok(assets.attribution.some((item) => item.name.includes("한국어 도감")));
+  assert.match(assets.attribution.find((item) => item.name === "PalDex").url, /\/tree\/[a-f0-9]{40}$/);
+  for (const asset of Object.values(assets.pals)) {
+    assert.match(asset.path, /^\.\/assets\/pals\/[a-z0-9-]+\.png$/);
+    assert.match(asset.sha256, /^[a-f0-9]{64}$/);
+  }
+  assert.ok((await stat(new URL("site/assets/visuals/palworld-map.webp", root))).size > 1_000_000);
+});
+
+test("daily Pages build refreshes data and verifies local visual assets", async () => {
+  const workflow = await readFile(new URL(".github/workflows/pages.yml", root), "utf8");
+  const sync = await readFile(new URL("scripts/sync-visual-assets.mjs", root), "utf8");
+  assert.match(workflow, /npm run assets:sync/);
+  assert.match(sync, /PALDEX_COMMIT = "[a-f0-9]{40}"/);
+  assert.doesNotMatch(sync, /PalDex\/master/);
 });

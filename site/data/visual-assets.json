@@ -1,0 +1,2038 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-13T16:47:02.402Z",
+  "pals": {
+    "shaolong": {
+      "path": "./assets/pals/shaolong.png",
+      "name": "Shaolong",
+      "bytes": 10426,
+      "sha256": "8a648a7cf433e3f4e5cfeaae73666c4ad2179cad2018c87bb12e0e9ecb1d6a65"
+    },
+    "selyne": {
+      "path": "./assets/pals/selyne.png",
+      "name": "Selyne",
+      "bytes": 7361,
+      "sha256": "135beab1003ca664f2df40edb9c93e6ace73fb40572be2ea028c6e20d9c1d30e"
+    },
+    "bastigor": {
+      "path": "./assets/pals/bastigor.png",
+      "name": "Bastigor",
+      "bytes": 10439,
+      "sha256": "35219722797fbfa156ce95b37d12d1b11f968defbf6ae266043daec858a43e66"
+    },
+    "eidrolon-ignis": {
+      "path": "./assets/pals/eidrolon-ignis.png",
+      "name": "Eidrolon Ignis",
+      "bytes": 7412,
+      "sha256": "253b7791e7cf7b858e0455e149e03242cb691d157b9bd8868cc45a14718a9ae4"
+    },
+    "paladius": {
+      "path": "./assets/pals/paladius.png",
+      "name": "Paladius",
+      "bytes": 9992,
+      "sha256": "8421c9e65607a4a52e19aa82c89e0068851027f19ab53099ca15491998252676"
+    },
+    "ophydia": {
+      "path": "./assets/pals/ophydia.png",
+      "name": "Ophydia",
+      "bytes": 8534,
+      "sha256": "42e6ad2f63123321fb23b6e8f5d57e3785cbac38bed1d87b0f6810037515a49c"
+    },
+    "blazamut": {
+      "path": "./assets/pals/blazamut.png",
+      "name": "Blazamut",
+      "bytes": 12025,
+      "sha256": "c32841a0ce14f5c0de7531ddb643ddc27c77121eee929d6138705d537930ad5c"
+    },
+    "jetragon": {
+      "path": "./assets/pals/jetragon.png",
+      "name": "Jetragon",
+      "bytes": 6654,
+      "sha256": "9f7a7dd2ed9543f25e5af4f09f4dc3af5eef40244b42544a2745105d7a279dd1"
+    },
+    "frostallion-noct": {
+      "path": "./assets/pals/frostallion-noct.png",
+      "name": "Frostallion Noct",
+      "bytes": 8833,
+      "sha256": "3ee51befc8cbf588c5a6d96c96c26fc1db13906ff559ad683d99bb7e7cd9b396"
+    },
+    "frostallion": {
+      "path": "./assets/pals/frostallion.png",
+      "name": "Frostallion",
+      "bytes": 9020,
+      "sha256": "be6fb5b0c3283b2a0f0aef63c1450fe58ef3c41b61e10de7fff8aa906ce41fba"
+    },
+    "celesdir": {
+      "path": "./assets/pals/celesdir.png",
+      "name": "Celesdir",
+      "bytes": 8410,
+      "sha256": "64d11fa03720917fd36feaa6c45262f5f5514c297a3d995fdfe1d45953e47143"
+    },
+    "dualith-noct": {
+      "path": "./assets/pals/dualith-noct.png",
+      "name": "Dualith Noct",
+      "bytes": 8472,
+      "sha256": "102861eb178286aaec55641acb679054b74d6ed7816ece36db1cbcf7914f858a"
+    },
+    "neptilius": {
+      "path": "./assets/pals/neptilius.png",
+      "name": "Neptilius",
+      "bytes": 9570,
+      "sha256": "83e755a2dbbd4f16eba43164d01e29df0d8c575451a602402a3820e2994c52a2"
+    },
+    "celesdir-noct": {
+      "path": "./assets/pals/celesdir-noct.png",
+      "name": "Celesdir Noct",
+      "bytes": 8040,
+      "sha256": "88be936149aef7472b9f329d10af17bf59ef303200c1f8bff3e4d54ee5a11c57"
+    },
+    "knocklem-ignis": {
+      "path": "./assets/pals/knocklem-ignis.png",
+      "name": "Knocklem Ignis",
+      "bytes": 11118,
+      "sha256": "794028db20075bc7e1cf91db6eb48afa17158094eb46b26f291f7ca037536c7c"
+    },
+    "faleris": {
+      "path": "./assets/pals/faleris.png",
+      "name": "Faleris",
+      "bytes": 7960,
+      "sha256": "e28397b77fbfa7e9bb0e4eccfd160e508ae8a3deae9cb3706a2a8e4a715b81a3"
+    },
+    "dualith": {
+      "path": "./assets/pals/dualith.png",
+      "name": "Dualith",
+      "bytes": 10281,
+      "sha256": "c0e838b90b80c37b131e964ebbab8560daeeac352561771c2c9365cd1cad2022"
+    },
+    "orserk": {
+      "path": "./assets/pals/orserk.png",
+      "name": "Orserk",
+      "bytes": 6665,
+      "sha256": "8f1eb4c448367233a8c3dc995cd018fd6706b8edef7f94eb346176b319dc959b"
+    },
+    "anubis": {
+      "path": "./assets/pals/anubis.png",
+      "name": "Anubis",
+      "bytes": 5855,
+      "sha256": "3b2ff23192298fb0dab6046c8dee6b2d23b6a8d9f6136207dc05438ba2190afe"
+    },
+    "eidrolon": {
+      "path": "./assets/pals/eidrolon.png",
+      "name": "Eidrolon",
+      "bytes": 7184,
+      "sha256": "ab9ffb2815dc67d80af1fdd0208a682c6accf24def5acc7f4b34821e00b9fc5c"
+    },
+    "astegon": {
+      "path": "./assets/pals/astegon.png",
+      "name": "Astegon",
+      "bytes": 8629,
+      "sha256": "35bfad7e9832d0e3161afbb939c1586d19093a76f5a01d410e5e3358a887c218"
+    },
+    "renjishi": {
+      "path": "./assets/pals/renjishi.png",
+      "name": "Renjishi",
+      "bytes": 11009,
+      "sha256": "359cd768ab7d6d2812f03dddcfd4791be79a4f4cbc4339a7b8621edc8f19241f"
+    },
+    "lyleen-noct": {
+      "path": "./assets/pals/lyleen-noct.png",
+      "name": "Lyleen Noct",
+      "bytes": 9695,
+      "sha256": "2ee1b4380fd2364f4c0f22231eec8c55a75661dc37c854e65e0220a3d1ecc51d"
+    },
+    "lyleen": {
+      "path": "./assets/pals/lyleen.png",
+      "name": "Lyleen",
+      "bytes": 9567,
+      "sha256": "10a1ff196770e61ebf9523d3d387f10380810870c5803d645797056a324c4296"
+    },
+    "aegidron": {
+      "path": "./assets/pals/aegidron.png",
+      "name": "Aegidron",
+      "bytes": 11400,
+      "sha256": "3941d9b7c0aaad69acf8baa81321726b4c03988eb34dcee536ea841043f7a696"
+    },
+    "beakon-cryst": {
+      "path": "./assets/pals/beakon-cryst.png",
+      "name": "Beakon Cryst",
+      "bytes": 7327,
+      "sha256": "eeaf33ffacfaaa5b18e6cbd89350668aab8de8810d44732a2381ec0041742fa4"
+    },
+    "knocklem": {
+      "path": "./assets/pals/knocklem.png",
+      "name": "Knocklem",
+      "bytes": 11416,
+      "sha256": "f044bf9ea5f4d3cfcdae8de17c139d8ba21b657ce5ad04e8acee67ab583f17c5"
+    },
+    "solenne": {
+      "path": "./assets/pals/solenne.png",
+      "name": "Solenne",
+      "bytes": 8509,
+      "sha256": "6d019d221dccd38956e07ac5811d182be1504d35173f9be6cd69cee9d38f7c1c"
+    },
+    "faleris-aqua": {
+      "path": "./assets/pals/faleris-aqua.png",
+      "name": "Faleris Aqua",
+      "bytes": 7839,
+      "sha256": "6b80932f99b1439aca8b9bd3e66954c6999ac60803824d3532d3a507f0ef0011"
+    },
+    "grizzbolt": {
+      "path": "./assets/pals/grizzbolt.png",
+      "name": "Grizzbolt",
+      "bytes": 8367,
+      "sha256": "64849f9b9f110aa7d86d60f81f330469a369b448dc5a150cda9513f3e81a3bf1"
+    },
+    "flaracle": {
+      "path": "./assets/pals/flaracle.png",
+      "name": "Flaracle",
+      "bytes": 8940,
+      "sha256": "ab32a95eca094fc48f3b50e633203f4858099253226fb9df18b26d4936362c09"
+    },
+    "starryon-primo": {
+      "path": "./assets/pals/starryon-primo.png",
+      "name": "Starryon Primo",
+      "bytes": 8677,
+      "sha256": "7e67a0e7b9a184e5c9f41f29692bbb7b312eb540eef5fbc15968b742165a5ff8"
+    },
+    "dupin": {
+      "path": "./assets/pals/dupin.png",
+      "name": "Dupin",
+      "bytes": 9096,
+      "sha256": "65ce546ebbf080fd7acae22c1aa2e658b4b78e6e2b018ced0a2e9ad5d2032876"
+    },
+    "icelyn": {
+      "path": "./assets/pals/icelyn.png",
+      "name": "Icelyn",
+      "bytes": 9436,
+      "sha256": "5a3f6177c583390bb0f94c0d7757910b8484077ca72cb882d9df9e589aec0251"
+    },
+    "splatterina": {
+      "path": "./assets/pals/splatterina.png",
+      "name": "Splatterina",
+      "bytes": 7076,
+      "sha256": "799b16884e8f55751febd1156a20ffebcc80335de98d8c8eb601f1d443498fe4"
+    },
+    "helzephyr-lux": {
+      "path": "./assets/pals/helzephyr-lux.png",
+      "name": "Helzephyr Lux",
+      "bytes": 9316,
+      "sha256": "6c206e73c98022f4c256ab2e6f71c6f679e8085bcee3f0125a81eb7dd2531e65"
+    },
+    "roujay": {
+      "path": "./assets/pals/roujay.png",
+      "name": "Roujay",
+      "bytes": 7250,
+      "sha256": "9711ac54df37a4da0fc798a7e00e650eddf51b1390b2ddc0570ae6ae0542c818"
+    },
+    "moldron-cryst": {
+      "path": "./assets/pals/moldron-cryst.png",
+      "name": "Moldron Cryst",
+      "bytes": 9652,
+      "sha256": "42aaaf17f52baa0ee4649f235dd9a58a5acab2dda5dd2e7232b19cf0a04aedc4"
+    },
+    "braloha": {
+      "path": "./assets/pals/braloha.png",
+      "name": "Braloha",
+      "bytes": 5461,
+      "sha256": "1dd3de234db92533177cc7e2464a9f8789f9388133af85e406aef8bc8f8cc375"
+    },
+    "moldron": {
+      "path": "./assets/pals/moldron.png",
+      "name": "Moldron",
+      "bytes": 9208,
+      "sha256": "e1e407cde5337ca676e4fd3b4bebc69b6d0fbd59874bfea7cd48ef35250c1d08"
+    },
+    "azurmane": {
+      "path": "./assets/pals/azurmane.png",
+      "name": "Azurmane",
+      "bytes": 8328,
+      "sha256": "da262cf1441cf3780aa762f5c1b3e1b811e2f647785f570c7c2f461be6f07764"
+    },
+    "majex": {
+      "path": "./assets/pals/majex.png",
+      "name": "Majex",
+      "bytes": 8577,
+      "sha256": "1612678f76c8c2bdbb223bb1c98d6cc7fc4eed5f46b90241e4ee19b826ae3f4e"
+    },
+    "palumba": {
+      "path": "./assets/pals/palumba.png",
+      "name": "Palumba",
+      "bytes": 7899,
+      "sha256": "06a2704cf9ee2c706020f6e70cdce8a9c8efeccf57404f054a969e7cf74da2ac"
+    },
+    "jormuntide": {
+      "path": "./assets/pals/jormuntide.png",
+      "name": "Jormuntide",
+      "bytes": 9674,
+      "sha256": "bc967c43ef97784385c2269d33e79f0359fdcbdb8dd0d8510c2db4ff4a050104"
+    },
+    "whalaska": {
+      "path": "./assets/pals/whalaska.png",
+      "name": "Whalaska",
+      "bytes": 9242,
+      "sha256": "84856a3f35450cf3a44e0a605d52fb73413d1ba567e44a0c32eec49a7960a6a6"
+    },
+    "whalaska-ignis": {
+      "path": "./assets/pals/whalaska-ignis.png",
+      "name": "Whalaska Ignis",
+      "bytes": 8886,
+      "sha256": "82338a92c34dcd636706f07927c92ad43a660993986220f5c89575e675e266de"
+    },
+    "jormuntide-ignis": {
+      "path": "./assets/pals/jormuntide-ignis.png",
+      "name": "Jormuntide Ignis",
+      "bytes": 9371,
+      "sha256": "435c1a3b59d91cb2edb4b02fe95eb81e415bb74d25cdb8cccb84c9c565f559f5"
+    },
+    "gildra": {
+      "path": "./assets/pals/gildra.png",
+      "name": "Gildra",
+      "bytes": 10253,
+      "sha256": "1520829ebe11abfa8a22e2946ff5e52a8a1ab4c251f89a72e5b878d479b903b0"
+    },
+    "pierdon-cryst": {
+      "path": "./assets/pals/pierdon-cryst.png",
+      "name": "Pierdon Cryst",
+      "bytes": 9521,
+      "sha256": "4019ea1ef4acc2bf83866895042bcb46b0b05fbeaecf6782f2af63dae9a97141"
+    },
+    "elgrove": {
+      "path": "./assets/pals/elgrove.png",
+      "name": "Elgrove",
+      "bytes": 11033,
+      "sha256": "f1e124bd9431c7db834bc8b49ff387702805ee91b34a66129338e37989b5f21c"
+    },
+    "sootseer": {
+      "path": "./assets/pals/sootseer.png",
+      "name": "Sootseer",
+      "bytes": 9259,
+      "sha256": "d4900669de833bf224f8f2cc4d35adfb09da7e004ea52d01ff9741accdc562ea"
+    },
+    "blazehowl-noct": {
+      "path": "./assets/pals/blazehowl-noct.png",
+      "name": "Blazehowl Noct",
+      "bytes": 10500,
+      "sha256": "88e3e273544f21206c53762413f2f4dc4260e2561ba1a69275fd3186f4a7dcf2"
+    },
+    "cryolinx-terra": {
+      "path": "./assets/pals/cryolinx-terra.png",
+      "name": "Cryolinx Terra",
+      "bytes": 7484,
+      "sha256": "b17ad4a676de34d4cfa0284e4fc479fb9ef6f38326bff39e4a735ea2a17b6b84"
+    },
+    "gildane": {
+      "path": "./assets/pals/gildane.png",
+      "name": "Gildane",
+      "bytes": 8212,
+      "sha256": "b2c88d3253893c16b93db5edd32f68ccfbd3b0d806ef998afc9da46b5ca71601"
+    },
+    "wumpo-botan": {
+      "path": "./assets/pals/wumpo-botan.png",
+      "name": "Wumpo Botan",
+      "bytes": 8730,
+      "sha256": "39027e0d963cf26dda2cb32fa0a4eef6bd2734691a5261f70265d1de3086dabd"
+    },
+    "ragnahawk": {
+      "path": "./assets/pals/ragnahawk.png",
+      "name": "Ragnahawk",
+      "bytes": 9253,
+      "sha256": "bb3cf6cebffd73dda4b0238271934bc764ef326791b8bb817d6795c3e6392b6d"
+    },
+    "elgrove-cryst": {
+      "path": "./assets/pals/elgrove-cryst.png",
+      "name": "Elgrove Cryst",
+      "bytes": 11124,
+      "sha256": "7a7ab1c57df831da2aa3de4a253c7d04f9ebebfa1765b0428559c512ef469826"
+    },
+    "univolt-cryst": {
+      "path": "./assets/pals/univolt-cryst.png",
+      "name": "Univolt Cryst",
+      "bytes": 7068,
+      "sha256": "42cf24820d0ee2b306128b8a4f8e54fd8902d6e58f7a5f52ef20b14df67580bc"
+    },
+    "warsect-terra": {
+      "path": "./assets/pals/warsect-terra.png",
+      "name": "Warsect Terra",
+      "bytes": 11416,
+      "sha256": "f4b786a0a7f2fb94d5efdec42c94a1b25f3d7a02573b3239c341e0f02942d6ff"
+    },
+    "beakon": {
+      "path": "./assets/pals/beakon.png",
+      "name": "Beakon",
+      "bytes": 6814,
+      "sha256": "edfa7a5b3e801ad4c623490a3ffdfc185a22f91bb6630f7a7541808dae076c03"
+    },
+    "wumpo": {
+      "path": "./assets/pals/wumpo.png",
+      "name": "Wumpo",
+      "bytes": 8023,
+      "sha256": "64aa54722b6320292a9ea58714e74fa2fd1c9ea5123575a9c51d3dd8d65e46a2"
+    },
+    "petallia-ignis": {
+      "path": "./assets/pals/petallia-ignis.png",
+      "name": "Petallia Ignis",
+      "bytes": 10199,
+      "sha256": "4c3e069c44f138c0ab2bcdbc92ee5b0297b85e1beb0c8df56c34cb9f5d454bd8"
+    },
+    "warsect": {
+      "path": "./assets/pals/warsect.png",
+      "name": "Warsect",
+      "bytes": 10140,
+      "sha256": "a50eec8f36548f8c666c31c5b9af0f4886f6257eda98a49b1d7b50dd37ac4139"
+    },
+    "verdash": {
+      "path": "./assets/pals/verdash.png",
+      "name": "Verdash",
+      "bytes": 8500,
+      "sha256": "a9a9e96fa844965b91136680d1d1e08d28aae029be2a83b5d71a623d1d9e47b9"
+    },
+    "blazehowl": {
+      "path": "./assets/pals/blazehowl.png",
+      "name": "Blazehowl",
+      "bytes": 10133,
+      "sha256": "1a62509dc1c4d339a0027cf6a57d754d6b97f820d0fca19742ed249d48a815b8"
+    },
+    "sekhmet": {
+      "path": "./assets/pals/sekhmet.png",
+      "name": "Sekhmet",
+      "bytes": 7141,
+      "sha256": "7163ca65e091a5eebae2d6cfcec097ad58e73b31f3b77a70d31fb152150e0c01"
+    },
+    "reptyro-cryst": {
+      "path": "./assets/pals/reptyro-cryst.png",
+      "name": "Reptyro Cryst",
+      "bytes": 9177,
+      "sha256": "1b8e41510978124da2d47ec24528ca38477a4e41515d3eaa8aeb45aa0b6c6634"
+    },
+    "reptyro": {
+      "path": "./assets/pals/reptyro.png",
+      "name": "Reptyro",
+      "bytes": 8811,
+      "sha256": "559089670f03e487bfa4d2cfde68c9d99feb6129d1aae074e682e566a12a14e4"
+    },
+    "silvegis": {
+      "path": "./assets/pals/silvegis.png",
+      "name": "Silvegis",
+      "bytes": 8107,
+      "sha256": "d4a50375630c908951301ee6574620786e6a5cadce3b18fea8da1b4f4af508a5"
+    },
+    "quivern": {
+      "path": "./assets/pals/quivern.png",
+      "name": "Quivern",
+      "bytes": 9698,
+      "sha256": "10b7c0c475575b82ce2945b43eba872672a30a63e6eb79864e4bbcc47928103c"
+    },
+    "quivern-botan": {
+      "path": "./assets/pals/quivern-botan.png",
+      "name": "Quivern Botan",
+      "bytes": 9751,
+      "sha256": "5e07881b18bcabd001b36c0439c98eb9827c2fb6769a8cc64f4b392c3e3627d4"
+    },
+    "relaxaurus-lux": {
+      "path": "./assets/pals/relaxaurus-lux.png",
+      "name": "Relaxaurus Lux",
+      "bytes": 6470,
+      "sha256": "c82547650edbe4f05754e0aa89b2e5e6987bf7e97c2dfbad4b7143ef065686a2"
+    },
+    "vaelet": {
+      "path": "./assets/pals/vaelet.png",
+      "name": "Vaelet",
+      "bytes": 10515,
+      "sha256": "9da2826cfe78d4b92013655e5cfa644d4fc66c335f7ded7994d4d336b190b7cc"
+    },
+    "mossanda-lux": {
+      "path": "./assets/pals/mossanda-lux.png",
+      "name": "Mossanda Lux",
+      "bytes": 8757,
+      "sha256": "cfd14666a2bc09214e175293432cce7a6a6dd767c1a40efec8db563e2392f92b"
+    },
+    "mycora": {
+      "path": "./assets/pals/mycora.png",
+      "name": "Mycora",
+      "bytes": 12114,
+      "sha256": "a1f0e7be35c28ed36bd0d0a3971c6c3490ebad89d80d22fbba1f14372df54997"
+    },
+    "prixter-lux": {
+      "path": "./assets/pals/prixter-lux.png",
+      "name": "Prixter Lux",
+      "bytes": 9627,
+      "sha256": "7a2a8eb24803de699333006171ebceb4172ca57ca927c73f3680ce5e0a7253ea"
+    },
+    "mammorest-cryst": {
+      "path": "./assets/pals/mammorest-cryst.png",
+      "name": "Mammorest Cryst",
+      "bytes": 10317,
+      "sha256": "6d9c0d81d7a371e71c655493d2d34b7e6888f696e3e5a2040a2ab4ccd3e4a7ad"
+    },
+    "fenglope-lux": {
+      "path": "./assets/pals/fenglope-lux.png",
+      "name": "Fenglope Lux",
+      "bytes": 7324,
+      "sha256": "94d221a0b7028df6c66ab53bc44f6ead68caa2c7929c1153cf0a90a16234b50d"
+    },
+    "elizabee": {
+      "path": "./assets/pals/elizabee.png",
+      "name": "Elizabee",
+      "bytes": 7309,
+      "sha256": "981ad2495d3cb18d9f483a78780b31b27c5acb441712c8f16c2dd4ea3a054499"
+    },
+    "dogen": {
+      "path": "./assets/pals/dogen.png",
+      "name": "Dogen",
+      "bytes": 9144,
+      "sha256": "8368ccf64b24a4298c66c260e1280aec25ca926bb83b989f4d9d9fb54549eda7"
+    },
+    "leafan": {
+      "path": "./assets/pals/leafan.png",
+      "name": "Leafan",
+      "bytes": 8458,
+      "sha256": "85c020a573d742d879c015f84bcf1444755507fd6115284035b8ad1c910b1da3"
+    },
+    "bushi-noct": {
+      "path": "./assets/pals/bushi-noct.png",
+      "name": "Bushi Noct",
+      "bytes": 9038,
+      "sha256": "87e63408241045998e9e98020b9324f0d63033a13403301d0f7dbabb6b10cf0d"
+    },
+    "cryolinx": {
+      "path": "./assets/pals/cryolinx.png",
+      "name": "Cryolinx",
+      "bytes": 7578,
+      "sha256": "1556e918b323e7a522cebeeddb75f37e764a958373d818dca4124f79df00dc25"
+    },
+    "suzaku-aqua": {
+      "path": "./assets/pals/suzaku-aqua.png",
+      "name": "Suzaku Aqua",
+      "bytes": 7450,
+      "sha256": "fe27502108cffaf6b3256d0fed6439958ea9885e3da2dfd709bb94216a7d9675"
+    },
+    "relaxaurus": {
+      "path": "./assets/pals/relaxaurus.png",
+      "name": "Relaxaurus",
+      "bytes": 5423,
+      "sha256": "b75cc948df5f2270cee5f26e29ce29c1978a753f03c8010d4553737193d53c40"
+    },
+    "shadowbeak": {
+      "path": "./assets/pals/shadowbeak.png",
+      "name": "Shadowbeak",
+      "bytes": 8126,
+      "sha256": "9de885408a6ac4eefe6c6230066211a95ee6c6191605684b20aa2ce19b9d3e3b"
+    },
+    "mammorest": {
+      "path": "./assets/pals/mammorest.png",
+      "name": "Mammorest",
+      "bytes": 10827,
+      "sha256": "e254af4708a296b3ff5af05435d859f9690d04cba81b78721d2654bf36551f9e"
+    },
+    "tetroise-primo": {
+      "path": "./assets/pals/tetroise-primo.png",
+      "name": "Tetroise Primo",
+      "bytes": 12355,
+      "sha256": "5f755066106656ca4a1965190c7b296bf81e9aa74cbf66e870460fc5fca87843"
+    },
+    "nyafia": {
+      "path": "./assets/pals/nyafia.png",
+      "name": "Nyafia",
+      "bytes": 9413,
+      "sha256": "ec23f90e41b02a2748b4065a2ae951e51ad35c7783fac7254528da1894e40cc0"
+    },
+    "loomen": {
+      "path": "./assets/pals/loomen.png",
+      "name": "Loomen",
+      "bytes": 8097,
+      "sha256": "53680a3f4af9169191040816f9076b7b440865ff016cdfec21fc8154ac4febac"
+    },
+    "starryon": {
+      "path": "./assets/pals/starryon.png",
+      "name": "Starryon",
+      "bytes": 8719,
+      "sha256": "8b0e909e2e170b3b92cb39377a7119f4ac67b162fdb7da9d3eabb1dcd6aa30a3"
+    },
+    "solmora-lux": {
+      "path": "./assets/pals/solmora-lux.png",
+      "name": "Solmora Lux",
+      "bytes": 8842,
+      "sha256": "6c999e1dcad69ce6d232bbaa63fdfe4fe775d2692000680936d98cce7ab6c643"
+    },
+    "helzephyr": {
+      "path": "./assets/pals/helzephyr.png",
+      "name": "Helzephyr",
+      "bytes": 8920,
+      "sha256": "8730df97502a3b5a97939341e4ba935928d8dcd9bf93a6adb3735006a5e6d732"
+    },
+    "pyrin": {
+      "path": "./assets/pals/pyrin.png",
+      "name": "Pyrin",
+      "bytes": 9026,
+      "sha256": "eaf2e1ab584848ca8503f1aba05b279aa243adad6b20e8b74eebd478f61f1085"
+    },
+    "bushi": {
+      "path": "./assets/pals/bushi.png",
+      "name": "Bushi",
+      "bytes": 9229,
+      "sha256": "d068410e4184d025b7661d641b7c167d22466c40b5b7c05beefef80a40bcc8c8"
+    },
+    "lapure": {
+      "path": "./assets/pals/lapure.png",
+      "name": "Lapure",
+      "bytes": 9242,
+      "sha256": "f2cac23ff6cd36f8dbcaf4698a0ea106b8c3b11e6a4971c46d4f7b8d94ce3d48"
+    },
+    "petallia": {
+      "path": "./assets/pals/petallia.png",
+      "name": "Petallia",
+      "bytes": 8844,
+      "sha256": "57470801c30d781a53fe6b40f5580f9f27515e758d575b8521435eb2f17ec260"
+    },
+    "menasting-terra": {
+      "path": "./assets/pals/menasting-terra.png",
+      "name": "Menasting Terra",
+      "bytes": 9894,
+      "sha256": "ac62c0ca5dab5c28725c3780acf2e185fbd6820b592666261ea89ec24b1732d3"
+    },
+    "pyrin-noct": {
+      "path": "./assets/pals/pyrin-noct.png",
+      "name": "Pyrin Noct",
+      "bytes": 8821,
+      "sha256": "3511450eae41665815fe8a7cdf24b34d98f16748ecb32b974e9bdaf21ad2f413"
+    },
+    "kitsun": {
+      "path": "./assets/pals/kitsun.png",
+      "name": "Kitsun",
+      "bytes": 10850,
+      "sha256": "006da8b35bdf55a61acc938d9a6471e76783083e9f2004e5ce77c3a0085eb679"
+    },
+    "katress-ignis": {
+      "path": "./assets/pals/katress-ignis.png",
+      "name": "Katress Ignis",
+      "bytes": 10744,
+      "sha256": "2390198663c639a3dec5402f2f783b30cbd08a9cb2cddebec0f5156c3f424525"
+    },
+    "incineram-noct": {
+      "path": "./assets/pals/incineram-noct.png",
+      "name": "Incineram Noct",
+      "bytes": 9123,
+      "sha256": "e5835e3e47f82f7c806087f36cc08a5d176c9ac2567a9ecde9db10be20ede175"
+    },
+    "suzaku": {
+      "path": "./assets/pals/suzaku.png",
+      "name": "Suzaku",
+      "bytes": 7596,
+      "sha256": "19247f84f91c8a176812a93c4190676cc08b20ee48acb7c80a69035f9f78d0bf"
+    },
+    "polapup-terra": {
+      "path": "./assets/pals/polapup-terra.png",
+      "name": "Polapup Terra",
+      "bytes": 7572,
+      "sha256": "1cd340f776974a003b7c20ff2646e6b7fd71d5a6febe01b813a66a0fce73c024"
+    },
+    "wixen": {
+      "path": "./assets/pals/wixen.png",
+      "name": "Wixen",
+      "bytes": 8877,
+      "sha256": "f275cb816c79290d2deb5148a1bc4f5a263ae148eea94762a31b47bede048758"
+    },
+    "kitsun-noct": {
+      "path": "./assets/pals/kitsun-noct.png",
+      "name": "Kitsun Noct",
+      "bytes": 10262,
+      "sha256": "40220fee646b95d3a79aab98b1374cf5c499b5269b02e53f0bdb63dd3b93fec0"
+    },
+    "tarantriss": {
+      "path": "./assets/pals/tarantriss.png",
+      "name": "Tarantriss",
+      "bytes": 9785,
+      "sha256": "0412bef93387258f31d4f0f3071adcb6590c6587a1ea291715720bb945e5779c"
+    },
+    "venusa": {
+      "path": "./assets/pals/venusa.png",
+      "name": "Venusa",
+      "bytes": 9257,
+      "sha256": "11c495691dc93a4c506a956423824a4c7c62c95e3ff07167165b1b4e39c86d6e"
+    },
+    "incineram": {
+      "path": "./assets/pals/incineram.png",
+      "name": "Incineram",
+      "bytes": 8151,
+      "sha256": "9524339da4d288f216a7d6a3e5a2c2928f9dc84708309149a5e21114e1746d60"
+    },
+    "menasting": {
+      "path": "./assets/pals/menasting.png",
+      "name": "Menasting",
+      "bytes": 9770,
+      "sha256": "690a22ae4603bc02112c5f25fb969ec94e58771edfced3d41ecc962af7d76c81"
+    },
+    "robinquill-terra": {
+      "path": "./assets/pals/robinquill-terra.png",
+      "name": "Robinquill Terra",
+      "bytes": 6580,
+      "sha256": "e2ae8756583a8a1818fcf58fb14cbe82dede68a1b354ee5e9d6c516995217f94"
+    },
+    "robinquill": {
+      "path": "./assets/pals/robinquill.png",
+      "name": "Robinquill",
+      "bytes": 6480,
+      "sha256": "8cfa32ba020d093cdad2d85446bdbf6ca6416a0cf39bf88ab467807b8f8bf362"
+    },
+    "penking": {
+      "path": "./assets/pals/penking.png",
+      "name": "Penking",
+      "bytes": 8985,
+      "sha256": "71f0d864de0889fa32bf4646d5ed2b3ffcbd66eb908ae8c0733960dc7e1fdf5d"
+    },
+    "shroomer": {
+      "path": "./assets/pals/shroomer.png",
+      "name": "Shroomer",
+      "bytes": 6560,
+      "sha256": "e626569b1c94902647a1f0f85b61a468746293e6c1b209bfa8f61efe3e34118c"
+    },
+    "carnibora": {
+      "path": "./assets/pals/carnibora.png",
+      "name": "Carnibora",
+      "bytes": 10009,
+      "sha256": "75675e51ae99e36655ec457baf42e0e546e704eaeda8ba926e6400f8ca1e63f9"
+    },
+    "nitemary-botan": {
+      "path": "./assets/pals/nitemary-botan.png",
+      "name": "Nitemary Botan",
+      "bytes": 9185,
+      "sha256": "65ec0f19af7d2acf95885ec8eb3eef3fd663e439db602b6246c0f012dabe3421"
+    },
+    "mossanda": {
+      "path": "./assets/pals/mossanda.png",
+      "name": "Mossanda",
+      "bytes": 9114,
+      "sha256": "5870c8d8d0786c80529f41d349aabccbdff06effb87362031b3d16f5d3309b29"
+    },
+    "pierdon": {
+      "path": "./assets/pals/pierdon.png",
+      "name": "Pierdon",
+      "bytes": 10419,
+      "sha256": "11dea58fb6d4554ed544cf3738fda2c01d790cd0d614316c26c9d35ebd2f7771"
+    },
+    "bulldosu": {
+      "path": "./assets/pals/bulldosu.png",
+      "name": "Bulldosu",
+      "bytes": 10531,
+      "sha256": "79235d39b0038d3163813a97c513f12222b825e517e4306d8e45557330dcf6e9"
+    },
+    "shroomer-noct": {
+      "path": "./assets/pals/shroomer-noct.png",
+      "name": "Shroomer Noct",
+      "bytes": 6407,
+      "sha256": "029cf26f70a0222179f463f9401b050063b719e11a8fca47ba96cc4aeedbf9a8"
+    },
+    "prixter": {
+      "path": "./assets/pals/prixter.png",
+      "name": "Prixter",
+      "bytes": 9406,
+      "sha256": "3828de8bbee8afa9e2abec7096c8d1400def30040b8a987030ee6d9cc1f08399"
+    },
+    "vanwyrm-cryst": {
+      "path": "./assets/pals/vanwyrm-cryst.png",
+      "name": "Vanwyrm Cryst",
+      "bytes": 9236,
+      "sha256": "b4f06af05db26081d8345bb2587d2078e702051f7d9ec14f0d0e2db3fb5fb8e8"
+    },
+    "maraith": {
+      "path": "./assets/pals/maraith.png",
+      "name": "Maraith",
+      "bytes": 9031,
+      "sha256": "b19f0ca0a5ec8377f9ac71f2c67b4cab08cfeb3cca45b7ab15e8e6f7983d54a7"
+    },
+    "sibelyx-primo": {
+      "path": "./assets/pals/sibelyx-primo.png",
+      "name": "Sibelyx Primo",
+      "bytes": 9443,
+      "sha256": "d2fde7124b596f4fe74fd8ce0d0159ab4426a4009f3316676d900be1a7064b36"
+    },
+    "lullu": {
+      "path": "./assets/pals/lullu.png",
+      "name": "Lullu",
+      "bytes": 7877,
+      "sha256": "e8189f79dc536097e6a92b559164d72bdabc8d3ef1a465a77d4d1b9627b4f85f"
+    },
+    "beegarde": {
+      "path": "./assets/pals/beegarde.png",
+      "name": "Beegarde",
+      "bytes": 6795,
+      "sha256": "812143264c56a9a0ebae0f7eea0f947220d972c900febccc3696d0dc537a7ffe"
+    },
+    "vanwyrm": {
+      "path": "./assets/pals/vanwyrm.png",
+      "name": "Vanwyrm",
+      "bytes": 8628,
+      "sha256": "82f73e17cecf46ce5cc9240a23f4acfa859f41e3794394847e29e1f234c78a39"
+    },
+    "skutlass-ignis": {
+      "path": "./assets/pals/skutlass-ignis.png",
+      "name": "Skutlass Ignis",
+      "bytes": 6469,
+      "sha256": "87f1749a54cb53e88666d88a7f5b5b500ebf80b29c8833485fe3e7ff5be47168"
+    },
+    "wixen-noct": {
+      "path": "./assets/pals/wixen-noct.png",
+      "name": "Wixen Noct",
+      "bytes": 8719,
+      "sha256": "40ecdbf4fa52b4f9447d99783fef4f5734094cd43173cb965271ddac537b755c"
+    },
+    "lunaris": {
+      "path": "./assets/pals/lunaris.png",
+      "name": "Lunaris",
+      "bytes": 8173,
+      "sha256": "8e08e2c5a869bf6dc3d6a7d9137f67f0f8950d4d6701de0d34348933edc929e5"
+    },
+    "azurobe-cryst": {
+      "path": "./assets/pals/azurobe-cryst.png",
+      "name": "Azurobe Cryst",
+      "bytes": 7685,
+      "sha256": "24cc6e930faaeb6a24dd87a13263465b4c5057545b95f243a4b577908a435653"
+    },
+    "polapup": {
+      "path": "./assets/pals/polapup.png",
+      "name": "Polapup",
+      "bytes": 5850,
+      "sha256": "77ae48e943fa0542fb4e59c8f14b8e48d7d48a3359e1b1e45f18497a36e888a1"
+    },
+    "prunelia": {
+      "path": "./assets/pals/prunelia.png",
+      "name": "Prunelia",
+      "bytes": 10204,
+      "sha256": "354a1312396e36c0a5f1bf6f6522a5ef47fdaa5c954573361e886ded137cd4f2"
+    },
+    "frostplume": {
+      "path": "./assets/pals/frostplume.png",
+      "name": "Frostplume",
+      "bytes": 4241,
+      "sha256": "cfb60175611ff80c56cdbec961336257fd1366cd7dc46b52ea2e1120a5561713"
+    },
+    "fenglope": {
+      "path": "./assets/pals/fenglope.png",
+      "name": "Fenglope",
+      "bytes": 7564,
+      "sha256": "0f8e48125023732e358519aa35869081df4aa5437e5e6e5ec462a3f5003ad453"
+    },
+    "tetroise": {
+      "path": "./assets/pals/tetroise.png",
+      "name": "Tetroise",
+      "bytes": 12461,
+      "sha256": "e7892cfe2b58928cf51274440e6dfe1a05cd40832ffa1075a674cc9c7cffe805"
+    },
+    "arsox": {
+      "path": "./assets/pals/arsox.png",
+      "name": "Arsox",
+      "bytes": 10740,
+      "sha256": "03421f3c8ba3c7a43b70c69557d0e87e43e3fe157c8e22c43e8dcd208e87e3ca"
+    },
+    "wistella": {
+      "path": "./assets/pals/wistella.png",
+      "name": "Wistella",
+      "bytes": 9934,
+      "sha256": "9907dd5a75eae0d65adb6638474b9b575ad5a028d69b462b7669dd10c9e67806"
+    },
+    "katress": {
+      "path": "./assets/pals/katress.png",
+      "name": "Katress",
+      "bytes": 10695,
+      "sha256": "7841bcf03ee7e2710c08829486f9b42969147ec95d6b67dc7ea1187bc3a7114f"
+    },
+    "dinossom-lux": {
+      "path": "./assets/pals/dinossom-lux.png",
+      "name": "Dinossom Lux",
+      "bytes": 8443,
+      "sha256": "fbb607cde24d72340bc8f7cdfd11966abd02393d1085c07d4020359129f7be5e"
+    },
+    "azurobe": {
+      "path": "./assets/pals/azurobe.png",
+      "name": "Azurobe",
+      "bytes": 7423,
+      "sha256": "821d0ee9e357b17405930348faeac5ac120bb6eb9d15cb38ccff1a1a66b3253b"
+    },
+    "broncherry-aqua": {
+      "path": "./assets/pals/broncherry-aqua.png",
+      "name": "Broncherry Aqua",
+      "bytes": 7356,
+      "sha256": "1f6785247ca6f5f38dd8f8c2c13db6550e24532b333152f71b15a2c7ab3db211"
+    },
+    "kingpaca-cryst": {
+      "path": "./assets/pals/kingpaca-cryst.png",
+      "name": "Kingpaca Cryst",
+      "bytes": 6992,
+      "sha256": "b8350e904190b3213f53346a70dd843a2e179a114c5f054ea1db57d532a2a41f"
+    },
+    "univolt": {
+      "path": "./assets/pals/univolt.png",
+      "name": "Univolt",
+      "bytes": 6388,
+      "sha256": "e728607271fbca63c91f4c192b6c45289ae5cd4780604097b159b70cddd25d46"
+    },
+    "dynamoff": {
+      "path": "./assets/pals/dynamoff.png",
+      "name": "Dynamoff",
+      "bytes": 6513,
+      "sha256": "4a5d655723393d8a90d61e348945f0c261b5f744f2f5495405f3c58208d25b5e"
+    },
+    "nitemary": {
+      "path": "./assets/pals/nitemary.png",
+      "name": "Nitemary",
+      "bytes": 8974,
+      "sha256": "b6d70fc81cb8cb1adfe17a36c3422f85c3b17e485b388362ce93dae63866baaa"
+    },
+    "ghangler": {
+      "path": "./assets/pals/ghangler.png",
+      "name": "Ghangler",
+      "bytes": 7934,
+      "sha256": "61d535076185dc680c0f497126be9dc5baaf5aae04a1d61b4932b905dba6101a"
+    },
+    "sibelyx": {
+      "path": "./assets/pals/sibelyx.png",
+      "name": "Sibelyx",
+      "bytes": 9150,
+      "sha256": "7acc0eef3a5946f71cea379cac650a1fbd390e73b325734696d9d6efe9dd9985"
+    },
+    "skutlass": {
+      "path": "./assets/pals/skutlass.png",
+      "name": "Skutlass",
+      "bytes": 6506,
+      "sha256": "a5a005ef3794124697830400283d4969f1e71bd5fa6bae3f2213ced047dff870"
+    },
+    "tropicaw": {
+      "path": "./assets/pals/tropicaw.png",
+      "name": "Tropicaw",
+      "bytes": 7843,
+      "sha256": "295079d5956770a11c13138bc86d0f5199b4bfc4cac39db835cab8825f963d5b"
+    },
+    "gorirat-terra": {
+      "path": "./assets/pals/gorirat-terra.png",
+      "name": "Gorirat Terra",
+      "bytes": 9031,
+      "sha256": "40ea434a006e67e5e5c3b414a40488ba76cd0a1416a544536eb15dd4f9e59f56"
+    },
+    "loupmoon-cryst": {
+      "path": "./assets/pals/loupmoon-cryst.png",
+      "name": "Loupmoon Cryst",
+      "bytes": 8637,
+      "sha256": "d22dbc04f12abfbb6aa7fbac58ef76caa5ac66d9422d5fa4e7be25de0608fe4b"
+    },
+    "omascul": {
+      "path": "./assets/pals/omascul.png",
+      "name": "Omascul",
+      "bytes": 8247,
+      "sha256": "a07134edfea8ba47a8ff07b7aa3e7e8042dddd25b7d9c3ba29abea58ee1aa47c"
+    },
+    "elphidran-aqua": {
+      "path": "./assets/pals/elphidran-aqua.png",
+      "name": "Elphidran Aqua",
+      "bytes": 5601,
+      "sha256": "b1dd2ed8b4d7bf0076aaa55201de67fcc571b15c6e4920ca2ef835abec5d9b82"
+    },
+    "broncherry": {
+      "path": "./assets/pals/broncherry.png",
+      "name": "Broncherry",
+      "bytes": 7586,
+      "sha256": "97aaef7ba1e5de3e22e81175827860c2ab01426ba965210f55b630eae3e5d626"
+    },
+    "reindrix": {
+      "path": "./assets/pals/reindrix.png",
+      "name": "Reindrix",
+      "bytes": 9910,
+      "sha256": "33414b9fab379efe33a01855685b503d6732e1c995b5f892ed76de73287b26f7"
+    },
+    "croajiro-noct": {
+      "path": "./assets/pals/croajiro-noct.png",
+      "name": "Croajiro Noct",
+      "bytes": 6888,
+      "sha256": "74f3de7f8e886ef1465ff5fcaf05667d9f5e02f0adbae1ee692927e120a15276"
+    },
+    "sweepa": {
+      "path": "./assets/pals/sweepa.png",
+      "name": "Sweepa",
+      "bytes": 8506,
+      "sha256": "394ca8e2223c2a7484d0b2986fc84963a53c56458654c795dd95809f91a7ad6c"
+    },
+    "turtacle-terra": {
+      "path": "./assets/pals/turtacle-terra.png",
+      "name": "Turtacle Terra",
+      "bytes": 9279,
+      "sha256": "ba95767fee8e72a09714d10a6e3ffdc14bc13be6266bddd5b48edb1a95a47694"
+    },
+    "chillet-ignis": {
+      "path": "./assets/pals/chillet-ignis.png",
+      "name": "Chillet Ignis",
+      "bytes": 6677,
+      "sha256": "caaf06c33d10eeb69c70cc9e442f2e8dc2d6bd5277d3cabc06156ab13479b662"
+    },
+    "gorirat": {
+      "path": "./assets/pals/gorirat.png",
+      "name": "Gorirat",
+      "bytes": 9227,
+      "sha256": "5f74210e58584dea8d7673790ac0213fabba5d80b754c1dfe59b7fe95e00f1c1"
+    },
+    "felbat": {
+      "path": "./assets/pals/felbat.png",
+      "name": "Felbat",
+      "bytes": 6731,
+      "sha256": "7ae8a92dbebb29244196eb84c0c9d9b28961b4e957b41567f4ff4667c169fe7d"
+    },
+    "foxcicle": {
+      "path": "./assets/pals/foxcicle.png",
+      "name": "Foxcicle",
+      "bytes": 7868,
+      "sha256": "a48adffe8336403c34eb832984214f587e7077d01af2375b06eea0346c3eae3b"
+    },
+    "dinossom": {
+      "path": "./assets/pals/dinossom.png",
+      "name": "Dinossom",
+      "bytes": 8185,
+      "sha256": "6c0f118bdb8f5d9d812d0a39376f5e4a0d3cad07bbf8b1fc28dca8ac3473ddca"
+    },
+    "rayhound": {
+      "path": "./assets/pals/rayhound.png",
+      "name": "Rayhound",
+      "bytes": 7965,
+      "sha256": "bb6250dd7585a818c906b0ad4da4d5d5cc5f1a2700db3d9273b7a29019639fa4"
+    },
+    "bakemi": {
+      "path": "./assets/pals/bakemi.png",
+      "name": "Bakemi",
+      "bytes": 7865,
+      "sha256": "d57bca1a5256d5b1bde48c56582d34532a3c007be18647a00e8ef79aae3bdf87"
+    },
+    "solmora": {
+      "path": "./assets/pals/solmora.png",
+      "name": "Solmora",
+      "bytes": 8727,
+      "sha256": "9406ca3639810556a006c8d152efe5f10a630047e2cebe0bdbeb992a0e438d3c"
+    },
+    "lovander": {
+      "path": "./assets/pals/lovander.png",
+      "name": "Lovander",
+      "bytes": 7818,
+      "sha256": "1e3665917f10f558abf7902a014c510ae690a7637ded3e13f295536f4dae6077"
+    },
+    "tombat": {
+      "path": "./assets/pals/tombat.png",
+      "name": "Tombat",
+      "bytes": 9486,
+      "sha256": "4b5622b29585552e4e0d1a144e412322b6d536607a7b7d515b47687574b2251c"
+    },
+    "needoll-noct": {
+      "path": "./assets/pals/needoll-noct.png",
+      "name": "Needoll Noct",
+      "bytes": 8478,
+      "sha256": "d9bdde00a680210a4867f1d504e19a3c27f85cf3a503fd42fc0afc5eda719ad4"
+    },
+    "gobfin-ignis": {
+      "path": "./assets/pals/gobfin-ignis.png",
+      "name": "Gobfin Ignis",
+      "bytes": 8136,
+      "sha256": "f434844100ed1c911ec943e9b64dd9db257ebf75464b9c18703ca5ffa918cc7b"
+    },
+    "lapiron": {
+      "path": "./assets/pals/lapiron.png",
+      "name": "Lapiron",
+      "bytes": 9897,
+      "sha256": "6cb7b14130bbda3f87e1678655a35c3fc50d78b131d1525758f9bb5bd743b9b8"
+    },
+    "snugloo": {
+      "path": "./assets/pals/snugloo.png",
+      "name": "Snugloo",
+      "bytes": 10976,
+      "sha256": "6d528467e576a0e885e689bc49333ccfc93f57a8d103ca9a895e176065ec0fbb"
+    },
+    "kingpaca": {
+      "path": "./assets/pals/kingpaca.png",
+      "name": "Kingpaca",
+      "bytes": 6756,
+      "sha256": "2befd4669f03c6defca34a9f729d0f148cc0e7cc7d272fbbce4e1f19960c2398"
+    },
+    "bristla": {
+      "path": "./assets/pals/bristla.png",
+      "name": "Bristla",
+      "bytes": 9551,
+      "sha256": "3bc1ba6cb21ae5c328a3644d54508d449d2f92cbd521b583a3ae50e7bdf101b6"
+    },
+    "needoll": {
+      "path": "./assets/pals/needoll.png",
+      "name": "Needoll",
+      "bytes": 8765,
+      "sha256": "e645efee6e6cfeaee1a74c28e8314ea7110d60fe3bdb0234ad9223cdbf759e11"
+    },
+    "gloopie-primo": {
+      "path": "./assets/pals/gloopie-primo.png",
+      "name": "Gloopie Primo",
+      "bytes": 8800,
+      "sha256": "93340c5997a6bab24762b6b08842a1cfeb94d2bde67c6307590aa967ba38c776"
+    },
+    "hangyu-cryst": {
+      "path": "./assets/pals/hangyu-cryst.png",
+      "name": "Hangyu Cryst",
+      "bytes": 5288,
+      "sha256": "98910cb49b18b8f0d5b420ce317c51dd3a882ebed9e0d8d2cfc34d5b84cc4aeb"
+    },
+    "yakumo": {
+      "path": "./assets/pals/yakumo.png",
+      "name": "Yakumo",
+      "bytes": 7737,
+      "sha256": "5edbcdfc4a2f9970beef7c76ba23a93f7986cef929be377be8452bea9fd83703"
+    },
+    "wispaw": {
+      "path": "./assets/pals/wispaw.png",
+      "name": "Wispaw",
+      "bytes": 9914,
+      "sha256": "b7e3c7eca214ac238d71558313e82f1d9611aaf1c4863d724e3febaf55508d53"
+    },
+    "dazemu": {
+      "path": "./assets/pals/dazemu.png",
+      "name": "Dazemu",
+      "bytes": 7900,
+      "sha256": "b5ea49fad8cf8317351177886ffbff7320e58df4d312de9fb6a6ee7508f1f7d8"
+    },
+    "surfent": {
+      "path": "./assets/pals/surfent.png",
+      "name": "Surfent",
+      "bytes": 5827,
+      "sha256": "3b4edba47202fd3b9a8e2a2eab5ebb5ce5a7e005b8f70eaa449887ee36f0cad2"
+    },
+    "digtoise": {
+      "path": "./assets/pals/digtoise.png",
+      "name": "Digtoise",
+      "bytes": 9453,
+      "sha256": "e0adf0788912c18bd2fc13359f150ddd03602f059a06b45b01ecf7f6b8d364ad"
+    },
+    "croajiro": {
+      "path": "./assets/pals/croajiro.png",
+      "name": "Croajiro",
+      "bytes": 6964,
+      "sha256": "492b0175707a0415bc7450e55d34bd3c70f6766da8f76a3b94ecc76f76ccfa8c"
+    },
+    "smokie-cryst": {
+      "path": "./assets/pals/smokie-cryst.png",
+      "name": "Smokie Cryst",
+      "bytes": 7838,
+      "sha256": "507c0870606d37dc26dba94b5f5e757714d527202afba70d52d82a88dc99a77f"
+    },
+    "munchill": {
+      "path": "./assets/pals/munchill.png",
+      "name": "Munchill",
+      "bytes": 6863,
+      "sha256": "06121b7458f7aa37c36b112ca26b27a0c37e42d1b2ea2d84cb1ff5f64f3febc8"
+    },
+    "elphidran": {
+      "path": "./assets/pals/elphidran.png",
+      "name": "Elphidran",
+      "bytes": 5881,
+      "sha256": "2f97b5569b5393b6d7bff1fcf3970fef686d5864fa59b7dff77b7a9899535984"
+    },
+    "leezpunk-ignis": {
+      "path": "./assets/pals/leezpunk-ignis.png",
+      "name": "Leezpunk Ignis",
+      "bytes": 7412,
+      "sha256": "7a92638940e953a308d75213340ea5dd4a4bad3425904f5165f605cd8c913f67"
+    },
+    "gobfin": {
+      "path": "./assets/pals/gobfin.png",
+      "name": "Gobfin",
+      "bytes": 8236,
+      "sha256": "6af2ed4e3e563642ac86581ef0f449d25315a198b9589ea4ee9035ecd6215f95"
+    },
+    "chillet": {
+      "path": "./assets/pals/chillet.png",
+      "name": "Chillet",
+      "bytes": 6875,
+      "sha256": "682252eb7e9c7e1ea0caa4e2e57bec5d413ee0bd3affbed61a8b3757f6182e9b"
+    },
+    "dazzi": {
+      "path": "./assets/pals/dazzi.png",
+      "name": "Dazzi",
+      "bytes": 7800,
+      "sha256": "db9d3141cc3d491940dbf895a9c6d898db6bcf5dccc712aa3b8f9e6df3d43339"
+    },
+    "jellroy": {
+      "path": "./assets/pals/jellroy.png",
+      "name": "Jellroy",
+      "bytes": 7930,
+      "sha256": "455eba5d029b40de2065b73af8f35e8a038cd3806d666dc1e186eb58e2624798"
+    },
+    "gloopie": {
+      "path": "./assets/pals/gloopie.png",
+      "name": "Gloopie",
+      "bytes": 8718,
+      "sha256": "08241c3ac2bed7668709170a7e3a73e7e86ad7c047f700b1ddd6e9f9371225e2"
+    },
+    "grintale": {
+      "path": "./assets/pals/grintale.png",
+      "name": "Grintale",
+      "bytes": 8716,
+      "sha256": "c66ee38a321baa2e0ec60d78a1a09aa614ca2b215df07caf5c680b79177b939d"
+    },
+    "surfent-terra": {
+      "path": "./assets/pals/surfent-terra.png",
+      "name": "Surfent Terra",
+      "bytes": 6484,
+      "sha256": "5ffdaefee276e388f842326548353ebdad339b09c7d7a626d45df337372eeeef"
+    },
+    "nitewing": {
+      "path": "./assets/pals/nitewing.png",
+      "name": "Nitewing",
+      "bytes": 7951,
+      "sha256": "1dc80b406a0b1257a92260087f400f8b88ee9bd1748cc7eba33aa188fed192c5"
+    },
+    "jelliette": {
+      "path": "./assets/pals/jelliette.png",
+      "name": "Jelliette",
+      "bytes": 10298,
+      "sha256": "1ae6881e433f6f24d8d003bb0795cd61456e89eba1b77286ac6c84f19517cc02"
+    },
+    "cinnamoth": {
+      "path": "./assets/pals/cinnamoth.png",
+      "name": "Cinnamoth",
+      "bytes": 9256,
+      "sha256": "39a4813734fdab949571f6b3e03b74e91ee49603e1bdccb1fe1929ccdba85ac1"
+    },
+    "fuack-ignis": {
+      "path": "./assets/pals/fuack-ignis.png",
+      "name": "Fuack Ignis",
+      "bytes": 6791,
+      "sha256": "99894e5ad9825e2fe58ae78cbd307496e163c85dd587fb81d9a5ab32ac48d53a"
+    },
+    "turtacle": {
+      "path": "./assets/pals/turtacle.png",
+      "name": "Turtacle",
+      "bytes": 8861,
+      "sha256": "f2b3b230a5a2a73465d08d322e2fbe032caeae64bb555ed86ecbe1ea8beb7feb"
+    },
+    "dumud-gild": {
+      "path": "./assets/pals/dumud-gild.png",
+      "name": "Dumud Gild",
+      "bytes": 7753,
+      "sha256": "436a4ecf7a4281fe845fe80e9074aa2dc17bbdd1c3f9fa23f51029cbeda4649a"
+    },
+    "loupmoon": {
+      "path": "./assets/pals/loupmoon.png",
+      "name": "Loupmoon",
+      "bytes": 8115,
+      "sha256": "425e4cf584168aec39da45008286bc2cd1551e74b7336e08c9a938a1309034a7"
+    },
+    "dazzi-noct": {
+      "path": "./assets/pals/dazzi-noct.png",
+      "name": "Dazzi Noct",
+      "bytes": 6673,
+      "sha256": "5a556be93216d13e999e1a3d7083d13c6fdc961268f81a5d1d0f8465daabbc73"
+    },
+    "cawgnito": {
+      "path": "./assets/pals/cawgnito.png",
+      "name": "Cawgnito",
+      "bytes": 5471,
+      "sha256": "45820632ffdc4a61172ef6ea27973ad59da5bd410422b204c89f7dbeaca093b4"
+    },
+    "flopie": {
+      "path": "./assets/pals/flopie.png",
+      "name": "Flopie",
+      "bytes": 9065,
+      "sha256": "cd3fd17f84fe8c0a3e9430808cbd69fc0157c448e84c9830f8d57b522130d5b8"
+    },
+    "direhowl": {
+      "path": "./assets/pals/direhowl.png",
+      "name": "Direhowl",
+      "bytes": 7943,
+      "sha256": "cca4ffa4173cc2c9bf7e1a0355a50eceba51a55d109b4d7dbac828f82a9b2f2c"
+    },
+    "eikthyrdeer": {
+      "path": "./assets/pals/eikthyrdeer.png",
+      "name": "Eikthyrdeer",
+      "bytes": 7595,
+      "sha256": "912d1779c5e1443ef15703c45bad8dab65d32c7e9f28ca14ea294f5e7de7cb39"
+    },
+    "ribbuny-botan": {
+      "path": "./assets/pals/ribbuny-botan.png",
+      "name": "Ribbuny Botan",
+      "bytes": 7282,
+      "sha256": "7346b1656ca881aef76906077f9873e5596f6976cfd41f826c8e7693ecabafb0"
+    },
+    "caprity-noct": {
+      "path": "./assets/pals/caprity-noct.png",
+      "name": "Caprity Noct",
+      "bytes": 9001,
+      "sha256": "994ba47ac5ebdb01e017032568a1a22703499afbb722b6c73db773f3cb14f54c"
+    },
+    "tanzee-ignis": {
+      "path": "./assets/pals/tanzee-ignis.png",
+      "name": "Tanzee Ignis",
+      "bytes": 8557,
+      "sha256": "9737a0da5976d3e7efe8a9b1a97f391742f53b86e61532010eaacf2e36c068d4"
+    },
+    "smokie": {
+      "path": "./assets/pals/smokie.png",
+      "name": "Smokie",
+      "bytes": 7932,
+      "sha256": "e92b5cd4e82f19df8c8550c342a670702e8e473f415ac7e0a17c2c78fa4fd7b2"
+    },
+    "finsider": {
+      "path": "./assets/pals/finsider.png",
+      "name": "Finsider",
+      "bytes": 7234,
+      "sha256": "55182aa917d62b5061fbab892d034f5d02a6d795b97db45494d4933a946d5955"
+    },
+    "mimog": {
+      "path": "./assets/pals/mimog.png",
+      "name": "Mimog",
+      "bytes": 9086,
+      "sha256": "3f471bb45a6542d04b7f3ceeed5ccfd4ab59cd70c5a1ae0e924b38f349f6d058"
+    },
+    "puffolt": {
+      "path": "./assets/pals/puffolt.png",
+      "name": "Puffolt",
+      "bytes": 8774,
+      "sha256": "683b73923898a3786190cfcda77b6d5fd7cfd306befb73a2d4808364067df1de"
+    },
+    "flambelle": {
+      "path": "./assets/pals/flambelle.png",
+      "name": "Flambelle",
+      "bytes": 6605,
+      "sha256": "dad89c3c7f33e9a342020c202e43b0beff361e14963c819bb977c904bc1cb12c"
+    },
+    "eikthyrdeer-terra": {
+      "path": "./assets/pals/eikthyrdeer-terra.png",
+      "name": "Eikthyrdeer Terra",
+      "bytes": 7442,
+      "sha256": "5c8b44676c93e971094741d58c59a281878dd9f4984cc4154f8a1d9c5d874f81"
+    },
+    "melpaca": {
+      "path": "./assets/pals/melpaca.png",
+      "name": "Melpaca",
+      "bytes": 5482,
+      "sha256": "ed44000ad97dd346d3ebdadf444d81d273fbce45d878cf78857bc47c340da9de"
+    },
+    "celaray-lux": {
+      "path": "./assets/pals/celaray-lux.png",
+      "name": "Celaray Lux",
+      "bytes": 6373,
+      "sha256": "eb0a5d29eb2b69d120516d3ebe9cc3912117f62a60429f54830e60ef1f46c214"
+    },
+    "pengullet": {
+      "path": "./assets/pals/pengullet.png",
+      "name": "Pengullet",
+      "bytes": 7151,
+      "sha256": "e307fad4af34a1bd43bcf14007b3fb51a15cf8da67c9f6a95e68d844463db51a"
+    },
+    "snock-lux": {
+      "path": "./assets/pals/snock-lux.png",
+      "name": "Snock Lux",
+      "bytes": 9005,
+      "sha256": "5b1b052714de5b55ec55092ee2e50e330a3ea82bf0ceb93bff740678b8bb4eb4"
+    },
+    "caprity": {
+      "path": "./assets/pals/caprity.png",
+      "name": "Caprity",
+      "bytes": 9008,
+      "sha256": "9fb9b0f1b4e2c181e8b89fc866e2f95598ba4d992722d4ddd0bb0e9b0aaae78d"
+    },
+    "herbil": {
+      "path": "./assets/pals/herbil.png",
+      "name": "Herbil",
+      "bytes": 9662,
+      "sha256": "40f03ed10ab7309c177599c148b9438ae219873e84477117c42663d3817a84a8"
+    },
+    "pupperai": {
+      "path": "./assets/pals/pupperai.png",
+      "name": "Pupperai",
+      "bytes": 7500,
+      "sha256": "51bd91a7230104ac9f30f7aa5af52a59d5fb13e3e2c6cfa2d0a08701fe62d0c2"
+    },
+    "slowatt": {
+      "path": "./assets/pals/slowatt.png",
+      "name": "Slowatt",
+      "bytes": 7944,
+      "sha256": "8d5f21a430f8da2cadc92c7e7b15227343caad528aa6a59211f8118abcb43cfd"
+    },
+    "snock": {
+      "path": "./assets/pals/snock.png",
+      "name": "Snock",
+      "bytes": 8825,
+      "sha256": "0155fba28e6c74e80856134d3d3e0ce7c992f29c870277aecaf727ec3e9c4426"
+    },
+    "souffline": {
+      "path": "./assets/pals/souffline.png",
+      "name": "Souffline",
+      "bytes": 5951,
+      "sha256": "92bac26b44c56ee03142d0796247cbc913d3bcb093b376addd1aeeb9c12b46d7"
+    },
+    "hoodle": {
+      "path": "./assets/pals/hoodle.png",
+      "name": "Hoodle",
+      "bytes": 6979,
+      "sha256": "6812a2bb57f8de702f0d50033eae7783357985e66a3b72f2f93fb58d36c79ba8"
+    },
+    "lifmunk": {
+      "path": "./assets/pals/lifmunk.png",
+      "name": "Lifmunk",
+      "bytes": 9184,
+      "sha256": "8459c83bf41bb8f2ec4884422000810540553ef87486c54ca3abe22b23b8fe60"
+    },
+    "tanzee": {
+      "path": "./assets/pals/tanzee.png",
+      "name": "Tanzee",
+      "bytes": 8072,
+      "sha256": "5cb55686c3969ad9addaaa0c46902254f2762c5ca2ab423aaac822f6cbd8270d"
+    },
+    "leezpunk": {
+      "path": "./assets/pals/leezpunk.png",
+      "name": "Leezpunk",
+      "bytes": 7140,
+      "sha256": "215abca5bc173dd7b2a7cb0855341b1eafa6b4d9c498ebae379d412635492df5"
+    },
+    "dumud": {
+      "path": "./assets/pals/dumud.png",
+      "name": "Dumud",
+      "bytes": 8269,
+      "sha256": "485603ee24209f25b3dafea39b81f2be082fb89eaa200e60a82364661eb31cde"
+    },
+    "amione": {
+      "path": "./assets/pals/amione.png",
+      "name": "Amione",
+      "bytes": 9880,
+      "sha256": "7a9a25fd82c4feb3d71c7716d4b8ca0cc8e4ec512553d3d705e3632ab2d3c630"
+    },
+    "rooby": {
+      "path": "./assets/pals/rooby.png",
+      "name": "Rooby",
+      "bytes": 8598,
+      "sha256": "0dd897e4ce716e6fb698f32382090272cf2a342165acc5093d83830e6a83dc9d"
+    },
+    "nox": {
+      "path": "./assets/pals/nox.png",
+      "name": "Nox",
+      "bytes": 8411,
+      "sha256": "f705eb9d1fbb91c4d48dbdd4f7e76a3320315db78a507e396975e52d9ac9b9fb"
+    },
+    "depresso": {
+      "path": "./assets/pals/depresso.png",
+      "name": "Depresso",
+      "bytes": 8469,
+      "sha256": "da9500c76eab789130fb381a093226d90cd761af2a6fca9200a553f5dce39cf4"
+    },
+    "galeclaw": {
+      "path": "./assets/pals/galeclaw.png",
+      "name": "Galeclaw",
+      "bytes": 5549,
+      "sha256": "db8acf132533599a289410b70e5a467e56b711e4b4b26299b7cca184e3086b5b"
+    },
+    "ribbuny": {
+      "path": "./assets/pals/ribbuny.png",
+      "name": "Ribbuny",
+      "bytes": 7552,
+      "sha256": "651681c6cad2e5d2fc529aeee3ef5f1d5cba16588a8198c9f20a4a7c5a8db6c9"
+    },
+    "valentail": {
+      "path": "./assets/pals/valentail.png",
+      "name": "Valentail",
+      "bytes": 7882,
+      "sha256": "b9ffc88133392ac78a507e307f6e12593655aae722d605125e7a8b7acc7aa8a1"
+    },
+    "hangyu": {
+      "path": "./assets/pals/hangyu.png",
+      "name": "Hangyu",
+      "bytes": 5308,
+      "sha256": "dd9be6c2fd4e392c51b0765f34afb0fd001c7255ac52dbf54c7ee3775bb21a24"
+    },
+    "sparkit": {
+      "path": "./assets/pals/sparkit.png",
+      "name": "Sparkit",
+      "bytes": 8095,
+      "sha256": "dec2484f936bbc59e73c0119c1e73fb765e37d1142c878b5a934e93949cfdc9f"
+    },
+    "lamball": {
+      "path": "./assets/pals/lamball.png",
+      "name": "Lamball",
+      "bytes": 8624,
+      "sha256": "9a6f2e6d940bdeadc73d3501a2cf4c1657c1ae366640201bf0025ebb39b3a3e0"
+    },
+    "cattiva": {
+      "path": "./assets/pals/cattiva.png",
+      "name": "Cattiva",
+      "bytes": 8018,
+      "sha256": "c242e9e7ec46d1b06bba7693c6f02e7ff15b72afcca2dd4094f1ca3e51a4c7d9"
+    },
+    "woolipop-terra": {
+      "path": "./assets/pals/woolipop-terra.png",
+      "name": "Woolipop Terra",
+      "bytes": 10940,
+      "sha256": "73192a012a3dd476b5a3a044d5dd66b5775c43df44efd41f28c9e6edd103d30a"
+    },
+    "killamari-primo": {
+      "path": "./assets/pals/killamari-primo.png",
+      "name": "Killamari Primo",
+      "bytes": 7010,
+      "sha256": "e47fa62110ac5cea0afa2ab3a37f30e8464109a36767aaee0c12c56575494303"
+    },
+    "daedream": {
+      "path": "./assets/pals/daedream.png",
+      "name": "Daedream",
+      "bytes": 9149,
+      "sha256": "4fe0ce4a9efbb381c6f85bf5719638c4ee11a83fb0cbb52e2d6760d3b99f23b2"
+    },
+    "muffly": {
+      "path": "./assets/pals/muffly.png",
+      "name": "Muffly",
+      "bytes": 9351,
+      "sha256": "576845252ef5c79f45cd02aabe1e6162db2c6cdbfff805bc7d15544b056cb2c8"
+    },
+    "foxparks-cryst": {
+      "path": "./assets/pals/foxparks-cryst.png",
+      "name": "Foxparks Cryst",
+      "bytes": 7355,
+      "sha256": "4cec088f5cc7894b52067427839d8901c8baacc50095055db03aee2938cd5109"
+    },
+    "killamari": {
+      "path": "./assets/pals/killamari.png",
+      "name": "Killamari",
+      "bytes": 7264,
+      "sha256": "9e09eca5f5a5a8a7ea881fc67df4a370fdbd0d2a94e784edf4f7f92b656dfcee"
+    },
+    "fuack": {
+      "path": "./assets/pals/fuack.png",
+      "name": "Fuack",
+      "bytes": 7040,
+      "sha256": "3719dbf9fe5a32a9d053a7a9b8d37fb96763c06c6c6b6cc5c47ed024411e9497"
+    },
+    "cremis": {
+      "path": "./assets/pals/cremis.png",
+      "name": "Cremis",
+      "bytes": 7857,
+      "sha256": "dcadaf0a9cbf5942eaf37ecbe7ac749577824305ebef29a67decfbcd2eb6a0d0"
+    },
+    "rushoar": {
+      "path": "./assets/pals/rushoar.png",
+      "name": "Rushoar",
+      "bytes": 8141,
+      "sha256": "1a924e8cc5b044b9bc0972b738beb0a36eee9aa6d9ec1b04214e6caf3dca2149"
+    },
+    "fuddler": {
+      "path": "./assets/pals/fuddler.png",
+      "name": "Fuddler",
+      "bytes": 7531,
+      "sha256": "8cedde5f08869ab797b2380f6df770cd14c3bf1da9c19e6ba2982478282ef90d"
+    },
+    "kikit": {
+      "path": "./assets/pals/kikit.png",
+      "name": "Kikit",
+      "bytes": 6731,
+      "sha256": "98ab46283534cd90d33f9285d5235f060c3a018893761983a856d907c7688cb1"
+    },
+    "celaray": {
+      "path": "./assets/pals/celaray.png",
+      "name": "Celaray",
+      "bytes": 6420,
+      "sha256": "dcc4f43ce955de789fe748ca09dca71f3e0a08f75aa35adec542daf8975eccee"
+    },
+    "clovee": {
+      "path": "./assets/pals/clovee.png",
+      "name": "Clovee",
+      "bytes": 9810,
+      "sha256": "01800b45059b39e91209f100c8d55679cc3b9ae24be829063baa6dd9cd8ecf4c"
+    },
+    "foxparks": {
+      "path": "./assets/pals/foxparks.png",
+      "name": "Foxparks",
+      "bytes": 7423,
+      "sha256": "78b3af2cfabb5883437e6eb0e28ee7067a2797def18a56e79c47fbe421e45a9f"
+    },
+    "tocotoco": {
+      "path": "./assets/pals/tocotoco.png",
+      "name": "Tocotoco",
+      "bytes": 5734,
+      "sha256": "515afd73f91cc698688212cd3050c1d79632714966ee38139fafd9703974b622"
+    },
+    "woolipop": {
+      "path": "./assets/pals/woolipop.png",
+      "name": "Woolipop",
+      "bytes": 10119,
+      "sha256": "2f18b43da1bf5799f1b0ce124a576974b63f6406e4325361ed13e4b7cfff2c7b"
+    },
+    "jolthog-cryst": {
+      "path": "./assets/pals/jolthog-cryst.png",
+      "name": "Jolthog Cryst",
+      "bytes": 8411,
+      "sha256": "09eaeba75bc30a4e1cf92505935b5e7ae9cedcd9de576f63263f4d4d45b012ca"
+    },
+    "kelpsea-ignis": {
+      "path": "./assets/pals/kelpsea-ignis.png",
+      "name": "Kelpsea Ignis",
+      "bytes": 5763,
+      "sha256": "f7c5d9f31444a373beec44fdfbe2fb32cc3dfae7d5bcde238d759e78ab973090"
+    },
+    "hoocrates": {
+      "path": "./assets/pals/hoocrates.png",
+      "name": "Hoocrates",
+      "bytes": 9199,
+      "sha256": "53f65bdbe17c2260ee959d0a4cc44bfde3927615ea0cdbdf13c63a21c17ae403"
+    },
+    "jolthog": {
+      "path": "./assets/pals/jolthog.png",
+      "name": "Jolthog",
+      "bytes": 7768,
+      "sha256": "54e8a8e664941d64c204f544750f1996395c871be2716cdf17fce2b2b7270359"
+    },
+    "vixy": {
+      "path": "./assets/pals/vixy.png",
+      "name": "Vixy",
+      "bytes": 8810,
+      "sha256": "3e8d017db6ffa2822567514a41b10c8dd7ec4b771a6f5c44e437e10e7bdd65f5"
+    },
+    "kelpsea": {
+      "path": "./assets/pals/kelpsea.png",
+      "name": "Kelpsea",
+      "bytes": 5885,
+      "sha256": "1bdc06a120cb7cccfe08e94962302d5ac13bbc4fd0b1b65132b67c729194b5fc"
+    },
+    "mau-cryst": {
+      "path": "./assets/pals/mau-cryst.png",
+      "name": "Mau Cryst",
+      "bytes": 6731,
+      "sha256": "cffcdccac02c3ecbedf087befc8047d1b8b51abc4c45e97df3b1787d3dc93f1c"
+    },
+    "mau": {
+      "path": "./assets/pals/mau.png",
+      "name": "Mau",
+      "bytes": 6539,
+      "sha256": "ae6b5c31e9d4564abafe953c787dbeb4e6b57b223e48778df4459c10df6d27ef"
+    },
+    "mozzarina": {
+      "path": "./assets/pals/mozzarina.png",
+      "name": "Mozzarina",
+      "bytes": 8207,
+      "sha256": "95d30db727073477289ac6f4f1044d2527a1fdd1c736d8f4d2b5342822b311f4"
+    },
+    "gumoss": {
+      "path": "./assets/pals/gumoss.png",
+      "name": "Gumoss",
+      "bytes": 9125,
+      "sha256": "e2f20b745a53b7c1f6a420f32a3d6fe3bb1b4a33874db7e0b7b881dd4c0a5f9d"
+    },
+    "swee": {
+      "path": "./assets/pals/swee.png",
+      "name": "Swee",
+      "bytes": 7037,
+      "sha256": "1a51c14fa034e74e4bc79a23f4bf60bcca159623c9343222374e49ddb4b9bf7a"
+    },
+    "chikipi": {
+      "path": "./assets/pals/chikipi.png",
+      "name": "Chikipi",
+      "bytes": 7519,
+      "sha256": "7f15477374ee18e87d699512188ad29d630d7d391e01ed544e9d4e653f66deb1"
+    },
+    "teafant": {
+      "path": "./assets/pals/teafant.png",
+      "name": "Teafant",
+      "bytes": 7859,
+      "sha256": "d7f02d099a1b14e66b0bb73f5b0a04aad5d456d4cd261962855a42d06264fac4"
+    }
+  },
+  "koreanNames": {
+    "hartalis": "레젠디얼",
+    "shaolong": "샤오롱",
+    "selyne": "셀레문",
+    "necromus": "켄타나이트",
+    "bastigor": "빙호우거",
+    "eidrolon-ignis": "헬번",
+    "paladius": "팔라디우스",
+    "blazamut-ryu": "마그마드라고",
+    "ophydia": "연미르",
+    "blazamut": "마그마카이저",
+    "dandilord": "녹사주",
+    "jetragon": "제트래곤",
+    "silvance": "모슬론",
+    "bellanoir-libero": "벨라루주",
+    "frostallion-noct": "흑천마",
+    "frostallion": "빙천마",
+    "celesdir": "셀레스디얼",
+    "dualith-noct": "스태그림",
+    "neptilius": "넵티오스",
+    "celesdir-noct": "코스모디얼",
+    "knocklem-ignis": "마그나이트",
+    "faleris": "호루스",
+    "bellanoir": "벨라누아르",
+    "dualith": "스태초",
+    "orserk": "볼젝스",
+    "anubis": "아누비스",
+    "eidrolon": "레이번",
+    "astegon": "라바드래곤",
+    "renjishi": "업화무",
+    "lyleen-noct": "루나린",
+    "lyleen": "릴린",
+    "aegidron": "셸가드라",
+    "beakon-cryst": "칠버드",
+    "knocklem": "테라나이트",
+    "solenne": "모노크로나",
+    "faleris-aqua": "이시스",
+    "grizzbolt": "일렉판다",
+    "flaracle": "센코",
+    "starryon-primo": "라이트롯",
+    "dupin": "라피에르",
+    "icelyn": "칠위치",
+    "splatterina": "얀데리나",
+    "helzephyr-lux": "라이가루다",
+    "roujay": "아르셉",
+    "moldron-cryst": "블리잰더",
+    "braloha": "풀레시오",
+    "moldron": "마그맨더",
+    "azurmane": "썬더호스",
+    "majex": "마조리나",
+    "palumba": "트로조크",
+    "jormuntide": "레비드라",
+    "whalaska": "빙등고래",
+    "whalaska-ignis": "홍등고래",
+    "jormuntide-ignis": "아그니드라",
+    "gildra": "요미이라",
+    "pierdon-cryst": "프로스돈",
+    "elgrove": "그루타우",
+    "sootseer": "유령초",
+    "blazehowl-noct": "만티녹턴",
+    "cryolinx-terra": "토랑이",
+    "gildane": "러시골드",
+    "wumpo-botan": "움피티",
+    "ragnahawk": "적토조",
+    "elgrove-cryst": "블랑타우",
+    "univolt-cryst": "레이콘",
+    "warsect-terra": "금강벌레",
+    "beakon": "라이버드",
+    "wumpo": "움포",
+    "panthalus": "그랜웰",
+    "petallia-ignis": "체를리나",
+    "warsect": "장수벌레",
+    "verdash": "초토리",
+    "blazehowl": "만티파이어",
+    "sekhmet": "세크메트",
+    "reptyro-cryst": "프로스카노",
+    "reptyro": "볼카노",
+    "silvegis": "드라이지스",
+    "quivern": "페스키",
+    "quivern-botan": "포레스키",
+    "relaxaurus-lux": "핑피롱",
+    "vaelet": "비오레타",
+    "mossanda-lux": "라이바오",
+    "mycora": "머슐리",
+    "prixter-lux": "썬더피어스",
+    "mammorest-cryst": "블리자모스",
+    "fenglope-lux": "볼트디어",
+    "penking-lux": "뎅킹",
+    "elizabee": "퀸비나",
+    "dogen": "시푸도그",
+    "xenogard": "제노루더",
+    "leafan": "리팡",
+    "bushi-noct": "어둠무사",
+    "cryolinx": "백랑이",
+    "suzaku-aqua": "시바",
+    "relaxaurus": "헤로롱",
+    "shadowbeak": "제노그리프",
+    "mammorest": "그린모스",
+    "tetroise-primo": "성채북",
+    "nyafia": "멀보냥",
+    "loomen": "뷔랜턴",
+    "starryon": "나이트롯",
+    "solmora-lux": "쇼군복치",
+    "helzephyr": "헬가루다",
+    "pyrin": "파이린",
+    "bushi": "불무사",
+    "lapure": "슬리비",
+    "petallia": "플로리나",
+    "ghangler-ignis": "불초롱",
+    "menasting-terra": "골드스팅",
+    "pyrin-noct": "베이린",
+    "kitsun": "불이리",
+    "katress-ignis": "캐티위자드",
+    "incineram-noct": "아비스고트",
+    "suzaku": "주작",
+    "polapup-terra": "초코범",
+    "wixen": "마호",
+    "kitsun-noct": "음이리",
+    "tarantriss": "스틱툴라",
+    "venusa": "메두나",
+    "incineram": "헬고트",
+    "menasting": "데스스팅",
+    "robinquill-terra": "샌드몽",
+    "robinquill": "로빈몽",
+    "penking": "펭킹",
+    "shroomer": "머쉬드래곤",
+    "carnibora": "카프릴리스",
+    "nitemary-botan": "에브마리",
+    "mossanda": "풀바오",
+    "astralym": "제로버스",
+    "pierdon": "지오르돈",
+    "bulldosu": "와르차차",
+    "shroomer-noct": "머쉬포이즌",
+    "xenolord": "제노드란",
+    "prixter": "스콜피어스",
+    "vanwyrm-cryst": "버드아이스",
+    "maraith": "고스호스",
+    "sibelyx-primo": "수아레누",
+    "lullu": "뷰티플라워",
+    "beegarde": "비나이트",
+    "vanwyrm": "버드래곤",
+    "skutlass-ignis": "불검치",
+    "wixen-noct": "영마호",
+    "lunaris": "루나리스",
+    "azurobe-cryst": "아주리나",
+    "polapup": "크리범",
+    "prunelia": "플럼린",
+    "frostplume": "프리설라",
+    "fenglope": "윈드디어",
+    "xenovader": "제노베이더",
+    "tetroise": "누름북",
+    "arsox": "불페르노",
+    "wistella": "달보미",
+    "katress": "캐티메이지",
+    "dinossom-lux": "찌르르디노",
+    "azurobe": "아주리비",
+    "broncherry-aqua": "스프라돈",
+    "kingpaca-cryst": "블루파카",
+    "univolt": "썬더콘",
+    "dynamoff": "뇌운조",
+    "nitemary": "코쉬마리",
+    "ghangler": "빛초롱",
+    "sibelyx": "실키누",
+    "skutlass": "날검치",
+    "tropicaw": "플라페크",
+    "gorirat-terra": "고릴가이아",
+    "loupmoon-cryst": "얼서니",
+    "omascul": "홀로페이스",
+    "elphidran-aqua": "실티아",
+    "broncherry": "라브라돈",
+    "reindrix": "얼음사슴",
+    "croajiro-noct": "검구리",
+    "sweepa": "모프킹",
+    "rayhound-cryst": "프리도그",
+    "turtacle-terra": "골터클",
+    "chillet-ignis": "천도뇽",
+    "gorirat": "고릴레이지",
+    "felbat": "블러드캐티",
+    "foxcicle": "빙호",
+    "dinossom": "플로라디노",
+    "rayhound": "썬도그",
+    "bakemi": "우라미",
+    "solmora": "킹복치",
+    "lovander": "핑크뇽",
+    "tombat": "냥뱃",
+    "needoll-noct": "허그유",
+    "gobfin-ignis": "샤맨더",
+    "lapiron": "레패시",
+    "snugloo": "설뭉치",
+    "kingpaca": "킹파카",
+    "bristla": "가시공주",
+    "needoll": "허그미",
+    "gloopie-primo": "옥토넬라",
+    "hangyu-cryst": "유령건다리",
+    "yakumo": "둥실해치",
+    "wispaw": "냥시",
+    "dazemu": "페더치프",
+    "surfent": "씨무기",
+    "digtoise": "드릴북이",
+    "croajiro": "칼구리",
+    "finsider-ignis": "염상이",
+    "smokie-cryst": "눈댕이",
+    "munchill": "크로꽁",
+    "elphidran": "실피아",
+    "leezpunk-ignis": "도화맨",
+    "gobfin": "샤키드",
+    "chillet": "베비뇽",
+    "dazzi": "썬더키드",
+    "jellroy": "흘루미",
+    "gloopie": "옥토비아",
+    "grintale": "소름냥이",
+    "surfent-terra": "샌무기",
+    "nitewing": "나이트윙",
+    "jelliette": "플루미",
+    "cinnamoth": "귀요비",
+    "fuack-ignis": "적부리",
+    "turtacle": "헬터클",
+    "dumud-gild": "골도롱",
+    "loupmoon": "달서니",
+    "dazzi-noct": "다크키드",
+    "cawgnito": "마스크로우",
+    "flopie": "토푸리",
+    "direhowl": "다크울프",
+    "eikthyrdeer": "신령사슴",
+    "ribbuny-botan": "그래토",
+    "caprity-noct": "베노고트",
+    "tanzee-ignis": "몽화",
+    "smokie": "껌댕이",
+    "finsider": "무상이",
+    "mimog": "따라하개",
+    "puffolt": "짜리링",
+    "flambelle": "라비",
+    "pengullet-lux": "뎅키",
+    "eikthyrdeer-terra": "산령사슴",
+    "melpaca": "멜파카",
+    "celaray-lux": "일레카이트",
+    "pengullet": "펭키",
+    "snock-lux": "돌팽이",
+    "caprity": "베리고트",
+    "herbil": "모몽파",
+    "pupperai": "솔바둑",
+    "slowatt": "밍기저드",
+    "snock": "전팽이",
+    "souffline": "퍼프피아",
+    "hoodle": "후드림",
+    "lifmunk": "큐룰리스",
+    "tanzee": "몽지",
+    "leezpunk": "도마맨",
+    "dumud": "도도롱",
+    "amione": "리오리네",
+    "rooby": "불꽃밤비",
+    "nox": "루나티",
+    "depresso": "뚱코알라",
+    "galeclaw": "질풍수리",
+    "ribbuny": "핑토",
+    "valentail": "냐를르",
+    "hangyu": "건다리",
+    "sparkit": "번개냥",
+    "lamball": "도로롱",
+    "cattiva": "까부냥",
+    "woolipop-terra": "비터쉽",
+    "killamari-primo": "드리문",
+    "daedream": "몽마둥이",
+    "muffly": "솜눈이",
+    "foxparks-cryst": "아이호",
+    "killamari": "고스문",
+    "fuack": "Fuack",
+    "cremis": "밀피",
+    "rushoar": "돌진돼지",
+    "fuddler": "두더비",
+    "kikit": "꼬마딜로",
+    "celaray": "루미카이트",
+    "clovee": "브루밍",
+    "foxparks": "파이호",
+    "tocotoco": "알록새",
+    "woolipop": "캔디쉽",
+    "jolthog-cryst": "코치도치",
+    "kelpsea-ignis": "마그시",
+    "hoocrates": "아테노울",
+    "jolthog": "찌릿도치",
+    "vixy": "미호",
+    "kelpsea": "켈시",
+    "mau-cryst": "칠테트",
+    "mau": "냐옹테트",
+    "mozzarina": "밀카우",
+    "gumoss": "초롱이",
+    "swee": "모프링",
+    "chikipi": "꼬꼬닭",
+    "teafant": "차코리"
+  },
+  "missingPalImages": [
+    {
+      "slug": "hartalis",
+      "name": "Hartalis"
+    },
+    {
+      "slug": "necromus",
+      "name": "Necromus"
+    },
+    {
+      "slug": "blazamut-ryu",
+      "name": "Blazamut Ryu"
+    },
+    {
+      "slug": "dandilord",
+      "name": "Dandilord"
+    },
+    {
+      "slug": "silvance",
+      "name": "Silvance"
+    },
+    {
+      "slug": "bellanoir-libero",
+      "name": "Bellanoir Libero"
+    },
+    {
+      "slug": "bellanoir",
+      "name": "Bellanoir"
+    },
+    {
+      "slug": "panthalus",
+      "name": "Panthalus"
+    },
+    {
+      "slug": "penking-lux",
+      "name": "Penking Lux"
+    },
+    {
+      "slug": "xenogard",
+      "name": "Xenogard"
+    },
+    {
+      "slug": "ghangler-ignis",
+      "name": "Ghangler Ignis"
+    },
+    {
+      "slug": "astralym",
+      "name": "Astralym"
+    },
+    {
+      "slug": "xenolord",
+      "name": "Xenolord"
+    },
+    {
+      "slug": "xenovader",
+      "name": "Xenovader"
+    },
+    {
+      "slug": "rayhound-cryst",
+      "name": "Rayhound Cryst"
+    },
+    {
+      "slug": "finsider-ignis",
+      "name": "Finsider Ignis"
+    },
+    {
+      "slug": "pengullet-lux",
+      "name": "Pengullet Lux"
+    }
+  ],
+  "visuals": {
+    "world-map": {
+      "path": "./assets/visuals/palworld-map.webp",
+      "sourceUrl": "https://raw.githubusercontent.com/catrenelle/PalDex/5a0f591582e91e2f9c294bcc6cb186ad87094523/frontend/assets/map.webp",
+      "bytes": 4835094,
+      "sha256": "86ffeaca0bfec9006abd147588c1ac8962361b76815b67d842b734988f95a37a"
+    },
+    "official-hero": {
+      "path": "./assets/visuals/official-hero.jpg",
+      "sourceUrl": "https://cdn.getshifter.co/4cf51f4bd2c52300046e22057221adc8e88f21a9/uploads/2026/03/img-features-01.jpg",
+      "bytes": 31834,
+      "sha256": "95a2147e858ca17322ac625e52cea801e40d93edbff0bdc911d708a04914c25b"
+    },
+    "official-adventure": {
+      "path": "./assets/visuals/official-adventure.jpg",
+      "sourceUrl": "https://cdn.getshifter.co/4cf51f4bd2c52300046e22057221adc8e88f21a9/uploads/2026/03/img-features-02.jpg",
+      "bytes": 41801,
+      "sha256": "2c94802a41055b76733ceae424af653c8d3a582b65d829a9f4f6f1f7dd133d4b"
+    },
+    "official-anubis": {
+      "path": "./assets/visuals/official-anubis.png",
+      "sourceUrl": "https://cdn.getshifter.co/4cf51f4bd2c52300046e22057221adc8e88f21a9/uploads/2026/03/img-anubis-01.png",
+      "bytes": 343150,
+      "sha256": "606ccc5c488838b2477501045147f8cf225c947c539a7b1a9974dc89e7caab3e"
+    }
+  },
+  "attribution": [
+    {
+      "name": "PalDex",
+      "url": "https://github.com/catrenelle/PalDex/tree/5a0f591582e91e2f9c294bcc6cb186ad87094523",
+      "license": "MIT",
+      "usage": "펠 아이콘과 월드 지도 텍스처"
+    },
+    {
+      "name": "Pocketpair 공식 Palworld 사이트",
+      "url": "https://www.pocketpair.jp/games/palworld/",
+      "license": "공식 홍보 자료 · 게임 및 캐릭터 저작권은 Pocketpair에 있음",
+      "usage": "상단 및 소개 이미지"
+    },
+    {
+      "name": "Palworld.gg 한국어 도감",
+      "url": "https://palworld.gg/ko/pals",
+      "license": "공개 도감의 구조화된 펠 명칭",
+      "usage": "펠 한글 명칭 대조"
+    }
+  ]
+}

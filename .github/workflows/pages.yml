@@ -29,6 +29,8 @@ jobs:
           persist-credentials: false
       - name: Refresh public guide data
         run: npm run refresh
+      - name: Verify and sync visual assets
+        run: npm run assets:sync
       - name: Test public boundary
         run: npm test
       - name: Configure GitHub Pages

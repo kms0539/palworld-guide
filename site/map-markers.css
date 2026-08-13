@@ -1,0 +1,46 @@
+.map-markers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.map-markers .marker {
+  position: static;
+  left: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  transform: none;
+  border: 0;
+  padding: 0;
+  stroke: #fff;
+  stroke-width: .24;
+  paint-order: stroke;
+  cursor: pointer;
+  filter: drop-shadow(0 0 .4px #03101a);
+}
+
+.map-markers .marker:hover,
+.map-markers .marker:focus-visible {
+  z-index: auto;
+  transform: none;
+  stroke-width: .75;
+  outline: none;
+  filter: drop-shadow(0 0 1.2px #fff);
+}
+
+.map-markers .category-fast_travel { fill: #38bdf8; }
+.map-markers .category-alpha_pal { fill: #f472b6; }
+.map-markers .category-boss_tower { fill: #fb7185; }
+.map-markers .category-bounty_target { fill: #fbbf24; }
+.map-markers .category-predator_pal { fill: #c084fc; }
+.map-markers .category-oil_rig { fill: #94a3b8; }
+.map-markers .category-world_tree { fill: #4ade80; }
+.map-markers .category-sunreach { fill: #2dd4bf; }
+.map-markers .category-resource_copper { fill: #fb923c; }
+.map-markers .category-resource_coal { fill: #64748b; }
+.map-markers .category-resource_quartz { fill: #e0f2fe; }
+.map-markers .category-resource_sulfur { fill: #fde047; }
+.map-markers .category-resource_oil { fill: #a78bfa; }
+.map-markers .category-resource_hexolite { fill: #22d3ee; }

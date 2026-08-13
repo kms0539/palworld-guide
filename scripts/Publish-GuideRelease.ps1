@@ -67,6 +67,8 @@ try {
     if (-not $SkipRefresh) {
         & $pnpm run refresh
         if ($LASTEXITCODE -ne 0) { throw 'Guide data refresh failed.' }
+        & $pnpm run 'assets:sync'
+        if ($LASTEXITCODE -ne 0) { throw 'Guide visual asset sync failed.' }
     }
     & $pnpm test
     if ($LASTEXITCODE -ne 0) { throw 'Guide public-boundary tests failed.' }

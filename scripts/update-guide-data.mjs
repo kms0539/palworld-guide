@@ -106,7 +106,7 @@ function parsePalAnchors(html) {
     const slug = match[1];
     if (seen.has(slug)) continue;
     const content = text(match[2]);
-    const scoreMatch = content.match(/^(.*?)\s+(\d{1,3}(?:\.\d+)?)$/);
+    const scoreMatch = content.match(/^(.*?)\s+(?:Lv\s*)?(\d+(?:\.\d+)?)\s*(?:g)?$/i);
     const name = (scoreMatch?.[1] ?? content).trim();
     if (!name || name.length > 80) continue;
     seen.add(slug);
@@ -307,7 +307,7 @@ async function main() {
     notices: [
       "종결 빌드와 순위는 공식 정답이 아닌 외부 편집형 추천이며 패치·월드 설정·보유 패시브에 따라 달라집니다.",
       "광석 밀집 지점은 1.0 이전 공개 커뮤니티 좌표를 넓은 구역으로 묶은 참고값이므로 게임 안에서 재확인해야 합니다.",
-      "외부 사이트의 본문·이미지는 복제하지 않고 짧은 구조화 사실과 원문 링크만 보관합니다.",
+      "펠 아이콘과 지도는 MIT 공개 프로젝트 PalDex를 출처와 함께 사용하고, 상단 이미지는 Pocketpair 공식 홍보 자료만 사용합니다.",
     ],
     sources: [
       { id: "palworld-official", name: "Palworld official Steam page", url: SOURCE.official, checkedAt, gameVersion: "1.0.x", kind: "official", license: null },
@@ -316,6 +316,9 @@ async function main() {
       { id: "palcompass", name: "PalCompass best Pals editorial", url: SOURCE.editorial, checkedAt, gameVersion: "1.0.1", kind: "editorial", license: null },
       { id: "palworld-map", name: "Palworld Interactive Map 1.0 Beta", url: SOURCE.map, checkedAt, gameVersion: "1.0", kind: "map-aggregation", license: "per-record" },
       { id: "map-collectables", name: "MapCollectablesMod public community coordinates", url: SOURCE.resources, checkedAt, gameVersion: "pre-1.0", kind: "community-factual", license: null },
+      { id: "paldex-assets", name: "PalDex open-source map and icons", url: "https://github.com/catrenelle/PalDex", checkedAt, gameVersion: "1.0", kind: "visual-assets", license: "MIT" },
+      { id: "pocketpair-official-media", name: "Pocketpair official Palworld media", url: "https://www.pocketpair.jp/games/palworld/", checkedAt, gameVersion: "1.0", kind: "official-media", license: "Pocketpair copyright" },
+      { id: "palworld-gg-korean-names", name: "Palworld.gg Korean Paldeck", url: "https://palworld.gg/ko/pals", checkedAt, gameVersion: "1.0", kind: "localization", license: null },
     ],
     pals: palRoster.map((pal) => ({ ...pal, sourceUrl: `${SOURCE.tiers.replace(/\/tier-list$/, "")}/pals/${pal.slug}` })),
     roles,
@@ -329,7 +332,7 @@ async function main() {
     },
     builds,
     map: {
-      bounds: { minX: -480000, maxX: 480000, minY: -480000, maxY: 480000 },
+      bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 },
       points: [...mapPoints, ...resourcePoints],
       counts: {
         sourcePoints: mapPoints.length,

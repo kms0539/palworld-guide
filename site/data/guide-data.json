@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-13T15:27:54.266Z",
+  "generatedAt": "2026-08-13T16:37:37.946Z",
   "gameVersion": "1.0.x",
   "freshness": {
     "status": "current",
@@ -10,14 +10,14 @@
   "notices": [
     "종결 빌드와 순위는 공식 정답이 아닌 외부 편집형 추천이며 패치·월드 설정·보유 패시브에 따라 달라집니다.",
     "광석 밀집 지점은 1.0 이전 공개 커뮤니티 좌표를 넓은 구역으로 묶은 참고값이므로 게임 안에서 재확인해야 합니다.",
-    "외부 사이트의 본문·이미지는 복제하지 않고 짧은 구조화 사실과 원문 링크만 보관합니다."
+    "펠 아이콘과 지도는 MIT 공개 프로젝트 PalDex를 출처와 함께 사용하고, 상단 이미지는 Pocketpair 공식 홍보 자료만 사용합니다."
   ],
   "sources": [
     {
       "id": "palworld-official",
       "name": "Palworld official Steam page",
       "url": "https://store.steampowered.com/app/1623730/Palworld/",
-      "checkedAt": "2026-08-13T15:27:54.266Z",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
       "gameVersion": "1.0.x",
       "kind": "official",
       "license": null
@@ -26,7 +26,7 @@
       "id": "palworld-server-docs",
       "name": "Official Palworld Server Guide",
       "url": "https://docs.palworldgame.com/",
-      "checkedAt": "2026-08-13T15:27:54.266Z",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
       "gameVersion": "1.0.0",
       "kind": "official-docs",
       "license": null
@@ -35,7 +35,7 @@
       "id": "palworld-tools",
       "name": "palworld.tools 1.0 computed tier lists",
       "url": "https://www.palworld.tools/tier-list",
-      "checkedAt": "2026-08-13T15:27:54.266Z",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
       "gameVersion": "1.0",
       "kind": "computed",
       "license": null
@@ -44,7 +44,7 @@
       "id": "palcompass",
       "name": "PalCompass best Pals editorial",
       "url": "https://palcompass.com/guides/best-pals",
-      "checkedAt": "2026-08-13T15:27:54.266Z",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
       "gameVersion": "1.0.1",
       "kind": "editorial",
       "license": null
@@ -53,7 +53,7 @@
       "id": "palworld-map",
       "name": "Palworld Interactive Map 1.0 Beta",
       "url": "https://palworld-map.com/map",
-      "checkedAt": "2026-08-13T15:27:54.266Z",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
       "gameVersion": "1.0",
       "kind": "map-aggregation",
       "license": "per-record"
@@ -62,10 +62,28 @@
       "id": "map-collectables",
       "name": "MapCollectablesMod public community coordinates",
       "url": "https://github.com/miapuffia/MapCollectablesMod",
-      "checkedAt": "2026-08-13T15:27:54.266Z",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
       "gameVersion": "pre-1.0",
       "kind": "community-factual",
       "license": null
+    },
+    {
+      "id": "paldex-assets",
+      "name": "PalDex open-source map and icons",
+      "url": "https://github.com/catrenelle/PalDex",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
+      "gameVersion": "1.0",
+      "kind": "visual-assets",
+      "license": "MIT"
+    },
+    {
+      "id": "pocketpair-official-media",
+      "name": "Pocketpair official Palworld media",
+      "url": "https://www.pocketpair.jp/games/palworld/",
+      "checkedAt": "2026-08-13T16:37:37.946Z",
+      "gameVersion": "1.0",
+      "kind": "official-media",
+      "license": "Pocketpair copyright"
     }
   ],
   "pals": [
@@ -1802,8 +1820,8 @@
     "combat": [
       {
         "slug": "astralym",
-        "name": "Astralym 1000",
-        "score": null,
+        "name": "Astralym",
+        "score": 1000,
         "rank": 1
       },
       {
@@ -5262,152 +5280,152 @@
     "ranch": [
       {
         "slug": "sibelyx",
-        "name": "Sibelyx 264 g",
-        "score": null,
+        "name": "Sibelyx",
+        "score": 264,
         "rank": 1
       },
       {
         "slug": "sibelyx-primo",
-        "name": "Sibelyx Primo 264 g",
-        "score": null,
+        "name": "Sibelyx Primo",
+        "score": 264,
         "rank": 2
       },
       {
         "slug": "shroomer",
-        "name": "Shroomer 50 g",
-        "score": null,
+        "name": "Shroomer",
+        "score": 50,
         "rank": 3
       },
       {
         "slug": "woolipop-terra",
-        "name": "Woolipop Terra 50 g",
-        "score": null,
+        "name": "Woolipop Terra",
+        "score": 50,
         "rank": 4
       },
       {
         "slug": "beegarde",
-        "name": "Beegarde 30 g",
-        "score": null,
+        "name": "Beegarde",
+        "score": 30,
         "rank": 5
       },
       {
         "slug": "caprity-noct",
-        "name": "Caprity Noct 30 g",
-        "score": null,
+        "name": "Caprity Noct",
+        "score": 30,
         "rank": 6
       },
       {
         "slug": "depresso",
-        "name": "Depresso 30 g",
-        "score": null,
+        "name": "Depresso",
+        "score": 30,
         "rank": 7
       },
       {
         "slug": "dumud",
-        "name": "Dumud 30 g",
-        "score": null,
+        "name": "Dumud",
+        "score": 30,
         "rank": 8
       },
       {
         "slug": "dumud-gild",
-        "name": "Dumud Gild 30 g",
-        "score": null,
+        "name": "Dumud Gild",
+        "score": 30,
         "rank": 9
       },
       {
         "slug": "flambelle",
-        "name": "Flambelle 30 g",
-        "score": null,
+        "name": "Flambelle",
+        "score": 30,
         "rank": 10
       },
       {
         "slug": "foxcicle",
-        "name": "Foxcicle 30 g",
-        "score": null,
+        "name": "Foxcicle",
+        "score": 30,
         "rank": 11
       },
       {
         "slug": "kelpsea",
-        "name": "Kelpsea 30 g",
-        "score": null,
+        "name": "Kelpsea",
+        "score": 30,
         "rank": 12
       },
       {
         "slug": "kelpsea-ignis",
-        "name": "Kelpsea Ignis 30 g",
-        "score": null,
+        "name": "Kelpsea Ignis",
+        "score": 30,
         "rank": 13
       },
       {
         "slug": "mau-cryst",
-        "name": "Mau Cryst 30 g",
-        "score": null,
+        "name": "Mau Cryst",
+        "score": 30,
         "rank": 14
       },
       {
         "slug": "rooby",
-        "name": "Rooby 30 g",
-        "score": null,
+        "name": "Rooby",
+        "score": 30,
         "rank": 15
       },
       {
         "slug": "sparkit",
-        "name": "Sparkit 30 g",
-        "score": null,
+        "name": "Sparkit",
+        "score": 30,
         "rank": 16
       },
       {
         "slug": "woolipop",
-        "name": "Woolipop 30 g",
-        "score": null,
+        "name": "Woolipop",
+        "score": 30,
         "rank": 17
       },
       {
         "slug": "cawgnito",
-        "name": "Cawgnito 20 g",
-        "score": null,
+        "name": "Cawgnito",
+        "score": 20,
         "rank": 18
       },
       {
         "slug": "chikipi",
-        "name": "Chikipi 20 g",
-        "score": null,
+        "name": "Chikipi",
+        "score": 20,
         "rank": 19
       },
       {
         "slug": "cremis",
-        "name": "Cremis 20 g",
-        "score": null,
+        "name": "Cremis",
+        "score": 20,
         "rank": 20
       },
       {
         "slug": "lamball",
-        "name": "Lamball 20 g",
-        "score": null,
+        "name": "Lamball",
+        "score": 20,
         "rank": 21
       },
       {
         "slug": "melpaca",
-        "name": "Melpaca 20 g",
-        "score": null,
+        "name": "Melpaca",
+        "score": 20,
         "rank": 22
       },
       {
         "slug": "mozzarina",
-        "name": "Mozzarina 20 g",
-        "score": null,
+        "name": "Mozzarina",
+        "score": 20,
         "rank": 23
       },
       {
         "slug": "sootseer",
-        "name": "Sootseer 20 g",
-        "score": null,
+        "name": "Sootseer",
+        "score": 20,
         "rank": 24
       },
       {
         "slug": "surfent",
-        "name": "Surfent 20 g",
-        "score": null,
+        "name": "Surfent",
+        "score": 20,
         "rank": 25
       },
       {
@@ -5430,261 +5448,261 @@
       },
       {
         "slug": "caprity",
-        "name": "Caprity 5 g",
-        "score": null,
+        "name": "Caprity",
+        "score": 5,
         "rank": 29
       }
     ],
     "early": [
       {
         "slug": "tombat",
-        "name": "Tombat Lv",
+        "name": "Tombat",
         "score": 12,
         "rank": 1
       },
       {
         "slug": "wispaw",
-        "name": "Wispaw Lv",
+        "name": "Wispaw",
         "score": 11,
         "rank": 2
       },
       {
         "slug": "surfent",
-        "name": "Surfent Lv",
+        "name": "Surfent",
         "score": 12,
         "rank": 3
       },
       {
         "slug": "croajiro",
-        "name": "Croajiro Lv",
+        "name": "Croajiro",
         "score": 4,
         "rank": 4
       },
       {
         "slug": "nitewing",
-        "name": "Nitewing Lv",
+        "name": "Nitewing",
         "score": 12,
         "rank": 5
       },
       {
         "slug": "direhowl",
-        "name": "Direhowl Lv",
+        "name": "Direhowl",
         "score": 10,
         "rank": 6
       },
       {
         "slug": "eikthyrdeer",
-        "name": "Eikthyrdeer Lv",
+        "name": "Eikthyrdeer",
         "score": 9,
         "rank": 7
       },
       {
         "slug": "tanzee-ignis",
-        "name": "Tanzee Ignis Lv",
+        "name": "Tanzee Ignis",
         "score": 10,
         "rank": 8
       },
       {
         "slug": "mimog",
-        "name": "Mimog Lv",
+        "name": "Mimog",
         "score": 10,
         "rank": 9
       },
       {
         "slug": "flambelle",
-        "name": "Flambelle Lv",
+        "name": "Flambelle",
         "score": 4,
         "rank": 10
       },
       {
         "slug": "melpaca",
-        "name": "Melpaca Lv",
+        "name": "Melpaca",
         "score": 7,
         "rank": 11
       },
       {
         "slug": "pengullet",
-        "name": "Pengullet Lv",
+        "name": "Pengullet",
         "score": 2,
         "rank": 12
       },
       {
         "slug": "herbil",
-        "name": "Herbil Lv",
+        "name": "Herbil",
         "score": 5,
         "rank": 13
       },
       {
         "slug": "pupperai",
-        "name": "Pupperai Lv",
+        "name": "Pupperai",
         "score": 2,
         "rank": 14
       },
       {
         "slug": "lifmunk",
-        "name": "Lifmunk Lv",
+        "name": "Lifmunk",
         "score": 1,
         "rank": 15
       },
       {
         "slug": "tanzee",
-        "name": "Tanzee Lv",
+        "name": "Tanzee",
         "score": 4,
         "rank": 16
       },
       {
         "slug": "amione",
-        "name": "Amione Lv",
+        "name": "Amione",
         "score": 9,
         "rank": 17
       },
       {
         "slug": "rooby",
-        "name": "Rooby Lv",
+        "name": "Rooby",
         "score": 4,
         "rank": 18
       },
       {
         "slug": "nox",
-        "name": "Nox Lv",
+        "name": "Nox",
         "score": 4,
         "rank": 19
       },
       {
         "slug": "depresso",
-        "name": "Depresso Lv",
+        "name": "Depresso",
         "score": 4,
         "rank": 20
       },
       {
         "slug": "galeclaw",
-        "name": "Galeclaw Lv",
+        "name": "Galeclaw",
         "score": 11,
         "rank": 21
       },
       {
         "slug": "ribbuny",
-        "name": "Ribbuny Lv",
+        "name": "Ribbuny",
         "score": 1,
         "rank": 22
       },
       {
         "slug": "hangyu",
-        "name": "Hangyu Lv",
+        "name": "Hangyu",
         "score": 9,
         "rank": 23
       },
       {
         "slug": "sparkit",
-        "name": "Sparkit Lv",
+        "name": "Sparkit",
         "score": 10,
         "rank": 24
       },
       {
         "slug": "lamball",
-        "name": "Lamball Lv",
+        "name": "Lamball",
         "score": 1,
         "rank": 25
       },
       {
         "slug": "cattiva",
-        "name": "Cattiva Lv",
+        "name": "Cattiva",
         "score": 1,
         "rank": 26
       },
       {
         "slug": "daedream",
-        "name": "Daedream Lv",
+        "name": "Daedream",
         "score": 4,
         "rank": 27
       },
       {
         "slug": "fuack",
-        "name": "Fuack Lv",
+        "name": "Fuack",
         "score": 10,
         "rank": 28
       },
       {
         "slug": "cremis",
-        "name": "Cremis Lv",
+        "name": "Cremis",
         "score": 1,
         "rank": 29
       },
       {
         "slug": "rushoar",
-        "name": "Rushoar Lv",
+        "name": "Rushoar",
         "score": 5,
         "rank": 30
       },
       {
         "slug": "celaray",
-        "name": "Celaray Lv",
+        "name": "Celaray",
         "score": 2,
         "rank": 31
       },
       {
         "slug": "clovee",
-        "name": "Clovee Lv",
+        "name": "Clovee",
         "score": 3,
         "rank": 32
       },
       {
         "slug": "foxparks",
-        "name": "Foxparks Lv",
+        "name": "Foxparks",
         "score": 5,
         "rank": 33
       },
       {
         "slug": "woolipop",
-        "name": "Woolipop Lv",
+        "name": "Woolipop",
         "score": 9,
         "rank": 34
       },
       {
         "slug": "hoocrates",
-        "name": "Hoocrates Lv",
+        "name": "Hoocrates",
         "score": 4,
         "rank": 35
       },
       {
         "slug": "jolthog",
-        "name": "Jolthog Lv",
+        "name": "Jolthog",
         "score": 4,
         "rank": 36
       },
       {
         "slug": "vixy",
-        "name": "Vixy Lv",
+        "name": "Vixy",
         "score": 1,
         "rank": 37
       },
       {
         "slug": "kelpsea",
-        "name": "Kelpsea Lv",
+        "name": "Kelpsea",
         "score": 9,
         "rank": 38
       },
       {
         "slug": "mozzarina",
-        "name": "Mozzarina Lv",
+        "name": "Mozzarina",
         "score": 9,
         "rank": 39
       },
       {
         "slug": "gumoss",
-        "name": "Gumoss Lv",
+        "name": "Gumoss",
         "score": 2,
         "rank": 40
       },
       {
         "slug": "chikipi",
-        "name": "Chikipi Lv",
+        "name": "Chikipi",
         "score": 1,
         "rank": 41
       },
       {
         "slug": "teafant",
-        "name": "Teafant Lv",
+        "name": "Teafant",
         "score": 2,
         "rank": 42
       }
@@ -5692,362 +5710,362 @@
     "groundMount": [
       {
         "slug": "hartalis",
-        "name": "Hartalis 1900",
-        "score": null,
+        "name": "Hartalis",
+        "score": 1900,
         "rank": 1
       },
       {
         "slug": "necromus",
-        "name": "Necromus 1900",
-        "score": null,
+        "name": "Necromus",
+        "score": 1900,
         "rank": 2
       },
       {
         "slug": "paladius",
-        "name": "Paladius 1800",
-        "score": null,
+        "name": "Paladius",
+        "score": 1800,
         "rank": 3
       },
       {
         "slug": "ophydia",
-        "name": "Ophydia 1500",
-        "score": null,
+        "name": "Ophydia",
+        "score": 1500,
         "rank": 4
       },
       {
         "slug": "pyrin",
-        "name": "Pyrin 1300",
-        "score": null,
+        "name": "Pyrin",
+        "score": 1300,
         "rank": 5
       },
       {
         "slug": "pyrin-noct",
-        "name": "Pyrin Noct 1300",
-        "score": null,
+        "name": "Pyrin Noct",
+        "score": 1300,
         "rank": 6
       },
       {
         "slug": "azurmane",
-        "name": "Azurmane 1260",
-        "score": null,
+        "name": "Azurmane",
+        "score": 1260,
         "rank": 7
       },
       {
         "slug": "gildane",
-        "name": "Gildane 1260",
-        "score": null,
+        "name": "Gildane",
+        "score": 1260,
         "rank": 8
       },
       {
         "slug": "starryon",
-        "name": "Starryon 1250",
-        "score": null,
+        "name": "Starryon",
+        "score": 1250,
         "rank": 9
       },
       {
         "slug": "starryon-primo",
-        "name": "Starryon Primo 1250",
-        "score": null,
+        "name": "Starryon Primo",
+        "score": 1250,
         "rank": 10
       },
       {
         "slug": "blazamut",
-        "name": "Blazamut 1200",
-        "score": null,
+        "name": "Blazamut",
+        "score": 1200,
         "rank": 11
       },
       {
         "slug": "blazamut-ryu",
-        "name": "Blazamut Ryu 1200",
-        "score": null,
+        "name": "Blazamut Ryu",
+        "score": 1200,
         "rank": 12
       },
       {
         "slug": "blazehowl",
-        "name": "Blazehowl 1200",
-        "score": null,
+        "name": "Blazehowl",
+        "score": 1200,
         "rank": 13
       },
       {
         "slug": "blazehowl-noct",
-        "name": "Blazehowl Noct 1200",
-        "score": null,
+        "name": "Blazehowl Noct",
+        "score": 1200,
         "rank": 14
       },
       {
         "slug": "celesdir",
-        "name": "Celesdir 1200",
-        "score": null,
+        "name": "Celesdir",
+        "score": 1200,
         "rank": 15
       },
       {
         "slug": "celesdir-noct",
-        "name": "Celesdir Noct 1200",
-        "score": null,
+        "name": "Celesdir Noct",
+        "score": 1200,
         "rank": 16
       },
       {
         "slug": "dazemu",
-        "name": "Dazemu 1200",
-        "score": null,
+        "name": "Dazemu",
+        "score": 1200,
         "rank": 17
       },
       {
         "slug": "xenogard",
-        "name": "Xenogard 1200",
-        "score": null,
+        "name": "Xenogard",
+        "score": 1200,
         "rank": 18
       },
       {
         "slug": "rayhound",
-        "name": "Rayhound 1150",
-        "score": null,
+        "name": "Rayhound",
+        "score": 1150,
         "rank": 19
       },
       {
         "slug": "rayhound-cryst",
-        "name": "Rayhound Cryst 1150",
-        "score": null,
+        "name": "Rayhound Cryst",
+        "score": 1150,
         "rank": 20
       },
       {
         "slug": "aegidron",
-        "name": "Aegidron 1100",
-        "score": null,
+        "name": "Aegidron",
+        "score": 1100,
         "rank": 21
       },
       {
         "slug": "bastigor",
-        "name": "Bastigor 1100",
-        "score": null,
+        "name": "Bastigor",
+        "score": 1100,
         "rank": 22
       },
       {
         "slug": "kitsun",
-        "name": "Kitsun 1100",
-        "score": null,
+        "name": "Kitsun",
+        "score": 1100,
         "rank": 23
       },
       {
         "slug": "kitsun-noct",
-        "name": "Kitsun Noct 1100",
-        "score": null,
+        "name": "Kitsun Noct",
+        "score": 1100,
         "rank": 24
       },
       {
         "slug": "maraith",
-        "name": "Maraith 1100",
-        "score": null,
+        "name": "Maraith",
+        "score": 1100,
         "rank": 25
       },
       {
         "slug": "univolt",
-        "name": "Univolt 1100",
-        "score": null,
+        "name": "Univolt",
+        "score": 1100,
         "rank": 26
       },
       {
         "slug": "univolt-cryst",
-        "name": "Univolt Cryst 1100",
-        "score": null,
+        "name": "Univolt Cryst",
+        "score": 1100,
         "rank": 27
       },
       {
         "slug": "yakumo",
-        "name": "Yakumo 1080",
-        "score": null,
+        "name": "Yakumo",
+        "score": 1080,
         "rank": 28
       },
       {
         "slug": "reindrix",
-        "name": "Reindrix 1070",
-        "score": null,
+        "name": "Reindrix",
+        "score": 1070,
         "rank": 29
       },
       {
         "slug": "arsox",
-        "name": "Arsox 1050",
-        "score": null,
+        "name": "Arsox",
+        "score": 1050,
         "rank": 30
       },
       {
         "slug": "chillet",
-        "name": "Chillet 1050",
-        "score": null,
+        "name": "Chillet",
+        "score": 1050,
         "rank": 31
       },
       {
         "slug": "chillet-ignis",
-        "name": "Chillet Ignis 1050",
-        "score": null,
+        "name": "Chillet Ignis",
+        "score": 1050,
         "rank": 32
       },
       {
         "slug": "direhowl",
-        "name": "Direhowl 1050",
-        "score": null,
+        "name": "Direhowl",
+        "score": 1050,
         "rank": 33
       },
       {
         "slug": "fenglope",
-        "name": "Fenglope 1050",
-        "score": null,
+        "name": "Fenglope",
+        "score": 1050,
         "rank": 34
       },
       {
         "slug": "shroomer",
-        "name": "Shroomer 1050",
-        "score": null,
+        "name": "Shroomer",
+        "score": 1050,
         "rank": 35
       },
       {
         "slug": "shroomer-noct",
-        "name": "Shroomer Noct 1050",
-        "score": null,
+        "name": "Shroomer Noct",
+        "score": 1050,
         "rank": 36
       },
       {
         "slug": "silvegis",
-        "name": "Silvegis 1050",
-        "score": null,
+        "name": "Silvegis",
+        "score": 1050,
         "rank": 37
       },
       {
         "slug": "wumpo",
-        "name": "Wumpo 1050",
-        "score": null,
+        "name": "Wumpo",
+        "score": 1050,
         "rank": 38
       },
       {
         "slug": "wumpo-botan",
-        "name": "Wumpo Botan 1050",
-        "score": null,
+        "name": "Wumpo Botan",
+        "score": 1050,
         "rank": 39
       },
       {
         "slug": "kingpaca",
-        "name": "Kingpaca 1040",
-        "score": null,
+        "name": "Kingpaca",
+        "score": 1040,
         "rank": 40
       },
       {
         "slug": "kingpaca-cryst",
-        "name": "Kingpaca Cryst 1040",
-        "score": null,
+        "name": "Kingpaca Cryst",
+        "score": 1040,
         "rank": 41
       },
       {
         "slug": "dinossom",
-        "name": "Dinossom 1030",
-        "score": null,
+        "name": "Dinossom",
+        "score": 1030,
         "rank": 42
       },
       {
         "slug": "dinossom-lux",
-        "name": "Dinossom Lux 1030",
-        "score": null,
+        "name": "Dinossom Lux",
+        "score": 1030,
         "rank": 43
       },
       {
         "slug": "mammorest",
-        "name": "Mammorest 1030",
-        "score": null,
+        "name": "Mammorest",
+        "score": 1030,
         "rank": 44
       },
       {
         "slug": "mammorest-cryst",
-        "name": "Mammorest Cryst 1030",
-        "score": null,
+        "name": "Mammorest Cryst",
+        "score": 1030,
         "rank": 45
       },
       {
         "slug": "braloha",
-        "name": "Braloha 1020",
-        "score": null,
+        "name": "Braloha",
+        "score": 1020,
         "rank": 46
       },
       {
         "slug": "broncherry",
-        "name": "Broncherry 1020",
-        "score": null,
+        "name": "Broncherry",
+        "score": 1020,
         "rank": 47
       },
       {
         "slug": "broncherry-aqua",
-        "name": "Broncherry Aqua 1020",
-        "score": null,
+        "name": "Broncherry Aqua",
+        "score": 1020,
         "rank": 48
       },
       {
         "slug": "sweepa",
-        "name": "Sweepa 1020",
-        "score": null,
+        "name": "Sweepa",
+        "score": 1020,
         "rank": 49
       },
       {
         "slug": "grintale",
-        "name": "Grintale 1000",
-        "score": null,
+        "name": "Grintale",
+        "score": 1000,
         "rank": 50
       },
       {
         "slug": "grizzbolt",
-        "name": "Grizzbolt 1000",
-        "score": null,
+        "name": "Grizzbolt",
+        "score": 1000,
         "rank": 51
       },
       {
         "slug": "jormuntide-ignis",
-        "name": "Jormuntide Ignis 1000",
-        "score": null,
+        "name": "Jormuntide Ignis",
+        "score": 1000,
         "rank": 52
       },
       {
         "slug": "mossanda",
-        "name": "Mossanda 1000",
-        "score": null,
+        "name": "Mossanda",
+        "score": 1000,
         "rank": 53
       },
       {
         "slug": "mossanda-lux",
-        "name": "Mossanda Lux 1000",
-        "score": null,
+        "name": "Mossanda Lux",
+        "score": 1000,
         "rank": 54
       },
       {
         "slug": "palumba",
-        "name": "Palumba 1000",
-        "score": null,
+        "name": "Palumba",
+        "score": 1000,
         "rank": 55
       },
       {
         "slug": "relaxaurus",
-        "name": "Relaxaurus 1000",
-        "score": null,
+        "name": "Relaxaurus",
+        "score": 1000,
         "rank": 56
       },
       {
         "slug": "relaxaurus-lux",
-        "name": "Relaxaurus Lux 1000",
-        "score": null,
+        "name": "Relaxaurus Lux",
+        "score": 1000,
         "rank": 57
       },
       {
         "slug": "reptyro",
-        "name": "Reptyro 1000",
-        "score": null,
+        "name": "Reptyro",
+        "score": 1000,
         "rank": 58
       },
       {
         "slug": "reptyro-cryst",
-        "name": "Reptyro Cryst 1000",
-        "score": null,
+        "name": "Reptyro Cryst",
+        "score": 1000,
         "rank": 59
       },
       {
         "slug": "tarantriss",
-        "name": "Tarantriss 1000",
-        "score": null,
+        "name": "Tarantriss",
+        "score": 1000,
         "rank": 60
       },
       {
@@ -6138,128 +6156,128 @@
     "flyingMount": [
       {
         "slug": "jetragon",
-        "name": "Jetragon 3300",
-        "score": null,
+        "name": "Jetragon",
+        "score": 3300,
         "rank": 1
       },
       {
         "slug": "panthalus",
-        "name": "Panthalus 3000",
-        "score": null,
+        "name": "Panthalus",
+        "score": 3000,
         "rank": 2
       },
       {
         "slug": "shaolong",
-        "name": "Shaolong 2800",
-        "score": null,
+        "name": "Shaolong",
+        "score": 2800,
         "rank": 3
       },
       {
         "slug": "eidrolon",
-        "name": "Eidrolon 2750",
-        "score": null,
+        "name": "Eidrolon",
+        "score": 2750,
         "rank": 4
       },
       {
         "slug": "eidrolon-ignis",
-        "name": "Eidrolon Ignis 2750",
-        "score": null,
+        "name": "Eidrolon Ignis",
+        "score": 2750,
         "rank": 5
       },
       {
         "slug": "frostallion",
-        "name": "Frostallion 1800",
-        "score": null,
+        "name": "Frostallion",
+        "score": 1800,
         "rank": 6
       },
       {
         "slug": "frostallion-noct",
-        "name": "Frostallion Noct 1800",
-        "score": null,
+        "name": "Frostallion Noct",
+        "score": 1800,
         "rank": 7
       },
       {
         "slug": "selyne",
-        "name": "Selyne 1600",
-        "score": null,
+        "name": "Selyne",
+        "score": 1600,
         "rank": 8
       },
       {
         "slug": "faleris",
-        "name": "Faleris 1400",
-        "score": null,
+        "name": "Faleris",
+        "score": 1400,
         "rank": 9
       },
       {
         "slug": "faleris-aqua",
-        "name": "Faleris Aqua 1400",
-        "score": null,
+        "name": "Faleris Aqua",
+        "score": 1400,
         "rank": 10
       },
       {
         "slug": "roujay",
-        "name": "Roujay 1350",
-        "score": null,
+        "name": "Roujay",
+        "score": 1350,
         "rank": 11
       },
       {
         "slug": "ragnahawk",
-        "name": "Ragnahawk 1300",
-        "score": null,
+        "name": "Ragnahawk",
+        "score": 1300,
         "rank": 12
       },
       {
         "slug": "beakon",
-        "name": "Beakon 1200",
-        "score": null,
+        "name": "Beakon",
+        "score": 1200,
         "rank": 13
       },
       {
         "slug": "beakon-cryst",
-        "name": "Beakon Cryst 1200",
-        "score": null,
+        "name": "Beakon Cryst",
+        "score": 1200,
         "rank": 14
       },
       {
         "slug": "shadowbeak",
-        "name": "Shadowbeak 1200",
-        "score": null,
+        "name": "Shadowbeak",
+        "score": 1200,
         "rank": 15
       },
       {
         "slug": "astegon",
-        "name": "Astegon 1100",
-        "score": null,
+        "name": "Astegon",
+        "score": 1100,
         "rank": 16
       },
       {
         "slug": "helzephyr",
-        "name": "Helzephyr 1100",
-        "score": null,
+        "name": "Helzephyr",
+        "score": 1100,
         "rank": 17
       },
       {
         "slug": "helzephyr-lux",
-        "name": "Helzephyr Lux 1100",
-        "score": null,
+        "name": "Helzephyr Lux",
+        "score": 1100,
         "rank": 18
       },
       {
         "slug": "suzaku",
-        "name": "Suzaku 1100",
-        "score": null,
+        "name": "Suzaku",
+        "score": 1100,
         "rank": 19
       },
       {
         "slug": "suzaku-aqua",
-        "name": "Suzaku Aqua 1100",
-        "score": null,
+        "name": "Suzaku Aqua",
+        "score": 1100,
         "rank": 20
       },
       {
         "slug": "dynamoff",
-        "name": "Dynamoff 1000",
-        "score": null,
+        "name": "Dynamoff",
+        "score": 1000,
         "rank": 21
       },
       {
@@ -6314,38 +6332,38 @@
     "waterMount": [
       {
         "slug": "neptilius",
-        "name": "Neptilius 1800",
-        "score": null,
+        "name": "Neptilius",
+        "score": 1800,
         "rank": 1
       },
       {
         "slug": "ghangler",
-        "name": "Ghangler 1200",
-        "score": null,
+        "name": "Ghangler",
+        "score": 1200,
         "rank": 2
       },
       {
         "slug": "ghangler-ignis",
-        "name": "Ghangler Ignis 1200",
-        "score": null,
+        "name": "Ghangler Ignis",
+        "score": 1200,
         "rank": 3
       },
       {
         "slug": "solmora",
-        "name": "Solmora 1100",
-        "score": null,
+        "name": "Solmora",
+        "score": 1100,
         "rank": 4
       },
       {
         "slug": "solmora-lux",
-        "name": "Solmora Lux 1100",
-        "score": null,
+        "name": "Solmora Lux",
+        "score": 1100,
         "rank": 5
       },
       {
         "slug": "jormuntide",
-        "name": "Jormuntide 1080",
-        "score": null,
+        "name": "Jormuntide",
+        "score": 1080,
         "rank": 6
       },
       {
@@ -6680,10 +6698,10 @@
   ],
   "map": {
     "bounds": {
-      "minX": -480000,
-      "maxX": 480000,
-      "minY": -480000,
-      "maxY": 480000
+      "minX": -1099400,
+      "maxX": 349400,
+      "minY": -724400,
+      "maxY": 724400
     },
     "points": [
       {
