@@ -5,8 +5,13 @@ const defaultLayers = [
 
 const state = {
   data: null, assets: null, tab: "recommendations", role: "combat", palRole: "combat",
-  palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", progressionStage: "early",
+  palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", progressionStage: "early", progressionKind: "combat",
   layers: new Set(defaultLayers), selected: null,
+};
+
+const progressionKinds = {
+  combat: { label: "전투형", description: "전투·탐험·탑승과 파티 지원에 우선할 펠입니다." },
+  base: { label: "거점형", description: "생산·채집·목장과 거점 작업에 우선할 펠입니다." },
 };
 
 const progressionStages = [
@@ -14,65 +19,148 @@ const progressionStages = [
     id: "early", label: "초반", levels: "Lv 1–15", checkpoint: "바람이 부는 언덕 · 첫 번째 타워",
     summary: "운반과 포획 재료, 첫 화력과 지상 이동을 먼저 해결하는 구간입니다.",
     pals: [
-      { pal: "Cattiva", role: "운반·초기 거점", reason: "소지 중량과 여러 기초 작업을 한 번에 보완합니다.", replace: "운반 전용 펠과 작업 전문 펠이 갖춰질 때" },
-      { pal: "Foxparks", role: "전투·불 피우기", reason: "하네스로 화염방사기처럼 쓰면서 화로도 전담할 수 있습니다.", replace: "헬고트나 적토조처럼 상위 불 펠을 확보할 때" },
-      { pal: "Vixy", role: "목장·포획 재료", reason: "목장에서 팰 스피어와 화살, 골드를 보충해 초반 채집 부담을 줄입니다.", replace: "팰 스피어를 대량 생산할 수 있을 때" },
-      { pal: "Daedream", role: "전투 보조", reason: "전용 장비를 갖추면 플레이어와 함께 추가 공격해 포획 중에도 화력을 냅니다.", replace: "파트너 장비 피해가 주력 전투에 부족해질 때" },
-      { pal: "Chillet", role: "초기 전투·탑승", reason: "초반 알파로 확보하기 쉽고 얼음·용 상성을 함께 준비할 수 있습니다.", replace: "상대 속성별 전투 주력과 빠른 탈것이 생길 때" },
-      { pal: "Direhowl", role: "지상 이동", reason: "낮은 기술 레벨부터 빠르게 탈 수 있어 탐험 시간을 즉시 줄여줍니다.", replace: "파이린·라이버드 또는 실용적인 비행 펠을 얻을 때" },
+      { pal: "Cattiva", kind: "base", role: "운반·초기 거점", reason: "소지 중량과 여러 기초 작업을 한 번에 보완합니다.", replace: "운반 전용 펠과 작업 전문 펠이 갖춰질 때" },
+      { pal: "Foxparks", kind: "combat", role: "전투·불 피우기", reason: "하네스로 화염방사기처럼 쓰면서 화로도 전담할 수 있습니다.", replace: "헬고트나 적토조처럼 상위 불 펠을 확보할 때" },
+      { pal: "Vixy", kind: "base", role: "목장·포획 재료", reason: "목장에서 팰 스피어와 화살, 골드를 보충해 초반 채집 부담을 줄입니다.", replace: "팰 스피어를 대량 생산할 수 있을 때" },
+      { pal: "Daedream", kind: "combat", role: "전투 보조", reason: "전용 장비를 갖추면 플레이어와 함께 추가 공격해 포획 중에도 화력을 냅니다.", replace: "파트너 장비 피해가 주력 전투에 부족해질 때" },
+      { pal: "Chillet", kind: "combat", role: "초기 전투·탑승", reason: "초반 알파로 확보하기 쉽고 얼음·용 상성을 함께 준비할 수 있습니다.", replace: "상대 속성별 전투 주력과 빠른 탈것이 생길 때" },
+      { pal: "Direhowl", kind: "combat", role: "지상 이동", reason: "낮은 기술 레벨부터 빠르게 탈 수 있어 탐험 시간을 즉시 줄여줍니다.", replace: "파이린·라이버드 또는 실용적인 비행 펠을 얻을 때" },
     ],
   },
   {
     id: "early_mid", label: "초중반", levels: "Lv 16–30", checkpoint: "팰 애호단체 · 화산 진입 준비",
     summary: "첫 비행과 채광, 번식 재료 생산을 시작하며 거점을 역할별로 나누는 구간입니다.",
     pals: [
-      { pal: "Penking", role: "다목적 거점", reason: "관개·냉각·채광·수작업·운반을 넓게 맡아 빈 작업을 줄입니다.", replace: "각 작업 레벨이 높은 전문 펠을 배치할 때" },
-      { pal: "Digtoise", role: "채광", reason: "광석 수요가 급증하는 시점에 전용 채광 인력으로 효율이 좋습니다.", replace: "아누비스·아스테곤 계열 채광 라인이 갖춰질 때" },
-      { pal: "Mossanda", role: "거점·전투", reason: "파종·벌목·수작업·운반과 유탄 전투를 함께 처리합니다.", replace: "거점 전문화 후 단일 작업 고레벨 펠을 쓸 때" },
-      { pal: "Elphidran", role: "첫 실용 비행", reason: "나이트윙 다음 단계에서 체감 속도가 좋은 비행 선택지입니다.", replace: "라이버드나 적토조 안장을 사용할 수 있을 때" },
-      { pal: "Beakon", role: "비행·번개 전투", reason: "레벨 30 전후에 확보 가능한 빠르고 안정적인 중반 비행 펠입니다.", replace: "적토조·호루스·셀레문 등 상위 비행 펠을 얻을 때" },
-      { pal: "Grintale", role: "알 수집 보조", reason: "전용 장비 장착 시 필드 알을 추가로 획득할 확률을 제공합니다.", replace: "교체보다 알 수집 경로를 돌 때만 파티에 투입" },
+      { pal: "Penking", kind: "base", role: "다목적 거점", reason: "관개·냉각·채광·수작업·운반을 넓게 맡아 빈 작업을 줄입니다.", replace: "각 작업 레벨이 높은 전문 펠을 배치할 때" },
+      { pal: "Digtoise", kind: "base", role: "채광", reason: "광석 수요가 급증하는 시점에 전용 채광 인력으로 효율이 좋습니다.", replace: "아누비스·아스테곤 계열 채광 라인이 갖춰질 때" },
+      { pal: "Mossanda", kind: "base", role: "거점·전투", reason: "파종·벌목·수작업·운반과 유탄 전투를 함께 처리합니다.", replace: "거점 전문화 후 단일 작업 고레벨 펠을 쓸 때" },
+      { pal: "Elphidran", kind: "combat", role: "첫 실용 비행", reason: "나이트윙 다음 단계에서 체감 속도가 좋은 비행 선택지입니다.", replace: "라이버드나 적토조 안장을 사용할 수 있을 때" },
+      { pal: "Beakon", kind: "combat", role: "비행·번개 전투", reason: "레벨 30 전후에 확보 가능한 빠르고 안정적인 중반 비행 펠입니다.", replace: "적토조·호루스·셀레문 등 상위 비행 펠을 얻을 때" },
+      { pal: "Grintale", kind: "combat", role: "알 수집 보조", reason: "전용 장비 장착 시 필드 알을 추가로 획득할 확률을 제공합니다.", replace: "교체보다 알 수집 경로를 돌 때만 파티에 투입" },
     ],
   },
   {
     id: "mid", label: "중반", levels: "Lv 31–45", checkpoint: "화산 · 사막 · 생산 거점 전문화",
     summary: "비행 속도와 전투 상성을 올리고 제작·발전·채광을 전문화하는 구간입니다.",
     pals: [
-      { pal: "Ragnahawk", role: "비행·화염", reason: "빠른 비행과 화염 속성 부여, 불 피우기·운반까지 겸합니다.", replace: "호루스·셀레문 또는 종결 비행 펠을 확보할 때" },
-      { pal: "Warsect", role: "전투 탱커", reason: "높은 내구와 방어 보조 덕분에 종결 전까지 안정적인 주력으로 쓸 수 있습니다.", replace: "고난도 보스별 속성 주력 펠을 완성할 때" },
-      { pal: "Quivern", role: "용 전투·탑승", reason: "용 속성 대응과 탑승 전투, 거점 보조를 한 슬롯에서 해결합니다.", replace: "레이번·제트래곤 등 상위 용 비행 펠을 얻을 때" },
-      { pal: "Anubis", role: "수작업·채광", reason: "제작 속도와 채광, 운반을 모두 맡고 전투에서도 오랫동안 유효합니다.", replace: "교체하지 않고 종반에는 세크메트 조합이나 전문 펠과 병행" },
-      { pal: "Omascul", role: "경험치 육성", reason: "파티 경험치 보조로 새 전투 펠과 후보군을 빠르게 따라오게 합니다.", replace: "교체보다 집중 육성할 때만 파티에 투입" },
-      { pal: "Grizzbolt", role: "발전·전투", reason: "발전 거점과 중반 총기형 전투를 동시에 맡기 좋은 연결 펠입니다.", replace: "세계수 발전 전문 펠을 확보할 때" },
+      { pal: "Ragnahawk", kind: "combat", role: "비행·화염", reason: "빠른 비행과 화염 속성 부여, 불 피우기·운반까지 겸합니다.", replace: "호루스·셀레문 또는 종결 비행 펠을 확보할 때" },
+      { pal: "Warsect", kind: "combat", role: "전투 탱커", reason: "높은 내구와 방어 보조 덕분에 종결 전까지 안정적인 주력으로 쓸 수 있습니다.", replace: "고난도 보스별 속성 주력 펠을 완성할 때" },
+      { pal: "Quivern", kind: "combat", role: "용 전투·탑승", reason: "용 속성 대응과 탑승 전투, 거점 보조를 한 슬롯에서 해결합니다.", replace: "레이번·제트래곤 등 상위 용 비행 펠을 얻을 때" },
+      { pal: "Anubis", kind: "base", role: "수작업·채광", reason: "제작 속도와 채광, 운반을 모두 맡고 전투에서도 오랫동안 유효합니다.", replace: "교체하지 않고 종반에는 세크메트 조합이나 전문 펠과 병행" },
+      { pal: "Omascul", kind: "combat", role: "경험치 육성", reason: "파티 경험치 보조로 새 전투 펠과 후보군을 빠르게 따라오게 합니다.", replace: "교체보다 집중 육성할 때만 파티에 투입" },
+      { pal: "Grizzbolt", kind: "base", role: "발전·전투", reason: "발전 거점과 중반 총기형 전투를 동시에 맡기 좋은 연결 펠입니다.", replace: "세계수 발전 전문 펠을 확보할 때" },
     ],
   },
   {
     id: "mid_late", label: "중후반", levels: "Lv 46–60", checkpoint: "설산 · 사쿠라지마 · 페이브레이크",
     summary: "회복과 고속 비행, 고레벨 생산을 갖추고 레이드 준비를 시작하는 구간입니다.",
     pals: [
-      { pal: "Shadowbeak", role: "어둠 전투", reason: "높은 전투 성능과 기동성을 갖춰 후반 보스 진입 전 주력으로 좋습니다.", replace: "약점 상성에 맞춘 전설·세계수 펠을 완성할 때" },
-      { pal: "Lyleen", role: "회복·파종", reason: "파티 회복과 높은 파종·제약 작업으로 전투와 거점 양쪽에 가치가 있습니다.", replace: "회복이 필요하면 계속 사용하고 거점에서는 세계수 전문 펠과 교대" },
-      { pal: "Selyne", role: "전투·비행", reason: "사쿠라지마 단계에서 전투와 이동을 함께 끌어올리는 선택지입니다.", replace: "순수 이동은 레이번·제트래곤, 전투는 보스별 종결 펠로 교체" },
-      { pal: "Faleris", role: "고속 비행·화염", reason: "중후반 장거리 이동과 화염 대응을 안정적으로 담당합니다.", replace: "선리치·세계수 단계의 최상위 비행 펠을 확보할 때" },
-      { pal: "Jormuntide Ignis", name: "아그니드라", role: "불 피우기·화염 전투", reason: "고급 제련과 대량 조리의 병목을 줄이면서 화염 전투에도 투입할 수 있습니다.", replace: "종반 전문 불 피우기 펠을 확보해도 보조 인력으로 유지" },
-      { pal: "Astegon", role: "채광·어둠 전투", reason: "고급 광석 생산과 어둠·용 전투를 함께 준비할 수 있습니다.", replace: "세계수 채광·운반 전문 펠이 확보될 때" },
-      { pal: "Dogen", role: "귀환 편의", reason: "탐험 중 거점으로 돌아가는 시간을 줄여 장거리 파밍에 유용합니다.", replace: "교체하지 않고 장거리 채집 시 선택적으로 투입" },
+      { pal: "Shadowbeak", kind: "combat", role: "어둠 전투", reason: "높은 전투 성능과 기동성을 갖춰 후반 보스 진입 전 주력으로 좋습니다.", replace: "약점 상성에 맞춘 전설·세계수 펠을 완성할 때" },
+      { pal: "Lyleen", kind: "base", role: "회복·파종", reason: "파티 회복과 높은 파종·제약 작업으로 전투와 거점 양쪽에 가치가 있습니다.", replace: "회복이 필요하면 계속 사용하고 거점에서는 세계수 전문 펠과 교대" },
+      { pal: "Selyne", kind: "combat", role: "전투·비행", reason: "사쿠라지마 단계에서 전투와 이동을 함께 끌어올리는 선택지입니다.", replace: "순수 이동은 레이번·제트래곤, 전투는 보스별 종결 펠로 교체" },
+      { pal: "Faleris", kind: "combat", role: "고속 비행·화염", reason: "중후반 장거리 이동과 화염 대응을 안정적으로 담당합니다.", replace: "선리치·세계수 단계의 최상위 비행 펠을 확보할 때" },
+      { pal: "Jormuntide Ignis", name: "아그니드라", kind: "base", role: "불 피우기·화염 전투", reason: "고급 제련과 대량 조리의 병목을 줄이면서 화염 전투에도 투입할 수 있습니다.", replace: "종반 전문 불 피우기 펠을 확보해도 보조 인력으로 유지" },
+      { pal: "Astegon", kind: "base", role: "채광·어둠 전투", reason: "고급 광석 생산과 어둠·용 전투를 함께 준비할 수 있습니다.", replace: "세계수 채광·운반 전문 펠이 확보될 때" },
+      { pal: "Dogen", kind: "combat", role: "귀환 편의", reason: "탐험 중 거점으로 돌아가는 시간을 줄여 장거리 파밍에 유용합니다.", replace: "교체하지 않고 장거리 채집 시 선택적으로 투입" },
     ],
   },
   {
     id: "late", label: "후반", levels: "Lv 61–80", checkpoint: "선리치 · 세계수 · 종결 레이드",
     summary: "최고속 이동, 보스별 속성 파티와 세계수 전문 작업 펠을 완성하는 구간입니다.",
     pals: [
-      { pal: "Eidrolon", role: "종결 비행·용/어둠", reason: "용·어둠 파티 구성과 결합하면 최상위 이동과 전투를 함께 노릴 수 있습니다.", replace: "파티 조건 없는 단순 최고속 이동이 필요하면 제트래곤과 비교" },
-      { pal: "Jetragon", role: "최고속 이동·용 전투", reason: "장거리 왕복을 가장 단순하게 줄여주는 종결급 비행 선택지입니다.", replace: "교체 대상이 아니라 파티 조건과 전투 목적에 따라 레이번과 선택" },
-      { pal: "Frostallion", role: "얼음 전투", reason: "용 속성 보스 대응과 생존, 비행을 함께 맡는 종결급 얼음 펠입니다.", replace: "교체보다 적의 약점과 파티 속성에 맞춰 순환" },
-      { pal: "Necromus", role: "어둠 전투·지상 이동", reason: "높은 공격력과 내구, 빠른 지상 이동을 함께 제공합니다.", replace: "교체보다 보스 속성에 따라 다른 종결 펠과 순환" },
-      { pal: "Shaolong", role: "용 전투", reason: "1.0 후반 콘텐츠에서 강력한 용 속성 주력 후보입니다.", replace: "보스 내성이나 약점에 따라 넵티오스·빙천마 계열과 교대" },
-      { pal: "Neptilius", role: "물 전투", reason: "높은 종족값과 물 속성 화력으로 화염 보스와 종반 전투에 적합합니다.", replace: "교체하지 않고 화염 약점 전투의 주력으로 유지" },
-      { pal: "Orserk", role: "전투 지원·발전", reason: "전투 파티 강화와 고부하 발전 설비에 모두 가치가 높은 후반 핵심 펠입니다.", replace: "역할을 나눠 전투 개체와 작업 개체를 별도로 육성" },
-      { pal: "Solenne", role: "수작업·파티 지원", reason: "세계수 단계의 높은 수작업 성능과 서로 다른 종의 파티 지원을 제공합니다.", replace: "종결 작업·지원 펠이므로 목적별 개체를 유지" },
+      { pal: "Eidrolon", kind: "combat", role: "종결 비행·용/어둠", reason: "용·어둠 파티 구성과 결합하면 최상위 이동과 전투를 함께 노릴 수 있습니다.", replace: "파티 조건 없는 단순 최고속 이동이 필요하면 제트래곤과 비교" },
+      { pal: "Jetragon", kind: "combat", role: "최고속 이동·용 전투", reason: "장거리 왕복을 가장 단순하게 줄여주는 종결급 비행 선택지입니다.", replace: "교체 대상이 아니라 파티 조건과 전투 목적에 따라 레이번과 선택" },
+      { pal: "Frostallion", kind: "combat", role: "얼음 전투", reason: "용 속성 보스 대응과 생존, 비행을 함께 맡는 종결급 얼음 펠입니다.", replace: "교체보다 적의 약점과 파티 속성에 맞춰 순환" },
+      { pal: "Necromus", kind: "combat", role: "어둠 전투·지상 이동", reason: "높은 공격력과 내구, 빠른 지상 이동을 함께 제공합니다.", replace: "교체보다 보스 속성에 따라 다른 종결 펠과 순환" },
+      { pal: "Shaolong", kind: "combat", role: "용 전투", reason: "1.0 후반 콘텐츠에서 강력한 용 속성 주력 후보입니다.", replace: "보스 내성이나 약점에 따라 넵티오스·빙천마 계열과 교대" },
+      { pal: "Neptilius", kind: "combat", role: "물 전투", reason: "높은 종족값과 물 속성 화력으로 화염 보스와 종반 전투에 적합합니다.", replace: "교체하지 않고 화염 약점 전투의 주력으로 유지" },
+      { pal: "Orserk", kind: "base", role: "전투 지원·발전", reason: "전투 파티 강화와 고부하 발전 설비에 모두 가치가 높은 후반 핵심 펠입니다.", replace: "역할을 나눠 전투 개체와 작업 개체를 별도로 육성" },
+      { pal: "Solenne", kind: "base", role: "수작업·파티 지원", reason: "세계수 단계의 높은 수작업 성능과 서로 다른 종의 파티 지원을 제공합니다.", replace: "종결 작업·지원 펠이므로 목적별 개체를 유지" },
     ],
   },
+];
+
+const basePlans = {
+  early: {
+    title: "첫 생활 거점",
+    purpose: "먹이·기초 재료·초기 장비를 한곳에서 해결하는 소형 생활 거점입니다.",
+    location: "시작 지역에서 넓고 평평하며 큰 펠이 걸리지 않는 곳을 고릅니다. 천연 광맥보다 짧은 작업 동선과 한쪽으로 모이는 습격 진입로를 우선하세요.",
+    install: ["팰 상자를 중앙에 놓고 건축 가능 범위를 먼저 확인", "먹이 상자·침대·온천을 가까운 생활 구역으로 묶기", "작업대 옆에 재료 창고, 채석장·벌목장 옆에 산출물 창고 배치", "농장과 먹이 상자 사이를 비우고 넓은 통로 확보"],
+    staff: [
+      { job: "운반·수작업", workers: [{ pal: "Cattiva", count: 2 }], note: "제작 보조와 드롭 수거" },
+      { job: "불 피우기", workers: [{ pal: "Foxparks", count: 1 }], note: "조리와 제련 전담" },
+      { job: "관개·냉각", workers: [{ pal: "Pengullet", count: 1 }], note: "농장과 식량 보존" },
+      { job: "파종·채집", workers: [{ pal: "Tanzee", count: 1 }], note: "초기 식량 순환" },
+      { job: "목장", workers: [{ pal: "Vixy", count: 1 }], note: "스피어 재료 보충" },
+    ],
+    tip: "초반에는 다목적 펠이 효율적입니다. 작업이 자주 멈추면 새 펠을 늘리기 전에 먹이와 침대, 이동 경로부터 확인하세요.",
+  },
+  early_mid: {
+    title: "자원·목장 보조 거점",
+    purpose: "본진의 채광과 목장 병목을 분리해 금속·교배 재료를 안정적으로 공급합니다.",
+    location: "두 번째 거점은 평지와 접근성을 우선하고, 천연 광맥을 쓸 경우 팰 상자 범위 안에 광맥과 운반로가 모두 들어오게 배치합니다. 광맥 위에는 시설을 놓지 마세요.",
+    install: ["채광 또는 목장 중 거점의 주목적을 하나 선택", "채광 시설과 산출물 창고를 붙이고 운반 통로를 직선으로 확보", "목장은 생산 구역과 분리하고 먹이 상자를 가까이 배치", "발전기와 생산 설비를 추가한 뒤 감시대에서 작업을 고정"],
+    staff: [
+      { job: "다목적 작업", workers: [{ pal: "Penking", count: 2 }], note: "관개·냉각·운반 보완" },
+      { job: "채광", workers: [{ pal: "Digtoise", count: 2 }], note: "광석 생산 집중" },
+      { job: "파종·운반", workers: [{ pal: "Mossanda", count: 1 }], note: "빈 작업 보완" },
+      { job: "발전", workers: [{ pal: "Sparkit", count: 1 }], note: "초기 전력 유지" },
+      { job: "목장", workers: [{ pal: "Beegarde", count: 1 }, { pal: "Mozzarina", count: 1 }], note: "꿀·우유 생산" },
+    ],
+    tip: "채광과 목장을 한곳에 모두 넣어 동선이 꼬이면 두 번째 거점의 목적을 더 좁히세요. 길드 상자는 거점 간 자재를 옮기는 허브로 활용할 수 있습니다.",
+  },
+  mid: {
+    title: "전문화 생산 거점",
+    purpose: "광석을 받아 제련·제작·농업을 연속 처리하는 주 생산 캠퍼스입니다.",
+    location: "넓은 평지나 완만한 고지대를 선택합니다. 1.0의 채광 시설을 활용하면 천연 광맥이 없어도 되므로, 방어와 확장 공간을 더 높은 우선순위로 두세요.",
+    install: ["원재료·생산·식량의 세 구역으로 바닥 동선을 나누기", "작업대와 제련 시설을 중앙 창고 주변에 배치", "발전·냉각 시설은 담당 펠이 다른 일로 새지 않게 독립 구역화", "외곽에는 방벽과 방어 시설, 내부에는 온천과 여유 침대 확보"],
+    staff: [
+      { job: "수작업·운반", workers: [{ pal: "Anubis", count: 3 }], note: "제작 병목과 운반 처리" },
+      { job: "불 피우기", workers: [{ pal: "Ragnahawk", count: 1 }], note: "제련과 조리" },
+      { job: "관개", workers: [{ pal: "Azurobe", count: 1 }], note: "농장·분쇄기 전담" },
+      { job: "파종·채집", workers: [{ pal: "Verdash", count: 2 }], note: "식량 생산 순환" },
+      { job: "발전", workers: [{ pal: "Grizzbolt", count: 1 }], note: "생산 설비 전력" },
+      { job: "벌목·운반", workers: [{ pal: "Wumpo", count: 2 }], note: "목재와 대량 운반" },
+    ],
+    tip: "생산량이 낮으면 모든 작업자를 늘리기보다 가장 오래 대기하는 시설의 적성 펠을 먼저 교체하세요. 높은 작업 적성 펠은 짧은 시간에 더 많은 일을 처리합니다.",
+  },
+  mid_late: {
+    title: "다거점 생산망",
+    purpose: "본진·자원·목장 거점을 분리하고 길드 창고를 중심으로 고급 생산을 연결합니다.",
+    location: "원유가 필요하면 선릿 섬 일대처럼 접근하기 쉬운 유전 후보를 보조 거점으로 검토합니다. 고압 원유 추출기를 해금한 뒤에는 자원 노드보다 평지와 방어를 우선해도 됩니다.",
+    install: ["본진은 제작, 보조 거점은 자원 또는 목장으로 역할 고정", "각 거점 출입구 가까이에 길드 창고와 일반 분류 창고 배치", "대형 펠용 넓은 통로와 계단 없는 생산 동선을 우선", "진료소·감시대·상급 온천을 생활 구역에 모아 SAN 관리"],
+    staff: [
+      { job: "불 피우기", workers: [{ pal: "Jormuntide Ignis", count: 2 }], note: "고급 제련·대량 조리" },
+      { job: "채광", workers: [{ pal: "Astegon", count: 2 }], note: "고급 광물 생산" },
+      { job: "파종·제약", workers: [{ pal: "Lyleen", count: 2 }], note: "식량·약품 공급" },
+      { job: "수작업", workers: [{ pal: "Anubis", count: 2 }], note: "생산 라인 마무리" },
+      { job: "불·운반 보조", workers: [{ pal: "Faleris", count: 1 }], note: "산출물 회수 보완" },
+      { job: "냉각·발전", workers: [{ pal: "Foxcicle", count: 1 }, { pal: "Grizzbolt", count: 1 }], note: "상시 설비 유지" },
+    ],
+    tip: "작업 고정 후에도 멈춘다면 시설 앞 적재물, 좁은 문, 급한 계단을 먼저 제거하세요. 운반 펠은 1.0에서 적성이 높을수록 주변의 같은 아이템을 더 넓게 모읍니다.",
+  },
+  late: {
+    title: "종결 전문 거점 네트워크",
+    purpose: "한 거점에 모든 설비를 넣지 않고 생산·자원·목장·습격 대응을 각각 전문화합니다.",
+    location: "선리치 수정 연못(-540, -1361)은 넓은 얕은 물 지형, 소랄라이트 능선(583, 144)은 자원 접근성이 장점인 1.0 후보입니다. 월드 보스와 건축 제한 여부를 현장에서 먼저 확인하세요.",
+    install: ["거점마다 핵심 생산물 하나와 보조 생산물 하나만 지정", "고급 시설 주변에 전담 작업자·산출물 창고·운반 펠을 한 묶음으로 구성", "고급 감시대와 진료소로 고정 배치와 SAN 손실 관리", "습격 대응 거점은 생산 거점과 분리하고 방어 시설의 사선을 확보"],
+    staff: [
+      { job: "불·관개·파종", workers: [{ pal: "Renjishi", count: 1 }, { pal: "Shaolong", count: 1 }, { pal: "Dandilord", count: 1 }], note: "각 최고 적성 전담" },
+      { job: "발전·수작업", workers: [{ pal: "Orserk", count: 1 }, { pal: "Solenne", count: 2 }], note: "전력과 최종 제작" },
+      { job: "채광", workers: [{ pal: "Aegidron", count: 2 }], note: "종결 광물 생산" },
+      { job: "제약·냉각", workers: [{ pal: "Silvance", count: 1 }, { pal: "Bastigor", count: 1 }], note: "대형 거점 유지" },
+      { job: "운반", workers: [{ pal: "Knocklem Ignis", count: 2 }], note: "대량 산출물 회수" },
+    ],
+    tip: "표의 인원은 12자리 안팎 예시입니다. 실제 슬롯과 서버 설정에 맞춰 핵심 작업자는 유지하고, 가장 덜 쓰는 생산 라인부터 줄이세요. 고레벨 작업자를 늘릴 때는 습격 방어도 함께 강화합니다.",
+  },
+};
+
+const baseGuideSources = [
+  { label: "공식 1.0 변경 내역", url: "https://steamcommunity.com/ogg/1623730/announcements/detail/686383649529010624" },
+  { label: "공식 서버 거점 설정", url: "https://docs.palworldgame.com/settings-and-operation/configuration/" },
+  { label: "1.0.3 작업 적성표", url: "https://genshinlab.com/palworld/best-craft-base-work-pals/" },
+  { label: "1.0 거점 위치 후보", url: "https://allthings.how/palworld-1-0-best-base-locations-with-coordinates/" },
+  { label: "1.0 거점·습격 운용", url: "https://www.palmods.gg/guides/whats-new/base-and-raids" },
 ];
 
 const fallbackMapRegions = {
@@ -310,15 +398,36 @@ function progressionPalName(item) {
   return item.name || displayPalName(item.pal);
 }
 
+function renderBasePlan(stage) {
+  const plan = basePlans[stage.id];
+  if (!plan) return "";
+  const staff = plan.staff.map((item) => `<article class="base-staff-card"><strong>${escapeHtml(item.job)}</strong><span>${item.workers.map((worker) => `${escapeHtml(displayPalName(worker.pal))}${worker.count > 1 ? ` ×${worker.count}` : ""}`).join(" · ")}</span><small>${escapeHtml(item.note)}</small></article>`).join("");
+  return `<section class="base-install-guide" aria-labelledby="base-plan-title">
+    <header class="base-guide-header"><div><span>PALWORLD 1.0</span><h3 id="base-plan-title">${escapeHtml(plan.title)} 설치·팰 배치</h3><p>${escapeHtml(plan.purpose)}</p></div><strong>${escapeHtml(stage.levels)}</strong></header>
+    <div class="base-guide-layout"><article class="base-guide-card"><span>01 · 위치 선정</span><h4>어디에 설치할까</h4><p>${escapeHtml(plan.location)}</p></article><article class="base-guide-card"><span>02 · 설치 순서</span><h4>막힘 없는 배치</h4><ol>${plan.install.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></article></div>
+    <div class="base-staffing"><div><span>03 · 팰 배치 예시</span><h4>작업 적성별 최소 구성</h4></div><div class="base-staff-grid">${staff}</div></div>
+    <p class="base-guide-tip"><strong>운영 팁</strong>${escapeHtml(plan.tip)}</p>
+    <div class="base-guide-sources"><strong>확인 자료</strong>${baseGuideSources.map((source) => `<a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)} ↗</a>`).join("")}</div>
+  </section>`;
+}
+
 function renderProgression() {
   const stage = progressionStages.find((item) => item.id === state.progressionStage) || progressionStages[0];
+  const kind = progressionKinds[state.progressionKind] || progressionKinds.combat;
+  const pals = stage.pals.filter((item) => item.kind === state.progressionKind);
   content.innerHTML = `${sectionHeading("02", "성장 단계별 추천", "획득 시점·역할·다음 교체 시점을 함께 확인")}
     <div class="stage-timeline" role="tablist" aria-label="성장 단계 선택">${progressionStages.map((item, index) => `<button type="button" role="tab" data-stage="${item.id}" aria-selected="${stage.id === item.id}" class="${stage.id === item.id ? "active" : ""}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${item.label}</strong><small>${item.levels}</small></button>`).join("")}</div>
-    <section class="stage-summary"><div><span>${escapeHtml(stage.levels)}</span><h3>${escapeHtml(stage.label)} 추천 펠</h3><p>${escapeHtml(stage.summary)}</p></div><strong>${escapeHtml(stage.checkpoint)}</strong></section>
-    <div class="progression-grid">${stage.pals.map((item) => `<article><div class="progression-visual">${palImage(item.pal, "progression-pal-image")}<span>${escapeHtml(item.role)}</span></div><div class="progression-body"><h3>${escapeHtml(progressionPalName(item))}</h3><p><strong>추천 이유</strong>${escapeHtml(item.reason)}</p><p class="replace"><strong>교체 기준</strong>${escapeHtml(item.replace)}</p></div></article>`).join("")}</div>
+    <div class="progression-kind-tabs" role="tablist" aria-label="성장 추천 유형 선택">${Object.entries(progressionKinds).map(([id, item]) => `<button type="button" role="tab" data-progression-kind="${id}" aria-selected="${state.progressionKind === id}" class="${state.progressionKind === id ? "active" : ""}">${item.label}<span>${stage.pals.filter((pal) => pal.kind === id).length}</span></button>`).join("")}</div>
+    <section class="stage-summary"><div><span>${escapeHtml(stage.levels)}</span><h3>${escapeHtml(stage.label)} ${escapeHtml(kind.label)} 추천 펠</h3><p>${escapeHtml(stage.summary)} ${escapeHtml(kind.description)}</p></div><strong>${escapeHtml(stage.checkpoint)}</strong></section>
+    ${state.progressionKind === "base" ? renderBasePlan(stage) : ""}
+    <div class="progression-grid">${pals.map((item) => `<article><div class="progression-visual">${palImage(item.pal, "progression-pal-image")}<span>${escapeHtml(item.role)}</span></div><div class="progression-body"><h3>${escapeHtml(progressionPalName(item))}</h3><p><strong>추천 이유</strong>${escapeHtml(item.reason)}</p><p class="replace"><strong>교체 기준</strong>${escapeHtml(item.replace)}</p></div></article>`).join("")}</div>
     <div class="progression-notes"><p><strong>분류 기준</strong> 공식 1.0 최고 레벨 80과 타워·지역 진행 순서, 실제 안장 및 파트너 장비 활용 시점을 기준으로 나눴습니다.</p><div><a href="https://steamcommunity.com/games/1623730/announcements/detail/686383649529010624" target="_blank" rel="noopener noreferrer">공식 1.0 변경 내역 ↗</a><a href="https://www.palmods.gg/guides/best-early-game-pals" target="_blank" rel="noopener noreferrer">초반 추천 근거 ↗</a><a href="https://www.palmods.gg/blog/palworld-mid-game-guide" target="_blank" rel="noopener noreferrer">중반 진행 근거 ↗</a><a href="https://mobalytics.gg/gamebase/guides/palworld-best-mounts" target="_blank" rel="noopener noreferrer">탈것 비교 ↗</a></div></div>`;
   content.querySelectorAll("[data-stage]").forEach((button) => button.addEventListener("click", () => {
     state.progressionStage = button.dataset.stage;
+    renderProgression();
+  }));
+  content.querySelectorAll("[data-progression-kind]").forEach((button) => button.addEventListener("click", () => {
+    state.progressionKind = button.dataset.progressionKind;
     renderProgression();
   }));
 }

@@ -35,6 +35,52 @@
   box-shadow: 0 10px 24px rgba(0, 0, 0, .16);
 }
 
+.progression-kind-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 5px;
+  margin: 0 0 12px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(4, 15, 25, .72);
+}
+
+.progression-kind-tabs button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 18px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.progression-kind-tabs button span {
+  min-width: 20px;
+  border-radius: 999px;
+  padding: 3px 6px;
+  background: rgba(157, 220, 255, .1);
+  color: var(--sky2);
+  font-size: 9px;
+}
+
+.progression-kind-tabs button:hover,
+.progression-kind-tabs button.active {
+  background: linear-gradient(135deg, rgba(48, 143, 207, .34), rgba(18, 62, 94, .78));
+  color: var(--ink);
+}
+
+.progression-kind-tabs button:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 2px;
+}
+
 .stage-summary {
   display: flex;
   align-items: center;
@@ -51,6 +97,65 @@
 .stage-summary h3 { margin: 5px 0 7px; font-size: 25px; }
 .stage-summary p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
 .stage-summary > strong { max-width: 280px; text-align: right; color: var(--sky2); font-size: 12px; }
+
+.base-install-guide {
+  margin-bottom: 16px;
+  padding: 20px;
+  border: 1px solid rgba(116, 224, 166, .25);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(12, 47, 43, .9), rgba(6, 21, 32, .96));
+}
+
+.base-guide-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 15px;
+}
+
+.base-guide-header span,
+.base-guide-card > span,
+.base-staffing > div:first-child > span { color: #80e6b5; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+.base-guide-header h3 { margin: 5px 0 7px; font-size: 23px; }
+.base-guide-header p { max-width: 680px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.65; }
+.base-guide-header > strong { border-radius: 999px; padding: 7px 10px; background: rgba(128, 230, 181, .1); color: #a5f0ca; font-size: 10px; white-space: nowrap; }
+
+.base-guide-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 10px;
+}
+
+.base-guide-card,
+.base-staffing {
+  border: 1px solid rgba(147, 205, 190, .16);
+  border-radius: 14px;
+  background: rgba(3, 17, 24, .5);
+}
+
+.base-guide-card { padding: 16px; }
+.base-guide-card h4,
+.base-staffing h4 { margin: 5px 0 9px; font-size: 15px; }
+.base-guide-card p,
+.base-guide-card li { color: var(--muted); font-size: 10px; line-height: 1.65; }
+.base-guide-card p { margin: 0; }
+.base-guide-card ol { margin: 0; padding-left: 18px; }
+.base-guide-card li + li { margin-top: 4px; }
+
+.base-staffing { margin-top: 10px; padding: 16px; }
+.base-staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.base-staff-card { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid rgba(128, 230, 181, .55); padding: 9px 11px; background: rgba(128, 230, 181, .045); }
+.base-staff-card strong { color: #a5f0ca; font-size: 9px; }
+.base-staff-card span { color: var(--ink); font-size: 11px; font-weight: 750; }
+.base-staff-card small { color: var(--muted); font-size: 9px; }
+
+.base-guide-tip { margin: 10px 0 0; border-radius: 12px; padding: 12px 14px; background: rgba(26, 94, 74, .24); color: var(--muted); font-size: 10px; line-height: 1.65; }
+.base-guide-tip strong { margin-right: 8px; color: #a5f0ca; }
+.base-guide-sources { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-top: 12px; }
+.base-guide-sources strong { color: var(--muted); font-size: 9px; }
+.base-guide-sources a { color: #a5f0ca; font-size: 9px; text-decoration: none; }
+.base-guide-sources a:hover { text-decoration: underline; }
 
 .progression-grid {
   display: grid;
@@ -118,10 +223,15 @@
 
 @media (max-width: 1000px) {
   .stage-timeline { grid-template-columns: repeat(5, minmax(130px, 1fr)); overflow: auto; padding-bottom: 4px; }
+  .base-staff-grid { grid-template-columns: repeat(2, 1fr); }
   .progression-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 650px) {
+  .progression-kind-tabs { display: grid; width: 100%; }
+  .base-install-guide { padding: 15px; }
+  .base-guide-header { flex-direction: column; }
+  .base-guide-layout, .base-staff-grid { grid-template-columns: 1fr; }
   .stage-summary, .progression-notes { align-items: flex-start; flex-direction: column; }
   .stage-summary > strong { text-align: left; }
   .progression-grid { grid-template-columns: 1fr; }
