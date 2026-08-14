@@ -24,11 +24,13 @@ test("published data excludes server-only material", async () => {
   assert.ok(guide.pals.length >= 250);
   assert.ok(guide.builds.length >= 12);
   assert.ok(guide.builds.some((build) => build.party?.length === 5 && build.strongAgainst?.length && build.weakAgainst?.length));
-  assert.ok(guide.map.points.length >= 300);
-  assert.ok(guide.map.points.some((point) => point.category.startsWith("resource_")));
+  assert.ok(guide.map.points.length >= 200);
+  assert.ok(guide.map.points.every((point) => point.versionStatus === "current_1_0"));
+  assert.ok(guide.map.points.every((point) => !point.category.startsWith("resource_")));
   assert.ok(guide.map.points.some((point) => point.mapId === "world_tree"));
+  assert.ok(guide.map.points.some((point) => point.mapId === "sunreach"));
   assert.equal(guide.map.regions.world_tree.terrain, true);
-  assert.ok(guide.sources.some((source) => source.id === "map-collectables"));
+  assert.ok(!guide.sources.some((source) => source.id === "map-collectables"));
   assert.equal(guide.publication.scope, "guide-only");
 });
 
@@ -44,18 +46,18 @@ test("sanitizer keeps an explicit public boundary", async () => {
   for (const required of ["server status", "players", "IP addresses", "credentials", "Discord configuration"]) {
     assert.match(source, new RegExp(required, "i"));
   }
-  assert.match(source, /points: guide\.map\.points/);
+  assert.match(source, /versionStatus === "current_1_0"/);
   assert.match(source, /192\\\.168/);
 });
 
-test("site exposes a searchable Pal encyclopedia and resource map controls", async () => {
+test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", async () => {
   const [html, app, progressionStyles] = await Promise.all([
     readFile(new URL("site/index.html", root), "utf8"),
     readFile(new URL("site/app.js", root), "utf8"),
     readFile(new URL("site/progression.css", root), "utf8"),
   ]);
   assert.match(html, /progression\.css/);
-  assert.match(html, /app\.js\?v=1\.6\.0/);
+  assert.match(html, /app\.js\?v=1\.7\.0/);
   assert.match(html, /data-tab="pals"/);
   assert.match(html, /data-tab="progression"/);
   assert.match(app, /renderPals/);
@@ -78,7 +80,8 @@ test("site exposes a searchable Pal encyclopedia and resource map controls", asy
   assert.match(progressionStyles, /base-install-guide/);
   assert.match(progressionStyles, /base-staff-grid/);
   assert.match(app, /pal-search/);
-  assert.match(app, /resource_copper/);
+  assert.match(app, /Palworld 1\.0 현행 지도/);
+  assert.match(app, /point\.versionStatus === "current_1_0"/);
   assert.match(app, /추천 사유/);
   assert.match(app, /전투 지표/);
   assert.match(app, /mapStatusLabels/);
@@ -100,7 +103,7 @@ test("Korean visual guide publishes local verified images with attribution", asy
   const assets = JSON.parse(assetsText);
   assert.match(html, /MS 팰월드 공략집/);
   assert.match(html, /실제 지도/);
-  assert.match(app, /실제 지형 탐험 지도/);
+  assert.match(app, /Palworld 1\.0 현행 지도/);
   assert.ok(Object.keys(assets.pals).length >= 260);
   assert.equal(Object.keys(assets.pals).length, 288);
   assert.deepEqual(assets.missingPalImages, []);

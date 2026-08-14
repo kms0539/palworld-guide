@@ -25,7 +25,6 @@ const SOURCE = {
   elementTeams: "https://www.palmods.gg/guides/teams",
   combatBuilds: "https://allthings.how/palworld-1-0-the-best-combat-pals-and-damage-party-builds/",
   map: "https://palworld-map.com/map",
-  resources: "https://github.com/miapuffia/MapCollectablesMod",
 };
 
 const ROLE_SECTIONS = {
@@ -36,15 +35,6 @@ const ROLE_SECTIONS = {
   groundMount: "ground-mounts",
   flyingMount: "flying-mounts",
   waterMount: "water-mounts",
-};
-
-const RESOURCE_FILES = {
-  coal: "CoalLocations.json",
-  copper: "CopperLocations.json",
-  quartz: "QuartzLocations.json",
-  sulfur: "SulfurLocations.json",
-  oil: "OilLocations.json",
-  hexolite: "HexoliteLocations.json",
 };
 
 const CURATED_COMBAT_BUILDS = [
@@ -171,15 +161,6 @@ const CURATED_COMBAT_BUILDS = [
   confidence: "1.0 게임 데이터·복수 공략 교차 검토",
   sourceUrls: [SOURCE.officialPatch, SOURCE.combatMeta, SOURCE.elementTeams, SOURCE.combatBuilds],
 }));
-
-const RESOURCE_LABELS = {
-  coal: "석탄",
-  copper: "금속 광석",
-  quartz: "순수한 석영",
-  sulfur: "유황",
-  oil: "원유",
-  hexolite: "헥솔라이트 석영",
-};
 
 function decodeHtml(value) {
   return value
@@ -340,35 +321,6 @@ function normalizeMapPoint(point) {
   };
 }
 
-function clusterResources(locations, resource, gridSize = 22_000) {
-  const cells = new Map();
-  for (const location of locations) {
-    if (!Number.isFinite(location.x) || !Number.isFinite(location.y)) continue;
-    const key = `${Math.round(location.x / gridSize)}:${Math.round(location.y / gridSize)}`;
-    const cell = cells.get(key) ?? { x: 0, y: 0, z: 0, count: 0 };
-    cell.x += location.x;
-    cell.y += location.y;
-    cell.z += Number(location.z) || 0;
-    cell.count += 1;
-    cells.set(key, cell);
-  }
-  return [...cells.entries()].map(([key, cell]) => ({
-    id: `resource-${resource}-${key.replace(":", "-")}`,
-    label: `${RESOURCE_LABELS[resource]} 밀집 지점 (${cell.count})`,
-    category: `resource_${resource}`,
-    mapId: "main",
-    x: Math.round(cell.x / cell.count),
-    y: Math.round(cell.y / cell.count),
-    z: Math.round(cell.z / cell.count),
-    count: cell.count,
-    gameVersion: "pre-1.0-community",
-    versionStatus: "legacy_unverified",
-    confidence: "low",
-    verifiedAt: "2025-02-04",
-    source: [{ name: "MapCollectablesMod", url: SOURCE.resources, license: null }],
-  }));
-}
-
 function assertGuide(data) {
   if (data.schemaVersion !== 1) throw new Error("invalid schema version");
   if (data.pals.length < 250) throw new Error(`pal roster unexpectedly small: ${data.pals.length}`);
@@ -377,6 +329,7 @@ function assertGuide(data) {
   if (data.builds.length < 12) throw new Error(`build cards unexpectedly small: ${data.builds.length}`);
   if (!data.builds.some((build) => build.party?.length === 5 && build.strongAgainst?.length && build.weakAgainst?.length)) throw new Error("rich combat builds are missing");
   if (data.map.points.length < 200) throw new Error(`map payload unexpectedly small: ${data.map.points.length}`);
+  if (!data.map.points.every((point) => point.versionStatus === "current_1_0")) throw new Error("legacy map points must not be published");
   if (!data.sources.every((source) => source.url.startsWith("https://"))) throw new Error("invalid source URL");
 }
 
@@ -418,16 +371,10 @@ async function main() {
   const mapModule = await fetchText(new URL(mapAsset, SOURCE.map).href, { timeoutMs: 60_000 });
   const mapSourcePoints = parseMapProjection(mapModule);
   const allowedMapCategories = new Set(["fast_travel", "alpha_pal", "boss_tower", "bounty_target", "predator_pal", "oil_rig", "world_tree", "sunreach"]);
-  const mapPoints = mapSourcePoints.filter((point) => allowedMapCategories.has(point.category)).map(normalizeMapPoint).filter(Boolean);
-
-  const resourceBase = "https://raw.githubusercontent.com/miapuffia/MapCollectablesMod/main/Content/Mods/MapCollectablesMod/Data/";
-  const resourceResults = await Promise.all(Object.entries(RESOURCE_FILES).map(async ([resource, file]) => {
-    const raw = await fetchText(`${resourceBase}${file}`);
-    const parsed = JSON.parse(raw);
-    return { resource, rawCount: parsed.Locations?.length ?? 0, points: clusterResources(parsed.Locations ?? [], resource) };
-  }));
-
-  const resourcePoints = resourceResults.flatMap((result) => result.points);
+  const mapPoints = mapSourcePoints
+    .filter((point) => allowedMapCategories.has(point.category))
+    .map(normalizeMapPoint)
+    .filter((point) => point?.versionStatus === "current_1_0");
   const builds = [...CURATED_COMBAT_BUILDS, ...parseBuildCards(orserkHtml, "Orserk"), ...parseBuildCards(bakemiHtml, "Bakemi")];
   const guide = {
     schemaVersion: 1,
@@ -437,7 +384,7 @@ async function main() {
     notices: [
       "종결 빌드와 순위는 공식 정답이 아닌 외부 편집형 추천이며 패치·월드 설정·보유 패시브에 따라 달라집니다.",
       "전투 조합은 공식 v1.0.3 노트까지 확인했습니다. v1.0.3은 오서크 파트너 스킬의 효과 표시 문제를 수정했으며 전투 수치 변경은 별도로 기재하지 않았습니다.",
-      "광석 밀집 지점은 1.0 이전 공개 커뮤니티 좌표를 넓은 구역으로 묶은 참고값이므로 게임 안에서 재확인해야 합니다.",
+      "지도에는 1.0 현행으로 검증된 지점만 표시하며 이전 버전·미검증·무효화 지점은 공개 데이터에서 제외합니다.",
       "펠 아이콘과 지도는 MIT 공개 프로젝트 PalDex를 출처와 함께 사용하고, 상단 이미지는 Pocketpair 공식 홍보 자료만 사용합니다.",
     ],
     sources: [
@@ -450,7 +397,6 @@ async function main() {
       { id: "palmods-element-teams", name: "PalMods element team templates and stacking rules", url: SOURCE.elementTeams, checkedAt, gameVersion: "1.0.3 checked", kind: "computed", license: null },
       { id: "allthings-combat-builds", name: "All Things How 1.0 combat builds and elemental matchups", url: SOURCE.combatBuilds, checkedAt, gameVersion: "1.0", kind: "editorial", license: null },
       { id: "palworld-map", name: "Palworld Interactive Map 1.0 Beta", url: SOURCE.map, checkedAt, gameVersion: "1.0", kind: "map-aggregation", license: "per-record" },
-      { id: "map-collectables", name: "MapCollectablesMod public community coordinates", url: SOURCE.resources, checkedAt, gameVersion: "pre-1.0", kind: "community-factual", license: null },
       { id: "paldex-assets", name: "PalDex open-source map and icons", url: "https://github.com/catrenelle/PalDex", checkedAt, gameVersion: "1.0", kind: "visual-assets", license: "MIT" },
       { id: "pocketpair-official-media", name: "Pocketpair official Palworld media", url: "https://www.pocketpair.jp/games/palworld/", checkedAt, gameVersion: "1.0", kind: "official-media", license: "Pocketpair copyright" },
       { id: "palworld-gg-korean-names", name: "Palworld.gg Korean Paldeck", url: "https://palworld.gg/ko/pals", checkedAt, gameVersion: "1.0", kind: "localization", license: null },
@@ -485,11 +431,9 @@ async function main() {
           bounds: null,
         },
       },
-      points: [...mapPoints, ...resourcePoints],
+      points: mapPoints,
       counts: {
         sourcePoints: mapPoints.length,
-        resourceRaw: Object.fromEntries(resourceResults.map((result) => [result.resource, result.rawCount])),
-        resourceClusters: Object.fromEntries(resourceResults.map((result) => [result.resource, result.points.length])),
       },
     },
   };

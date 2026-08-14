@@ -1,6 +1,5 @@
 const defaultLayers = [
-  "fast_travel", "alpha_pal", "boss_tower", "resource_copper", "resource_coal",
-  "resource_quartz", "resource_sulfur", "resource_oil", "resource_hexolite", "world_tree", "sunreach",
+  "fast_travel", "alpha_pal", "boss_tower", "bounty_target", "predator_pal", "oil_rig", "world_tree", "sunreach",
 ];
 
 const state = {
@@ -176,8 +175,6 @@ const labels = {
   ranch: "목장", groundMount: "지상 이동", flyingMount: "비행", waterMount: "수상 이동",
   fast_travel: "빠른 이동", alpha_pal: "알파 펠", boss_tower: "보스 타워", bounty_target: "현상수배",
   predator_pal: "포식자 펠", oil_rig: "오일 리그", world_tree: "세계수", sunreach: "선리치",
-  resource_copper: "금속 광석", resource_coal: "석탄", resource_quartz: "순수한 석영",
-  resource_sulfur: "유황", resource_oil: "원유", resource_hexolite: "헥솔라이트 석영",
   official: "공식", "official-docs": "공식 문서", computed: "계산 자료", editorial: "편집형 공략",
   "map-aggregation": "지도 자료", "community-factual": "커뮤니티 좌표", "visual-assets": "시각 자료",
   "official-media": "공식 이미지",
@@ -191,7 +188,6 @@ const sourceNames = {
   "palworld-tools": "palworld.tools 역할별 계산 순위",
   palcompass: "PalCompass 추천 펠 공략",
   "palworld-map": "팰월드 인터랙티브 지도",
-  "map-collectables": "MapCollectablesMod 공개 좌표",
   "paldex-assets": "PalDex 오픈소스 지도·펠 아이콘",
   "pocketpair-official-media": "Pocketpair 공식 Palworld 이미지",
   "palworld-gg-korean-names": "Palworld.gg 한국어 펠 도감",
@@ -280,8 +276,7 @@ const metricLabels = {
 };
 
 const mapStatusLabels = {
-  current_1_0: "1.0 현행 자료", legacy_pre_1_0: "1.0 이전 자료", invalidated_1_0: "1.0에서 무효화됨",
-  legacy_unverified: "이전 버전·재확인 필요", unknown: "확인 필요",
+  current_1_0: "1.0 현행 자료",
 };
 const confidenceLabels = { high: "높음", medium: "보통", low: "낮음", unknown: "확인 필요" };
 const towerLabels = {
@@ -502,7 +497,7 @@ function pointDetail() {
 
 function filteredMapPoints() {
   const query = state.mapQuery.trim().toLocaleLowerCase();
-  return state.data.map.points.filter((point) => point.mapId === state.mapId && state.layers.has(point.category)
+  return state.data.map.points.filter((point) => point.versionStatus === "current_1_0" && point.mapId === state.mapId && state.layers.has(point.category)
     && (!query || point.label.toLocaleLowerCase().includes(query) || mapLabel(point).toLocaleLowerCase().includes(query) || (labels[point.category] || "").includes(query)));
 }
 
@@ -516,9 +511,9 @@ function renderMap() {
   const bounds = region.bounds ?? state.data.map.bounds;
   const plottedPoints = region.terrain ? points.filter((point) => pointWithinBounds(point, bounds)) : [];
   const mapContent = region.terrain
-    ? `<div class="map map-${escapeHtml(state.mapId)}" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 실제 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="지도 지점">${plottedPoints.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>실제 지형 텍스처 · 지형 내 ${plottedPoints.length}개 표시</span></div>`
-    : `<div class="map map-coordinates-only" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 좌표 목록"><div><strong>지형 이미지 준비 중</strong><p>현행 자료는 좌표만 검증되어 아래 목록으로 제공합니다.</p></div></div>`;
-  content.innerHTML = `${sectionHeading("04", "실제 지형 탐험 지도", `보스·이동·광석 ${points.length}개 표시`)}
+    ? `<div class="map map-${escapeHtml(state.mapId)}" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 1.0 현행 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="1.0 현행 지도 지점">${plottedPoints.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>1.0 현행 지형 · 검증 지점 ${plottedPoints.length}개</span></div>`
+    : `<div class="map map-coordinates-only" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 1.0 좌표 목록"><div><strong>1.0 현행 좌표</strong><p>검증된 지형 이미지가 없는 지역은 현행 좌표 목록만 제공합니다.</p></div></div>`;
+  content.innerHTML = `${sectionHeading("04", "Palworld 1.0 현행 지도", `검증된 보스·이동 지점 ${points.length}개 표시`)}
     <div class="map-region-tabs" role="group" aria-label="지도 지역">${regionIds.map((mapId) => `<button type="button" data-map-region="${escapeHtml(mapId)}" aria-pressed="${state.mapId === mapId}">${escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId)}<small>${state.data.map.points.filter((point) => point.mapId === mapId).length}</small></button>`).join("")}</div>
     <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, Jetragon" autocomplete="off"></div>
     <div class="map-layout"><aside class="layer-panel"><div class="layer-actions"><button type="button" data-layer-action="all">전체 선택</button><button type="button" data-layer-action="none">모두 해제</button></div>

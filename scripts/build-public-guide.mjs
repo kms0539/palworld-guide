@@ -9,6 +9,7 @@ const root = rootArg >= 0 && args[rootArg + 1] ? args[rootArg + 1] : process.cwd
 const sourcePath = join(root, ".work", "guide-data.json");
 const destination = join(root, "site", "data", "guide-data.json");
 const guide = JSON.parse(await readFile(sourcePath, "utf8"));
+const currentMapPoints = guide.map.points.filter((point) => point.versionStatus === "current_1_0");
 
 const publicGuide = {
   schemaVersion: guide.schemaVersion,
@@ -24,8 +25,8 @@ const publicGuide = {
   map: {
     bounds: guide.map.bounds,
     regions: guide.map.regions,
-    points: guide.map.points,
-    counts: guide.map.counts,
+    points: currentMapPoints,
+    counts: { current_1_0: currentMapPoints.length },
   },
   publication: {
     scope: "guide-only",
@@ -34,7 +35,7 @@ const publicGuide = {
   },
 };
 
-if (publicGuide.pals.length < 250 || publicGuide.map.points.length < 300 || !publicGuide.sources.some((source) => source.id === "map-collectables")) {
+if (publicGuide.pals.length < 250 || publicGuide.map.points.length < 200 || !publicGuide.map.points.every((point) => point.versionStatus === "current_1_0")) {
   throw new Error("public guide sanitization validation failed");
 }
 
