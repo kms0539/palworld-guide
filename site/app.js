@@ -623,11 +623,9 @@ function renderMap() {
   const regionPoints = state.data.map.points.filter((point) => point.mapId === state.mapId);
   const categories = [...new Set(regionPoints.map((point) => point.category))].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b, "ko"));
   const points = filteredMapPoints();
-  const bounds = region.bounds ?? state.data.map.bounds;
-  const plottedPoints = region.terrain ? points.filter((point) => pointWithinBounds(point, bounds)) : [];
-  const mapContent = region.terrain
-    ? `<div class="map map-${escapeHtml(state.mapId)}" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 1.0 현행 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="1.0 현행 지도 지점">${plottedPoints.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>1.0 현행 지형 · 검증 지점 ${plottedPoints.length}개</span></div>`
-    : `<div class="map map-coordinates-only" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 1.0 좌표 목록"><div><strong>1.0 현행 좌표</strong><p>검증된 지형 이미지가 없는 지역은 현행 좌표 목록만 제공합니다.</p></div></div>`;
+  const bounds = region.bounds ?? fallbackMapRegions[state.mapId]?.bounds ?? state.data.map.bounds;
+  const plottedPoints = points.filter((point) => pointWithinBounds(point, bounds));
+  const mapContent = `<div class="map map-${escapeHtml(state.mapId)}" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 1.0 현행 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="1.0 현행 지도 지점">${plottedPoints.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>1.0 현행 지형 · 검증 지점 ${plottedPoints.length}개</span></div>`;
   content.innerHTML = `${sectionHeading("04", "Palworld 1.0 현행 지도", `검증된 보스·이동 지점 ${points.length}개 표시`)}
     <div class="map-region-tabs" role="group" aria-label="지도 지역">${regionIds.map((mapId) => `<button type="button" data-map-region="${escapeHtml(mapId)}" aria-pressed="${state.mapId === mapId}">${escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId)}<small>${state.data.map.points.filter((point) => point.mapId === mapId).length}</small></button>`).join("")}</div>
     <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, Jetragon" autocomplete="off"></div>
@@ -814,12 +812,12 @@ document.querySelectorAll("#tabs button").forEach((button) => button.addEventLis
 document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => selectTab(button.dataset.jump)));
 
 Promise.all([
-  fetch("./data/guide-data.json", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(response.status); return response.json(); }),
-  fetch("./data/visual-assets.json", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(response.status); return response.json(); }),
+  fetch("./data/guide-data.json?v=1.9.1", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(response.status); return response.json(); }),
+  fetch("./data/visual-assets.json?v=1.9.1", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(response.status); return response.json(); }),
   // The trait catalogue only powers explanations, so a failure must not blank
   // the whole guide.
-  fetch("./data/traits.json", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
-  fetch("./data/pal-details.json", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
+  fetch("./data/traits.json?v=1.9.1", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
+  fetch("./data/pal-details.json?v=1.9.1", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
 ]).then(([data, assets, traits, details]) => {
   state.data = data; state.assets = assets; state.traits = traits; state.details = details; renderFreshness(data); renderSources();
   document.querySelector("#metrics").innerHTML = `<div><dt>등록 펠</dt><dd>${data.pals.length}</dd></div><div><dt>추천 빌드</dt><dd>${data.builds.length}</dd></div><div><dt>지도 지점</dt><dd>${data.map.points.length.toLocaleString()}</dd></div><div><dt>이미지 펠</dt><dd>${Object.keys(assets.pals).length}</dd></div>`;
