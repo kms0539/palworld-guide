@@ -6,7 +6,7 @@
     "total": 114,
     "positive": 102,
     "negative": 9,
-    "localizedNames": 94
+    "localizedNames": 114
   },
   "traits": [
     {
@@ -47,7 +47,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "선인"
     },
     {
       "name": "Sanctified Meat Shield",
@@ -87,7 +87,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "베이비시터"
     },
     {
       "name": "Demon God",
@@ -187,7 +187,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "벌목 수확량 증가 Lv. 5"
     },
     {
       "name": "Lunker",
@@ -197,7 +197,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "렁커"
     },
     {
       "name": "Mastery of Fasting",
@@ -217,7 +217,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "채굴 수확량 증가 Lv. 5"
     },
     {
       "name": "Remarkable Craftsmanship",
@@ -257,7 +257,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "폭풍의 분노"
     },
     {
       "name": "Vampiric",
@@ -267,7 +267,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "흡혈귀"
     },
     {
       "name": "Ace Swimmer",
@@ -407,7 +407,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "벌목 수확량 증가 Lv. 3"
     },
     {
       "name": "Logging Yield Up Lv. 4",
@@ -417,7 +417,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "벌목 수확량 증가 Lv. 4"
     },
     {
       "name": "Logging/Mining Yield Up",
@@ -427,7 +427,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "벌목·채굴 수확량 증가"
     },
     {
       "name": "Lord of Lightning",
@@ -477,7 +477,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "채굴 수확량 증가 Lv. 3"
     },
     {
       "name": "Mining Yield Up Lv. 4",
@@ -487,7 +487,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "채굴 수확량 증가 Lv. 4"
     },
     {
       "name": "Motivational Leader",
@@ -517,7 +517,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "레인 도적단 두목"
     },
     {
       "name": "Reload Master",
@@ -587,7 +587,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "피로 관리사"
     },
     {
       "name": "Workaholic",
@@ -887,7 +887,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "벌목 수확량 증가 Lv. 1"
     },
     {
       "name": "Logging Yield Up Lv. 2",
@@ -897,7 +897,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "벌목 수확량 증가 Lv. 2"
     },
     {
       "name": "Mining Yield Up Lv. 1",
@@ -907,7 +907,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "채굴 수확량 증가 Lv. 1"
     },
     {
       "name": "Mining Yield Up Lv. 2",
@@ -917,7 +917,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "채굴 수확량 증가 Lv. 2"
     },
     {
       "name": "Nimble",
@@ -1087,7 +1087,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "자비의 일격"
     },
     {
       "name": "Night Owl",
@@ -1107,7 +1107,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "초라함"
     },
     {
       "name": "Sickly",

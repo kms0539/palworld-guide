@@ -343,22 +343,46 @@
   gap: 5px;
   border: 1px solid rgba(148, 197, 238, .24);
   border-radius: 7px;
-  padding: 3px 7px;
-  background: rgba(16, 38, 58, .8);
-  font-size: 9px;
+  padding: 3px 8px;
+  background: rgba(16, 38, 58, .85);
+  font-size: 10px;
+  line-height: 1.2;
 }
 
-.work-pill strong { color: #d7ecfb; font-weight: 700; }
+.work-pill .work-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* 작업 적성별 테마 컬러 */
+.work-icon-kindling    { color: #f97316; }
+.work-icon-watering    { color: #38bdf8; }
+.work-icon-planting    { color: #4ade80; }
+.work-icon-electricity { color: #facc15; }
+.work-icon-handiwork   { color: #fb923c; }
+.work-icon-gathering   { color: #a3e635; }
+.work-icon-lumbering   { color: #d97706; }
+.work-icon-mining      { color: #94a3b8; }
+.work-icon-medicine    { color: #2dd4bf; }
+.work-icon-cooling     { color: #67e8f9; }
+.work-icon-transporting{ color: #eab308; }
+.work-icon-farming     { color: #f59e0b; }
+
+.work-pill strong { color: #d7ecfb; font-weight: 700; font-size: 10px; }
 
 .work-pill em {
-  min-width: 15px;
+  min-width: 16px;
   border-radius: 4px;
   background: rgba(89, 200, 255, .2);
   color: var(--sky2);
-  font-size: 9px;
+  font-size: 10px;
   font-style: normal;
   font-weight: 800;
   text-align: center;
+  padding: 0 3px;
 }
 
 .trait-row {
@@ -420,14 +444,40 @@
 
 .sources-panel .sources { margin-top: 18px; }
 
-/* 특성 등급 색상 — 카드 왼쪽 띠, 칩 테두리, 툴팁을 한 축으로 묶는다 */
-.tier-legendary { --tier: #ffb340; }
-.tier-epic      { --tier: #c084fc; }
-.tier-rare      { --tier: #59c8ff; }
-.tier-common    { --tier: #4ade80; }
-.tier-none      { --tier: #94a3b8; }
-.tier-bad       { --tier: #fb7185; }
-.tier-worst     { --tier: #e11d48; }
+/* 특성 등급 색상 — 실제 팰월드 인게임 UI 색상 (에메랄드·무지개 / 노란색·금색 / 흰색 / 빨간색) */
+.tier-legend { --tier: #34d399; } /* 전설 (에메랄드 / 무지개) */
+.tier-tier3  { --tier: #facc15; } /* 3단계 (노란색 / 금색) */
+.tier-tier2  { --tier: #fde047; } /* 2단계 (연노란색) */
+.tier-tier1  { --tier: #ffffff; } /* 1단계 / 보통 (흰색) */
+.tier-neg1   { --tier: #f87171; } /* -1단계 (약한 페널티 빨간색) */
+.tier-neg2   { --tier: #ef4444; } /* -2단계 (중간 페널티 빨간색) */
+.tier-neg3   { --tier: #dc2626; } /* -3단계 (치명적 페널티 빨간색) */
+.tier-none   { --tier: #94a3b8; }
+
+/* 기존 클래스 호환 */
+.tier-legendary { --tier: #34d399; }
+.tier-epic      { --tier: #facc15; }
+.tier-rare      { --tier: #fde047; }
+.tier-common    { --tier: #ffffff; }
+.tier-bad       { --tier: #f87171; }
+.tier-worst     { --tier: #dc2626; }
+
+/* 전설 등급 특수 스타일 (에메랄드 & 무지개빛 포인트) */
+.trait-card.tier-legend {
+  border-left-color: #34d399;
+  background: linear-gradient(160deg, rgba(16, 185, 129, 0.12), rgba(8, 22, 37, 0.95));
+  box-shadow: inset 0 0 20px rgba(52, 211, 153, 0.08);
+}
+
+.trait-chip.tier-legend {
+  border-color: rgba(52, 211, 153, 0.6);
+  background: rgba(16, 185, 129, 0.16);
+  color: #a7f3d0;
+}
+
+.tier-key.tier-legend i {
+  background: linear-gradient(135deg, #34d399, #38bdf8, #facc15);
+}
 
 .trait-card { border-left-color: var(--tier, rgba(148, 197, 238, .35)); }
 
@@ -489,5 +539,8 @@
   color: #ffd7dd;
 }
 
+.trait-card.tier-neg1,
+.trait-card.tier-neg2,
+.trait-card.tier-neg3,
 .trait-card.tier-bad,
 .trait-card.tier-worst { background: rgba(70, 20, 30, .5); }

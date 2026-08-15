@@ -90,6 +90,13 @@
   background-image: url("./assets/visuals/palworld-world-tree.webp?v=1.9.0");
 }
 
+.map-sunreach {
+  background: radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.18), transparent 70%),
+              radial-gradient(circle at 25% 35%, rgba(56, 189, 248, 0.12), transparent 50%),
+              linear-gradient(135deg, #091e2b, #040e16);
+  background-size: 100% 100%;
+}
+
 .map-coordinates-only {
   display: grid;
   place-items: center;

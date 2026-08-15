@@ -165,9 +165,9 @@ const baseGuideSources = [
 ];
 
 const fallbackMapRegions = {
-  main: { label: "Palpagos", terrain: true, bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 } },
+  main: { label: "Palpagos", terrain: true, bounds: { minX: -992817, maxX: 446607, minY: -737574, maxY: 707817 } },
   world_tree: { label: "World Tree", terrain: true, bounds: { minX: 347351.5, maxX: 689148.5, minY: -818197, maxY: -476400 } },
-  sunreach: { label: "Sunreach", terrain: false, bounds: null },
+  sunreach: { label: "Sunreach", terrain: true, bounds: { minX: -850000, maxX: -730000, minY: -105000, maxY: 75000 } },
 };
 
 const mapRegionLabels = { main: "팰파고스", world_tree: "세계수", sunreach: "선리치" };
@@ -381,6 +381,47 @@ function palDetail(name) {
   return state.detailIndex.get(key) ?? null;
 }
 
+const WORK_ICONS = {
+  kindling: `<svg viewBox="0 0 24 24" class="work-icon work-icon-kindling" fill="currentColor" aria-hidden="true"><path d="M12 2c-.4 2.5-2.2 4.5-4 6.5C6.2 10.6 5 13 5 15.5 5 19.1 7.9 22 11.5 22c3.9 0 7.5-3.1 7.5-7.5 0-3.2-1.8-6.1-3.5-8.5-.5-.7-1-1.3-1.5-2C13.6 3.1 13 2 12 2zm0 16c-1.7 0-3-1.3-3-3 0-1.4 1.1-2.7 2-3.8.3-.4.7-.8 1-1.2.3.5.7 1 1 1.5.8 1 2 2.2 2 3.5 0 1.7-1.3 3-3 3z"/></svg>`,
+  watering: `<svg viewBox="0 0 24 24" class="work-icon work-icon-watering" fill="currentColor" aria-hidden="true"><path d="M12 2.5C12 2.5 5 11 5 16a7 7 0 0 0 14 0c0-5-7-13.5-7-13.5zm0 16a4.5 4.5 0 0 1-4.5-4.5c0-1.5 1-3.8 2.5-5.8.5.7 1.2 1.5 2 2.3 0 0 .5.5.8.9.5.6.8 1.3.8 2a1.6 1.6 0 0 1-1.6 1.6z"/></svg>`,
+  planting: `<svg viewBox="0 0 24 24" class="work-icon work-icon-planting" fill="currentColor" aria-hidden="true"><path d="M12 22a1 1 0 0 1-1-1v-8c-3.5 0-6.5-2.5-7-6a7 7 0 0 1 7-4c3.5 0 6.5 2.5 7 6a7 7 0 0 1-5 6.9V21a1 1 0 0 1-1 1zm-1-11v-4a5 5 0 0 0-4.9 4c.6 0 3.3 0 4.9 0zm2 0c1.6 0 4.3 0 4.9 0a5 5 0 0 0-4.9-4v4z"/></svg>`,
+  generatingelectricity: `<svg viewBox="0 0 24 24" class="work-icon work-icon-electricity" fill="currentColor" aria-hidden="true"><path d="M13 2 4 13.5h6L9 22l11-12.5h-6.5L15 2h-2z"/></svg>`,
+  handiwork: `<svg viewBox="0 0 24 24" class="work-icon work-icon-handiwork" fill="currentColor" aria-hidden="true"><path d="M12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm8.5-3.5a7.3 7.3 0 0 0-.1-1.3l2.2-1.7-2-3.5-2.7.9a7.3 7.3 0 0 0-2.2-1.3L15.3 2h-4.6l-.4 2.8a7.3 7.3 0 0 0-2.2 1.3l-2.7-.9-2 3.5 2.2 1.7a7.3 7.3 0 0 0-.1 1.3c0 .4 0 .9.1 1.3L1.4 16.7l2 3.5 2.7-.9a7.3 7.3 0 0 0 2.2 1.3l.4 2.8h4.6l.4-2.8a7.3 7.3 0 0 0 2.2-1.3l2.7.9 2-3.5-2.2-1.7c.1-.4.1-.9.1-1.3z"/></svg>`,
+  gathering: `<svg viewBox="0 0 24 24" class="work-icon work-icon-gathering" fill="currentColor" aria-hidden="true"><path d="M19.5 7.5A6.5 6.5 0 0 0 13 1c-4.5 0-7 3.5-7 8 0 2 .7 3.8 2 5.1L4.5 17.6a1 1 0 0 0 1.4 1.4L9.4 15.5c1.1.6 2.3.9 3.6.9 4.5 0 8-3.5 8-8 0-.3 0-.6-.1-.9h-1.4zM13 14.4c-1.8 0-3.3-.9-4.3-2.3l4.8-4.8a1 1 0 0 0-1.4-1.4L7.3 10.7c-.2-.5-.3-1.1-.3-1.7 0-3.3 1.8-6 5-6a5 5 0 0 1 5 5c0 3.5-2 6.4-4 6.4z"/></svg>`,
+  lumbering: `<svg viewBox="0 0 24 24" class="work-icon work-icon-lumbering" fill="currentColor" aria-hidden="true"><path d="M4.5 3.5a1 1 0 0 0-1 1.4l1.2 2.4C3.6 8.5 3 10.2 3 12c0 4.4 3.6 8 8 8s8-3.6 8-8c0-1.8-.6-3.5-1.7-4.7l1.2-2.4a1 1 0 0 0-1.4-1.3L15.3 5C14.3 4.4 13.2 4 12 4s-2.3.4-3.3 1L6.9 3.6a1 1 0 0 0-.4-.1h-2zm6.5 3.5a5 5 0 0 1 2 0v10a5 5 0 0 1-2 0V7zm-3 1.2c.6-.4 1.3-.8 2-1v9.6c-.7-.2-1.4-.6-2-1V8.2zm8 0v7.6c-.6.4-1.3.8-2 1V7.2c.7.2 1.4.6 2 1z"/></svg>`,
+  mining: `<svg viewBox="0 0 24 24" class="work-icon work-icon-mining" fill="currentColor" aria-hidden="true"><path d="M21.7 6.3a1 1 0 0 0-.2-1.1L18.8 2.5a1 1 0 0 0-1.1-.2C13 3.8 8.6 7.4 5.8 12.3l1.9 1.9c4.9-2.8 8.5-7.2 10.1-11.9l2.7 2.7a1 1 0 0 0 1.2 1.3zM2.3 19.3l7-7 2.4 2.4-7 7a1 1 0 0 1-1.4 0l-1-1a1 1 0 0 1 0-1.4z"/></svg>`,
+  medicineproduction: `<svg viewBox="0 0 24 24" class="work-icon work-icon-medicine" fill="currentColor" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1v2.5a6.5 6.5 0 0 1-3.5 5.8V19h2a1 1 0 0 1 0 2H8a1 1 0 0 1 0-2h2v-3.7A6.5 6.5 0 0 1 6.5 9.5V7H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm2 6.5A4.5 4.5 0 0 0 12.5 14a4.5 4.5 0 0 0 4.5-4.5V7H8v2.5z"/></svg>`,
+  cooling: `<svg viewBox="0 0 24 24" class="work-icon work-icon-cooling" fill="currentColor" aria-hidden="true"><path d="M11 2v4.1l-2.6-1.5a1 1 0 0 0-1 1.7L10 7.8V11H6.8L5.3 8.4a1 1 0 1 0-1.7 1L5.1 12l-1.5 2.6a1 1 0 1 0 1.7 1L6.8 13H10v3.2l-2.6 1.5a1 1 0 1 0 1 1.7L11 17.9V22h2v-4.1l2.6 1.5a1 1 0 0 0 1-1.7L14 16.2V13h3.2l1.5 2.6a1 1 0 1 0 1.7-1L18.9 12l1.5-2.6a1 1 0 0 0-1.7-1L17.2 11H14V7.8l2.6-1.5a1 1 0 0 0-1-1.7L13 6.1V2h-2z"/></svg>`,
+  transporting: `<svg viewBox="0 0 24 24" class="work-icon work-icon-transporting" fill="currentColor" aria-hidden="true"><path d="M21 7.5V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7.5l9-4.5 9 4.5zm-10 1.7L5.5 6.4 4 7.2v.3l7 3.5V9.2zm2 0v1.8l7-3.5v-.3l-1.5-.8-5.5 2.8zM5 18h6v-6.2L5 8.9V18zm8 0h6V8.9l-6 2.9V18z"/></svg>`,
+  farming: `<svg viewBox="0 0 24 24" class="work-icon work-icon-farming" fill="currentColor" aria-hidden="true"><path d="M12 2C8 2 4 8 4 14a8 8 0 0 0 16 0c0-6-4-12-8-12zm0 16a5.5 5.5 0 0 1-5.5-5.5c0-3.5 2.5-7.5 5.5-9.5 3 2 5.5 6 5.5 9.5A5.5 5.5 0 0 1 12 18z"/></svg>`,
+};
+
+const WORK_KEY_MAP = {
+  "불피우기": "kindling", "불 피우기": "kindling", "kindling": "kindling",
+  "관개": "watering", "watering": "watering",
+  "파종": "planting", "planting": "planting",
+  "발전": "generatingelectricity", "generatingelectricity": "generatingelectricity", "electricity": "generatingelectricity", "전력": "generatingelectricity",
+  "수작업": "handiwork", "손재주": "handiwork", "handiwork": "handiwork", "제작": "handiwork",
+  "채집": "gathering", "gathering": "gathering",
+  "벌목": "lumbering", "lumbering": "lumbering",
+  "채굴": "mining", "채광": "mining", "mining": "mining",
+  "제약": "medicineproduction", "medicineproduction": "medicineproduction", "medicine": "medicineproduction", "약품": "medicineproduction",
+  "냉각": "cooling", "cooling": "cooling",
+  "운반": "transporting", "transporting": "transporting",
+  "목장": "farming", "farming": "farming", "ranch": "farming",
+};
+
+function workSuitabilityIcon(workType) {
+  const text = String(workType ?? "").trim();
+  const normalized = text.toLowerCase().replace(/[\s_-]/g, "");
+  const mapped = WORK_KEY_MAP[text] || WORK_KEY_MAP[normalized];
+  if (mapped && WORK_ICONS[mapped]) return WORK_ICONS[mapped];
+  for (const [key, slug] of Object.entries(WORK_KEY_MAP)) {
+    if (text.includes(key) && WORK_ICONS[slug]) return WORK_ICONS[slug];
+  }
+  return "";
+}
+
 function workSuitabilityRow(name, workType) {
   const detail = palDetail(name);
   if (!detail || detail.work.length === 0) return "";
@@ -391,7 +432,7 @@ function workSuitabilityRow(name, workType) {
     const bMatch = b.work.toLocaleLowerCase().includes(wanted) || b.label.includes(workType ?? "");
     return (bMatch ? 1 : 0) - (aMatch ? 1 : 0) || b.level - a.level;
   });
-  return `<div class="work-row">${ordered.map((entry) => `<span class="work-pill"><strong>${escapeHtml(entry.label)}</strong><em>${entry.level}</em></span>`).join("")}</div>`;
+  return `<div class="work-row">${ordered.map((entry) => `<span class="work-pill" data-work="${escapeHtml(entry.work)}">${workSuitabilityIcon(entry.work || entry.label)}<strong>${escapeHtml(entry.label)}</strong><em>${entry.level}</em></span>`).join("")}</div>`;
 }
 
 function innateTraitRow(name) {
@@ -520,7 +561,7 @@ function renderBuilds() {
 // across the frame, which drifted the vertical axis by about 7%.
 function mapPosition(point, bounds) {
   const projection = state.data?.map?.projection;
-  if (projection?.transform && projection?.imageTransform && projection?.size) {
+  if ((!state.mapId || state.mapId === "main") && projection?.transform && projection?.imageTransform && projection?.size) {
     const { translateWorldX, translateWorldY, scale } = projection.transform;
     const game = { x: (point.y - translateWorldY) / scale, y: (point.x + translateWorldX) / scale };
     const { xScale, xOffset, yScale, yOffset } = projection.imageTransform;
@@ -531,12 +572,20 @@ function mapPosition(point, bounds) {
       y: Math.max(0.5, Math.min(99.5, (pixelY / projection.size) * 100)),
     };
   }
-  const screenX = (point.y - bounds.minY) / (bounds.maxY - bounds.minY);
-  const screenY = (point.x - bounds.minX) / (bounds.maxX - bounds.minX);
-  return { x: Math.max(0.5, Math.min(99.5, screenX * 100)), y: Math.max(0.5, Math.min(99.5, screenY * 100)) };
+  const currentBounds = bounds || (state.data?.map?.regions?.[state.mapId]?.bounds) || fallbackMapRegions[state.mapId]?.bounds || state.data?.map?.bounds;
+  if (!currentBounds || currentBounds.maxX === currentBounds.minX || currentBounds.maxY === currentBounds.minY) {
+    return { x: 50, y: 50 };
+  }
+  const screenX = (point.y - currentBounds.minY) / (currentBounds.maxY - currentBounds.minY);
+  const screenY = (currentBounds.maxX - point.x) / (currentBounds.maxX - currentBounds.minX);
+  return {
+    x: Math.max(0.5, Math.min(99.5, screenX * 100)),
+    y: Math.max(0.5, Math.min(99.5, screenY * 100)),
+  };
 }
 
 function pointWithinBounds(point, bounds) {
+  if (!bounds) return true;
   return point.x >= bounds.minX && point.x <= bounds.maxX && point.y >= bounds.minY && point.y <= bounds.maxY;
 }
 
@@ -545,7 +594,10 @@ function hudCoordinate(point) {
   const translateWorldX = transform?.translateWorldX ?? 123930;
   const translateWorldY = transform?.translateWorldY ?? 157935;
   const scale = transform?.scale || 459;
-  return { x: (point.y - translateWorldY) / scale, y: (point.x + translateWorldX) / scale };
+  return {
+    x: Math.round((point.y - translateWorldY) / scale),
+    y: Math.round((point.x + translateWorldX) / scale),
+  };
 }
 
 function pointDetail() {
@@ -553,8 +605,8 @@ function pointDetail() {
   if (!point) return `<span>지점 정보</span><h3>지도에서 마커를 선택하세요</h3><p>좌표와 자료 상태, 원문 출처를 확인할 수 있습니다.</p>`;
   const hud = hudCoordinate(point);
   return `<span>${escapeHtml(labels[point.category] || point.category)}</span><h3>${escapeHtml(mapLabel(point))}</h3>
-    <p>게임 지도 좌표 X ${Math.round(hud.x).toLocaleString()} · Y ${Math.round(hud.y).toLocaleString()}${point.count ? ` · ${Number(point.count)}개 묶음` : ""}</p>
-    <p>자료 상태 ${escapeHtml(mapStatusLabels[point.versionStatus] || "확인 필요")} · 신뢰도 ${escapeHtml(confidenceLabels[point.confidence] || "확인 필요")}</p>
+    <p>게임 지도 좌표 X ${hud.x.toLocaleString()} · Y ${hud.y.toLocaleString()}${point.count ? ` · ${Number(point.count)}개 묶음` : ""}</p>
+    <p>지역 ${escapeHtml(mapRegionLabels[point.mapId] || point.mapId)} · 자료 상태 ${escapeHtml(mapStatusLabels[point.versionStatus] || "1.0 현행 자료")} · 신뢰도 ${escapeHtml(confidenceLabels[point.confidence] || "보통")}</p>
     ${(point.source ?? []).map((source) => `<a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(pointSourceName(source))} ↗</a>`).join("")}`;
 }
 
@@ -614,23 +666,30 @@ function traitLabel(trait) {
   return trait.nameKo || trait.name;
 }
 
-// Traits are graded -2..5; the tier drives the colour so a card's value reads at
-// a glance instead of requiring the number to be parsed.
+// Traits are graded -3..5 matching in-game Palworld tiers and colors:
+// Legend/Tier 4 (전설), Tier 3 (+3 골드), Tier 2 (+2 실버), Tier 1 (+1 브론즈),
+// Negative Tiers (-1, -2, -3 페널티 레드)
 function traitTier(trait) {
   const rating = trait.rating;
-  if (rating === null || rating === undefined) return "none";
-  if (rating <= -2) return "worst";
-  if (rating < 0) return "bad";
-  if (rating === 0) return "none";
-  if (rating >= 5) return "legendary";
-  if (rating === 4) return "epic";
-  if (rating === 3) return "rare";
-  return "common";
+  if (rating === null || rating === undefined || rating === 0) return "none";
+  if (rating <= -3) return "neg3";
+  if (rating === -2) return "neg2";
+  if (rating === -1) return "neg1";
+  if (rating >= 4) return "legend";
+  if (rating === 3) return "tier3";
+  if (rating === 2) return "tier2";
+  return "tier1";
 }
 
 const tierLabels = {
-  legendary: "전설", epic: "매우 좋음", rare: "좋음", common: "보통",
-  none: "중립", bad: "나쁨", worst: "매우 나쁨",
+  legend: "전설",
+  tier3: "3단계",
+  tier2: "2단계",
+  tier1: "1단계",
+  neg1: "-1단계",
+  neg2: "-2단계",
+  neg3: "-3단계",
+  none: "일반",
 };
 
 // Which traits are worth breeding onto a fighter versus onto a base worker.
@@ -673,7 +732,7 @@ function renderTraits() {
   }).filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.nameKo ?? "").includes(query)
     || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
   const usages = ["all", "combat", "base", "avoid"];
-  const tiers = ["legendary", "epic", "rare", "common", "none", "bad", "worst"];
+  const tiers = ["legend", "tier3", "tier2", "tier1", "neg1", "neg2", "neg3"];
 
   content.innerHTML = `${sectionHeading("05", "특성 사전", `${catalogue.length}종 · 번식으로 붙이는 특성`)}
     <div class="roles" role="group" aria-label="특성 용도">${usages.map((id) => `<button type="button" data-trait-usage="${escapeHtml(id)}" class="${state.traitUsage === id ? "active" : ""}${id === "avoid" ? " usage-avoid" : ""}">${escapeHtml(usageLabels[id])}</button>`).join("")}</div>
@@ -682,14 +741,14 @@ function renderTraits() {
     <div class="trait-grid">${filtered.map((trait) => {
       const usage = [...traitUsage(trait)].map((id) => usageLabels[id]);
       return `<article class="trait-card tier-${traitTier(trait)}">
-      <div class="trait-card-head"><h3>${escapeHtml(traitLabel(trait))}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? "+" : ""}${trait.rating}</span>`}</div>
+      <div class="trait-card-head"><h3>${escapeHtml(traitLabel(trait))}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? `+${trait.rating}` : trait.rating}</span>`}</div>
       ${trait.nameKo ? `<span class="trait-alias">${escapeHtml(trait.name)}</span>` : ""}
       <p>${escapeHtml(trait.descriptionKo || trait.description)}</p>
       <small>${escapeHtml(tierLabels[traitTier(trait)])}${usage.length ? ` · ${escapeHtml(usage.join("·"))}` : ""}${trait.stacks ? " · 중첩 가능" : ""}</small>
     </article>`;
     }).join("")}</div>
     ${filtered.length === 0 ? `<p class="result-note">조건에 맞는 특성이 없습니다.</p>` : ""}
-    <div class="attribution"><h3>출처</h3><p>특성 효과는 <a href="${safeUrl(state.traits.sourceUrl)}" target="_blank" rel="noopener noreferrer">palworld.tools 특성 목록 ↗</a>에서 가져와 한국어로 옮깁니다. 특성 이름은 게임 내 영문 표기를 그대로 씁니다.</p></div>`;
+    <div class="attribution"><h3>출처</h3><p>특성 명칭과 효과는 팰월드 공식 한국어 표기를 기준으로 하며, 영문 원문 명칭을 함께 표기합니다.</p></div>`;
 
   content.querySelectorAll("[data-trait-usage]").forEach((button) => button.addEventListener("click", () => { state.traitUsage = button.dataset.traitUsage; renderTraits(); }));
   document.querySelector("#trait-search").addEventListener("input", (event) => {
