@@ -129,6 +129,13 @@ test("trait catalogue explains every trait the guide names", async () => {
   }
 
   assert.match(html, /data-tab="traits"/);
+  // Attribution moved out of the tab bar but must still be reachable, and the
+  // guide may never publish without it.
+  assert.doesNotMatch(html, /data-tab="sources"/);
+  assert.match(html, /<details id="sources-panel"/);
+  assert.match(html, /id="sources-body"/);
+  assert.match(app, /function renderSources/);
+  assert.match(app, /#sources-body/);
   assert.match(app, /function renderTraits/);
   assert.match(app, /function traitChip/);
   assert.match(app, /data-trait=/);

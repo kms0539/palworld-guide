@@ -646,17 +646,20 @@ function renderTraits() {
   });
 }
 
+// Sources moved out of the tab bar into a panel at the foot of every page, so
+// attribution stays one click away without competing with the guide content.
 function renderSources() {
-  content.innerHTML = `${sectionHeading("05", "자료 출처와 이용 범위", "공식 자료·계산 자료·이미지 출처를 구분")}
-    <div class="sources">${state.data.sources.map((source) => `<article><span>${escapeHtml(labels[source.kind] || source.kind)}</span><h3>${escapeHtml(sourceNames[source.id] || source.name)}</h3><p>기준 ${escapeHtml(source.gameVersion)} · 확인 ${new Date(source.checkedAt).toLocaleDateString("ko-KR")}${source.license ? ` · ${escapeHtml(source.license)}` : ""}</p><a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">출처 열기 ↗</a></article>`).join("")}</div>
+  const panel = document.querySelector("#sources-body");
+  if (!panel) return;
+  panel.innerHTML = `<div class="sources">${state.data.sources.map((source) => `<article><span>${escapeHtml(labels[source.kind] || source.kind)}</span><h3>${escapeHtml(sourceNames[source.id] || source.name)}</h3><p>기준 ${escapeHtml(source.gameVersion)} · 확인 ${new Date(source.checkedAt).toLocaleDateString("ko-KR")}${source.license ? ` · ${escapeHtml(source.license)}` : ""}</p><a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">출처 열기 ↗</a></article>`).join("")}</div>
     <div class="attribution"><h3>이미지 저작권과 출처</h3>${state.assets.attribution.map((item) => `<p><strong>${escapeHtml(item.name)}</strong> · ${escapeHtml(item.usage)} · ${escapeHtml(item.license)} <a href="${safeUrl(item.url)}" target="_blank" rel="noopener noreferrer">출처 ↗</a></p>`).join("")}<p>이 페이지는 비상업적 팬 공략집이며 Pocketpair의 공식 서비스가 아닙니다.</p></div>
     <div class="security"><h3>공개 보안 경계</h3><p>${state.data.publication.excludes.map((item) => ({ "server status": "서버 상태", players: "사용자 정보", "IP addresses": "IP 주소", credentials: "인증 정보", "Discord configuration": "Discord 설정" })[item] || item).join(" · ")}</p><p>GitHub Actions가 홈 서버와 분리된 환경에서 자료를 갱신합니다.</p></div>`;
 }
 
 function render() {
-  if (state.tab === "recommendations") renderRecommendations(); else if (state.tab === "progression") renderProgression(); else if (state.tab === "pals") renderPals();
+  if (state.tab === "progression") renderProgression(); else if (state.tab === "pals") renderPals();
   else if (state.tab === "builds") renderBuilds(); else if (state.tab === "traits") renderTraits();
-  else if (state.tab === "map") renderMap(); else renderSources();
+  else if (state.tab === "map") renderMap(); else renderRecommendations();
   bindTraitChips();
 }
 
@@ -683,7 +686,7 @@ function bindTraitChips() {
 }
 
 function selectTab(tab) {
-  if (!["recommendations", "progression", "pals", "builds", "traits", "map", "sources"].includes(tab)) return;
+  if (!["recommendations", "progression", "pals", "builds", "traits", "map"].includes(tab)) return;
   document.querySelectorAll("#tabs button").forEach((item) => item.classList.toggle("active", item.dataset.tab === tab));
   state.tab = tab; render(); document.querySelector("#tabs").scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -707,7 +710,7 @@ Promise.all([
   fetch("./data/traits.json", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/pal-details.json", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
 ]).then(([data, assets, traits, details]) => {
-  state.data = data; state.assets = assets; state.traits = traits; state.details = details; renderFreshness(data);
+  state.data = data; state.assets = assets; state.traits = traits; state.details = details; renderFreshness(data); renderSources();
   document.querySelector("#metrics").innerHTML = `<div><dt>등록 펠</dt><dd>${data.pals.length}</dd></div><div><dt>추천 빌드</dt><dd>${data.builds.length}</dd></div><div><dt>지도 지점</dt><dd>${data.map.points.length.toLocaleString()}</dd></div><div><dt>이미지 펠</dt><dd>${Object.keys(assets.pals).length}</dd></div>`;
   render();
 }).catch(() => { content.innerHTML = `<div class="error">공략 데이터를 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요.</div>`; });

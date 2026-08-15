@@ -388,3 +388,40 @@
   font-size: 9px;
   font-weight: 700;
 }
+
+/* 하단 자료 출처 드롭다운 */
+.sources-panel {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(10, 25, 41, .72);
+}
+
+.sources-panel > summary {
+  padding: 16px 22px;
+  color: var(--sky2);
+  font-size: 12px;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.sources-panel > summary::-webkit-details-marker { display: none; }
+
+.sources-panel > summary::after {
+  content: "▾";
+  float: right;
+  color: var(--muted);
+  transition: transform .18s ease;
+}
+
+.sources-panel[open] > summary::after { transform: rotate(180deg); }
+
+.sources-panel > summary:hover { color: #e3f7ff; }
+
+.sources-panel > div {
+  padding: 0 22px 20px;
+  border-top: 1px solid var(--line);
+}
+
+.sources-panel .sources { margin-top: 18px; }
