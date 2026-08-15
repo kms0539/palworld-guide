@@ -625,7 +625,7 @@ function renderTraits() {
   }
   const query = state.traitQuery.trim().toLocaleLowerCase();
   const filtered = catalogue.filter((trait) => state.traitPolarity === "all" || trait.polarity === state.traitPolarity)
-    .filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || trait.description.toLocaleLowerCase().includes(query));
+    .filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
   const groups = [["positive", "유용한 특성"], ["negative", "피해야 할 특성"], ["neutral", "중립 특성"]];
 
   content.innerHTML = `${sectionHeading("05", "특성·패시브 사전", `${catalogue.length}종 · 등급이 높을수록 유용`)}
@@ -633,11 +633,11 @@ function renderTraits() {
     <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 근면, work speed, attack" autocomplete="off"></div>
     <div class="trait-grid">${filtered.map((trait) => `<article class="trait-card trait-${trait.polarity}">
       <div class="trait-card-head"><h3>${escapeHtml(trait.name)}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? "+" : ""}${trait.rating}</span>`}</div>
-      <p>${escapeHtml(trait.description)}</p>
+      <p>${escapeHtml(trait.descriptionKo || trait.description)}</p>
       <small>${escapeHtml(traitPolarityLabel(trait.polarity))}${trait.stacks ? " · 중첩 가능" : ""}</small>
     </article>`).join("")}</div>
     ${filtered.length === 0 ? `<p class="result-note">조건에 맞는 특성이 없습니다.</p>` : ""}
-    <div class="attribution"><h3>출처</h3><p>특성 효과는 <a href="${safeUrl(state.traits.sourceUrl)}" target="_blank" rel="noopener noreferrer">palworld.tools 특성 목록 ↗</a>에서 가져오며, 표기는 원문 영문을 그대로 씁니다.</p></div>`;
+    <div class="attribution"><h3>출처</h3><p>특성 효과는 <a href="${safeUrl(state.traits.sourceUrl)}" target="_blank" rel="noopener noreferrer">palworld.tools 특성 목록 ↗</a>에서 가져와 한국어로 옮깁니다. 특성 이름은 게임 내 영문 표기를 그대로 씁니다.</p></div>`;
 
   content.querySelectorAll("[data-trait-polarity]").forEach((button) => button.addEventListener("click", () => { state.traitPolarity = button.dataset.traitPolarity; renderTraits(); }));
   document.querySelector("#trait-search").addEventListener("input", (event) => {
@@ -675,7 +675,7 @@ function bindTraitChips() {
       const tip = document.createElement("span");
       tip.className = `trait-tip trait-${trait.polarity}`;
       tip.setAttribute("role", "note");
-      tip.textContent = `${trait.description}${trait.stacks ? " (중첩 가능)" : ""}`;
+      tip.textContent = `${trait.descriptionKo || trait.description}${trait.stacks ? " (중첩 가능)" : ""}`;
       button.setAttribute("aria-expanded", "true");
       button.after(tip);
     });

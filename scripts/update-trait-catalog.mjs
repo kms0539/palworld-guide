@@ -1,5 +1,6 @@
 import { mkdir, rename, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { translateDescription } from "./trait-korean.mjs";
 
 // Pal recommendations name traits and passive skills without saying what they do.
 // This builds the catalogue once so the site can resolve any trait name to its
@@ -60,10 +61,13 @@ function parseTraits(html) {
     const stacks = /class="[^"]*cursor-help[^"]*"[^>]*>\s*stacks\s*</.test(tail) || /">stacks</.test(tail);
     const color = (tail.match(/--tc:(#[0-9a-fA-F]{3,8})/) ?? [])[1] ?? null;
 
+    const korean = translateDescription(description);
     seen.add(name);
     traits.push({
       name,
       description,
+      descriptionKo: korean.description,
+      untranslated: korean.untranslated,
       rating: Number.isFinite(rating) ? rating : null,
       // A positive rating is a desirable trait; negatives are penalties players
       // breed away. Neutral entries keep a null rating.
@@ -99,6 +103,15 @@ async function main() {
   if (!traits.some((trait) => trait.polarity === "positive") || !traits.some((trait) => trait.polarity === "negative")) {
     throw new Error("trait catalogue is missing positive or negative entries");
   }
+
+  // Publishing an English effect line to a Korean guide is a silent regression,
+  // so unseen wording fails the refresh instead of leaking through.
+  const missing = traits.flatMap((trait) => trait.untranslated);
+  if (missing.length > 0) {
+    await log(`untranslated effects: ${[...new Set(missing)].join(" | ")}`);
+    throw new Error(`${new Set(missing).size} trait effects have no Korean rule: ${[...new Set(missing)].slice(0, 5).join(" | ")}`);
+  }
+  for (const trait of traits) delete trait.untranslated;
 
   traits.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || a.name.localeCompare(b.name));
   await atomicWrite(outputPath, {

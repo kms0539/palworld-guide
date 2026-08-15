@@ -109,6 +109,10 @@ test("trait catalogue explains every trait the guide names", async () => {
   assert.ok(traits.traits.some((trait) => trait.polarity === "negative"));
   for (const trait of traits.traits) {
     assert.ok(trait.name && trait.description, `trait missing text: ${JSON.stringify(trait)}`);
+    // A Korean guide must not surface English effect text.
+    assert.ok(trait.descriptionKo, `trait has no Korean effect: ${trait.name}`);
+    assert.match(trait.descriptionKo, /[가-힣]/, `trait effect was not translated: ${trait.name} — ${trait.descriptionKo}`);
+    assert.equal(trait.untranslated, undefined, `untranslated marker leaked into published data: ${trait.name}`);
   }
 
   // Every innate trait shown on a recommendation must resolve to an explanation,
