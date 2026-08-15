@@ -94,6 +94,27 @@ test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", 
   assert.doesNotMatch(app, /style=|\.style\b/);
 });
 
+test("trait data is committed, not scraped on every build", async () => {
+  const [pkg, workflow, collector] = await Promise.all([
+    readFile(new URL("package.json", root), "utf8").then(JSON.parse),
+    readFile(new URL(".github/workflows/pages.yml", root), "utf8"),
+    readFile(new URL("scripts/update-trait-catalog.mjs", root), "utf8"),
+  ]);
+
+  // Trait effects only change on a game patch, so the daily build must not
+  // depend on the upstream site being reachable.
+  assert.doesNotMatch(pkg.scripts.refresh, /update-trait-catalog/);
+  assert.match(pkg.scripts["traits:refresh"], /update-trait-catalog/);
+  assert.doesNotMatch(workflow, /traits:refresh/);
+  assert.match(collector, /Manual refresh tool/);
+
+  // The published data has to be in the repository for the site to serve it.
+  const traits = JSON.parse(await readFile(new URL("site/data/traits.json", root), "utf8"));
+  const names = JSON.parse(await readFile(new URL("site/data/trait-names-ko.json", root), "utf8"));
+  assert.ok(traits.traits.length >= 100);
+  assert.ok(Object.keys(names.names).length >= 120);
+});
+
 test("trait catalogue explains every trait the guide names", async () => {
   const [traits, details, guide, html, app] = await Promise.all([
     readFile(new URL("site/data/traits.json", root), "utf8").then(JSON.parse),

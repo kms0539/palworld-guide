@@ -3,9 +3,10 @@ import { dirname, join } from "node:path";
 import { translateDescription } from "./trait-korean.mjs";
 
 
-// Pal recommendations name traits and passive skills without saying what they do.
-// This builds the catalogue once so the site can resolve any trait name to its
-// effect, both in a browsable tab and in tooltips next to a recommendation.
+// Manual refresh tool. Trait effects only change when the game patches, so
+// site/data/traits.json is committed and served as-is; the daily build never
+// runs this. Re-run it after a patch with `pnpm run traits:refresh`, review the
+// diff, and commit.
 
 const args = process.argv.slice(2);
 const rootArg = args.indexOf("--root");
