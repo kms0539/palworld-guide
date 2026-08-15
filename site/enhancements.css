@@ -426,8 +426,8 @@
 .tier-rare      { --tier: #59c8ff; }
 .tier-common    { --tier: #4ade80; }
 .tier-none      { --tier: #94a3b8; }
-.tier-bad       { --tier: #fb923c; }
-.tier-worst     { --tier: #fb7185; }
+.tier-bad       { --tier: #fb7185; }
+.tier-worst     { --tier: #e11d48; }
 
 .trait-card { border-left-color: var(--tier, rgba(148, 197, 238, .35)); }
 
@@ -479,3 +479,15 @@
   border-radius: 3px;
   background: var(--tier);
 }
+
+/* 피해야 할 특성 필터는 붉게 — 붙이면 안 되는 특성임을 색으로 먼저 알린다 */
+.roles button.usage-avoid { color: #ffb3bf; }
+
+.roles button.usage-avoid.active,
+.roles button.usage-avoid:hover {
+  background: rgba(251, 113, 133, .14);
+  color: #ffd7dd;
+}
+
+.trait-card.tier-bad,
+.trait-card.tier-worst { background: rgba(70, 20, 30, .5); }

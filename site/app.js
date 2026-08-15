@@ -6,7 +6,7 @@ const state = {
   data: null, assets: null, traits: null, traitIndex: null, details: null, detailIndex: null,
   tab: "recommendations", role: "combat", palRole: "combat",
   palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", progressionStage: "early", progressionKind: "combat",
-  traitQuery: "", traitPolarity: "all",
+  traitQuery: "", traitUsage: "all",
   layers: new Set(defaultLayers), selected: null,
 };
 
@@ -397,7 +397,7 @@ function workSuitabilityRow(name, workType) {
 function innateTraitRow(name) {
   const detail = palDetail(name);
   if (!detail || detail.innateTraits.length === 0) return "";
-  return `<div class="trait-row"><span class="trait-row-label">고유 특성</span>${detail.innateTraits.map((trait) => traitChip(trait.name)).join("")}</div>`;
+  return `<div class="trait-row"><span class="trait-row-label">고유 패시브</span>${detail.innateTraits.map((trait) => traitChip(trait.name)).join("")}</div>`;
 }
 
 // Traits worth breeding onto any base Pal, ranked by the catalogue.
@@ -633,6 +633,21 @@ const tierLabels = {
   none: "중립", bad: "나쁨", worst: "매우 나쁨",
 };
 
+// Which traits are worth breeding onto a fighter versus onto a base worker.
+// A trait can serve both, so this returns a set rather than one label.
+const BASE_EFFECTS = /작업 속도|작업 적성|알 생산|부화|채굴 효율|벌목 효율|획득량|판매 가격|SAN|포만도|계속 작업|야행성/;
+const COMBAT_EFFECTS = /공격|방어|HP|피해|면역|쿨타임|흡혈|스태미나|이동 속도|점프|대시|수영|재장전/;
+
+function traitUsage(trait) {
+  const text = trait.descriptionKo || trait.description || "";
+  const usage = new Set();
+  if (BASE_EFFECTS.test(text)) usage.add("base");
+  if (COMBAT_EFFECTS.test(text)) usage.add("combat");
+  return usage;
+}
+
+const usageLabels = { all: "전체", combat: "전투용", base: "거점용", avoid: "피해야 할 특성" };
+
 // Renders a trait name as a button that reveals its effect, falling back to
 // plain text when the catalogue does not know the name.
 function traitChip(name) {
@@ -641,37 +656,42 @@ function traitChip(name) {
   return `<button type="button" class="trait-chip tier-${traitTier(trait)}" data-trait="${escapeHtml(trait.name)}" aria-expanded="false"><span>${escapeHtml(traitLabel(trait))}</span>${trait.rating === null ? "" : `<small>${trait.rating > 0 ? "+" : ""}${trait.rating}</small>`}</button>`;
 }
 
-function traitPolarityLabel(polarity) {
-  return { positive: "유용", negative: "불리", neutral: "중립" }[polarity] ?? polarity;
-}
 
 function renderTraits() {
   const catalogue = state.traits?.traits ?? [];
   if (catalogue.length === 0) {
-    content.innerHTML = `${sectionHeading("05", "특성·패시브 사전", "자료를 불러오지 못했습니다")}<div class="error">특성 자료를 불러오지 못했습니다.</div>`;
+    content.innerHTML = `${sectionHeading("05", "특성 사전", "자료를 불러오지 못했습니다")}<div class="error">특성 자료를 불러오지 못했습니다.</div>`;
     return;
   }
   const query = state.traitQuery.trim().toLocaleLowerCase();
-  const filtered = catalogue.filter((trait) => state.traitPolarity === "all" || trait.polarity === state.traitPolarity)
-    .filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.nameKo ?? "").includes(query)
-      || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
-  const groups = [["positive", "유용한 특성"], ["negative", "피해야 할 특성"], ["neutral", "중립 특성"]];
+  const filtered = catalogue.filter((trait) => {
+    if (state.traitUsage === "all") return true;
+    // Penalties are worth browsing on their own, so they get their own filter
+    // and are kept out of the two "what should I breed" lists.
+    if (state.traitUsage === "avoid") return trait.polarity === "negative";
+    return trait.polarity !== "negative" && traitUsage(trait).has(state.traitUsage);
+  }).filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.nameKo ?? "").includes(query)
+    || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
+  const usages = ["all", "combat", "base", "avoid"];
   const tiers = ["legendary", "epic", "rare", "common", "none", "bad", "worst"];
 
-  content.innerHTML = `${sectionHeading("05", "특성·패시브 사전", `${catalogue.length}종 · 등급이 높을수록 유용`)}
-    <div class="roles" role="group" aria-label="특성 분류">${[["all", "전체"], ...groups.map(([id, label]) => [id, label])].map(([id, label]) => `<button type="button" data-trait-polarity="${escapeHtml(id)}" class="${state.traitPolarity === id ? "active" : ""}">${escapeHtml(label)}</button>`).join("")}</div>
+  content.innerHTML = `${sectionHeading("05", "특성 사전", `${catalogue.length}종 · 번식으로 붙이는 특성`)}
+    <div class="roles" role="group" aria-label="특성 용도">${usages.map((id) => `<button type="button" data-trait-usage="${escapeHtml(id)}" class="${state.traitUsage === id ? "active" : ""}${id === "avoid" ? " usage-avoid" : ""}">${escapeHtml(usageLabels[id])}</button>`).join("")}</div>
     <div class="tier-legend">${tiers.map((tier) => `<span class="tier-key tier-${tier}"><i></i>${escapeHtml(tierLabels[tier])}</span>`).join("")}</div>
     <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 장인, 작업 속도, Artisan" autocomplete="off"></div>
-    <div class="trait-grid">${filtered.map((trait) => `<article class="trait-card tier-${traitTier(trait)}">
+    <div class="trait-grid">${filtered.map((trait) => {
+      const usage = [...traitUsage(trait)].map((id) => usageLabels[id]);
+      return `<article class="trait-card tier-${traitTier(trait)}">
       <div class="trait-card-head"><h3>${escapeHtml(traitLabel(trait))}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? "+" : ""}${trait.rating}</span>`}</div>
       ${trait.nameKo ? `<span class="trait-alias">${escapeHtml(trait.name)}</span>` : ""}
       <p>${escapeHtml(trait.descriptionKo || trait.description)}</p>
-      <small>${escapeHtml(tierLabels[traitTier(trait)])}${trait.stacks ? " · 중첩 가능" : ""}</small>
-    </article>`).join("")}</div>
+      <small>${escapeHtml(tierLabels[traitTier(trait)])}${usage.length ? ` · ${escapeHtml(usage.join("·"))}` : ""}${trait.stacks ? " · 중첩 가능" : ""}</small>
+    </article>`;
+    }).join("")}</div>
     ${filtered.length === 0 ? `<p class="result-note">조건에 맞는 특성이 없습니다.</p>` : ""}
     <div class="attribution"><h3>출처</h3><p>특성 효과는 <a href="${safeUrl(state.traits.sourceUrl)}" target="_blank" rel="noopener noreferrer">palworld.tools 특성 목록 ↗</a>에서 가져와 한국어로 옮깁니다. 특성 이름은 게임 내 영문 표기를 그대로 씁니다.</p></div>`;
 
-  content.querySelectorAll("[data-trait-polarity]").forEach((button) => button.addEventListener("click", () => { state.traitPolarity = button.dataset.traitPolarity; renderTraits(); }));
+  content.querySelectorAll("[data-trait-usage]").forEach((button) => button.addEventListener("click", () => { state.traitUsage = button.dataset.traitUsage; renderTraits(); }));
   document.querySelector("#trait-search").addEventListener("input", (event) => {
     state.traitQuery = event.target.value; renderTraits();
     const input = document.querySelector("#trait-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length);

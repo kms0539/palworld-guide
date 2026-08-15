@@ -158,6 +158,29 @@ test("trait catalogue explains every trait the guide names", async () => {
   assert.match(app, /tier-\$\{traitTier\(trait\)\}/);
   assert.match(app, /function traitLabel/);
 
+  // "특성" is the breedable catalogue; "패시브" is reserved for a Pal's innate
+  // ability, so the two words must not be used interchangeably.
+  assert.doesNotMatch(html, /특성·패시브/);
+  assert.match(html, /data-tab="traits">특성</);
+  assert.match(app, /특성 사전/);
+  assert.match(app, /고유 패시브/);
+  assert.doesNotMatch(app, /고유 특성/);
+
+  // The tab splits by what the trait is actually for.
+  assert.match(app, /function traitUsage/);
+  assert.match(app, /data-trait-usage=/);
+  for (const label of ["전투용", "거점용", "피해야 할 특성"]) assert.ok(app.includes(label), `missing filter: ${label}`);
+
+  // Every catalogue entry must land in at least one usage bucket, or a filter
+  // would silently hide it.
+  const baseEffects = /작업 속도|작업 적성|알 생산|부화|채굴 효율|벌목 효율|획득량|판매 가격|SAN|포만도|계속 작업|야행성/;
+  const combatEffects = /공격|방어|HP|피해|면역|쿨타임|흡혈|스태미나|이동 속도|점프|대시|수영|재장전/;
+  const unclassified = traits.traits.filter((trait) => {
+    const text = trait.descriptionKo || trait.description;
+    return !baseEffects.test(text) && !combatEffects.test(text);
+  });
+  assert.deepEqual(unclassified.map((trait) => trait.name), [], "traits fell outside both usage filters");
+
   // Every innate trait shown on a recommendation must resolve to an explanation,
   // otherwise the tooltip would be an empty promise.
   const known = new Set(traits.traits.map((trait) => trait.name.toLowerCase()));
