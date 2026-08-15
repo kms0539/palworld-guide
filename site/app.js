@@ -335,11 +335,11 @@ function mapLabel(point) {
   const raw = String(point.label ?? "").trim();
   if (!raw) return labels[point.category] || "지도 지점";
   if (point.category.startsWith("resource_")) return raw;
-  if (point.category === "boss_tower") return towerLabels[raw] || "보스 탑";
-  if (point.category === "fast_travel") return "빠른 이동 지점";
+  if (point.category === "boss_tower") return towerLabels[raw] || raw || "보스 탑";
+  if (point.category === "fast_travel") return raw ? `빠른 이동 · ${raw}` : "빠른 이동 지점";
   if (point.category === "sunreach") return `선리치 · ${raw}`;
   if (point.category === "world_tree") return `세계수 · ${raw}`;
-  if (point.category === "bounty_target") return "현상수배 대상";
+  if (point.category === "bounty_target") return raw ? `현상수배 · ${raw}` : "현상수배 대상";
   if (point.category === "oil_rig") {
     const level = raw.match(/Lv\s*(\d+)/i)?.[1];
     return `${level ? `Lv ${level} ` : ""}레인 밀렵단 오일 리그`;
@@ -349,7 +349,7 @@ function mapLabel(point) {
     const localized = displayPalName(englishName);
     return `${point.category === "alpha_pal" ? "알파" : "포식자"} ${localized}`;
   }
-  return labels[point.category] || "지도 지점";
+  return raw || labels[point.category] || "지도 지점";
 }
 
 function pointSourceName(source) {
