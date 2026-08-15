@@ -57,7 +57,7 @@ test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", 
     readFile(new URL("site/progression.css", root), "utf8"),
   ]);
   assert.match(html, /progression\.css/);
-  assert.match(html, /app\.js\?v=1\.8\.0/);
+  assert.match(html, /app\.js\?v=1\.9\.0/);
   assert.match(html, /data-tab="pals"/);
   assert.match(html, /data-tab="progression"/);
   assert.match(app, /renderPals/);
@@ -113,7 +113,29 @@ test("trait catalogue explains every trait the guide names", async () => {
     assert.ok(trait.descriptionKo, `trait has no Korean effect: ${trait.name}`);
     assert.match(trait.descriptionKo, /[가-힣]/, `trait effect was not translated: ${trait.name} — ${trait.descriptionKo}`);
     assert.equal(trait.untranslated, undefined, `untranslated marker leaked into published data: ${trait.name}`);
+    assert.equal(typeof trait.nameKo, "string");
   }
+
+  // Korean names come from the breedable subset, so partial coverage is expected
+  // but a collapse to zero means the join broke.
+  assert.ok(traits.counts.localizedNames >= 40, `too few Korean trait names: ${traits.counts.localizedNames}`);
+  const localized = new Map(traits.traits.filter((trait) => trait.nameKo).map((trait) => [trait.nameKo, trait.name]));
+  assert.equal(localized.size, traits.counts.localizedNames, "a Korean name was reused for two traits");
+  for (const trait of traits.traits) {
+    if (trait.nameKo) assert.match(trait.nameKo, /[가-힣]/, `nameKo is not Korean: ${trait.name} -> ${trait.nameKo}`);
+  }
+  // Spot-check pairs that a naive index join gets wrong: sorting each language
+  // alphabetically would pair Demon's Hand with 선인 instead of 악마의 손.
+  const traitByName = new Map(traits.traits.map((trait) => [trait.name, trait]));
+  assert.equal(traitByName.get("Artisan")?.nameKo, "장인 기질");
+  assert.equal(traitByName.get("Legend")?.nameKo, "전설");
+  assert.equal(traitByName.get("Demon’s Hand")?.nameKo, "악마의 손");
+  assert.equal(traitByName.get("Remarkable Craftsmanship")?.nameKo, "초절기교");
+
+  // Ratings drive the colour tiers.
+  assert.match(app, /function traitTier/);
+  assert.match(app, /tier-\$\{traitTier\(trait\)\}/);
+  assert.match(app, /function traitLabel/);
 
   // Every innate trait shown on a recommendation must resolve to an explanation,
   // otherwise the tooltip would be an empty promise.

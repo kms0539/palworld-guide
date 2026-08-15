@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-15T01:43:29.061Z",
+  "updatedAt": "2026-08-15T02:26:49.278Z",
   "sourceUrl": "https://www.palworld.tools/traits",
   "counts": {
     "total": 114,
     "positive": 102,
-    "negative": 9
+    "negative": 9,
+    "localizedNames": 46
   },
   "traits": [
     {
@@ -15,7 +16,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "악마의 손"
     },
     {
       "name": "Dimensional Leap",
@@ -24,7 +26,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "차원 도약"
     },
     {
       "name": "God of Destruction",
@@ -33,7 +36,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "파괴신"
     },
     {
       "name": "Hermit Sage",
@@ -42,7 +46,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "선인"
     },
     {
       "name": "Sanctified Meat Shield",
@@ -51,7 +56,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "성역의 육벽"
     },
     {
       "name": "Twin-Edged Holy Blade",
@@ -60,7 +66,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "양날의 성검"
     },
     {
       "name": "World Tree Seedbed",
@@ -69,7 +76,8 @@
       "rating": 5,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "신수의 못자리"
     },
     {
       "name": "Babysitter",
@@ -78,7 +86,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Demon God",
@@ -87,7 +96,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "귀신"
     },
     {
       "name": "Diamond Body",
@@ -96,7 +106,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "다이아몬드 보디"
     },
     {
       "name": "Eternal Engine",
@@ -105,7 +116,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "영구기관"
     },
     {
       "name": "Heart of the Immovable King",
@@ -114,7 +126,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "부동명왕의 마음"
     },
     {
       "name": "Heavily Armored",
@@ -123,7 +136,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "중장갑"
     },
     {
       "name": "Idiosyncratic",
@@ -132,7 +146,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "특이 체질"
     },
     {
       "name": "Immortality",
@@ -141,7 +156,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "불사신"
     },
     {
       "name": "King of the Waves",
@@ -150,7 +166,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "파도타기 왕"
     },
     {
       "name": "Lightfooted",
@@ -159,7 +176,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "가벼운 몸"
     },
     {
       "name": "Logging Yield Up Lv. 5",
@@ -168,7 +186,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Lunker",
@@ -177,7 +196,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Mastery of Fasting",
@@ -186,7 +206,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "절식의 극의"
     },
     {
       "name": "Mining Yield Up Lv. 5",
@@ -195,7 +216,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Remarkable Craftsmanship",
@@ -204,7 +226,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "초절기교"
     },
     {
       "name": "Skymarcher",
@@ -213,7 +236,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "하늘 뛰기"
     },
     {
       "name": "Swift",
@@ -222,7 +246,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "신속"
     },
     {
       "name": "Tempest Fury",
@@ -231,7 +256,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Vampiric",
@@ -240,7 +266,8 @@
       "rating": 4,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Ace Swimmer",
@@ -249,7 +276,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "수영의 달인"
     },
     {
       "name": "Artisan",
@@ -258,7 +286,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "장인 기질"
     },
     {
       "name": "Burly Body",
@@ -267,7 +296,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "억센 육체"
     },
     {
       "name": "Celestial Emperor",
@@ -276,7 +306,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "성천"
     },
     {
       "name": "Diet Lover",
@@ -285,7 +316,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "식습관의 달인"
     },
     {
       "name": "Divine Dragon",
@@ -294,7 +326,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "신룡"
     },
     {
       "name": "Earth Emperor",
@@ -303,7 +336,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "지제"
     },
     {
       "name": "Ferocious",
@@ -312,7 +346,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "사나움"
     },
     {
       "name": "Flame Emperor",
@@ -321,7 +356,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "염제"
     },
     {
       "name": "Healing Coach",
@@ -330,7 +366,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Ice Emperor",
@@ -339,7 +376,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "빙제"
     },
     {
       "name": "Infinite Stamina",
@@ -348,7 +386,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "넘쳐나는 기력"
     },
     {
       "name": "Logging Foreman",
@@ -357,7 +396,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "벌목 관리자"
     },
     {
       "name": "Logging Yield Up Lv. 3",
@@ -366,7 +406,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Logging Yield Up Lv. 4",
@@ -375,7 +416,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Logging/Mining Yield Up",
@@ -384,7 +426,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Lord of Lightning",
@@ -393,7 +436,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "뇌제"
     },
     {
       "name": "Lord of the Sea",
@@ -402,7 +446,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "해황"
     },
     {
       "name": "Lord of the Underworld",
@@ -411,7 +456,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "명왕"
     },
     {
       "name": "Mine Foreman",
@@ -420,7 +466,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "광산 관리자"
     },
     {
       "name": "Mining Yield Up Lv. 3",
@@ -429,7 +476,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Mining Yield Up Lv. 4",
@@ -438,7 +486,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Motivational Leader",
@@ -447,7 +496,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "동기 부여"
     },
     {
       "name": "Noble",
@@ -456,7 +506,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "고귀"
     },
     {
       "name": "Rayne Syndicate Boss",
@@ -465,7 +516,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": ""
     },
     {
       "name": "Reload Master",
@@ -474,7 +526,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "재장전의 달인"
     },
     {
       "name": "Runner",
@@ -483,7 +536,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "달리기 왕"
     },
     {
       "name": "Serenity",
@@ -492,7 +546,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "냉철함"
     },
     {
       "name": "Spirit Emperor",
@@ -501,7 +556,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "정령왕"
     },
     {
       "name": "Stronghold Strategist",
@@ -510,7 +566,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "철옹성의 책사"
     },
     {
       "name": "Vanguard",
@@ -519,7 +576,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "돌격 지휘자"
     },
     {
       "name": "Wellness Watcher",
@@ -528,7 +586,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f5b93d"
+      "color": "#f5b93d",
+      "nameKo": "피로 관리사"
     },
     {
       "name": "Workaholic",
@@ -537,7 +596,8 @@
       "rating": 3,
       "polarity": "positive",
       "stacks": true,
-      "color": "#c56bff"
+      "color": "#c56bff",
+      "nameKo": ""
     },
     {
       "name": "Musclehead",
@@ -546,7 +606,8 @@
       "rating": 2,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Abnormal",
@@ -555,7 +616,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Aerial Dash +1",
@@ -564,7 +626,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": false,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Aerial Dash +2",
@@ -573,7 +636,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": false,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Aerial Dash +3",
@@ -582,7 +646,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": false,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Aerial Dash +4",
@@ -591,7 +656,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Blood of the Dragon",
@@ -600,7 +666,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Botanical Barrier",
@@ -609,7 +676,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Brave",
@@ -618,7 +686,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Capacitor",
@@ -627,7 +696,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Cheery",
@@ -636,7 +706,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Coldblooded",
@@ -645,7 +716,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Dainty Eater",
@@ -654,7 +726,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Dragonkiller",
@@ -663,7 +736,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Earthquake Resistant",
@@ -672,7 +746,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Fine Furs",
@@ -681,7 +756,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Fit as a Fiddle",
@@ -690,7 +766,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Fragrant Foliage",
@@ -699,7 +776,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Hard Skin",
@@ -708,7 +786,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": null
+      "color": null,
+      "nameKo": ""
     },
     {
       "name": "Heated Body",
@@ -717,7 +796,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Hydromaniac",
@@ -726,7 +806,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Impatient",
@@ -735,7 +816,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Insomnia",
@@ -744,7 +826,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Insulated Body",
@@ -753,7 +836,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Jump Count Increase +1",
@@ -762,7 +846,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": false,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Jump Count Increase +2",
@@ -771,7 +856,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": false,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Jump Count Increase +3",
@@ -780,7 +866,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Jump Power Boost",
@@ -789,7 +876,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Logging Yield Up Lv. 1",
@@ -798,7 +886,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Logging Yield Up Lv. 2",
@@ -807,7 +896,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Mining Yield Up Lv. 1",
@@ -816,7 +906,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Mining Yield Up Lv. 2",
@@ -825,7 +916,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Nimble",
@@ -834,7 +926,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Positive Thinker",
@@ -843,7 +936,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Power of Gaia",
@@ -852,7 +946,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Pyromaniac",
@@ -861,7 +956,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Serious",
@@ -870,7 +966,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Sleek Stroke",
@@ -879,7 +976,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Spirit of Zen",
@@ -888,7 +986,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Suntan Lover",
@@ -897,7 +996,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Veil of Darkness",
@@ -906,7 +1006,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Waterproof",
@@ -915,7 +1016,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#6fca4f"
+      "color": "#6fca4f",
+      "nameKo": ""
     },
     {
       "name": "Work Slave",
@@ -924,7 +1026,8 @@
       "rating": 1,
       "polarity": "positive",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Heavyweight",
@@ -933,7 +1036,8 @@
       "rating": null,
       "polarity": "neutral",
       "stacks": true,
-      "color": null
+      "color": null,
+      "nameKo": ""
     },
     {
       "name": "Legend",
@@ -942,7 +1046,8 @@
       "rating": null,
       "polarity": "neutral",
       "stacks": true,
-      "color": null
+      "color": null,
+      "nameKo": "전설"
     },
     {
       "name": "Otherworldly Cells",
@@ -951,7 +1056,8 @@
       "rating": null,
       "polarity": "neutral",
       "stacks": true,
-      "color": null
+      "color": null,
+      "nameKo": ""
     },
     {
       "name": "Easygoing",
@@ -960,7 +1066,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Glutton",
@@ -969,7 +1076,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Mercy Hit",
@@ -978,7 +1086,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Night Owl",
@@ -987,7 +1096,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Shabby",
@@ -996,7 +1106,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Sickly",
@@ -1005,7 +1116,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Unstable",
@@ -1014,7 +1126,8 @@
       "rating": -1,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Bottomless Stomach",
@@ -1023,7 +1136,8 @@
       "rating": -2,
       "polarity": "negative",
       "stacks": true,
-      "color": "#f0663f"
+      "color": "#f0663f",
+      "nameKo": ""
     },
     {
       "name": "Destructive",
@@ -1032,7 +1146,8 @@
       "rating": -2,
       "polarity": "negative",
       "stacks": true,
-      "color": null
+      "color": null,
+      "nameKo": ""
     }
   ]
 }

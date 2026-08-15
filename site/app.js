@@ -599,18 +599,46 @@ function traitByName(name) {
   const key = String(name ?? "").trim().toLocaleLowerCase();
   if (!key) return null;
   if (!state.traitIndex) {
-    state.traitIndex = new Map((state.traits?.traits ?? []).map((trait) => [trait.name.toLocaleLowerCase(), trait]));
+    state.traitIndex = new Map();
+    for (const trait of state.traits?.traits ?? []) {
+      state.traitIndex.set(trait.name.toLocaleLowerCase(), trait);
+      // Recommendations may name a trait in either language.
+      if (trait.nameKo) state.traitIndex.set(trait.nameKo.toLocaleLowerCase(), trait);
+    }
   }
   return state.traitIndex.get(key) ?? null;
 }
+
+// Korean where the source provides it, English otherwise — never a guess.
+function traitLabel(trait) {
+  return trait.nameKo || trait.name;
+}
+
+// Traits are graded -2..5; the tier drives the colour so a card's value reads at
+// a glance instead of requiring the number to be parsed.
+function traitTier(trait) {
+  const rating = trait.rating;
+  if (rating === null || rating === undefined) return "none";
+  if (rating <= -2) return "worst";
+  if (rating < 0) return "bad";
+  if (rating === 0) return "none";
+  if (rating >= 5) return "legendary";
+  if (rating === 4) return "epic";
+  if (rating === 3) return "rare";
+  return "common";
+}
+
+const tierLabels = {
+  legendary: "전설", epic: "매우 좋음", rare: "좋음", common: "보통",
+  none: "중립", bad: "나쁨", worst: "매우 나쁨",
+};
 
 // Renders a trait name as a button that reveals its effect, falling back to
 // plain text when the catalogue does not know the name.
 function traitChip(name) {
   const trait = traitByName(name);
-  const safeName = escapeHtml(String(name ?? ""));
-  if (!trait) return `<span class="trait-chip trait-chip-unknown">${safeName}</span>`;
-  return `<button type="button" class="trait-chip trait-${trait.polarity}" data-trait="${escapeHtml(trait.name)}" aria-expanded="false"><span>${safeName}</span>${trait.rating === null ? "" : `<small>${trait.rating > 0 ? "+" : ""}${trait.rating}</small>`}</button>`;
+  if (!trait) return `<span class="trait-chip trait-chip-unknown">${escapeHtml(String(name ?? ""))}</span>`;
+  return `<button type="button" class="trait-chip tier-${traitTier(trait)}" data-trait="${escapeHtml(trait.name)}" aria-expanded="false"><span>${escapeHtml(traitLabel(trait))}</span>${trait.rating === null ? "" : `<small>${trait.rating > 0 ? "+" : ""}${trait.rating}</small>`}</button>`;
 }
 
 function traitPolarityLabel(polarity) {
@@ -625,16 +653,20 @@ function renderTraits() {
   }
   const query = state.traitQuery.trim().toLocaleLowerCase();
   const filtered = catalogue.filter((trait) => state.traitPolarity === "all" || trait.polarity === state.traitPolarity)
-    .filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
+    .filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.nameKo ?? "").includes(query)
+      || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
   const groups = [["positive", "유용한 특성"], ["negative", "피해야 할 특성"], ["neutral", "중립 특성"]];
+  const tiers = ["legendary", "epic", "rare", "common", "none", "bad", "worst"];
 
   content.innerHTML = `${sectionHeading("05", "특성·패시브 사전", `${catalogue.length}종 · 등급이 높을수록 유용`)}
     <div class="roles" role="group" aria-label="특성 분류">${[["all", "전체"], ...groups.map(([id, label]) => [id, label])].map(([id, label]) => `<button type="button" data-trait-polarity="${escapeHtml(id)}" class="${state.traitPolarity === id ? "active" : ""}">${escapeHtml(label)}</button>`).join("")}</div>
-    <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 근면, work speed, attack" autocomplete="off"></div>
-    <div class="trait-grid">${filtered.map((trait) => `<article class="trait-card trait-${trait.polarity}">
-      <div class="trait-card-head"><h3>${escapeHtml(trait.name)}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? "+" : ""}${trait.rating}</span>`}</div>
+    <div class="tier-legend">${tiers.map((tier) => `<span class="tier-key tier-${tier}"><i></i>${escapeHtml(tierLabels[tier])}</span>`).join("")}</div>
+    <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 장인, 작업 속도, Artisan" autocomplete="off"></div>
+    <div class="trait-grid">${filtered.map((trait) => `<article class="trait-card tier-${traitTier(trait)}">
+      <div class="trait-card-head"><h3>${escapeHtml(traitLabel(trait))}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? "+" : ""}${trait.rating}</span>`}</div>
+      ${trait.nameKo ? `<span class="trait-alias">${escapeHtml(trait.name)}</span>` : ""}
       <p>${escapeHtml(trait.descriptionKo || trait.description)}</p>
-      <small>${escapeHtml(traitPolarityLabel(trait.polarity))}${trait.stacks ? " · 중첩 가능" : ""}</small>
+      <small>${escapeHtml(tierLabels[traitTier(trait)])}${trait.stacks ? " · 중첩 가능" : ""}</small>
     </article>`).join("")}</div>
     ${filtered.length === 0 ? `<p class="result-note">조건에 맞는 특성이 없습니다.</p>` : ""}
     <div class="attribution"><h3>출처</h3><p>특성 효과는 <a href="${safeUrl(state.traits.sourceUrl)}" target="_blank" rel="noopener noreferrer">palworld.tools 특성 목록 ↗</a>에서 가져와 한국어로 옮깁니다. 특성 이름은 게임 내 영문 표기를 그대로 씁니다.</p></div>`;
@@ -676,7 +708,7 @@ function bindTraitChips() {
       const trait = traitByName(button.dataset.trait);
       if (!trait) return;
       const tip = document.createElement("span");
-      tip.className = `trait-tip trait-${trait.polarity}`;
+      tip.className = `trait-tip tier-${traitTier(trait)}`;
       tip.setAttribute("role", "note");
       tip.textContent = `${trait.descriptionKo || trait.description}${trait.stacks ? " (중첩 가능)" : ""}`;
       button.setAttribute("aria-expanded", "true");

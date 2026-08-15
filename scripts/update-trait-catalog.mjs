@@ -1,6 +1,7 @@
 import { mkdir, rename, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { translateDescription } from "./trait-korean.mjs";
+import { matchBySignature } from "./trait-name-match.mjs";
 
 // Pal recommendations name traits and passive skills without saying what they do.
 // This builds the catalogue once so the site can resolve any trait name to its
@@ -91,6 +92,43 @@ async function log(message) {
   await writeFile(logPath, `${new Date().toISOString()} ${message}\n`, { encoding: "utf8", flag: "a" });
 }
 
+// Korean trait names come from palworld.gg, which covers the breedable subset.
+// A failure here must not lose the catalogue, so names degrade to English.
+async function fetchKoreanNames() {
+  const parse = (html) => {
+    const cards = [];
+    for (const match of html.matchAll(/<article class="[^"]*passive-skill[^"]*">([\s\S]*?)<\/article>/g)) {
+      const block = match[1];
+      const name = stripTags((block.match(/<div class="name">([\s\S]*?)<\/div>/) ?? [])[1] ?? "");
+      const descr = decodeEntities(((block.match(/<p class="descr">([\s\S]*?)<\/p>/) ?? [])[1] ?? "").replace(/<[^>]*>/g, "\n"))
+        .split(/\r?\n/).map((part) => part.replace(/\s+/g, " ").trim()).filter(Boolean);
+      const rank = ((block.match(/rank_(\d+)\.png/) ?? [])[1]) ?? "";
+      if (name) cards.push({ name, descr, rank });
+    }
+    return cards;
+  };
+  const get = (url) => fetch(url, {
+    headers: { "user-agent": "kms0539-palworld-guide/1.0 (+https://github.com/kms0539/palworld-guide)" },
+    signal: AbortSignal.timeout(45_000),
+  }).then((response) => {
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${url}`);
+    return response.text();
+  });
+
+  const [koreanHtml, englishHtml] = await Promise.all([
+    get("https://palworld.gg/ko/passive-skills"),
+    get("https://palworld.gg/passive-skills"),
+  ]);
+  const korean = parse(koreanHtml);
+  const english = parse(englishHtml);
+  if (korean.length < 40 || english.length !== korean.length) {
+    throw new Error(`Korean name source looks wrong: en=${english.length} ko=${korean.length}`);
+  }
+  const { pairs, unmatched, ambiguous } = matchBySignature(english, korean);
+  if (ambiguous.length > 0) throw new Error(`ambiguous Korean trait names: ${ambiguous.slice(0, 3).join(" | ")}`);
+  return { pairs, unmatched, total: english.length };
+}
+
 async function main() {
   const response = await fetch(SOURCE_URL, {
     headers: { "user-agent": "palworld-guide/1.0 (+https://github.com/kms0539/palworld-guide)" },
@@ -113,6 +151,16 @@ async function main() {
   }
   for (const trait of traits) delete trait.untranslated;
 
+  let koreanNames = { pairs: new Map(), unmatched: [], total: 0 };
+  try {
+    koreanNames = await fetchKoreanNames();
+  } catch (error) {
+    await log(`Korean trait names unavailable, keeping English: ${error.message}`);
+  }
+  for (const trait of traits) trait.nameKo = koreanNames.pairs.get(trait.name) ?? "";
+  const localized = traits.filter((trait) => trait.nameKo).length;
+  await log(`Korean trait names: ${localized}/${traits.length} (source covers ${koreanNames.total})`);
+
   traits.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || a.name.localeCompare(b.name));
   await atomicWrite(outputPath, {
     schemaVersion: SCHEMA_VERSION,
@@ -122,6 +170,7 @@ async function main() {
       total: traits.length,
       positive: traits.filter((trait) => trait.polarity === "positive").length,
       negative: traits.filter((trait) => trait.polarity === "negative").length,
+      localizedNames: traits.filter((trait) => trait.nameKo).length,
     },
     traits,
   });
