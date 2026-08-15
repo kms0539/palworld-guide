@@ -94,6 +94,39 @@ test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", 
   assert.doesNotMatch(app, /style=|\.style\b/);
 });
 
+test("map markers use the source projection instead of hand-tuned bounds", async () => {
+  const [guide, app, updater] = await Promise.all([
+    readFile(new URL("site/data/guide-data.json", root), "utf8").then(JSON.parse),
+    readFile(new URL("site/app.js", root), "utf8"),
+    readFile(new URL("scripts/update-guide-data.mjs", root), "utf8"),
+  ]);
+
+  const projection = guide.map.projection;
+  assert.ok(projection, "published guide data must carry the map projection");
+  assert.equal(projection.size, 8192);
+  for (const key of ["minX", "minY", "maxX", "maxY"]) assert.equal(typeof projection.gameBounds[key], "number");
+  for (const key of ["xScale", "xOffset", "yScale", "yOffset"]) assert.equal(typeof projection.imageTransform[key], "number");
+  for (const key of ["translateWorldX", "translateWorldY", "scale"]) assert.equal(typeof projection.transform[key], "number");
+
+  // The image must cover the declared game bounds, or markers would sit on a
+  // differently framed terrain texture.
+  const { xScale, xOffset } = projection.imageTransform;
+  assert.ok(Math.abs(xScale * projection.gameBounds.minX + xOffset) <= 2);
+  assert.ok(Math.abs(xScale * projection.gameBounds.maxX + xOffset - projection.size) <= 2);
+
+  // World bounds must be derived from the projection, never re-hardcoded.
+  const { translateWorldX, translateWorldY, scale } = projection.transform;
+  assert.equal(guide.map.bounds.minY, projection.gameBounds.minX * scale + translateWorldY);
+  assert.equal(guide.map.bounds.maxX, projection.gameBounds.maxY * scale - translateWorldX);
+  assert.doesNotMatch(updater, /minX: -1099400/);
+
+  // The vertical axis is flipped by the source projection; a plain bounds
+  // stretch mirrored the map.
+  assert.match(app, /projection\.imageTransform/);
+  assert.match(app, /projection\.size - \(yScale \* -game\.y \+ yOffset\)/);
+  assert.doesNotMatch(app, /point\.y - 158000/);
+});
+
 test("Korean visual guide publishes local verified images with attribution", async () => {
   const [html, app, assetsText] = await Promise.all([
     readFile(new URL("site/index.html", root), "utf8"),

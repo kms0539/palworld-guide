@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-14T01:45:06.076Z",
+  "generatedAt": "2026-08-15T01:24:42.714Z",
   "gameVersion": "1.0.x",
   "freshness": {
     "status": "current",
@@ -18,7 +18,7 @@
       "id": "palworld-official",
       "name": "Palworld official Steam page",
       "url": "https://store.steampowered.com/app/1623730/Palworld/",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0.x",
       "kind": "official",
       "license": null
@@ -27,7 +27,7 @@
       "id": "palworld-official-1-0-3",
       "name": "Palworld official v1.0.3 patch notes",
       "url": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=english",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0.3",
       "kind": "official",
       "license": null
@@ -36,7 +36,7 @@
       "id": "palworld-server-docs",
       "name": "Official Palworld Server Guide",
       "url": "https://docs.palworldgame.com/",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0.0",
       "kind": "official-docs",
       "license": null
@@ -45,7 +45,7 @@
       "id": "palworld-tools",
       "name": "palworld.tools 1.0 computed tier lists",
       "url": "https://www.palworld.tools/tier-list",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0",
       "kind": "computed",
       "license": null
@@ -54,7 +54,7 @@
       "id": "palcompass",
       "name": "PalCompass best Pals editorial",
       "url": "https://palcompass.com/guides/best-pals",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0.1",
       "kind": "editorial",
       "license": null
@@ -63,7 +63,7 @@
       "id": "palmods-combat-meta",
       "name": "PalMods 1.0 combat data and synergy circuits",
       "url": "https://www.palmods.gg/blog/palworld-1-0-strongest-pals",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0.3 checked",
       "kind": "computed",
       "license": null
@@ -72,7 +72,7 @@
       "id": "palmods-element-teams",
       "name": "PalMods element team templates and stacking rules",
       "url": "https://www.palmods.gg/guides/teams",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0.3 checked",
       "kind": "computed",
       "license": null
@@ -81,7 +81,7 @@
       "id": "allthings-combat-builds",
       "name": "All Things How 1.0 combat builds and elemental matchups",
       "url": "https://allthings.how/palworld-1-0-the-best-combat-pals-and-damage-party-builds/",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0",
       "kind": "editorial",
       "license": null
@@ -90,7 +90,7 @@
       "id": "palworld-map",
       "name": "Palworld Interactive Map 1.0 Beta",
       "url": "https://palworld-map.com/map",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0",
       "kind": "map-aggregation",
       "license": "per-record"
@@ -99,7 +99,7 @@
       "id": "paldex-assets",
       "name": "PalDex open-source map and icons",
       "url": "https://github.com/catrenelle/PalDex",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0",
       "kind": "visual-assets",
       "license": "MIT"
@@ -108,7 +108,7 @@
       "id": "pocketpair-official-media",
       "name": "Pocketpair official Palworld media",
       "url": "https://www.pocketpair.jp/games/palworld/",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0",
       "kind": "official-media",
       "license": "Pocketpair copyright"
@@ -117,7 +117,7 @@
       "id": "palworld-gg-korean-names",
       "name": "Palworld.gg Korean Paldeck",
       "url": "https://palworld.gg/ko/pals",
-      "checkedAt": "2026-08-14T01:45:06.076Z",
+      "checkedAt": "2026-08-15T01:24:42.714Z",
       "gameVersion": "1.0",
       "kind": "localization",
       "license": null
@@ -7297,21 +7297,41 @@
     }
   ],
   "map": {
+    "projection": {
+      "size": 8192,
+      "gameBounds": {
+        "minX": -1951,
+        "minY": -1893,
+        "maxX": 1198,
+        "maxY": 1243
+      },
+      "imageTransform": {
+        "xScale": 2.601460781200381,
+        "xOffset": 5075.45,
+        "yScale": -2.6122448979591835,
+        "yOffset": 4960.62
+      },
+      "transform": {
+        "translateWorldX": 123930,
+        "translateWorldY": 157935,
+        "scale": 459
+      }
+    },
     "bounds": {
-      "minX": -1099400,
-      "maxX": 349400,
-      "minY": -724400,
-      "maxY": 724400
+      "minX": -992817,
+      "maxX": 446607,
+      "minY": -737574,
+      "maxY": 707817
     },
     "regions": {
       "main": {
         "label": "Palpagos",
         "terrain": true,
         "bounds": {
-          "minX": -1099400,
-          "maxX": 349400,
-          "minY": -724400,
-          "maxY": 724400
+          "minX": -992817,
+          "maxX": 446607,
+          "minY": -737574,
+          "maxY": 707817
         }
       },
       "world_tree": {

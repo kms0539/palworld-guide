@@ -301,6 +301,41 @@ function parseMapProjection(moduleText) {
   return JSON.parse(moduleText.slice(payloadStart, end));
 }
 
+// The map module ships the projection that its own coordinates were produced
+// with. Parsing it keeps the markers and the terrain image in one coordinate
+// space instead of relying on hand-tuned bounds that silently drift.
+function parseMapDefinition(moduleText) {
+  const ratio = (expression) => {
+    const parts = String(expression).split("/").map(Number);
+    if (parts.some((part) => !Number.isFinite(part))) return NaN;
+    return parts.length === 2 ? parts[0] / parts[1] : parts[0];
+  };
+  const size = moduleText.match(/size:(\d+)/);
+  const gameBounds = moduleText.match(/gameBounds:\{minX:(-?[\d.]+),minY:(-?[\d.]+),maxX:(-?[\d.]+),maxY:(-?[\d.]+)\}/);
+  const imageTransform = moduleText.match(/imageTransform:\{xScale:(-?[\d./]+),xOffset:(-?[\d.]+),yScale:(-?[\d./]+),yOffset:(-?[\d.]+)\}/);
+  const transform = moduleText.match(/transform:\{translateWorldX:(-?[\d.]+),translateWorldY:(-?[\d.]+),scale:(-?[\d.]+)\}/);
+  if (!size || !gameBounds || !imageTransform || !transform) throw new Error("map projection definition not found");
+
+  const definition = {
+    size: Number(size[1]),
+    gameBounds: { minX: Number(gameBounds[1]), minY: Number(gameBounds[2]), maxX: Number(gameBounds[3]), maxY: Number(gameBounds[4]) },
+    imageTransform: { xScale: ratio(imageTransform[1]), xOffset: Number(imageTransform[2]), yScale: ratio(imageTransform[3]), yOffset: Number(imageTransform[4]) },
+    transform: { translateWorldX: Number(transform[1]), translateWorldY: Number(transform[2]), scale: Number(transform[3]) },
+  };
+
+  // The image must cover the declared game bounds exactly; otherwise the markers
+  // would be placed against a differently framed terrain texture.
+  const left = definition.imageTransform.xScale * definition.gameBounds.minX + definition.imageTransform.xOffset;
+  const right = definition.imageTransform.xScale * definition.gameBounds.maxX + definition.imageTransform.xOffset;
+  if (Math.abs(left) > 2 || Math.abs(right - definition.size) > 2) {
+    throw new Error(`map projection is inconsistent with its image: left=${left.toFixed(2)} right=${right.toFixed(2)} size=${definition.size}`);
+  }
+  if (!Number.isFinite(definition.transform.scale) || definition.transform.scale <= 0) {
+    throw new Error("map projection scale is invalid");
+  }
+  return definition;
+}
+
 function normalizeMapPoint(point) {
   const world = point.coords?.world;
   if (!world || !Number.isFinite(world.x) || !Number.isFinite(world.y)) return null;
@@ -370,6 +405,16 @@ async function main() {
   if (!mapAsset) throw new Error("map projection asset not found");
   const mapModule = await fetchText(new URL(mapAsset, SOURCE.map).href, { timeoutMs: 60_000 });
   const mapSourcePoints = parseMapProjection(mapModule);
+  const mapDefinition = parseMapDefinition(mapModule);
+  // World bounds are derived from the source's own game bounds so the rectangle
+  // the site draws into always matches the projection it draws with.
+  const { translateWorldX, translateWorldY, scale } = mapDefinition.transform;
+  const mainWorldBounds = {
+    minX: mapDefinition.gameBounds.minY * scale - translateWorldX,
+    maxX: mapDefinition.gameBounds.maxY * scale - translateWorldX,
+    minY: mapDefinition.gameBounds.minX * scale + translateWorldY,
+    maxY: mapDefinition.gameBounds.maxX * scale + translateWorldY,
+  };
   const allowedMapCategories = new Set(["fast_travel", "alpha_pal", "boss_tower", "bounty_target", "predator_pal", "oil_rig", "world_tree", "sunreach"]);
   const mapPoints = mapSourcePoints
     .filter((point) => allowedMapCategories.has(point.category))
@@ -413,12 +458,13 @@ async function main() {
     },
     builds,
     map: {
-      bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 },
+      projection: mapDefinition,
+      bounds: mainWorldBounds,
       regions: {
         main: {
           label: "Palpagos",
           terrain: true,
-          bounds: { minX: -1099400, maxX: 349400, minY: -724400, maxY: 724400 },
+          bounds: mainWorldBounds,
         },
         world_tree: {
           label: "World Tree",

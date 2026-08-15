@@ -471,7 +471,23 @@ function renderBuilds() {
   content.querySelectorAll("[data-build-kind]").forEach((button) => button.addEventListener("click", () => { state.buildKind = button.dataset.buildKind; renderBuilds(); }));
 }
 
+// The source map publishes the projection its coordinates were produced with:
+// world -> in-game coordinates, then in-game coordinates -> image pixels. Using
+// it keeps markers aligned with the terrain instead of stretching world values
+// across the frame, which drifted the vertical axis by about 7%.
 function mapPosition(point, bounds) {
+  const projection = state.data?.map?.projection;
+  if (projection?.transform && projection?.imageTransform && projection?.size) {
+    const { translateWorldX, translateWorldY, scale } = projection.transform;
+    const game = { x: (point.y - translateWorldY) / scale, y: (point.x + translateWorldX) / scale };
+    const { xScale, xOffset, yScale, yOffset } = projection.imageTransform;
+    const pixelX = xScale * game.x + xOffset;
+    const pixelY = projection.size - (yScale * -game.y + yOffset);
+    return {
+      x: Math.max(0.5, Math.min(99.5, (pixelX / projection.size) * 100)),
+      y: Math.max(0.5, Math.min(99.5, (pixelY / projection.size) * 100)),
+    };
+  }
   const screenX = (point.y - bounds.minY) / (bounds.maxY - bounds.minY);
   const screenY = (point.x - bounds.minX) / (bounds.maxX - bounds.minX);
   return { x: Math.max(0.5, Math.min(99.5, screenX * 100)), y: Math.max(0.5, Math.min(99.5, screenY * 100)) };
@@ -482,7 +498,11 @@ function pointWithinBounds(point, bounds) {
 }
 
 function hudCoordinate(point) {
-  return { x: (point.y - 158000) / 459, y: (point.x + 123888) / 459 };
+  const transform = state.data?.map?.projection?.transform;
+  const translateWorldX = transform?.translateWorldX ?? 123930;
+  const translateWorldY = transform?.translateWorldY ?? 157935;
+  const scale = transform?.scale || 459;
+  return { x: (point.y - translateWorldY) / scale, y: (point.x + translateWorldX) / scale };
 }
 
 function pointDetail() {

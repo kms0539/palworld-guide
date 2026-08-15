@@ -23,6 +23,7 @@ const publicGuide = {
   editorial: guide.editorial,
   builds: guide.builds,
   map: {
+    projection: guide.map.projection,
     bounds: guide.map.bounds,
     regions: guide.map.regions,
     points: currentMapPoints,
