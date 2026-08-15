@@ -118,7 +118,7 @@ test("trait catalogue explains every trait the guide names", async () => {
 
   // Korean names come from the breedable subset, so partial coverage is expected
   // but a collapse to zero means the join broke.
-  assert.ok(traits.counts.localizedNames >= 40, `too few Korean trait names: ${traits.counts.localizedNames}`);
+  assert.ok(traits.counts.localizedNames >= 85, `too few Korean trait names: ${traits.counts.localizedNames}`);
   const localized = new Map(traits.traits.filter((trait) => trait.nameKo).map((trait) => [trait.nameKo, trait.name]));
   assert.equal(localized.size, traits.counts.localizedNames, "a Korean name was reused for two traits");
   for (const trait of traits.traits) {

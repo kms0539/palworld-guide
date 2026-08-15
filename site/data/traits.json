@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-15T02:26:49.278Z",
+  "updatedAt": "2026-08-15T04:11:09.931Z",
   "sourceUrl": "https://www.palworld.tools/traits",
   "counts": {
     "total": 114,
     "positive": 102,
     "negative": 9,
-    "localizedNames": 46
+    "localizedNames": 94
   },
   "traits": [
     {
@@ -47,7 +47,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": "선인"
+      "nameKo": ""
     },
     {
       "name": "Sanctified Meat Shield",
@@ -367,7 +367,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": ""
+      "nameKo": "힐링 코치"
     },
     {
       "name": "Ice Emperor",
@@ -587,7 +587,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f5b93d",
-      "nameKo": "피로 관리사"
+      "nameKo": ""
     },
     {
       "name": "Workaholic",
@@ -597,7 +597,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#c56bff",
-      "nameKo": ""
+      "nameKo": "일 중독"
     },
     {
       "name": "Musclehead",
@@ -607,7 +607,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "운동 바보"
     },
     {
       "name": "Abnormal",
@@ -617,7 +617,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "어브노멀"
     },
     {
       "name": "Aerial Dash +1",
@@ -627,7 +627,7 @@
       "polarity": "positive",
       "stacks": false,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "공중 대시 +1"
     },
     {
       "name": "Aerial Dash +2",
@@ -637,7 +637,7 @@
       "polarity": "positive",
       "stacks": false,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "공중 대시 +2"
     },
     {
       "name": "Aerial Dash +3",
@@ -647,7 +647,7 @@
       "polarity": "positive",
       "stacks": false,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "공중 대시 +3"
     },
     {
       "name": "Aerial Dash +4",
@@ -657,7 +657,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "공중 대시 +4"
     },
     {
       "name": "Blood of the Dragon",
@@ -667,7 +667,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "용의 혈족"
     },
     {
       "name": "Botanical Barrier",
@@ -677,7 +677,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "방초 효과"
     },
     {
       "name": "Brave",
@@ -687,7 +687,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "용감"
     },
     {
       "name": "Capacitor",
@@ -697,7 +697,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "콘덴서"
     },
     {
       "name": "Cheery",
@@ -707,7 +707,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "밝은 성격"
     },
     {
       "name": "Coldblooded",
@@ -717,7 +717,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "냉혈"
     },
     {
       "name": "Dainty Eater",
@@ -727,7 +727,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "소식"
     },
     {
       "name": "Dragonkiller",
@@ -737,7 +737,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "용 학살자"
     },
     {
       "name": "Earthquake Resistant",
@@ -747,7 +747,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "내진 구조"
     },
     {
       "name": "Fine Furs",
@@ -757,7 +757,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "좋은 혈통"
     },
     {
       "name": "Fit as a Fiddle",
@@ -767,7 +767,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "건강한 우량아"
     },
     {
       "name": "Fragrant Foliage",
@@ -777,7 +777,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "초목의 향기"
     },
     {
       "name": "Hard Skin",
@@ -787,7 +787,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": null,
-      "nameKo": ""
+      "nameKo": "단단한 피부"
     },
     {
       "name": "Heated Body",
@@ -797,7 +797,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "고온 체질"
     },
     {
       "name": "Hydromaniac",
@@ -807,7 +807,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "물놀이 선호"
     },
     {
       "name": "Impatient",
@@ -817,7 +817,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "성급함"
     },
     {
       "name": "Insomnia",
@@ -827,7 +827,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "불면"
     },
     {
       "name": "Insulated Body",
@@ -837,7 +837,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "절연체"
     },
     {
       "name": "Jump Count Increase +1",
@@ -847,7 +847,7 @@
       "polarity": "positive",
       "stacks": false,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "점프 횟수 증가 +1"
     },
     {
       "name": "Jump Count Increase +2",
@@ -857,7 +857,7 @@
       "polarity": "positive",
       "stacks": false,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "점프 횟수 증가 +2"
     },
     {
       "name": "Jump Count Increase +3",
@@ -867,7 +867,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "점프 횟수 증가 +3"
     },
     {
       "name": "Jump Power Boost",
@@ -877,7 +877,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "점프력 강화"
     },
     {
       "name": "Logging Yield Up Lv. 1",
@@ -927,7 +927,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "재빠름"
     },
     {
       "name": "Positive Thinker",
@@ -937,7 +937,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "긍정적인 사고"
     },
     {
       "name": "Power of Gaia",
@@ -947,7 +947,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "대지의 힘"
     },
     {
       "name": "Pyromaniac",
@@ -957,7 +957,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "불놀이 선호"
     },
     {
       "name": "Serious",
@@ -967,7 +967,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "성실함"
     },
     {
       "name": "Sleek Stroke",
@@ -977,7 +977,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "유연한 헤엄"
     },
     {
       "name": "Spirit of Zen",
@@ -987,7 +987,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "무의 경지"
     },
     {
       "name": "Suntan Lover",
@@ -997,7 +997,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "일광욕 선호"
     },
     {
       "name": "Veil of Darkness",
@@ -1007,7 +1007,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "밤의 장막"
     },
     {
       "name": "Waterproof",
@@ -1017,7 +1017,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#6fca4f",
-      "nameKo": ""
+      "nameKo": "방수 가공"
     },
     {
       "name": "Work Slave",
@@ -1027,7 +1027,7 @@
       "polarity": "positive",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "일 노예"
     },
     {
       "name": "Heavyweight",
@@ -1037,7 +1037,7 @@
       "polarity": "neutral",
       "stacks": true,
       "color": null,
-      "nameKo": ""
+      "nameKo": "헤비급"
     },
     {
       "name": "Legend",
@@ -1057,7 +1057,7 @@
       "polarity": "neutral",
       "stacks": true,
       "color": null,
-      "nameKo": ""
+      "nameKo": "미지의 생체세포"
     },
     {
       "name": "Easygoing",
@@ -1067,7 +1067,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "느긋함"
     },
     {
       "name": "Glutton",
@@ -1077,7 +1077,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "먹보"
     },
     {
       "name": "Mercy Hit",
@@ -1097,7 +1097,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "밤샘"
     },
     {
       "name": "Shabby",
@@ -1117,7 +1117,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "은둔형 외톨이"
     },
     {
       "name": "Unstable",
@@ -1127,7 +1127,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "정신 불안정"
     },
     {
       "name": "Bottomless Stomach",
@@ -1137,7 +1137,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": "#f0663f",
-      "nameKo": ""
+      "nameKo": "블랙홀 위장"
     },
     {
       "name": "Destructive",
@@ -1147,7 +1147,7 @@
       "polarity": "negative",
       "stacks": true,
       "color": null,
-      "nameKo": ""
+      "nameKo": "파멸 기원"
     }
   ]
 }

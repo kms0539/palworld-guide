@@ -34,11 +34,36 @@ const TOKENS = [
   ["stamina_drain", /Player Stamina Consumption/i, /플레이어의 기력 감소량/],
   ["stamina", /Max stamina/i, /최대 기력/],
   ["mount_jump", /Mounted Jump Count/i, /탑승 중 점프 횟수/],
+  ["aerial_dash", /Aerial Dash/i, /공중 대시/],
+  ["jump_count", /Jump Count Increase/i, /점프 횟수 증가/],
+  ["jump_power", /Jump Power Boost/i, /점프력 강화/],
   ["imm_flinch", /Immune to Flinch/i, /피격 경직 무효/],
   ["imm_knock", /Immune to Knockback/i, /넉백 무효/],
   ["imm_explosion", /Immune to Explosion/i, /폭발 피해 무효/],
   ["imm_poison", /Immune to Poison/i, /독 상태 이상 피해 무효/],
   ["imm_burn", /Immune to Burn/i, /화상 상태 이상 피해 무효/],
+  // Gear passives read "Dark Attack +3%" rather than "increase in Dark attack
+  // damage", and resistances read "decrease in incoming X damage". Both forms
+  // need their own tokens or every element collapses into one signature.
+  ["res_neutral", /incoming Neutral damage|Neutral damage reduction/i, /무속성 피해 경감/],
+  ["res_grass", /incoming Grass damage|Grass damage reduction/i, /풀 속성 피해 경감/],
+  ["res_dark", /incoming Dark damage|Dark damage reduction/i, /어둠 속성 피해 경감/],
+  ["res_ice", /incoming Ice damage|Ice damage reduction/i, /얼음 속성 피해 경감/],
+  ["res_fire", /incoming Fire damage|Fire damage reduction/i, /화염 속성 피해 경감/],
+  ["res_lightning", /incoming Lightning damage|Lightning damage reduction/i, /번개 속성 피해 경감/],
+  ["res_dragon", /incoming Dragon damage|Dragon damage reduction/i, /용 속성 피해 경감/],
+  ["res_water", /incoming Water damage|Water damage reduction/i, /물 속성 피해 경감/],
+  ["res_earth", /incoming Earth damage|Earth damage reduction/i, /땅 속성 피해 경감/],
+  ["gear_neutral", /Neutral Attack \+/i, /무속성 공격 \+/],
+  ["gear_grass", /Grass Attack \+/i, /풀 속성 공격 \+/],
+  ["gear_dark", /Dark Attack \+/i, /어둠 속성 공격 \+/],
+  ["gear_ice", /Ice Attack \+/i, /얼음 속성 공격 \+/],
+  ["gear_fire", /Fire Attack \+/i, /화염 속성 공격 \+/],
+  ["gear_lightning", /Electric Attack \+/i, /번개 속성 공격 \+/],
+  ["gear_dragon", /Dragon Attack \+/i, /용 속성 공격 \+/],
+  ["gear_water", /Water Attack \+/i, /물 속성 공격 \+/],
+  ["gear_earth", /Ground Attack \+/i, /땅 속성 공격 \+/],
+  ["water_move_ko", null, /물 위 이동 속도/],
   ["elem_neutral", /Neutral attack damage/i, /무속성 공격 피해/],
   ["elem_grass", /Grass attack damage/i, /풀 속성 공격 피해/],
   ["elem_dark", /Dark attack damage/i, /어둠 속성 공격 피해/],
@@ -63,10 +88,12 @@ function classify(effect, language) {
   return "?";
 }
 
-// Values carry the meaning that survives translation; signs are normalised away
-// because the two sites disagree on where the minus sign sits.
+// Values carry the meaning that survives translation. The sign matters: without
+// it "Attack +20%" and "Attack -20%" collapse into one signature.
 function values(effect) {
-  return (effect.match(/\d+(?:\.\d+)?/g) ?? []).join(",");
+  return (effect.match(/[+-]?\d+(?:\.\d+)?/g) ?? [])
+    .map((value) => (value.startsWith("-") ? value : value.replace(/^\+/, "")))
+    .join(",");
 }
 
 export function signature(card, language) {
@@ -92,6 +119,10 @@ export function matchBySignature(english, korean) {
     enBySignature.get(key).push(card);
   }
 
+  // Tiered passives are named "… +3" in both languages, so the suffix resolves
+  // groups that share an effect signature (Capture Strength, Aerial Dash, …).
+  const suffix = (name) => (String(name).match(/\+(\d+)\s*$/) ?? [])[1] ?? "";
+
   const pairs = new Map();
   const unmatched = [];
   const ambiguous = [];
@@ -99,9 +130,16 @@ export function matchBySignature(english, korean) {
     const key = signature(card, "en");
     const koreanHits = koBySignature.get(key) ?? [];
     const englishHits = enBySignature.get(key) ?? [];
-    if (koreanHits.length === 1 && englishHits.length === 1) pairs.set(card.name, koreanHits[0].name);
-    else if (koreanHits.length === 0) unmatched.push(card.name);
-    else ambiguous.push(`${card.name} (en×${englishHits.length}, ko×${koreanHits.length})`);
+    if (koreanHits.length === 1 && englishHits.length === 1) { pairs.set(card.name, koreanHits[0].name); continue; }
+    if (koreanHits.length === 0) { unmatched.push(card.name); continue; }
+
+    const wanted = suffix(card.name);
+    if (wanted) {
+      const bySuffix = koreanHits.filter((hit) => suffix(hit.name) === wanted);
+      const englishBySuffix = englishHits.filter((hit) => suffix(hit.name) === wanted);
+      if (bySuffix.length === 1 && englishBySuffix.length === 1) { pairs.set(card.name, bySuffix[0].name); continue; }
+    }
+    ambiguous.push(`${card.name} (en×${englishHits.length}, ko×${koreanHits.length})`);
   }
   return { pairs, unmatched, ambiguous };
 }
