@@ -222,3 +222,169 @@
     flex-direction: column;
   }
 }
+
+/* 특성·패시브 사전과 본문 어디서나 쓰는 특성 칩 */
+.trait-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.trait-card {
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-left: 3px solid rgba(148, 197, 238, .35);
+  border-radius: 13px;
+  background: rgba(10, 27, 44, .72);
+}
+
+.trait-card.trait-positive { border-left-color: #4ade80; }
+.trait-card.trait-negative { border-left-color: #fb7185; }
+
+.trait-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.trait-card h3 {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: -.02em;
+}
+
+.trait-rating {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: rgba(255, 255, 255, .08);
+  color: var(--sky2);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.trait-card.trait-negative .trait-rating { color: #ffc2cb; }
+
+.trait-card p {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.trait-card small {
+  display: block;
+  margin-top: 9px;
+  color: var(--sky);
+  font-size: 9px;
+}
+
+.trait-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(148, 197, 238, .3);
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: rgba(89, 200, 255, .09);
+  color: #dcf2ff;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.trait-chip:hover,
+.trait-chip:focus-visible { border-color: rgba(89, 200, 255, .7); }
+
+.trait-chip.trait-positive { border-color: rgba(74, 222, 128, .42); }
+.trait-chip.trait-negative { border-color: rgba(251, 113, 133, .45); }
+
+.trait-chip-unknown {
+  border-style: dashed;
+  background: transparent;
+  color: var(--muted);
+  cursor: default;
+}
+
+.trait-chip small {
+  color: var(--sky2);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.trait-tip {
+  display: block;
+  margin: 7px 0 3px;
+  border: 1px solid rgba(89, 200, 255, .28);
+  border-radius: 9px;
+  padding: 9px 11px;
+  background: rgba(6, 19, 32, .92);
+  color: #cfe6f8;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.trait-tip.trait-negative { border-color: rgba(251, 113, 133, .4); }
+
+@media (max-width: 1100px) {
+  .trait-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .trait-grid { grid-template-columns: 1fr; }
+}
+
+/* 추천 카드의 작업 적성과 고유 특성 */
+.work-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 10px 0 0;
+}
+
+.work-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(148, 197, 238, .24);
+  border-radius: 7px;
+  padding: 3px 7px;
+  background: rgba(16, 38, 58, .8);
+  font-size: 9px;
+}
+
+.work-pill strong { color: #d7ecfb; font-weight: 700; }
+
+.work-pill em {
+  min-width: 15px;
+  border-radius: 4px;
+  background: rgba(89, 200, 255, .2);
+  color: var(--sky2);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 800;
+  text-align: center;
+}
+
+.trait-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.trait-row-wide {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(89, 200, 255, .2);
+  border-radius: 13px;
+  background: rgba(89, 200, 255, .05);
+}
+
+.trait-row-label {
+  color: var(--sky);
+  font-size: 9px;
+  font-weight: 700;
+}

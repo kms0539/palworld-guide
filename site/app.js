@@ -3,8 +3,10 @@ const defaultLayers = [
 ];
 
 const state = {
-  data: null, assets: null, tab: "recommendations", role: "combat", palRole: "combat",
+  data: null, assets: null, traits: null, traitIndex: null, details: null, detailIndex: null,
+  tab: "recommendations", role: "combat", palRole: "combat",
   palQuery: "", mapQuery: "", mapId: "main", buildKind: "combat", progressionStage: "early", progressionKind: "combat",
+  traitQuery: "", traitPolarity: "all",
   layers: new Set(defaultLayers), selected: null,
 };
 
@@ -368,6 +370,44 @@ function sectionHeading(number, title, note) {
   return `<div class="heading"><div><span>${number}</span><h2>${title}</h2></div><p>${note}</p></div>`;
 }
 
+// Work suitability levels and innate traits are what actually justify a base
+// recommendation, so they are looked up by the Pal name the editorial uses.
+function palDetail(name) {
+  const key = String(name ?? "").trim().toLocaleLowerCase();
+  if (!key) return null;
+  if (!state.detailIndex) {
+    state.detailIndex = new Map(Object.values(state.details?.pals ?? {}).map((detail) => [String(detail.name).toLocaleLowerCase(), detail]));
+  }
+  return state.detailIndex.get(key) ?? null;
+}
+
+function workSuitabilityRow(name, workType) {
+  const detail = palDetail(name);
+  if (!detail || detail.work.length === 0) return "";
+  // Lead with the work the recommendation is actually about.
+  const wanted = String(workType ?? "").toLocaleLowerCase();
+  const ordered = detail.work.slice().sort((a, b) => {
+    const aMatch = a.work.toLocaleLowerCase().includes(wanted) || a.label.includes(workType ?? "");
+    const bMatch = b.work.toLocaleLowerCase().includes(wanted) || b.label.includes(workType ?? "");
+    return (bMatch ? 1 : 0) - (aMatch ? 1 : 0) || b.level - a.level;
+  });
+  return `<div class="work-row">${ordered.map((entry) => `<span class="work-pill"><strong>${escapeHtml(entry.label)}</strong><em>${entry.level}</em></span>`).join("")}</div>`;
+}
+
+function innateTraitRow(name) {
+  const detail = palDetail(name);
+  if (!detail || detail.innateTraits.length === 0) return "";
+  return `<div class="trait-row"><span class="trait-row-label">고유 특성</span>${detail.innateTraits.map((trait) => traitChip(trait.name)).join("")}</div>`;
+}
+
+// Traits worth breeding onto any base Pal, ranked by the catalogue.
+function recommendedWorkTraits() {
+  const catalogue = (state.traits?.traits ?? []).filter((trait) => /work speed/i.test(trait.description) && trait.polarity === "positive");
+  const top = catalogue.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 5);
+  if (top.length === 0) return "";
+  return `<div class="trait-row trait-row-wide"><span class="trait-row-label">거점 작업에 추천하는 특성</span>${top.map((trait) => traitChip(trait.name)).join("")}</div>`;
+}
+
 function renderRecommendations() {
   const items = state.data.editorial[state.role] ?? [];
   content.innerHTML = `${sectionHeading("01", "목적별 추천 펠", "외부 공략을 한글로 요약한 참고 순위")}
@@ -381,9 +421,12 @@ function renderRecommendations() {
         <h3>${escapeHtml(displayPalName(palName))}</h3>
         ${metric ? `<div class="card-metric">${escapeHtml(metric)}</div>` : ""}
         <p><strong>추천 사유</strong> · ${escapeHtml(recommendationReason(item))}</p>
+        ${workSuitabilityRow(palName, item.workType)}
+        ${innateTraitRow(palName)}
         ${item.limitation ? `<small>주의 · ${escapeHtml(ko(item.limitation))}</small>` : ""}
         ${item.alternative ? `<small>대안 · ${escapeHtml(displayPalName(item.alternative))}</small>` : ""}</div></article>`;
-    }).join("")}</div>`;
+    }).join("")}</div>
+    ${state.role === "base" ? recommendedWorkTraits() : ""}`;
   content.querySelectorAll("[data-role]").forEach((button) => button.addEventListener("click", () => {
     state.role = button.dataset.role; renderRecommendations();
   }));
@@ -550,6 +593,59 @@ function renderMap() {
   document.querySelector("#map-search").addEventListener("input", (event) => { state.mapQuery = event.target.value; renderMap(); const input = document.querySelector("#map-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length); });
 }
 
+// Recommendations name traits without explaining them. Resolving a name against
+// the catalogue lets every mention carry its effect inline.
+function traitByName(name) {
+  const key = String(name ?? "").trim().toLocaleLowerCase();
+  if (!key) return null;
+  if (!state.traitIndex) {
+    state.traitIndex = new Map((state.traits?.traits ?? []).map((trait) => [trait.name.toLocaleLowerCase(), trait]));
+  }
+  return state.traitIndex.get(key) ?? null;
+}
+
+// Renders a trait name as a button that reveals its effect, falling back to
+// plain text when the catalogue does not know the name.
+function traitChip(name) {
+  const trait = traitByName(name);
+  const safeName = escapeHtml(String(name ?? ""));
+  if (!trait) return `<span class="trait-chip trait-chip-unknown">${safeName}</span>`;
+  return `<button type="button" class="trait-chip trait-${trait.polarity}" data-trait="${escapeHtml(trait.name)}" aria-expanded="false"><span>${safeName}</span>${trait.rating === null ? "" : `<small>${trait.rating > 0 ? "+" : ""}${trait.rating}</small>`}</button>`;
+}
+
+function traitPolarityLabel(polarity) {
+  return { positive: "유용", negative: "불리", neutral: "중립" }[polarity] ?? polarity;
+}
+
+function renderTraits() {
+  const catalogue = state.traits?.traits ?? [];
+  if (catalogue.length === 0) {
+    content.innerHTML = `${sectionHeading("05", "특성·패시브 사전", "자료를 불러오지 못했습니다")}<div class="error">특성 자료를 불러오지 못했습니다.</div>`;
+    return;
+  }
+  const query = state.traitQuery.trim().toLocaleLowerCase();
+  const filtered = catalogue.filter((trait) => state.traitPolarity === "all" || trait.polarity === state.traitPolarity)
+    .filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || trait.description.toLocaleLowerCase().includes(query));
+  const groups = [["positive", "유용한 특성"], ["negative", "피해야 할 특성"], ["neutral", "중립 특성"]];
+
+  content.innerHTML = `${sectionHeading("05", "특성·패시브 사전", `${catalogue.length}종 · 등급이 높을수록 유용`)}
+    <div class="roles" role="group" aria-label="특성 분류">${[["all", "전체"], ...groups.map(([id, label]) => [id, label])].map(([id, label]) => `<button type="button" data-trait-polarity="${escapeHtml(id)}" class="${state.traitPolarity === id ? "active" : ""}">${escapeHtml(label)}</button>`).join("")}</div>
+    <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 근면, work speed, attack" autocomplete="off"></div>
+    <div class="trait-grid">${filtered.map((trait) => `<article class="trait-card trait-${trait.polarity}">
+      <div class="trait-card-head"><h3>${escapeHtml(trait.name)}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? "+" : ""}${trait.rating}</span>`}</div>
+      <p>${escapeHtml(trait.description)}</p>
+      <small>${escapeHtml(traitPolarityLabel(trait.polarity))}${trait.stacks ? " · 중첩 가능" : ""}</small>
+    </article>`).join("")}</div>
+    ${filtered.length === 0 ? `<p class="result-note">조건에 맞는 특성이 없습니다.</p>` : ""}
+    <div class="attribution"><h3>출처</h3><p>특성 효과는 <a href="${safeUrl(state.traits.sourceUrl)}" target="_blank" rel="noopener noreferrer">palworld.tools 특성 목록 ↗</a>에서 가져오며, 표기는 원문 영문을 그대로 씁니다.</p></div>`;
+
+  content.querySelectorAll("[data-trait-polarity]").forEach((button) => button.addEventListener("click", () => { state.traitPolarity = button.dataset.traitPolarity; renderTraits(); }));
+  document.querySelector("#trait-search").addEventListener("input", (event) => {
+    state.traitQuery = event.target.value; renderTraits();
+    const input = document.querySelector("#trait-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length);
+  });
+}
+
 function renderSources() {
   content.innerHTML = `${sectionHeading("05", "자료 출처와 이용 범위", "공식 자료·계산 자료·이미지 출처를 구분")}
     <div class="sources">${state.data.sources.map((source) => `<article><span>${escapeHtml(labels[source.kind] || source.kind)}</span><h3>${escapeHtml(sourceNames[source.id] || source.name)}</h3><p>기준 ${escapeHtml(source.gameVersion)} · 확인 ${new Date(source.checkedAt).toLocaleDateString("ko-KR")}${source.license ? ` · ${escapeHtml(source.license)}` : ""}</p><a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">출처 열기 ↗</a></article>`).join("")}</div>
@@ -559,11 +655,35 @@ function renderSources() {
 
 function render() {
   if (state.tab === "recommendations") renderRecommendations(); else if (state.tab === "progression") renderProgression(); else if (state.tab === "pals") renderPals();
-  else if (state.tab === "builds") renderBuilds(); else if (state.tab === "map") renderMap(); else renderSources();
+  else if (state.tab === "builds") renderBuilds(); else if (state.tab === "traits") renderTraits();
+  else if (state.tab === "map") renderMap(); else renderSources();
+  bindTraitChips();
+}
+
+// One delegated handler covers every trait mention on the page, whichever tab
+// rendered it.
+function bindTraitChips() {
+  content.querySelectorAll("[data-trait]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const existing = button.nextElementSibling;
+      const open = existing?.classList.contains("trait-tip");
+      content.querySelectorAll(".trait-tip").forEach((tip) => tip.remove());
+      content.querySelectorAll("[data-trait]").forEach((item) => item.setAttribute("aria-expanded", "false"));
+      if (open) return;
+      const trait = traitByName(button.dataset.trait);
+      if (!trait) return;
+      const tip = document.createElement("span");
+      tip.className = `trait-tip trait-${trait.polarity}`;
+      tip.setAttribute("role", "note");
+      tip.textContent = `${trait.description}${trait.stacks ? " (중첩 가능)" : ""}`;
+      button.setAttribute("aria-expanded", "true");
+      button.after(tip);
+    });
+  });
 }
 
 function selectTab(tab) {
-  if (!["recommendations", "progression", "pals", "builds", "map", "sources"].includes(tab)) return;
+  if (!["recommendations", "progression", "pals", "builds", "traits", "map", "sources"].includes(tab)) return;
   document.querySelectorAll("#tabs button").forEach((item) => item.classList.toggle("active", item.dataset.tab === tab));
   state.tab = tab; render(); document.querySelector("#tabs").scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -582,8 +702,12 @@ document.querySelectorAll("[data-jump]").forEach((button) => button.addEventList
 Promise.all([
   fetch("./data/guide-data.json", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(response.status); return response.json(); }),
   fetch("./data/visual-assets.json", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(response.status); return response.json(); }),
-]).then(([data, assets]) => {
-  state.data = data; state.assets = assets; renderFreshness(data);
+  // The trait catalogue only powers explanations, so a failure must not blank
+  // the whole guide.
+  fetch("./data/traits.json", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
+  fetch("./data/pal-details.json", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
+]).then(([data, assets, traits, details]) => {
+  state.data = data; state.assets = assets; state.traits = traits; state.details = details; renderFreshness(data);
   document.querySelector("#metrics").innerHTML = `<div><dt>등록 펠</dt><dd>${data.pals.length}</dd></div><div><dt>추천 빌드</dt><dd>${data.builds.length}</dd></div><div><dt>지도 지점</dt><dd>${data.map.points.length.toLocaleString()}</dd></div><div><dt>이미지 펠</dt><dd>${Object.keys(assets.pals).length}</dd></div>`;
   render();
 }).catch(() => { content.innerHTML = `<div class="error">공략 데이터를 불러오지 못했습니다. 잠시 뒤 새로고침해 주세요.</div>`; });

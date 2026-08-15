@@ -57,7 +57,7 @@ test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", 
     readFile(new URL("site/progression.css", root), "utf8"),
   ]);
   assert.match(html, /progression\.css/);
-  assert.match(html, /app\.js\?v=1\.7\.0/);
+  assert.match(html, /app\.js\?v=1\.8\.0/);
   assert.match(html, /data-tab="pals"/);
   assert.match(html, /data-tab="progression"/);
   assert.match(app, /renderPals/);
@@ -92,6 +92,61 @@ test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", 
   assert.match(app, /피해야 할 상대/);
   assert.match(app, /data-build-kind/);
   assert.doesNotMatch(app, /style=|\.style\b/);
+});
+
+test("trait catalogue explains every trait the guide names", async () => {
+  const [traits, details, guide, html, app] = await Promise.all([
+    readFile(new URL("site/data/traits.json", root), "utf8").then(JSON.parse),
+    readFile(new URL("site/data/pal-details.json", root), "utf8").then(JSON.parse),
+    readFile(new URL("site/data/guide-data.json", root), "utf8").then(JSON.parse),
+    readFile(new URL("site/index.html", root), "utf8"),
+    readFile(new URL("site/app.js", root), "utf8"),
+  ]);
+
+  assert.equal(traits.schemaVersion, 1);
+  assert.ok(traits.traits.length >= 60, `trait catalogue too small: ${traits.traits.length}`);
+  assert.ok(traits.traits.some((trait) => trait.polarity === "positive"));
+  assert.ok(traits.traits.some((trait) => trait.polarity === "negative"));
+  for (const trait of traits.traits) {
+    assert.ok(trait.name && trait.description, `trait missing text: ${JSON.stringify(trait)}`);
+  }
+
+  // Every innate trait shown on a recommendation must resolve to an explanation,
+  // otherwise the tooltip would be an empty promise.
+  const known = new Set(traits.traits.map((trait) => trait.name.toLowerCase()));
+  const byName = new Map(Object.values(details.pals).map((detail) => [String(detail.name).toLowerCase(), detail]));
+  const recommended = guide.editorial.base.flatMap((item) => [item.pal, item.alternative]).filter(Boolean);
+  for (const name of recommended) {
+    const detail = byName.get(String(name).toLowerCase());
+    assert.ok(detail, `base recommendation has no detail record: ${name}`);
+    for (const trait of detail.innateTraits) {
+      assert.ok(known.has(trait.name.toLowerCase()), `innate trait missing from catalogue: ${trait.name}`);
+    }
+  }
+
+  assert.match(html, /data-tab="traits"/);
+  assert.match(app, /function renderTraits/);
+  assert.match(app, /function traitChip/);
+  assert.match(app, /data-trait=/);
+  assert.match(app, /trait-tip/);
+  // A missing catalogue must not blank the guide.
+  assert.match(app, /traits\.json[\s\S]{0,160}catch\(\(\) => null\)/);
+});
+
+test("base recommendations show the work levels that justify them", async () => {
+  const [details, app] = await Promise.all([
+    readFile(new URL("site/data/pal-details.json", root), "utf8").then(JSON.parse),
+    readFile(new URL("site/app.js", root), "utf8"),
+  ]);
+  const pals = Object.values(details.pals);
+  assert.ok(pals.length >= 250, `pal detail cache too small: ${pals.length}`);
+  assert.ok(pals.filter((pal) => pal.work.length > 0).length >= 250);
+  const orserk = pals.find((pal) => pal.name === "Orserk");
+  assert.ok(orserk, "Orserk detail is missing");
+  const electricity = orserk.work.find((entry) => entry.label === "발전");
+  assert.ok(electricity && electricity.level === 8, "work suitability level did not survive collection");
+  assert.match(app, /function workSuitabilityRow/);
+  assert.match(app, /function recommendedWorkTraits/);
 });
 
 test("map markers use the source projection instead of hand-tuned bounds", async () => {

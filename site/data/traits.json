@@ -1,0 +1,924 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-15T01:32:06.704Z",
+  "sourceUrl": "https://www.palworld.tools/traits",
+  "counts": {
+    "total": 114,
+    "positive": 102,
+    "negative": 9
+  },
+  "traits": [
+    {
+      "name": "Demon’s Hand",
+      "description": "Work Speed +90% · SAN dreceases +15.0% faster · World Tree harvestables won't vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Dimensional Leap",
+      "description": "Movement Speed +50% · Increases Hunger depletion rate by +15.0% · World Tree resources will not vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "God of Destruction",
+      "description": "Attack +40% · Defense +20% · Max Health 50% · World Tree resources will not vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Hermit Sage",
+      "description": "SAN depletion rate -50.0% · Work Speed 20% · World Tree resources will not vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Sanctified Meat Shield",
+      "description": "Defense +50% · Attack 30% · World Tree resources will not vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Twin-Edged Holy Blade",
+      "description": "Attack +50% · Defense 30% · World Tree resources will not vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "World Tree Seedbed",
+      "description": "Decrease Hunger depletion rate by +50.0% · HP 20% · World Tree resources will not vanish when approached.",
+      "rating": 5,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Babysitter",
+      "description": "While at a base, increases egg production speed by +30% and incubation speed by +30% for Pals assigned to a Breeding Farm.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Demon God",
+      "description": "Attack +30%, Defense +5%",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Diamond Body",
+      "description": "Defense +30% · Immune to Flinch · Immune to Knockback",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Eternal Engine",
+      "description": "Max stamina +75% · *This effect is only valid for rideable pals.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Heart of the Immovable King",
+      "description": "SAN drops +20.0% slower.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Heavily Armored",
+      "description": "Immune to Explosion Damage",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Idiosyncratic",
+      "description": "Pal and Player Auto Health Regeneration Rate +50% · Defense +{EffectValue4}% · Immune to Poison Damage · Immune to Burn Damage",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Immortality",
+      "description": "Life Steal +5% · Pal Auto Health Regeneration Rate +100% · Attack +15%",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "King of the Waves",
+      "description": "Swimming speed +50%",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Lightfooted",
+      "description": "Mounted Jump Count +1",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Logging Yield Up Lv. 5",
+      "description": "Massively increases the drop amount of Wood.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Lunker",
+      "description": "20% increase to Water attack damage · 20% increase to Ice attack damage · 20% increase to defense.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Mastery of Fasting",
+      "description": "Hunger decreases +20.0% slower.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Mining Yield Up Lv. 5",
+      "description": "Massively increases the drop amount of Stone and Ore.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Remarkable Craftsmanship",
+      "description": "Work speed +75%",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Skymarcher",
+      "description": "Mounted Jump Count +2",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Swift",
+      "description": "Movement speed +30%",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Tempest Fury",
+      "description": "Active skill cooldown reduction 0% · Attack +0%",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Vampiric",
+      "description": "Absorbs a portion of the damage dealt to restore COMMON_STATUS_HP. · Does not sleep at night and continues to work.",
+      "rating": 4,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Ace Swimmer",
+      "description": "Swimming speed +40%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Artisan",
+      "description": "Work speed +50%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Burly Body",
+      "description": "Defense +20% · Immune to Flinch",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Celestial Emperor",
+      "description": "30% increase in Neutral attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Diet Lover",
+      "description": "Hunger decreases +15.0% slower.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Divine Dragon",
+      "description": "30% increase in Dragon attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Earth Emperor",
+      "description": "30% increase in Earth attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Ferocious",
+      "description": "Attack +20%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Flame Emperor",
+      "description": "30% increase in Fire attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Healing Coach",
+      "description": "Player HP regen +5%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Ice Emperor",
+      "description": "30% increase in Ice attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Infinite Stamina",
+      "description": "Max stamina +50% · *This effect is only valid for rideable pals.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Logging Foreman",
+      "description": "25% increase in Player Logging Efficiency.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Logging Yield Up Lv. 3",
+      "description": "Greatly increases the drop amount of Wood.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Logging Yield Up Lv. 4",
+      "description": "Significantly increases the drop amount of Wood.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Logging/Mining Yield Up",
+      "description": "Significantly increases the drop amount of Wood, Stone, and Ore.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Lord of Lightning",
+      "description": "30% increase in Lightning attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Lord of the Sea",
+      "description": "30% increase in Water attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Lord of the Underworld",
+      "description": "30% increase in Dark attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Mine Foreman",
+      "description": "25% increase in Player Mining Efficiency.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Mining Yield Up Lv. 3",
+      "description": "Greatly increases the drop amount of Stone and Ore.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Mining Yield Up Lv. 4",
+      "description": "Significantly increases the drop amount of Stone and Ore.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Motivational Leader",
+      "description": "25% increase in Player Work Speed.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Noble",
+      "description": "Increases the value of items when sold by +5%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Rayne Syndicate Boss",
+      "description": "Attack +20% · Movement Speed increases 10%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Reload Master",
+      "description": "Player reload speed +4%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Runner",
+      "description": "Movement speed +20%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Serenity",
+      "description": "Active skill cooldown reduction 30% · Attack +10%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Spirit Emperor",
+      "description": "30% increase in Grass attack damage.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Stronghold Strategist",
+      "description": "10% increase in Player Defense.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Vanguard",
+      "description": "10% increase in Player Attack.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Wellness Watcher",
+      "description": "Player stamina drain -5%",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f5b93d"
+    },
+    {
+      "name": "Workaholic",
+      "description": "SAN drops +15.0% slower.",
+      "rating": 3,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#c56bff"
+    },
+    {
+      "name": "Musclehead",
+      "description": "Attack +30%, Work speed -50%",
+      "rating": 2,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Abnormal",
+      "description": "10% decrease in incoming Neutral damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Aerial Dash +1",
+      "description": "Aerial Dash +1",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": false,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Aerial Dash +2",
+      "description": "Aerial Dash +2",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": false,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Aerial Dash +3",
+      "description": "Aerial Dash +3",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": false,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Aerial Dash +4",
+      "description": "Aerial Dash +4",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Blood of the Dragon",
+      "description": "10% increase in Dragon attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Botanical Barrier",
+      "description": "10% decrease in incoming Grass damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Brave",
+      "description": "Attack +10%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Capacitor",
+      "description": "10% increase in Lightning attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Cheery",
+      "description": "10% decrease in incoming Dark damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Coldblooded",
+      "description": "10% increase in Ice attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Dainty Eater",
+      "description": "Hunger decreases +10.0% slower.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Dragonkiller",
+      "description": "10% decrease in incoming Dragon damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Earthquake Resistant",
+      "description": "10% decrease in incoming Earth damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Fine Furs",
+      "description": "Increases the value of items when sold by +3%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Fit as a Fiddle",
+      "description": "Max stamina +25% · *This effect is only valid for rideable pals.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Fragrant Foliage",
+      "description": "10% increase in Grass attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Hard Skin",
+      "description": "Defense +10%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": null
+    },
+    {
+      "name": "Heated Body",
+      "description": "10% decrease in incoming Ice damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Hydromaniac",
+      "description": "10% increase in Water attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Impatient",
+      "description": "Active skill cooldown reduction 15%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Insomnia",
+      "description": "Does not sleep and continues to work even at night.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Insulated Body",
+      "description": "10% decrease in incoming Lightning damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Jump Count Increase +1",
+      "description": "Jump Count Increase +1",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": false,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Jump Count Increase +2",
+      "description": "Jump Count Increase +2",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": false,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Jump Count Increase +3",
+      "description": "Jump Count Increase +3",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Jump Power Boost",
+      "description": "Jump Power Boost",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Logging Yield Up Lv. 1",
+      "description": "Slightly increases the drop amount of Wood.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Logging Yield Up Lv. 2",
+      "description": "Increases the drop amount of Wood.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Mining Yield Up Lv. 1",
+      "description": "Slightly increases the drop amount of Stone and Ore.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Mining Yield Up Lv. 2",
+      "description": "Increases the drop amount of Stone and Ore.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Nimble",
+      "description": "Movement speed +10%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Positive Thinker",
+      "description": "SAN drops +10.0% slower.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Power of Gaia",
+      "description": "10% increase in Earth attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Pyromaniac",
+      "description": "10% increase in Fire attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Serious",
+      "description": "Work speed +20%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Sleek Stroke",
+      "description": "Swimming speed +30%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Spirit of Zen",
+      "description": "10% increase in Neutral attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Suntan Lover",
+      "description": "10% decrease in incoming Fire damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Veil of Darkness",
+      "description": "10% increase in Dark attack damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Waterproof",
+      "description": "10% decrease in incoming Water damage.",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#6fca4f"
+    },
+    {
+      "name": "Work Slave",
+      "description": "Work speed +30%, Attack -30%",
+      "rating": 1,
+      "polarity": "positive",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Heavyweight",
+      "description": "Defense +20% · Immune to Knockback",
+      "rating": null,
+      "polarity": "neutral",
+      "stacks": true,
+      "color": null
+    },
+    {
+      "name": "Legend",
+      "description": "Attack +20% · Defense +20% · Movement Speed increases 20%",
+      "rating": null,
+      "polarity": "neutral",
+      "stacks": true,
+      "color": null
+    },
+    {
+      "name": "Otherworldly Cells",
+      "description": "Attack +10% · Fire damage reduction 15% · Lightning damage reduction 15%",
+      "rating": null,
+      "polarity": "neutral",
+      "stacks": true,
+      "color": null
+    },
+    {
+      "name": "Easygoing",
+      "description": "Active skill cooldown extension 15%",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Glutton",
+      "description": "Hunger decreases +10.0% faster.",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Mercy Hit",
+      "description": "Pacifist. · Will not reduce the target's Health below 1.",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Night Owl",
+      "description": "Tends to nap through the day, due to being nocturnal.",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Shabby",
+      "description": "Decrease the value of items when sold by 10%",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Sickly",
+      "description": "Max Stamina 25% · *This effect is only valid for rideable pals.",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Unstable",
+      "description": "SAN drops +10.0% faster.",
+      "rating": -1,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Bottomless Stomach",
+      "description": "Hunger decreases +15.0% faster.",
+      "rating": -2,
+      "polarity": "negative",
+      "stacks": true,
+      "color": "#f0663f"
+    },
+    {
+      "name": "Destructive",
+      "description": "SAN drops +15.0% faster.",
+      "rating": -2,
+      "polarity": "negative",
+      "stacks": true,
+      "color": null
+    }
+  ]
+}
