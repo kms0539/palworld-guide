@@ -473,8 +473,8 @@ async function main() {
         },
         sunreach: {
           label: "Sunreach",
-          terrain: false,
-          bounds: null,
+          terrain: true,
+          bounds: { minX: -850000, maxX: -730000, minY: -105000, maxY: 75000 },
         },
       },
       points: mapPoints,
