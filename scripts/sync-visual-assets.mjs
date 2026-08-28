@@ -18,6 +18,9 @@ const OFFICIAL_CDN = "https://cdn.getshifter.co/4cf51f4bd2c52300046e22057221adc8
 const overrides = {
   "katress-ignis": "CatMage_Fire", tetroise: "CubeTurtle", "mau-cryst": "Bastet_Ice", mau: "Bastet",
 };
+// Palworld.gg's list image currently exposes the English alt text for Fuack,
+// while its Korean partner-skill page and Korean databases identify it as 청부리.
+const koreanNameOverrides = { fuack: "청부리" };
 
 function cleanPalName(value) {
   return String(value).replace(/\s+(?:Lv\s*)?\d+(?:\.\d+)?\s*g?$/i, "").trim();
@@ -138,7 +141,7 @@ if (Object.keys(palAssets).length < 260) {
 const localizedNames = Object.fromEntries(guide.pals.map((pal) => {
   const job = palJobs.find((candidate) => candidate.slug === pal.slug);
   const code = job?.icon?.replace(/^Pal_/, "").replace(/\.png$/i, "") ?? codeBySlug.get(pal.slug);
-  return [pal.slug, koreanNameByCode.get(code) ?? cleanPalName(pal.name)];
+  return [pal.slug, koreanNameOverrides[pal.slug] ?? koreanNameByCode.get(code) ?? cleanPalName(pal.name)];
 }));
 if (Object.values(localizedNames).filter((name) => /[가-힣]/.test(name)).length < 260) {
   throw new Error("Korean Pal name coverage is unexpectedly small");

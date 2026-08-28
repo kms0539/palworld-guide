@@ -1,0 +1,3174 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.0",
+  "latestPatchApplied": "1.0.3",
+  "updatedAt": "2026-08-28T09:28:34.608Z",
+  "counts": {
+    "bosses": 15,
+    "expeditions": 18,
+    "fishingPals": 39
+  },
+  "bosses": [
+    {
+      "id": "boss:tower:1-zoe-grizzbolt",
+      "type": "tower",
+      "order": 1,
+      "leader": "Zoe",
+      "pal": "Grizzbolt",
+      "faction": "Rayne Syndicate",
+      "level": 10,
+      "recommendedPlayerLevel": 10,
+      "elements": [
+        "Electric"
+      ],
+      "counterElements": [
+        "Ground"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:2-lily-lyleen",
+      "type": "tower",
+      "order": 2,
+      "leader": "Lily",
+      "pal": "Lyleen",
+      "faction": "Free Pal Alliance",
+      "level": 25,
+      "recommendedPlayerLevel": 20,
+      "elements": [
+        "Grass"
+      ],
+      "counterElements": [
+        "Fire"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:3-axel-orserk",
+      "type": "tower",
+      "order": 3,
+      "leader": "Axel",
+      "pal": "Orserk",
+      "faction": "Brothers of the Eternal Pyre",
+      "level": 40,
+      "recommendedPlayerLevel": 30,
+      "elements": [
+        "Electric",
+        "Dragon"
+      ],
+      "counterElements": [
+        "Ice",
+        "Ground"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:4-marcus-faleris",
+      "type": "tower",
+      "order": 4,
+      "leader": "Marcus",
+      "pal": "Faleris",
+      "faction": "PIDF",
+      "level": 45,
+      "recommendedPlayerLevel": 40,
+      "elements": [
+        "Fire"
+      ],
+      "counterElements": [
+        "Water"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:5-victor-shadowbeak",
+      "type": "tower",
+      "order": 5,
+      "leader": "Victor",
+      "pal": "Shadowbeak",
+      "faction": "PAL Genetic Research Unit",
+      "level": 50,
+      "recommendedPlayerLevel": 50,
+      "elements": [
+        "Dark"
+      ],
+      "counterElements": [
+        "Dragon"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:6-saya-selyne",
+      "type": "tower",
+      "order": 6,
+      "leader": "Saya",
+      "pal": "Selyne",
+      "faction": "Moonflower (Sakurajima)",
+      "level": 55,
+      "recommendedPlayerLevel": 55,
+      "elements": [
+        "Dark"
+      ],
+      "counterElements": [
+        "Dragon"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:7-bjorn-bastigor",
+      "type": "tower",
+      "order": 7,
+      "leader": "Bjorn",
+      "pal": "Bastigor",
+      "faction": "Feybreak",
+      "level": 58,
+      "recommendedPlayerLevel": 60,
+      "elements": [
+        "Ice"
+      ],
+      "counterElements": [
+        "Fire"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:tower:8-auri-shaolong",
+      "type": "tower",
+      "order": 8,
+      "leader": "Auri",
+      "pal": "Shaolong",
+      "faction": "Azure Covenant (Sunreach, Sky Islands)",
+      "level": 68,
+      "recommendedPlayerLevel": 68,
+      "elements": [
+        "Water",
+        "Dragon"
+      ],
+      "counterElements": [
+        "Electric",
+        "Ice"
+      ],
+      "preliminary": true
+    },
+    {
+      "id": "boss:tower:9-zanara-astralym",
+      "type": "tower",
+      "order": 9,
+      "leader": "Zanara",
+      "pal": "Astralym",
+      "faction": "World Tree (final boss)",
+      "level": 80,
+      "recommendedPlayerLevel": 80,
+      "elements": [],
+      "counterElements": [],
+      "preliminary": true
+    },
+    {
+      "id": "boss:raid:bellanoir-bellanoir-libero",
+      "type": "raid",
+      "order": null,
+      "leader": null,
+      "pal": "Bellanoir / Bellanoir Libero",
+      "faction": null,
+      "level": null,
+      "recommendedPlayerLevel": null,
+      "elements": [
+        "Dark"
+      ],
+      "counterElements": [
+        "Dragon"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:raid:blazamut-ryu",
+      "type": "raid",
+      "order": null,
+      "leader": null,
+      "pal": "Blazamut Ryu",
+      "faction": null,
+      "level": null,
+      "recommendedPlayerLevel": null,
+      "elements": [
+        "Fire",
+        "Dragon"
+      ],
+      "counterElements": [
+        "Water",
+        "Ice"
+      ],
+      "preliminary": true
+    },
+    {
+      "id": "boss:raid:xenolord",
+      "type": "raid",
+      "order": null,
+      "leader": null,
+      "pal": "Xenolord",
+      "faction": null,
+      "level": 60,
+      "recommendedPlayerLevel": null,
+      "elements": [
+        "Dragon",
+        "Dark"
+      ],
+      "counterElements": [
+        "Ice",
+        "Dragon"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:raid:moon-lord",
+      "type": "raid",
+      "order": null,
+      "leader": null,
+      "pal": "Moon Lord",
+      "faction": null,
+      "level": null,
+      "recommendedPlayerLevel": null,
+      "elements": [],
+      "counterElements": [],
+      "preliminary": true
+    },
+    {
+      "id": "boss:raid:hartalis",
+      "type": "raid",
+      "order": null,
+      "leader": null,
+      "pal": "Hartalis",
+      "faction": null,
+      "level": 65,
+      "recommendedPlayerLevel": null,
+      "elements": [
+        "Water",
+        "Grass"
+      ],
+      "counterElements": [
+        "Electric",
+        "Dark"
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "boss:world:panthalus",
+      "type": "world",
+      "order": null,
+      "leader": null,
+      "pal": "Panthalus",
+      "faction": null,
+      "level": 70,
+      "recommendedPlayerLevel": null,
+      "elements": [
+        "Water"
+      ],
+      "counterElements": [
+        "Electric"
+      ],
+      "preliminary": true
+    }
+  ],
+  "expeditions": [
+    {
+      "id": "expedition:verdant-hollow",
+      "name": "Verdant Hollow",
+      "nameKo": "초록빛 공동",
+      "category": "Regular Expeditions",
+      "durationMinutes": 30,
+      "difficulty": "Easy",
+      "requiredLevel": null,
+      "requiredFirepower": 25000,
+      "elementRequirement": null,
+      "unlock": {
+        "boss": "Zoe & Grizzbolt",
+        "tower": "Tower of the Rayne Syndicate",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "5-7",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Pal Sphere",
+          "itemId": "item:pal-sphere",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Mega Sphere",
+          "itemId": "item:mega-sphere",
+          "quantity": "3-7",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Paldium Fragment",
+          "itemId": "item:paldium-fragment",
+          "quantity": "10-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Small Pal Soul",
+          "itemId": "item:small-pal-soul",
+          "quantity": "3-5",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Chikipi Poultry",
+          "itemId": "item:chikipi-poultry",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Lamball Mutton",
+          "itemId": "item:lamball-mutton",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Mushroom",
+          "itemId": "item:mushroom",
+          "quantity": "3-10",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Cavern Mushroom",
+          "itemId": "item:cavern-mushroom",
+          "quantity": "2-5",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:secret-realm-of-the-forest",
+      "name": "Secret Realm of the Forest",
+      "nameKo": "숲의 비경",
+      "category": "Regular Expeditions",
+      "durationMinutes": 30,
+      "difficulty": "Easy",
+      "requiredLevel": null,
+      "requiredFirepower": 56000,
+      "elementRequirement": {
+        "element": "Grass",
+        "palsRequired": 15
+      },
+      "unlock": {
+        "boss": "Lily & Lyleen",
+        "tower": "Tower of the Free Pal Alliance",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "7-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Mega Sphere",
+          "itemId": "item:mega-sphere",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Giga Sphere",
+          "itemId": "item:giga-sphere",
+          "quantity": "3-6",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Paldium Fragment",
+          "itemId": "item:paldium-fragment",
+          "quantity": "20-40",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Small Pal Soul",
+          "itemId": "item:small-pal-soul",
+          "quantity": "5-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Medium Pal Soul",
+          "itemId": "item:medium-pal-soul",
+          "quantity": "3-5",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Rushoar Pork",
+          "itemId": "item:rushoar-pork",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Galeclaw Poultry",
+          "itemId": "item:galeclaw-poultry",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Mushroom",
+          "itemId": "item:mushroom",
+          "quantity": "3-10",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Cavern Mushroom",
+          "itemId": "item:cavern-mushroom",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Bellanoir's Slab Fragment",
+          "itemId": "item:bellanoir-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "2-3",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:blazing-cavern",
+      "name": "Blazing Cavern",
+      "nameKo": "작열하는 동굴",
+      "category": "Regular Expeditions",
+      "durationMinutes": 45,
+      "difficulty": "Normal",
+      "requiredLevel": null,
+      "requiredFirepower": 144000,
+      "elementRequirement": {
+        "element": "Fire",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Axel & Orserk",
+        "tower": "Tower of the Brothers of the Eternal Pyre",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "10-13",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Hyper Sphere",
+          "itemId": "item:hyper-sphere",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Sulfur",
+          "itemId": "item:sulfur",
+          "quantity": "20-40",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Medium Pal Soul",
+          "itemId": "item:medium-pal-soul",
+          "quantity": "5-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Large Pal Soul",
+          "itemId": "item:large-pal-soul",
+          "quantity": "3-5",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Caprity Meat",
+          "itemId": "item:caprity-meat",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Raw Kelpsea",
+          "itemId": "item:raw-kelpsea",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Cavern Mushroom",
+          "itemId": "item:cavern-mushroom",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 11,
+          "item": "Bellanoir's Slab Fragment",
+          "itemId": "item:bellanoir-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Bellanoir Libero's Slab Fragment",
+          "itemId": "item:bellanoir-libero-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "3-4",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:hidden-sanctum-of-the-desert",
+      "name": "Hidden Sanctum of the Desert",
+      "nameKo": "사막의 숨겨진 성역",
+      "category": "Regular Expeditions",
+      "durationMinutes": 45,
+      "difficulty": "Normal",
+      "requiredLevel": null,
+      "requiredFirepower": 209000,
+      "elementRequirement": {
+        "element": "Ground",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Marcus & Faleris",
+        "tower": "Tower of the PIDF",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "13-15",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Hyper Sphere",
+          "itemId": "item:hyper-sphere",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Ultra Sphere",
+          "itemId": "item:ultra-sphere",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Coal",
+          "itemId": "item:coal",
+          "quantity": "20-40",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Medium Pal Soul",
+          "itemId": "item:medium-pal-soul",
+          "quantity": "5-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Large Pal Soul",
+          "itemId": "item:large-pal-soul",
+          "quantity": "3-5",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Raw Dumud",
+          "itemId": "item:raw-dumud",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Eikthyrdeer Venison",
+          "itemId": "item:eikthyrdeer-venison",
+          "quantity": "3-8",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Cavern Mushroom",
+          "itemId": "item:cavern-mushroom",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 11,
+          "item": "Bellanoir's Slab Fragment",
+          "itemId": "item:bellanoir-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "4-5",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:astral-frost-cavern",
+      "name": "Astral Frost Cavern",
+      "nameKo": "별빛 서리 동굴",
+      "category": "Regular Expeditions",
+      "durationMinutes": 60,
+      "difficulty": "Hard",
+      "requiredLevel": null,
+      "requiredFirepower": 286000,
+      "elementRequirement": {
+        "element": "Ice",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Victor & Shadowbeak",
+        "tower": "Tower of the PAL Genetic Research Unit",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "15-17",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ultra Sphere",
+          "itemId": "item:ultra-sphere",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Legendary Sphere",
+          "itemId": "item:legendary-sphere",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Pure Quartz",
+          "itemId": "item:pure-quartz",
+          "quantity": "20-40",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "40-60",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Large Pal Soul",
+          "itemId": "item:large-pal-soul",
+          "quantity": "5-7",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Mammorest Meat",
+          "itemId": "item:mammorest-meat",
+          "quantity": "3-6",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Reindrix Venison",
+          "itemId": "item:reindrix-venison",
+          "quantity": "3-6",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Bellanoir Libero's Slab Fragment",
+          "itemId": "item:bellanoir-libero-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "5-6",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Core",
+          "itemId": "item:ancient-civilization-core",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:celestial-sakura-cavern",
+      "name": "Celestial Sakura Cavern",
+      "nameKo": "천상의 벚꽃 동굴",
+      "category": "Regular Expeditions",
+      "durationMinutes": 60,
+      "difficulty": "Hard",
+      "requiredLevel": null,
+      "requiredFirepower": 375000,
+      "elementRequirement": {
+        "element": "Water",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Saya & Selyne",
+        "tower": "Moonflower Tower",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "17-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Legendary Sphere",
+          "itemId": "item:legendary-sphere",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Ultimate Sphere",
+          "itemId": "item:ultimate-sphere",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "50-80",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Crude Oil",
+          "itemId": "item:crude-oil",
+          "quantity": "15-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Large Pal Soul",
+          "itemId": "item:large-pal-soul",
+          "quantity": "5-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Giant Pal Soul",
+          "itemId": "item:giant-pal-soul",
+          "quantity": "3-6",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Broncherry Meat",
+          "itemId": "item:broncherry-meat",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Mozzarina Meat",
+          "itemId": "item:mozzarina-meat",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Xenolord Slab Fragment",
+          "itemId": "item:xenolord-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Hartalis Slab Fragment",
+          "itemId": "item:hartalis-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "6-7",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Core",
+          "itemId": "item:ancient-civilization-core",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:dark-cave-of-feybreak",
+      "name": "Dark Cave of Feybreak",
+      "nameKo": "페이브레이크의 어두운 동굴",
+      "category": "Regular Expeditions",
+      "durationMinutes": 60,
+      "difficulty": "Hard",
+      "requiredLevel": null,
+      "requiredFirepower": 476000,
+      "elementRequirement": {
+        "element": "Dark",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Bjorn & Bastigor",
+        "tower": "Feybreak Tower",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "20-22",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ultimate Sphere",
+          "itemId": "item:ultimate-sphere",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Exotic Sphere",
+          "itemId": "item:exotic-sphere",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Crude Oil",
+          "itemId": "item:crude-oil",
+          "quantity": "15-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Chromite",
+          "itemId": "item:chromite",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Giant Pal Soul",
+          "itemId": "item:giant-pal-soul",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Broncherry Meat",
+          "itemId": "item:broncherry-meat",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Mammorest Meat",
+          "itemId": "item:mammorest-meat",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Xenolord Slab Fragment",
+          "itemId": "item:xenolord-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Hartalis Slab Fragment",
+          "itemId": "item:hartalis-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "7-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Core",
+          "itemId": "item:ancient-civilization-core",
+          "quantity": "2-3",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:sunreach-isle",
+      "name": "Sunreach Isle",
+      "nameKo": "선리치섬",
+      "category": "Regular Expeditions",
+      "durationMinutes": 60,
+      "difficulty": "Hard",
+      "requiredLevel": null,
+      "requiredFirepower": 589000,
+      "elementRequirement": {
+        "element": "Dragon",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Auri & Shaolong",
+        "tower": "PIDF Tower",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "23-25",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Sol Sphere",
+          "itemId": "item:sol-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Soralite",
+          "itemId": "item:soralite",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Coralum Ore",
+          "itemId": "item:coralum-ore",
+          "quantity": "30-50",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Giant Pal Soul",
+          "itemId": "item:giant-pal-soul",
+          "quantity": "4-8",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Broncherry Meat",
+          "itemId": "item:broncherry-meat",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Mammorest Meat",
+          "itemId": "item:mammorest-meat",
+          "quantity": "3-7",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Xenolord Slab Fragment",
+          "itemId": "item:xenolord-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Hartalis Slab Fragment",
+          "itemId": "item:hartalis-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "8-9",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Core",
+          "itemId": "item:ancient-civilization-core",
+          "quantity": "3-4",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": true
+    },
+    {
+      "id": "expedition:world-tree-subterrenean-city-ruins",
+      "name": "World Tree Subterrenean City Ruins",
+      "nameKo": "세계수 지하 도시 유적",
+      "category": "Regular Expeditions",
+      "durationMinutes": 60,
+      "difficulty": "Hard",
+      "requiredLevel": null,
+      "requiredFirepower": 851000,
+      "elementRequirement": null,
+      "unlock": {
+        "boss": "None",
+        "tower": "？？？",
+        "boss_difficulty": "Normal"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Paloxite",
+          "itemId": "item:paloxite",
+          "quantity": "15-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Giant Pal Soul",
+          "itemId": "item:giant-pal-soul",
+          "quantity": "8-12",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Decayed Ancient Relic",
+          "itemId": "item:decayed-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 51.6,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Dormant Ancient Relic",
+          "itemId": "item:dormant-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 25.8,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Gorgeous Ancient Relic",
+          "itemId": "item:gorgeous-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 12.9,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Glowing Ancient Relic",
+          "itemId": "item:glowing-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 6.45,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Glistening Ancient Relic",
+          "itemId": "item:glistening-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 3.23,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Decayed Ancient Relic",
+          "itemId": "item:decayed-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 51.6,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Dormant Ancient Relic",
+          "itemId": "item:dormant-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 25.8,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Gorgeous Ancient Relic",
+          "itemId": "item:gorgeous-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 12.9,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Glowing Ancient Relic",
+          "itemId": "item:glowing-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 6.45,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Glistening Ancient Relic",
+          "itemId": "item:glistening-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 3.23,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.56,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "1-3",
+          "chancePct": 5.52,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Decayed Ancient Relic",
+          "itemId": "item:decayed-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 26,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Dormant Ancient Relic",
+          "itemId": "item:dormant-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 13,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Gorgeous Ancient Relic",
+          "itemId": "item:gorgeous-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 6.49,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Glowing Ancient Relic",
+          "itemId": "item:glowing-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 3.25,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Glistening Ancient Relic",
+          "itemId": "item:glistening-ancient-relic",
+          "quantity": "1-3",
+          "chancePct": 1.62,
+          "certainty": "chance"
+        },
+        {
+          "slot": 9,
+          "item": "Mammorest Meat",
+          "itemId": "item:mammorest-meat",
+          "quantity": "3-7",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 10,
+          "item": "Xenolord Slab Fragment",
+          "itemId": "item:xenolord-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Hartalis Slab Fragment",
+          "itemId": "item:hartalis-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 10,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 33.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 11,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "8-9",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 12,
+          "item": "Ancient Civilization Core",
+          "itemId": "item:ancient-civilization-core",
+          "quantity": "3-5",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": true
+    },
+    {
+      "id": "expedition:rayne-syndicate-smuggling-warehouse",
+      "name": "Rayne Syndicate Smuggling Warehouse",
+      "nameKo": "레인 밀렵단 밀수 창고",
+      "category": "Grassland Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Neutral",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Zoe & Grizzbolt",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Sol Sphere",
+          "itemId": "item:sol-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Bellanoir's Slab Fragment",
+          "itemId": "item:bellanoir-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Aquatic Pal Fluids",
+          "itemId": "item:aquatic-pal-fluids",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Leather",
+          "itemId": "item:leather",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Ore",
+          "itemId": "item:ore",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Chikipi Poultry",
+          "itemId": "item:chikipi-poultry",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Lamball Mutton",
+          "itemId": "item:lamball-mutton",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:free-pal-alliance-illicit-trading-post",
+      "name": "Free Pal Alliance Illicit Trading Post",
+      "nameKo": "팰 애호 단체 불법 교역소",
+      "category": "Hard Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Grass",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Lily & Lyleen",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Sol Sphere",
+          "itemId": "item:sol-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Bellanoir Libero's Slab Fragment",
+          "itemId": "item:bellanoir-libero-s-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Coal",
+          "itemId": "item:coal",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Mushroom",
+          "itemId": "item:mushroom",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Cavern Mushroom",
+          "itemId": "item:cavern-mushroom",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Mozzarina Meat",
+          "itemId": "item:mozzarina-meat",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Eikthyrdeer Venison",
+          "itemId": "item:eikthyrdeer-venison",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1-3",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:eternal-pyre-s-forbidden-market",
+      "name": "Eternal Pyre's Forbidden Market",
+      "nameKo": "영원한 불꽃 동지회의 금단 시장",
+      "category": "Hard Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Fire",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Axel & Orserk",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Xenolord Slab Fragment",
+          "itemId": "item:xenolord-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Sulfur",
+          "itemId": "item:sulfur",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Flame Organ",
+          "itemId": "item:flame-organ",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Leather",
+          "itemId": "item:leather",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Raw Kelpsea",
+          "itemId": "item:raw-kelpsea",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Rushoar Pork",
+          "itemId": "item:rushoar-pork",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:pidf-illegal-factory",
+      "name": "PIDF Illegal Factory",
+      "nameKo": "팰파고스섬 자경단 불법 공장",
+      "category": "Hard Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Ground",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Marcus & Faleris",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Coal",
+          "itemId": "item:coal",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Electric Organ",
+          "itemId": "item:electric-organ",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "High Quality Pal Oil",
+          "itemId": "item:high-quality-pal-oil",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Raw Dumud",
+          "itemId": "item:raw-dumud",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Galeclaw Poultry",
+          "itemId": "item:galeclaw-poultry",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:pal-genetic-research-laboratory",
+      "name": "PAL Genetic Research Laboratory",
+      "nameKo": "팰 유전자 연구부대 연구소",
+      "category": "Hard Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Ice",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Victor & Shadowbeak",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Xenolord Slab Fragment",
+          "itemId": "item:xenolord-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Pure Quartz",
+          "itemId": "item:pure-quartz",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Ice Organ",
+          "itemId": "item:ice-organ",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Diamond",
+          "itemId": "item:diamond",
+          "quantity": "6-12",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Reindrix Venison",
+          "itemId": "item:reindrix-venison",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Munchill Meat",
+          "itemId": "item:munchill-meat",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:moonflower-s-secret-hideout",
+      "name": "Moonflower's Secret Hideout",
+      "nameKo": "달빛 꽃의 비밀 은신처",
+      "category": "Hard Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Water",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Saya & Selyne",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Blazamut Ryu Slab Fragment",
+          "itemId": "item:blazamut-ryu-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Crude Oil",
+          "itemId": "item:crude-oil",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Large Pal Soul",
+          "itemId": "item:large-pal-soul",
+          "quantity": "7-11",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Giant Pal Soul",
+          "itemId": "item:giant-pal-soul",
+          "quantity": "5-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Broncherry Meat",
+          "itemId": "item:broncherry-meat",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Caprity Meat",
+          "itemId": "item:caprity-meat",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:ancient-feybreak-ruins",
+      "name": "Ancient Feybreak Ruins",
+      "nameKo": "페이브레이크 고대 유적",
+      "category": "Hard Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Dark",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Bjorn & Bastigor",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Hartalis Slab Fragment",
+          "itemId": "item:hartalis-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Chromite",
+          "itemId": "item:chromite",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Hexolite Quartz",
+          "itemId": "item:hexolite-quartz",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Venom Gland",
+          "itemId": "item:venom-gland",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Gloopie Tentacle",
+          "itemId": "item:gloopie-tentacle",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Caprity Meat",
+          "itemId": "item:caprity-meat",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": false
+    },
+    {
+      "id": "expedition:sunreach-dragon-husk",
+      "name": "Sunreach Dragon Husk",
+      "nameKo": "선리치 용의 잔해",
+      "category": "Sky Island Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 1600000,
+      "elementRequirement": {
+        "element": "Dragon",
+        "palsRequired": 20
+      },
+      "unlock": {
+        "boss": "Auri & Shaolong",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Ancient Pal Manuscript",
+          "itemId": "item:ancient-pal-manuscript",
+          "quantity": "25-30",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 2,
+          "item": "Ancient Sphere",
+          "itemId": "item:ancient-sphere",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 3,
+          "item": "Hartalis Slab Fragment",
+          "itemId": "item:hartalis-slab-fragment",
+          "quantity": "1-2",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 4,
+          "item": "Soralite",
+          "itemId": "item:soralite",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 5,
+          "item": "Coralum Ore",
+          "itemId": "item:coralum-ore",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 6,
+          "item": "Electric Organ",
+          "itemId": "item:electric-organ",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 7,
+          "item": "Jelliette Bell Flesh",
+          "itemId": "item:jelliette-bell-flesh",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 8,
+          "item": "Jellroy Bell Flesh",
+          "itemId": "item:jellroy-bell-flesh",
+          "quantity": "10-20",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        },
+        {
+          "slot": 9,
+          "item": "Kinship Peach",
+          "itemId": "item:kinship-peach",
+          "quantity": "1",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": true
+    },
+    {
+      "id": "expedition:the-world-tree-s-forbidden-area",
+      "name": "The World Tree's Forbidden Area",
+      "nameKo": "세계수 금단 구역",
+      "category": "World Tree Expeditions",
+      "durationMinutes": 120,
+      "difficulty": "VeryHard",
+      "requiredLevel": null,
+      "requiredFirepower": 2100000,
+      "elementRequirement": null,
+      "unlock": {
+        "boss": "None",
+        "tower": null,
+        "boss_difficulty": "Hard"
+      },
+      "rewards": [
+        {
+          "slot": 1,
+          "item": "Gorgeous Ancient Relic",
+          "itemId": "item:gorgeous-ancient-relic",
+          "quantity": "2-4",
+          "chancePct": 57.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 1,
+          "item": "Glowing Ancient Relic",
+          "itemId": "item:glowing-ancient-relic",
+          "quantity": "2-4",
+          "chancePct": 28.6,
+          "certainty": "chance"
+        },
+        {
+          "slot": 1,
+          "item": "Glistening Ancient Relic",
+          "itemId": "item:glistening-ancient-relic",
+          "quantity": "2-4",
+          "chancePct": 14.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 2,
+          "item": "Gorgeous Ancient Relic",
+          "itemId": "item:gorgeous-ancient-relic",
+          "quantity": "2-4",
+          "chancePct": 57.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 2,
+          "item": "Glowing Ancient Relic",
+          "itemId": "item:glowing-ancient-relic",
+          "quantity": "2-4",
+          "chancePct": 28.6,
+          "certainty": "chance"
+        },
+        {
+          "slot": 2,
+          "item": "Glistening Ancient Relic",
+          "itemId": "item:glistening-ancient-relic",
+          "quantity": "2-4",
+          "chancePct": 14.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "2-4",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "2-4",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "2-4",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "2-4",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "2-4",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 3,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 4,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 5,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 11.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Water Radiant Gem",
+          "itemId": "item:water-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Electric Radiant Gem",
+          "itemId": "item:electric-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Ground Radiant Gem",
+          "itemId": "item:ground-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Grass Radiant Gem",
+          "itemId": "item:grass-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Fire Radiant Gem",
+          "itemId": "item:fire-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Ice Radiant Gem",
+          "itemId": "item:ice-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Dragon Radiant Gem",
+          "itemId": "item:dragon-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Dark Radiant Gem",
+          "itemId": "item:dark-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Neutral Radiant Gem",
+          "itemId": "item:neutral-radiant-gem",
+          "quantity": "2-5",
+          "chancePct": 4.84,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Gorgeous Ancient Relic",
+          "itemId": "item:gorgeous-ancient-relic",
+          "quantity": "2-5",
+          "chancePct": 32.3,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Glowing Ancient Relic",
+          "itemId": "item:glowing-ancient-relic",
+          "quantity": "2-5",
+          "chancePct": 16.1,
+          "certainty": "chance"
+        },
+        {
+          "slot": 6,
+          "item": "Glistening Ancient Relic",
+          "itemId": "item:glistening-ancient-relic",
+          "quantity": "2-5",
+          "chancePct": 8.06,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Ancient Civilization Parts",
+          "itemId": "item:ancient-civilization-parts",
+          "quantity": "9-11",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 7,
+          "item": "Ancient Civilization Core",
+          "itemId": "item:ancient-civilization-core",
+          "quantity": "6-9",
+          "chancePct": 50,
+          "certainty": "chance"
+        },
+        {
+          "slot": 8,
+          "item": "Dog Coin",
+          "itemId": "item:dog-coin",
+          "quantity": "1-10",
+          "chancePct": 100,
+          "certainty": "guaranteed"
+        }
+      ],
+      "preliminary": true
+    }
+  ],
+  "fishing": {
+    "pals": [
+      {
+        "pal": "Azurobe",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Azurobe Cryst",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Celaray",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Celaray Lux",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Croajiro",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Croajiro Noct",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Dumud",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Dumud Gild",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Finsider",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Finsider Ignis",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Fuack",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Fuack Ignis",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Ghangler",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Ghangler Ignis",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Gloopie",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Gloopie Primo",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Jelliette",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Jellroy",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Kelpsea",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Kelpsea Ignis",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Killamari",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Killamari Primo",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Munchill",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Pengullet",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Pengullet Lux",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Penking",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Penking Lux",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Polapup",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Polapup Terra",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Skutlass",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Skutlass Ignis",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Solmora",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Solmora Lux",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Surfent",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Surfent Terra",
+        "minLevel": 16,
+        "maxLevel": 26,
+        "evidence": "fishing (Lv. 16-26)"
+      },
+      {
+        "pal": "Turtacle",
+        "minLevel": 11,
+        "maxLevel": 18,
+        "evidence": "fishing (Lv. 11-18)"
+      },
+      {
+        "pal": "Turtacle Terra",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Whalaska",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      },
+      {
+        "pal": "Whalaska Ignis",
+        "minLevel": 36,
+        "maxLevel": 48,
+        "evidence": "fishing (Lv. 36-48)"
+      }
+    ],
+    "baitItemIds": [
+      "item:simple-bait",
+      "item:high-quality-bait",
+      "item:deluxe-bait",
+      "item:alluring-bait",
+      "item:beginner-bait",
+      "item:sweet-bait",
+      "item:lucky-bait",
+      "item:quick-bait",
+      "item:risky-bait"
+    ],
+    "rodItemIds": [
+      "item:beginner-fishing-rod-chillet",
+      "item:beginner-fishing-rod-gumoss",
+      "item:intermediate-fishing-rod-cattiva",
+      "item:intermediate-fishing-rod-croajiro",
+      "item:advanced-fishing-rod-pengullet",
+      "item:advanced-fishing-rod-depresso"
+    ],
+    "patch103": {
+      "itemId": "item:world-tree-holy-water",
+      "changesKo": [
+        "세계수 원정 보상에 추가",
+        "세계수 낚시 보상에 추가",
+        "대형 낚시터 보상에 추가",
+        "무게 1에서 0.1로 감소",
+        "효과 지속 시간 연장"
+      ],
+      "sourceUrl": "https://steamcommunity.com/ogg/1623730/announcements/detail/695395286786244642",
+      "evidenceLevel": "official"
+    }
+  },
+  "provenance": {
+    "sourceId": "beliarance-palworld-kb-activities",
+    "sourceUrl": "https://github.com/beliarance/palworld-kb",
+    "sourceRevision": "cf9ecbe832e3a2a9e2d78d6579a082d968b68f17",
+    "checkedAt": "2026-08-28T09:28:34.608Z",
+    "gameVersion": "1.0",
+    "evidenceLevel": "community-verified",
+    "license": null,
+    "sourceFiles": [
+      "data/bosses.json",
+      "data/expeditions.json",
+      "data/pal_locations.json"
+    ]
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "releaseLine": "1.0",
+  "latestVerifiedPatch": "1.0.3",
+  "dataCompatibility": "1.0.x",
+  "versionCheckedAt": "2026-08-28",
+  "officialPatchUrl": "https://steamcommunity.com/app/1623730/allnews/",
+  "evidenceLevels": [
+    {
+      "id": "official",
+      "description": "Pocketpair 또는 Palworld 공식 발표와 공식 문서"
+    },
+    {
+      "id": "game-data",
+      "description": "버전이 고정된 게임 파일 또는 게임 데이터 테이블에서 추출한 사실"
+    },
+    {
+      "id": "computed",
+      "description": "공개된 입력 데이터와 명시된 공식으로 계산한 결과"
+    },
+    {
+      "id": "community-verified",
+      "description": "둘 이상의 현행 자료 또는 게임 내 확인으로 교차 검증한 사실"
+    },
+    {
+      "id": "editorial",
+      "description": "출처를 밝힌 편집형 추천과 운용 의견"
+    }
+  ],
+  "requiredProvenanceFields": [
+    "gameVersion",
+    "sourceId",
+    "sourceUrl",
+    "checkedAt",
+    "evidenceLevel"
+  ],
+  "conflictPolicy": "preserve-conflict-and-require-review",
+  "datasets": [
+    {
+      "id": "guide",
+      "path": "data/guide-data.json",
+      "schemaVersion": 1,
+      "required": true,
+      "updateMode": "scheduled"
+    },
+    {
+      "id": "pal-details",
+      "path": "data/pal-details.json",
+      "schemaVersion": 2,
+      "required": false,
+      "updateMode": "scheduled"
+    },
+    {
+      "id": "breeding",
+      "path": "data/breeding.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "items",
+      "path": "data/items.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "item-localization-report",
+      "path": "data/item-localization-report.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "traits",
+      "path": "data/traits.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "trait-names-ko",
+      "path": "data/trait-names-ko.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "visual-assets",
+      "path": "data/visual-assets.json",
+      "schemaVersion": 1,
+      "required": true,
+      "updateMode": "scheduled"
+    },
+    {
+      "id": "map-pois",
+      "path": "data/map-pois.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "activities",
+      "path": "data/activities.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
+      "id": "patch-report",
+      "path": "data/patch-report.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    }
+  ]
+}

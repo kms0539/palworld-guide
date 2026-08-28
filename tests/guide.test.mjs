@@ -57,7 +57,7 @@ test("site exposes a searchable Pal encyclopedia and current 1.0 map controls", 
     readFile(new URL("site/progression.css", root), "utf8"),
   ]);
   assert.match(html, /progression\.css/);
-  assert.match(html, /app\.js\?v=1\.9/);
+  assert.match(html, /app\.js\?v=1\.13/);
   assert.match(html, /data-tab="pals"/);
   assert.match(html, /data-tab="progression"/);
   assert.match(app, /renderPals/);

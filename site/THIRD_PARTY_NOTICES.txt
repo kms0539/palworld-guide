@@ -16,4 +16,39 @@ MS 팰월드 공략집 이미지 이용 안내
 - 용도: 공개 도감에 표시된 펠 한글 명칭 대조
 - 이미지나 본문은 복제하지 않고 구조화된 명칭만 사용합니다.
 
+4. helios57/palworld
+- 출처: https://github.com/helios57/palworld
+- 용도: Palworld 1.0 번식 랭크, 일반 풀 제외 조건 및 특수 조합
+- 라이선스: MIT License
+- 사용 리비전: 4120331a454842e8f91b8d83cc7b21e64b4a7ade
+- 원본 저장소의 LICENSE 고지와 저작권 조건을 따릅니다.
+
+5. oMaN-Rod/palworld-save-pal
+- 출처: https://github.com/oMaN-Rod/palworld-save-pal
+- 용도: 아이템·구조물 한국어 게임 데이터 대조 및 아이콘
+- 사용 리비전: 63fb57b4619605f80f17abc4fb6fc62e80ed7142
+- 저장소 코드 라이선스: GPL-3.0
+- 추출된 한국어 문자열과 게임 아이콘의 권리는 Pocketpair에 있습니다. 저장소 코드 라이선스가 게임 자산의 별도 이용 허락을 뜻하지 않습니다.
+
+6. voidpossum/PalMap
+- 출처: https://github.com/voidpossum/PalMap
+- 용도: 게임 파일 기반 지도 마커 사실 데이터
+- 라이선스: GPL-3.0
+- 사용 리비전: af430c078675083b59408a00efb9c4bd911db5d4
+
+7. PalDB 지도
+- 출처: https://paldb.cc/en/Map
+- 용도: 자원·상인·낚시 지점 사실 데이터
+- 확인일: 2026-08-28
+
+8. beliarance/palworld-kb
+- 출처: https://github.com/beliarance/palworld-kb
+- 용도: 보스·원정·서식지 사실 데이터
+- 사용 리비전: cf9ecbe832e3a2a9e2d78d6579a082d968b68f17
+
+9. zlmitchell/palworld-save-toolkit
+- 출처: https://github.com/zlmitchell/palworld-save-toolkit/blob/master/SAVE-FORMAT.md
+- 용도: Palworld 1.0 세이브 컨테이너 형식 확인
+- 라이선스: GPL-3.0
+
 이 사이트는 Pocketpair가 운영하거나 보증하는 공식 서비스가 아닌 비공식 팬 공략집입니다.

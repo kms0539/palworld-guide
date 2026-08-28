@@ -1,5 +1,6 @@
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { parseSkillCatalogue, resolveMoves } from "./pal-data-parser.mjs";
 
 // Work suitability levels, innate traits and partner skills are what justify a
 // base-Pal recommendation, and they live only on each Pal's own page. Fetching
@@ -17,8 +18,10 @@ const guidePath = join(root, ".work", "guide-data.json");
 const cachePath = join(root, "site", "data", "pal-details.json");
 const logPath = join(root, ".work", "pal-details.log");
 const PAL_BASE = "https://www.palworld.tools/pals";
+const SKILL_SOURCE = "https://www.palworld.tools/skills";
 const REQUEST_DELAY_MS = 350;
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
+const SOURCE_BUILD = "24088745";
 
 // palworld.tools labels; the Korean guide renders these names.
 const WORK_LABELS = {
@@ -106,7 +109,16 @@ function normalizeWork(workSuitability) {
   return work.sort((a, b) => b.level - a.level || a.work.localeCompare(b.work));
 }
 
-async function fetchPalDetail(slug) {
+function finiteNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function numericObject(value, keys) {
+  return Object.fromEntries(keys.map((key) => [key, finiteNumber(value?.[key])]));
+}
+
+async function fetchPalDetail(slug, skillCatalogue) {
   const url = `${PAL_BASE}/${slug}`;
   const response = await fetch(url, {
     headers: { "user-agent": "palworld-guide/1.0 (+https://github.com/kms0539/palworld-guide)" },
@@ -122,10 +134,30 @@ async function fetchPalDetail(slug) {
     // empty list rather than failing the whole refresh.
   }
   return {
+    entityId: `pal:${String(record.code)}`,
+    speciesId: String(record.tribe ?? record.code),
+    formId: String(record.code),
     slug,
     name: String(record.name ?? ""),
-    elements: Array.isArray(record.elements) ? record.elements : [],
+    paldex: {
+      number: finiteNumber(record.paldex),
+      suffix: String(record.paldexSuffix ?? ""),
+      display: `${finiteNumber(record.paldex) ?? "—"}${String(record.paldexSuffix ?? "")}`,
+    },
+    formKind: record.flags?.towerBoss ? "tower-boss"
+      : record.flags?.raidBoss ? "raid-boss"
+        : record.flags?.boss ? "boss"
+          : record.paldexSuffix ? "variant" : "base",
+    obtainable: null,
+    description: String(record.descLong ?? "").replace(/\s+/g, " ").trim(),
+    elements: Array.isArray(record.elements) && record.elements.length ? record.elements : null,
+    size: record.size ? String(record.size) : null,
+    genus: record.genus ? String(record.genus) : null,
+    nocturnal: Boolean(record.nocturnal),
+    predator: Boolean(record.predator ?? record.flags?.predator),
     rarity: Number(record.rarity) || 0,
+    stats: numericObject(record.stats, ["hp", "melee", "shot", "defense", "support", "craftSpeed", "stamina", "food", "maxStomach"]),
+    speed: numericObject(record.speed, ["walk", "run", "rideSprint", "transport", "swim"]),
     work,
     bestWork: String(record.bestWork ?? ""),
     partnerSkill: record.partnerSkill?.name
@@ -133,6 +165,38 @@ async function fetchPalDetail(slug) {
       : null,
     innateTraits: parseInnateTraits(html),
     craftSpeed: Number(record.stats?.craftSpeed) || 0,
+    activeSkills: resolveMoves(record.movesByLevel, skillCatalogue),
+    eggSkills: resolveMoves(record.eggMoves, skillCatalogue),
+    drops: (record.drops ?? []).map((drop) => ({
+      itemId: String(drop.item),
+      name: null,
+      rate: finiteNumber(drop.rate),
+      min: finiteNumber(drop.min),
+      max: finiteNumber(drop.max),
+    })),
+    capture: {
+      rate: finiteNumber(record.capture?.rate),
+      price: finiteNumber(record.capture?.price),
+    },
+    breeding: {
+      combiRank: finiteNumber(record.breeding?.combiRank),
+      maleProbability: finiteNumber(record.breeding?.maleProbability),
+      ignored: Boolean(record.breeding?.ignore),
+    },
+    flags: {
+      boss: Boolean(record.flags?.boss),
+      towerBoss: Boolean(record.flags?.towerBoss),
+      raidBoss: Boolean(record.flags?.raidBoss),
+      isPal: Boolean(record.flags?.isPal),
+    },
+    provenance: {
+      gameVersion: "1.0",
+      sourceId: "palworld-tools",
+      sourceUrl: url,
+      sourceRevision: SOURCE_BUILD,
+      checkedAt: new Date().toISOString(),
+      evidenceLevel: "game-data",
+    },
     sourceUrl: url,
   };
 }
@@ -152,7 +216,8 @@ async function log(message) {
 async function readCache() {
   try {
     const cache = JSON.parse(await readFile(cachePath, "utf8"));
-    if (cache.schemaVersion !== SCHEMA_VERSION) throw new Error("unsupported pal detail cache schema");
+    if (![1, SCHEMA_VERSION].includes(cache.schemaVersion)) throw new Error("unsupported pal detail cache schema");
+    cache.schemaVersion = SCHEMA_VERSION;
     return cache;
   } catch (error) {
     if (error?.code !== "ENOENT") throw error;
@@ -161,17 +226,34 @@ async function readCache() {
 }
 
 async function main() {
-  const guide = JSON.parse(await readFile(guidePath, "utf8"));
+  let guide;
+  try {
+    guide = JSON.parse(await readFile(guidePath, "utf8"));
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+    guide = JSON.parse(await readFile(join(root, "site", "data", "guide-data.json"), "utf8"));
+  }
   const cache = await readCache();
   const slugs = [...new Set(guide.pals.map((pal) => String(pal.slug)).filter(Boolean))];
-  const pending = (force ? slugs : slugs.filter((slug) => !cache.pals[slug])).slice(0, limit);
+  const pending = (force ? slugs : slugs.filter((slug) => !cache.pals[slug]?.entityId)).slice(0, limit);
   await log(`pal detail refresh started; known=${Object.keys(cache.pals).length} pending=${pending.length}`);
+
+  let skillCatalogue = new Map();
+  if (pending.length) {
+    const response = await fetch(SKILL_SOURCE, {
+      headers: { "user-agent": "palworld-guide/1.0 (+https://github.com/kms0539/palworld-guide)" },
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}: ${SKILL_SOURCE}`);
+    skillCatalogue = parseSkillCatalogue(await response.text());
+    if (skillCatalogue.size < 300) throw new Error(`active skill catalogue unexpectedly small: ${skillCatalogue.size}`);
+  }
 
   let fetched = 0;
   const failures = [];
   for (const slug of pending) {
     try {
-      cache.pals[slug] = await fetchPalDetail(slug);
+      cache.pals[slug] = await fetchPalDetail(slug, skillCatalogue);
       fetched += 1;
     } catch (error) {
       failures.push(`${slug}: ${error.message}`);
@@ -185,6 +267,9 @@ async function main() {
   }
 
   cache.updatedAt = new Date().toISOString();
+  cache.gameVersion = "1.0";
+  cache.sourceRevision = SOURCE_BUILD;
+  cache.sourceUrl = PAL_BASE;
   const covered = slugs.filter((slug) => cache.pals[slug]).length;
   // Persist whatever was fetched before judging coverage so a partial or
   // deliberately limited run still makes progress instead of discarding it.

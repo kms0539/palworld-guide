@@ -1,10 +1,16 @@
 {
   "name": "palworld-guide",
-  "version": "1.9.1",
+  "version": "1.13.0",
   "private": true,
   "type": "module",
   "scripts": {
     "refresh": "node scripts/update-guide-data.mjs --root . && node scripts/update-pal-details.mjs --root . && node scripts/build-public-guide.mjs --root .",
+    "breeding:refresh": "node scripts/update-breeding-data.mjs --root .",
+    "items:refresh": "node scripts/update-item-data.mjs --root . && node scripts/sync-item-localization.mjs --root .",
+    "items:localize": "node scripts/sync-item-localization.mjs --root .",
+    "map:refresh": "node scripts/update-map-pois.mjs --root .",
+    "activities:refresh": "node scripts/update-activities-data.mjs --root .",
+    "patch:snapshot": "node scripts/create-patch-snapshot.mjs --root .",
     "traits:refresh": "node scripts/update-trait-catalog.mjs --root .",
     "assets:sync": "node scripts/sync-visual-assets.mjs --root .",
     "preview": "node scripts/serve-static.mjs --root site --port 4179",
