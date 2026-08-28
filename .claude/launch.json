@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "guide",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve-static.mjs", "--root", "site", "--port", "4179"],
+      "port": 4179
+    },
+    {
+      "name": "guide-alt",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve-static.mjs", "--root", "site", "--port", "4180"],
+      "port": 4180
+    }
+  ]
+}

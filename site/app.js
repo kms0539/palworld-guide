@@ -6,6 +6,13 @@ import { bossTypeLabels, recommendBossPals } from "./boss-engine.js?v=1.13.0";
 import { productionPlan } from "./base-planner.js?v=1.13.0";
 import { emptyProgress, loadProgress, saveProgress, toggleProgress, importProgress } from "./progress-store.js?v=1.13.0";
 import { analyzeSave } from "./save-analyzer.js?v=1.13.0";
+import {
+  fastTravelLabels, worldTreeLabels, sunreachLabels, dungeonLabels,
+  genusLabels, sizeLabels, crossoverPalNamesKo,
+  skillNamesKo, partnerSkillNamesKo,
+  translateObtained, translateSkillDescription, translatePartnerSkillDescription,
+  translateJournalTitle, translateBountyTitle, translateSkillFruitTitle
+} from "./localization-ko.js?v=1.14.1";
 
 const defaultLayers = [
   "fast_travel", "alpha_pal", "boss_tower", "bounty_target", "predator_pal", "oil_rig", "world_tree", "sunreach",
@@ -322,7 +329,8 @@ function bossDisplayName(name) {
 
 function displayPalName(value) {
   const pal = palRecord(value);
-  return pal ? (state.assets.koreanNames?.[pal.slug] || cleanPalName(pal.name)) : cleanPalName(value);
+  const slug = pal ? pal.slug : String(value ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return state.assets?.koreanNames?.[slug] || crossoverPalNamesKo[value] || (pal && state.assets?.koreanNames?.[pal.slug]) || cleanPalName(value);
 }
 
 function palRecord(name) {
@@ -334,7 +342,7 @@ function palImage(name, className = "pal-image") {
   const pal = palRecord(name);
   const asset = pal ? state.assets.pals[pal.slug] : null;
   const path = localAsset(asset?.path);
-  return path ? `<img class="${className}" src="${path}" alt="${escapeHtml(displayPalName(name))}" loading="lazy" decoding="async">` : `<div class="${className} placeholder" aria-hidden="true">PAL</div>`;
+  return path ? `<img class="${className}" src="${path}" alt="${escapeHtml(displayPalName(name))}" loading="lazy" decoding="async">` : `<div class="${className} placeholder" aria-hidden="true">펠</div>`;
 }
 
 function roleEntry(role, palName) {
@@ -362,12 +370,12 @@ function recommendationReason(item) {
 function mapLabel(point) {
   const raw = String(point.label ?? "").trim();
   if (!raw) return labels[point.category] || "지도 지점";
-  if (point.category.startsWith("resource_")) return raw;
+  if (point.category.startsWith("resource_")) return mapResourceLabels[raw] || raw;
   if (point.category === "boss_tower") return towerLabels[raw] || "보스 타워";
-  if (point.category === "fast_travel") return raw ? `빠른 이동 · ${raw}` : "빠른 이동 지점";
-  if (point.category === "sunreach") return `선리치 · ${raw}`;
-  if (point.category === "world_tree") return `세계수 · ${raw}`;
-  if (point.category === "bounty_target") return `현상수배 대상${raw.match(/Lv\s*\d+/i)?.[0] ? ` · ${raw.match(/Lv\s*\d+/i)[0]}` : ""}`;
+  if (point.category === "fast_travel") return fastTravelLabels[raw] ? `빠른 이동 · ${fastTravelLabels[raw]}` : (raw ? `빠른 이동 · ${raw}` : "빠른 이동 지점");
+  if (point.category === "sunreach") return sunreachLabels[raw] ? `선리치 · ${sunreachLabels[raw]}` : `선리치 · ${raw}`;
+  if (point.category === "world_tree") return worldTreeLabels[raw] ? `세계수 · ${worldTreeLabels[raw]}` : `세계수 · ${raw}`;
+  if (point.category === "bounty_target") return translateBountyTitle(raw);
   if (point.category === "oil_rig") {
     const level = raw.match(/Lv\s*(\d+)/i)?.[1];
     return `${level ? `Lv ${level} ` : ""}레인 밀렵단 오일 리그`;
@@ -377,18 +385,27 @@ function mapLabel(point) {
     const localized = displayPalName(englishName);
     return `${point.category === "alpha_pal" ? "알파" : "포식자"} ${localized}`;
   }
-  if (point.category === "collectible") return `${displayPalName(raw.replace(/\s+Effigy$/i, ""))} 리프몽 석상`;
+  if (point.category === "collectible") return `${displayPalName(raw.replace(/\s+Effigy$/i, ""))} 석상`;
   if (point.category === "caged_pal") return `우리 속 ${displayPalName(raw.replace(/\s*\(.*$/, ""))}${raw.match(/Lv\s*\d+/i)?.[0] ? ` · ${raw.match(/Lv\s*\d+/i)[0]}` : ""}`;
   if (point.category === "resource") return mapResourceLabels[raw] || "자원 지점";
-  if (point.category === "merchant") return raw === "Black Marketeer" ? "암시장 상인" : "방랑 상인";
+  if (point.category === "merchant") return raw === "Black Marketeer" ? "암시장 상인" : raw === "Pal Merchant" ? "펠 상인" : "방랑 상인";
   if (point.category === "fishing") return "낚시터";
   if (point.category === "rare_fishing") return "희귀 낚시터";
-  if (point.category === "watchtower") return "감시탑";
+  if (point.category === "watchtower") {
+    const place = raw.replace(/\s+Watchtower$/i, "").trim();
+    const placeKo = fastTravelLabels[place] || worldTreeLabels[place] || sunreachLabels[place] || place;
+    return `${placeKo} 감시탑`;
+  }
   if (point.category === "treasure_map") return "보물 지도";
   if (point.category === "warp_point") return raw === "Dimensional Warp" ? "차원 워프" : "워프 지점";
-  if (point.category === "skill_fruit") return "기술 열매 나무";
-  if (point.category === "journal") return "탐험 일지";
-  if (point.category === "dungeon") return `던전${raw.match(/Lv\s*\d+/i)?.[0] ? ` · ${raw.match(/Lv\s*\d+/i)[0]}` : ""}`;
+  if (point.category === "skill_fruit") return translateSkillFruitTitle(raw);
+  if (point.category === "journal") return translateJournalTitle(raw);
+  if (point.category === "dungeon") {
+    const base = raw.replace(/\s*\(Lv\s*\d+\)$/i, "").trim();
+    const levelMatch = raw.match(/Lv\s*\d+/i);
+    const levelText = levelMatch ? ` · ${levelMatch[0]}` : "";
+    return `던전 · ${dungeonLabels[base] || base}${levelText}`;
+  }
   if (point.category === "schematic") {
     const english = raw.replace(/\s+Schematic(?:\s+\d+)?$/i, "");
     const item = state.items?.items.find((entry) => entry.name === english);
@@ -414,7 +431,26 @@ function buildSourceLabel(url) {
 }
 
 function sectionHeading(number, title, note) {
-  return `<div class="heading"><div><span>${number}</span><h2>${title}</h2></div><p>${note}</p></div>`;
+  return `<div class="heading"><div><span>${number}</span><h2>${title}</h2></div><p data-heading-note>${note}</p></div>`;
+}
+
+// Search boxes live in a shell that is painted once; only the result region
+// below them is repainted while the user types. Repainting the <input> itself
+// removes the focused node, which aborts the Korean IME composition and drops
+// the syllable being assembled. Counts in the heading are query dependent, so
+// they are updated as text instead of being repainted with the shell.
+function setHeadingNote(note) {
+  const target = content.querySelector("[data-heading-note]");
+  if (target) target.textContent = note;
+}
+
+function paintRegion(selector, html, bind) {
+  const region = content.querySelector(selector);
+  if (!region) return null;
+  region.innerHTML = html;
+  bind?.(region);
+  bindTraitChips(region);
+  return region;
 }
 
 // Work suitability levels and innate traits are what actually justify a base
@@ -533,7 +569,7 @@ function renderBasePlan(stage) {
   if (!plan) return "";
   const staff = plan.staff.map((item) => `<article class="base-staff-card"><strong>${escapeHtml(item.job)}</strong><span>${item.workers.map((worker) => `${escapeHtml(displayPalName(worker.pal))}${worker.count > 1 ? ` ×${worker.count}` : ""}`).join(" · ")}</span><small>${escapeHtml(item.note)}</small></article>`).join("");
   return `<section class="base-install-guide" aria-labelledby="base-plan-title">
-    <header class="base-guide-header"><div><span>PALWORLD 1.0</span><h3 id="base-plan-title">${escapeHtml(plan.title)} 설치·팰 배치</h3><p>${escapeHtml(plan.purpose)}</p></div><strong>${escapeHtml(stage.levels)}</strong></header>
+    <header class="base-guide-header"><div><span>팰월드 1.0</span><h3 id="base-plan-title">${escapeHtml(plan.title)} 설치·팰 배치</h3><p>${escapeHtml(plan.purpose)}</p></div><strong>${escapeHtml(stage.levels)}</strong></header>
     <div class="base-guide-layout"><article class="base-guide-card"><span>01 · 위치 선정</span><h4>어디에 설치할까</h4><p>${escapeHtml(plan.location)}</p></article><article class="base-guide-card"><span>02 · 설치 순서</span><h4>막힘 없는 배치</h4><ol>${plan.install.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol></article></div>
     <div class="base-staffing"><div><span>03 · 팰 배치 예시</span><h4>작업 적성별 최소 구성</h4></div><div class="base-staff-grid">${staff}</div></div>
     <p class="base-guide-tip"><strong>운영 팁</strong>${escapeHtml(plan.tip)}</p>
@@ -634,44 +670,56 @@ function renderPalDetail() {
   const compared = state.palCompare.has(detail.slug);
   const compareFull = state.palCompare.size >= 3 && !compared;
   return `<section class="pal-inspector" aria-labelledby="pal-detail-title">
-    <header class="pal-inspector-hero">${palImage(detail.name, "pal-detail-image")}<div><span>#${escapeHtml(dataValue(detail.paldex?.display))} · ${escapeHtml(palFormLabel(detail.formKind))}</span><h3 id="pal-detail-title">${escapeHtml(displayPalName(detail.name))}</h3><p>${escapeHtml(detail.name)} · ${escapeHtml(detail.genus || "분류 자료 없음")} · 크기 ${escapeHtml(dataValue(detail.size))}</p>${palElementBadges(detail)}</div><button type="button" data-detail-close aria-label="상세 정보 닫기">닫기</button></header>
+    <header class="pal-inspector-hero">${palImage(detail.name, "pal-detail-image")}<div><span>#${escapeHtml(dataValue(detail.paldex?.display))} · ${escapeHtml(palFormLabel(detail.formKind))}</span><h3 id="pal-detail-title">${escapeHtml(displayPalName(detail.name))}</h3><p>${escapeHtml(genusLabels[detail.genus] || detail.genus || "분류 자료 없음")} · 크기 ${escapeHtml(sizeLabels[detail.size] || dataValue(detail.size))}</p>${palElementBadges(detail)}</div><button type="button" data-detail-close aria-label="상세 정보 닫기">닫기</button></header>
     <div class="pal-detail-actions"><button type="button" data-compare-toggle="${escapeHtml(detail.slug)}" ${compareFull ? "disabled" : ""}>${compared ? "비교에서 제거" : compareFull ? "비교는 3마리까지" : "비교에 담기"}</button><a href="${safeUrl(detail.sourceUrl)}" target="_blank" rel="noopener noreferrer">원본 데이터 확인 ↗</a></div>
     <div class="pal-detail-grid"><article><h4>기본 능력치</h4><dl class="pal-stat-list">${palStatRows(detail)}</dl></article><article><h4>이동 속도</h4><dl class="pal-stat-list"><div><dt>걷기</dt><dd>${dataValue(detail.speed?.walk)}</dd></div><div><dt>달리기</dt><dd>${dataValue(detail.speed?.run)}</dd></div><div><dt>탑승 질주</dt><dd>${dataValue(detail.speed?.rideSprint)}</dd></div><div><dt>운반</dt><dd>${dataValue(detail.speed?.transport)}</dd></div></dl></article></div>
     <article class="pal-detail-section"><h4>작업 적성</h4>${palWorkRows(detail)}</article>
-    <div class="pal-detail-grid"><article><h4>파트너 스킬</h4>${detail.partnerSkill ? `<strong>${escapeHtml(detail.partnerSkill.name)}</strong><p>${escapeHtml(detail.partnerSkill.description)}</p>` : `<p class="empty-data">자료 없음</p>`}</article><article><h4>고유 패시브</h4>${detail.innateTraits?.length ? detail.innateTraits.map((trait) => `<div class="innate-detail"><strong>${escapeHtml(trait.name)}</strong><p>${escapeHtml(trait.description)}</p></div>`).join("") : `<p class="empty-data">없음 또는 자료 없음</p>`}</article></div>
-    <article class="pal-detail-section"><h4>레벨별 액티브 스킬</h4>${detail.activeSkills?.length ? `<div class="skill-table-scroll"><table class="pal-skill-table"><thead><tr><th>Lv</th><th>스킬</th><th>속성</th><th>위력</th><th>CT</th></tr></thead><tbody>${detail.activeSkills.map((skill) => `<tr><td>${dataValue(skill.level)}</td><td><strong>${escapeHtml(skill.name || skill.id)}</strong><small>${escapeHtml(skill.description || "설명 자료 없음")}</small></td><td>${escapeHtml(elementLabels[skill.element] || skill.element || "자료 없음")}</td><td>${dataValue(skill.power)}</td><td>${dataValue(skill.cooldown)}</td></tr>`).join("")}</tbody></table></div>` : `<p class="empty-data">자료 없음</p>`}</article>
+    <div class="pal-detail-grid"><article><h4>파트너 스킬</h4>${detail.partnerSkill ? `<strong>${escapeHtml(partnerSkillNamesKo[detail.partnerSkill.name] || detail.partnerSkill.name)}</strong><p>${escapeHtml(translatePartnerSkillDescription(detail.partnerSkill.description))}</p>` : `<p class="empty-data">자료 없음</p>`}</article><article><h4>고유 패시브</h4>${detail.innateTraits?.length ? detail.innateTraits.map((trait) => { const t = traitByName(trait.name); return `<div class="innate-detail"><strong>${escapeHtml(t ? traitLabel(t) : trait.name)}</strong><p>${escapeHtml(t?.descriptionKo || t?.description || trait.description)}</p></div>`; }).join("") : `<p class="empty-data">없음 또는 자료 없음</p>`}</article></div>
+    <article class="pal-detail-section"><h4>레벨별 액티브 스킬</h4>${detail.activeSkills?.length ? `<div class="skill-table-scroll"><table class="pal-skill-table"><thead><tr><th>Lv</th><th>스킬</th><th>속성</th><th>위력</th><th>쿨타임</th></tr></thead><tbody>${detail.activeSkills.map((skill) => `<tr><td>${dataValue(skill.level)}</td><td><strong>${escapeHtml(skillNamesKo[skill.name] || skill.name || skill.id)}</strong><small>${escapeHtml(translateSkillDescription(skill.description))}</small></td><td>${escapeHtml(elementLabels[skill.element] || skill.element || "자료 없음")}</td><td>${dataValue(skill.power)}</td><td>${dataValue(skill.cooldown)}</td></tr>`).join("")}</tbody></table></div>` : `<p class="empty-data">자료 없음</p>`}</article>
     <footer class="pal-data-note"><span>게임 데이터 ${escapeHtml(detail.provenance?.gameVersion || "자료 없음")} · 빌드 ${escapeHtml(detail.provenance?.sourceRevision || "자료 없음")}</span><span>획득 가능 여부: ${detail.obtainable === null ? "원본에서 확인되지 않음" : detail.obtainable ? "가능" : "불가"}</span></footer>
   </section>`;
 }
 
-function renderPals() {
+function palResultsMarkup() {
   const items = rolePals();
   const roleOptions = ["all", "combat", "base", "ranch", "early", "groundMount", "flyingMount", "waterMount"];
+  setHeadingNote(`${items.length}마리 검색 · 필터 · 정렬 · 최대 3마리 비교`);
+  return `<div class="roles">${roleOptions.map((role) => `<button type="button" data-pal-role="${role}" class="${state.palRole === role ? "active" : ""}">${role === "all" ? "전체" : labels[role]}</button>`).join("")}</div>
+    ${renderPalComparison()}${renderPalDetail()}
+    <div class="pal-grid">${items.slice(0, 160).map((pal) => { const detail = palDetailBySlug(pal.slug); const compared = state.palCompare.has(pal.slug); return `<article class="pal-card ${state.palSelected === pal.slug ? "selected" : ""}"><button type="button" class="pal-card-open" data-pal-detail="${escapeHtml(pal.slug)}">${palImage(pal.name)}<span class="sr-only">${escapeHtml(displayPalName(pal.name))} 상세 보기</span></button><div><span>#${escapeHtml(dataValue(detail?.paldex?.display))} · ${escapeHtml(palFormLabel(detail?.formKind))}</span><h3>${escapeHtml(displayPalName(pal.name))}</h3><p>${(detail?.elements ?? []).map((element) => escapeHtml(elementLabels[element] || element)).join(" · ") || "속성 자료 없음"}${detail?.genus ? ` · ${escapeHtml(genusLabels[detail.genus] || detail.genus)}` : ""}</p><div class="pal-card-actions"><button type="button" data-pal-detail="${escapeHtml(pal.slug)}">상세 보기</button><button type="button" data-compare-toggle="${escapeHtml(pal.slug)}" ${(state.palCompare.size >= 3 && !compared) ? "disabled" : ""}>${compared ? "비교 제거" : "비교 담기"}</button></div></div></article>`; }).join("")}</div>
+    ${items.length > 160 ? `<p class="result-note">화면 성능을 위해 첫 160마리만 표시합니다. 검색과 필터는 전체 ${items.length}마리에 적용됩니다.</p>` : ""}`;
+}
+
+function bindPalResults(region) {
+  region.querySelectorAll("[data-pal-role]").forEach((button) => button.addEventListener("click", () => { state.palRole = button.dataset.palRole; renderPalResults(); }));
+  region.querySelectorAll("[data-pal-detail]").forEach((button) => button.addEventListener("click", () => { state.palSelected = button.dataset.palDetail; renderPalResults(); content.querySelector(".pal-inspector")?.scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  region.querySelectorAll("[data-compare-toggle]").forEach((button) => button.addEventListener("click", () => {
+    const slug = button.dataset.compareToggle;
+    if (state.palCompare.has(slug)) state.palCompare.delete(slug); else if (state.palCompare.size < 3) state.palCompare.add(slug);
+    renderPalResults();
+  }));
+  region.querySelectorAll("[data-compare-remove]").forEach((button) => button.addEventListener("click", () => { state.palCompare.delete(button.dataset.compareRemove); renderPalResults(); }));
+  region.querySelector("[data-compare-clear]")?.addEventListener("click", () => { state.palCompare.clear(); renderPalResults(); });
+  region.querySelector("[data-detail-close]")?.addEventListener("click", () => { state.palSelected = null; renderPalResults(); });
+}
+
+function renderPalResults() {
+  paintRegion("[data-pal-results]", palResultsMarkup(), bindPalResults);
+}
+
+function renderPals() {
+  const items = rolePals();
   const details = Object.values(state.details?.pals ?? {});
   const elements = [...new Set(details.flatMap((pal) => pal.elements ?? []))].sort();
   const works = [...new Map(details.flatMap((pal) => pal.work ?? []).map((entry) => [entry.work, entry.label])).entries()].sort((a, b) => a[1].localeCompare(b[1], "ko"));
   content.innerHTML = `${sectionHeading("02", "상세 펠 도감", `${items.length}마리 검색 · 필터 · 정렬 · 최대 3마리 비교`)}
-    <div class="pal-filters"><div class="search-row"><label for="pal-search">이름·도감 번호 검색</label><input id="pal-search" type="search" value="${escapeHtml(state.palQuery)}" placeholder="예: 제트래곤, Jetragon, 111" autocomplete="off"></div><label>속성<select id="pal-element"><option value="all">전체 속성</option>${elements.map((element) => `<option value="${escapeHtml(element)}" ${state.palElement === element ? "selected" : ""}>${escapeHtml(elementLabels[element] || element)}</option>`).join("")}</select></label><label>작업 적성<select id="pal-work"><option value="all">전체 작업</option>${works.map(([work, label]) => `<option value="${escapeHtml(work)}" ${state.palWork === work ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label><label>정렬<select id="pal-sort"><option value="paldex" ${state.palSort === "paldex" ? "selected" : ""}>도감 번호</option><option value="name" ${state.palSort === "name" ? "selected" : ""}>이름</option><option value="rarity" ${state.palSort === "rarity" ? "selected" : ""}>희귀도</option><option value="hp" ${state.palSort === "hp" ? "selected" : ""}>HP</option><option value="attack" ${state.palSort === "attack" ? "selected" : ""}>원거리 공격</option></select></label></div>
-    <div class="roles">${roleOptions.map((role) => `<button type="button" data-pal-role="${role}" class="${state.palRole === role ? "active" : ""}">${role === "all" ? "전체" : labels[role]}</button>`).join("")}</div>
-    ${renderPalComparison()}${renderPalDetail()}
-    <div class="pal-grid">${items.slice(0, 160).map((pal) => { const detail = palDetailBySlug(pal.slug); const compared = state.palCompare.has(pal.slug); return `<article class="pal-card ${state.palSelected === pal.slug ? "selected" : ""}"><button type="button" class="pal-card-open" data-pal-detail="${escapeHtml(pal.slug)}">${palImage(pal.name)}<span class="sr-only">${escapeHtml(displayPalName(pal.name))} 상세 보기</span></button><div><span>#${escapeHtml(dataValue(detail?.paldex?.display))} · ${escapeHtml(palFormLabel(detail?.formKind))}</span><h3>${escapeHtml(displayPalName(pal.name))}</h3><p>${escapeHtml(cleanPalName(pal.name))} · ${(detail?.elements ?? []).map((element) => escapeHtml(elementLabels[element] || element)).join(" · ") || "속성 자료 없음"}</p><div class="pal-card-actions"><button type="button" data-pal-detail="${escapeHtml(pal.slug)}">상세 보기</button><button type="button" data-compare-toggle="${escapeHtml(pal.slug)}" ${(state.palCompare.size >= 3 && !compared) ? "disabled" : ""}>${compared ? "비교 제거" : "비교 담기"}</button></div></div></article>`; }).join("")}</div>
-    ${items.length > 160 ? `<p class="result-note">화면 성능을 위해 첫 160마리만 표시합니다. 검색과 필터는 전체 ${items.length}마리에 적용됩니다.</p>` : ""}`;
-  content.querySelectorAll("[data-pal-role]").forEach((button) => button.addEventListener("click", () => { state.palRole = button.dataset.palRole; renderPals(); }));
-  content.querySelectorAll("[data-pal-detail]").forEach((button) => button.addEventListener("click", () => { state.palSelected = button.dataset.palDetail; renderPals(); content.querySelector(".pal-inspector")?.scrollIntoView({ behavior: "smooth", block: "start" }); }));
-  content.querySelectorAll("[data-compare-toggle]").forEach((button) => button.addEventListener("click", () => {
-    const slug = button.dataset.compareToggle;
-    if (state.palCompare.has(slug)) state.palCompare.delete(slug); else if (state.palCompare.size < 3) state.palCompare.add(slug);
-    renderPals();
-  }));
-  content.querySelectorAll("[data-compare-remove]").forEach((button) => button.addEventListener("click", () => { state.palCompare.delete(button.dataset.compareRemove); renderPals(); }));
-  content.querySelector("[data-compare-clear]")?.addEventListener("click", () => { state.palCompare.clear(); renderPals(); });
-  content.querySelector("[data-detail-close]")?.addEventListener("click", () => { state.palSelected = null; renderPals(); });
-  document.querySelector("#pal-search").addEventListener("input", (event) => {
-    state.palQuery = event.target.value; renderPals(); const input = document.querySelector("#pal-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length);
-  });
-  document.querySelector("#pal-element").addEventListener("change", (event) => { state.palElement = event.target.value; renderPals(); });
-  document.querySelector("#pal-work").addEventListener("change", (event) => { state.palWork = event.target.value; renderPals(); });
-  document.querySelector("#pal-sort").addEventListener("change", (event) => { state.palSort = event.target.value; renderPals(); });
+    <div class="pal-filters"><div class="search-row"><label for="pal-search">이름·도감 번호 검색</label><input id="pal-search" type="search" value="${escapeHtml(state.palQuery)}" placeholder="예: 제트래곤, 까부냥, 111" autocomplete="off"></div><label>속성<select id="pal-element"><option value="all">전체 속성</option>${elements.map((element) => `<option value="${escapeHtml(element)}" ${state.palElement === element ? "selected" : ""}>${escapeHtml(elementLabels[element] || element)}</option>`).join("")}</select></label><label>작업 적성<select id="pal-work"><option value="all">전체 작업</option>${works.map(([work, label]) => `<option value="${escapeHtml(work)}" ${state.palWork === work ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label><label>정렬<select id="pal-sort"><option value="paldex" ${state.palSort === "paldex" ? "selected" : ""}>도감 번호</option><option value="name" ${state.palSort === "name" ? "selected" : ""}>이름</option><option value="rarity" ${state.palSort === "rarity" ? "selected" : ""}>희귀도</option><option value="hp" ${state.palSort === "hp" ? "selected" : ""}>HP</option><option value="attack" ${state.palSort === "attack" ? "selected" : ""}>원거리 공격</option></select></label></div>
+    <div class="pal-results" data-pal-results></div>`;
+  content.querySelector("#pal-search").addEventListener("input", (event) => { state.palQuery = event.target.value; renderPalResults(); });
+  content.querySelector("#pal-element").addEventListener("change", (event) => { state.palElement = event.target.value; renderPalResults(); });
+  content.querySelector("#pal-work").addEventListener("change", (event) => { state.palWork = event.target.value; renderPalResults(); });
+  content.querySelector("#pal-sort").addEventListener("change", (event) => { state.palSort = event.target.value; renderPalResults(); });
+  renderPalResults();
 }
 
 const BREEDING_STORAGE_KEY = "palworld-guide:breeding-owned:v1";
@@ -688,7 +736,7 @@ function breedingName(id) {
 
 function breedingOptionLabel(pal) {
   const localized = breedingName(pal.id);
-  return localized === pal.name ? `${localized} · #${pal.paldex}` : `${localized} (${pal.name}) · #${pal.paldex}`;
+  return `${localized} · #${pal.paldex}`;
 }
 
 function breedingOptions(selected, placeholder = "펠을 선택하세요") {
@@ -699,7 +747,7 @@ function breedingResultCard(childId, result) {
   const child = breedingPal(childId);
   if (!child) return "";
   const kind = result.kind === "special" ? "특수 고정 조합" : result.kind === "same-species" ? "동종 번식" : "CombiRank 공식";
-  return `<article class="breeding-result-card">${palImage(child.name, "breeding-pal-image")}<div><span>${escapeHtml(kind)}</span><h4>${escapeHtml(breedingName(child.id))}</h4><p>${escapeHtml(child.name)} · #${escapeHtml(child.paldex)} · Rank ${child.combiRank.toLocaleString()}</p>${palElementBadges(child)}${result.targetRank === null ? "" : `<small>계산 목표 Rank ${result.targetRank.toLocaleString()}</small>`}${result.disputedTie ? `<strong class="breeding-warning">동일 거리 타이브레이크에 출처 이견 있음</strong>` : ""}</div></article>`;
+  return `<article class="breeding-result-card">${palImage(child.name, "breeding-pal-image")}<div><span>${escapeHtml(kind)}</span><h4>${escapeHtml(breedingName(child.id))}</h4><p>#${escapeHtml(child.paldex)} · 번식 순위 ${child.combiRank.toLocaleString()}</p>${palElementBadges(child)}${result.targetRank === null ? "" : `<small>계산 목표 순위 ${result.targetRank.toLocaleString()}</small>`}${result.disputedTie ? `<strong class="breeding-warning">동일 거리 타이브레이크에 출처 이견 있음</strong>` : ""}</div></article>`;
 }
 
 function renderPairCalculator() {
@@ -755,7 +803,7 @@ function renderBreeding() {
     <div class="breeding-modes" role="tablist">${modes.map((mode) => `<button type="button" role="tab" data-breeding-mode="${mode.id}" aria-selected="${state.breedingMode === mode.id}" class="${state.breedingMode === mode.id ? "active" : ""}">${mode.label}</button>`).join("")}</div>
     <section class="breeding-calculator">${state.breedingMode === "target" ? renderTargetCalculator() : state.breedingMode === "path" ? renderPathCalculator() : renderPairCalculator()}</section>
     ${renderBreedingKnowledge()}
-    <div class="breeding-source"><span>Palworld ${escapeHtml(state.breeding.gameVersion)} · ${escapeHtml(state.breeding.provenance.evidenceLevel)} · MIT</span><a href="${safeUrl(state.breeding.provenance.sourceUrl)}" target="_blank" rel="noopener noreferrer">고정 원본 ${escapeHtml(state.breeding.provenance.sourceRevision.slice(0, 8))} ↗</a></div>`;
+    <div class="breeding-source"><span>팰월드 ${escapeHtml(state.breeding.gameVersion)} · ${escapeHtml(state.breeding.provenance.evidenceLevel)} · MIT</span><a href="${safeUrl(state.breeding.provenance.sourceUrl)}" target="_blank" rel="noopener noreferrer">고정 원본 ${escapeHtml(state.breeding.provenance.sourceRevision.slice(0, 8))} ↗</a></div>`;
   content.querySelectorAll("[data-breeding-mode]").forEach((button) => button.addEventListener("click", () => { state.breedingMode = button.dataset.breedingMode; renderBreeding(); }));
   content.querySelector("#breed-parent-a")?.addEventListener("change", (event) => { state.breedParentA = event.target.value; renderBreeding(); });
   content.querySelector("#breed-parent-b")?.addEventListener("change", (event) => { state.breedParentB = event.target.value; renderBreeding(); });
@@ -796,7 +844,7 @@ function directMaterials(materials, multiplier = 1) {
   if (!materials?.length) return `<p class="empty-data">제작 재료 자료 없음</p>`;
   return `<ul class="direct-materials">${materials.map((material) => {
     const entry = state.itemIndex.items.get(material.itemId);
-    return `<li><button type="button" data-item-link="${escapeHtml(material.itemId)}">${itemImage(entry, "material-thumb")}<span><strong>${escapeHtml(itemDisplayName(material.itemId))}</strong>${itemEnglishAlias(entry) ? `<small>${escapeHtml(itemEnglishAlias(entry))}</small>` : ""}</span></button><strong>×${(material.quantity * multiplier).toLocaleString()}</strong></li>`;
+    return `<li><button type="button" data-item-link="${escapeHtml(material.itemId)}">${itemImage(entry, "material-thumb")}<span><strong>${escapeHtml(itemDisplayName(material.itemId))}</strong></span></button><strong>×${(material.quantity * multiplier).toLocaleString()}</strong></li>`;
   }).join("")}</ul>`;
 }
 
@@ -879,14 +927,14 @@ function renderItemDetail() {
     expansionError = error instanceof RecipeCycleError ? `순환 제작법 감지: ${error.path.map(itemDisplayName).join(" → ")}` : "재료 계산을 완료하지 못했습니다.";
   }
   const materials = isStructure ? entry.materials : entry.recipe?.materials;
-  return `<section class="item-inspector"><header><div class="item-inspector-title">${itemImage(entry, "item-detail-thumb")}<div><span>${isStructure ? "구조물" : escapeHtml(itemCategoryLabels[entry.category] || entry.category)} · ${entry.dataVersion === "1.0.3" ? "v1.0.3 보정" : "v1.0 데이터"}</span><h3>${escapeHtml(localizedItemName(entry))}</h3>${itemEnglishAlias(entry) ? `<small>영문명 · ${escapeHtml(itemEnglishAlias(entry))}</small>` : ""}<p>기술 Lv.${itemDataValue(entry.techLevel)}${entry.ancientTech || entry.ancientTechPoints !== null ? ` · 고대 기술${entry.ancientTechPoints !== null ? ` ${entry.ancientTechPoints}점` : ""}` : ""}</p></div></div><button type="button" data-item-close aria-label="상세 정보 닫기">닫기</button></header>
+  return `<section class="item-inspector"><header><div class="item-inspector-title">${itemImage(entry, "item-detail-thumb")}<div><span>${isStructure ? "구조물" : escapeHtml(itemCategoryLabels[entry.category] || entry.category)} · ${entry.dataVersion === "1.0.3" ? "v1.0.3 보정" : "v1.0 데이터"}</span><h3>${escapeHtml(localizedItemName(entry))}</h3><p>기술 Lv.${itemDataValue(entry.techLevel)}${entry.ancientTech || entry.ancientTechPoints !== null ? ` · 고대 기술${entry.ancientTechPoints !== null ? ` ${entry.ancientTechPoints}점` : ""}` : ""}</p></div></div><button type="button" data-item-close aria-label="상세 정보 닫기">닫기</button></header>
     <div class="item-quantity"><label for="item-quantity">필요 수량</label><input id="item-quantity" type="number" min="1" max="999" step="1" value="${state.itemQuantity}"><span>${isStructure ? "채" : "개"}</span></div>
     <div class="item-detail-grid"><article><h4>직접 필요한 재료</h4>${directMaterials(materials, state.itemQuantity)}</article><article><h4>${isStructure ? "시설 정보" : "제작 정보"}</h4>${isStructure ? `<dl><div><dt>담당 작업</dt><dd>${escapeHtml(localizedStructureValue(entry.workers, "workers"))}</dd></div><div><dt>수용량</dt><dd>${escapeHtml(localizedStructureValue(entry.capacity, "capacity"))}</dd></div><div><dt>전력</dt><dd>${entry.requiresPower ? `필요${entry.energyPerSecond ? ` · 초당 ${entry.energyPerSecond}` : ""}` : "불필요"}</dd></div></dl>` : entry.recipe ? `<dl><div><dt>한 번에 생산</dt><dd>${entry.recipe.outputQuantity.toLocaleString()}개</dd></div><div><dt>제작 시설</dt><dd class="item-station-links">${stationLinks(entry.recipe.stations)}</dd></div></dl>` : `<p class="empty-data">확인된 제작법이 없습니다.</p>`}</article></div>
     ${expansionError ? `<p class="item-error">${escapeHtml(expansionError)}</p>` : expanded ? rawMaterialPanel(expanded) : ""}
     ${!isStructure && entry.patchOverride ? `<aside class="item-patch-note"><strong>v1.0.3 확인 보정</strong><span>${escapeHtml(entry.patchOverride.noteKo)}</span><a href="${safeUrl(entry.patchOverride.sourceUrl)}" target="_blank" rel="noopener noreferrer">공식 패치 ↗</a></aside>` : ""}
     ${renderRelatedTips(entry.id)}
     ${!isStructure ? relatedDropPals(entry) : ""}
-    ${!isStructure && entry.obtainedFrom?.length ? `<details class="item-obtained"><summary>영문 원문 획득처 ${entry.obtainedFrom.length}개</summary><p>출처에 한국어 문장이 없어 원문을 접어서 보관합니다.</p><ul lang="en">${entry.obtainedFrom.slice(0, 80).map((source) => `<li>${escapeHtml(source)}</li>`).join("")}</ul>${entry.obtainedFrom.length > 80 ? `<p>첫 80개 획득처를 표시합니다.</p>` : ""}</details>` : ""}
+    ${!isStructure && entry.obtainedFrom?.length ? `<details class="item-obtained"><summary>획득처 ${entry.obtainedFrom.length}개</summary><p>게임 내 드롭 및 획득 경로입니다.</p><ul>${entry.obtainedFrom.slice(0, 80).map((source) => `<li>${escapeHtml(translateObtained(source, displayPalName))}</li>`).join("")}</ul>${entry.obtainedFrom.length > 80 ? `<p>첫 80개 획득처를 표시합니다.</p>` : ""}</details>` : ""}
   </section>`;
 }
 
@@ -895,7 +943,45 @@ function renderMissingItemImages() {
   if (!report) return "";
   const missing = state.itemKind === "structure" ? report.missingStructureImages : report.missingItemImages;
   if (!missing.length) return `<p class="item-image-complete">현재 목록의 이미지를 모두 확인했습니다.</p>`;
-  return `<details class="item-missing-images"><summary>이미지 미확인 ${missing.length}개</summary><p>원본 이미지 키나 실제 파일을 확인하지 못해 임의 이미지를 넣지 않은 목록입니다.</p><ul>${missing.map((entry) => `<li><strong>${escapeHtml(entry.nameKo)}</strong><small>${escapeHtml(entry.name)}</small><span>${escapeHtml(entry.reason)}</span></li>`).join("")}</ul></details>`;
+  return `<details class="item-missing-images"><summary>이미지 미확인 ${missing.length}개</summary><p>원본 이미지 키나 실제 파일을 확인하지 못해 임의 이미지를 넣지 않은 목록입니다.</p><ul>${missing.map((entry) => `<li><strong>${escapeHtml(entry.nameKo)}</strong><span>${escapeHtml(entry.reason)}</span></li>`).join("")}</ul></details>`;
+}
+
+function itemResultsMarkup() {
+  const results = itemResults();
+  const visible = results.slice(0, state.itemLimit);
+  return `<div class="item-result-status" aria-live="polite"><strong>${results.length.toLocaleString()}개</strong><span>검색 결과 · ${Math.min(visible.length, results.length).toLocaleString()}개 표시</span></div>
+    ${renderItemDetail()}
+    <div class="item-catalogue">${visible.map((entry) => `<button type="button" data-item-open="${escapeHtml(entry.id)}" class="${state.itemSelected === entry.id ? "selected" : ""}">${itemImage(entry)}<span class="item-card-copy"><small class="item-card-kind">${state.itemKind === "structure" ? (entry.ancientTech ? "고대 구조물" : "구조물") : escapeHtml(itemCategoryLabels[entry.category] || entry.category)}</small><strong>${escapeHtml(localizedItemName(entry))}</strong><small>기술 Lv.${itemDataValue(entry.techLevel)}${entry.recipe ? ` · 재료 ${entry.recipe.materials.length}종` : entry.materials ? ` · 재료 ${entry.materials.length}종` : " · 제작법 없음"}${entry.dataVersion === "1.0.3" ? " · v1.0.3" : ""}</small></span></button>`).join("") || `<p class="breeding-empty">검색 결과가 없습니다.</p>`}</div>
+    ${results.length > visible.length ? `<button type="button" class="item-load-more" data-item-more>다음 ${Math.min(60, results.length - visible.length)}개 더 보기</button>` : ""}
+    ${renderMissingItemImages()}
+    <div class="item-source"><span>${escapeHtml(state.items.localization.usageNoteKo)} · 게임 이미지 권리 Pocketpair</span><a href="${safeUrl(state.items.localization.sourceUrl)}" target="_blank" rel="noopener noreferrer">한글·아이콘 출처 ${escapeHtml(state.items.localization.sourceRevision.slice(0, 8))} ↗</a></div>`;
+}
+
+function bindItemResults(region) {
+  region.querySelectorAll("[data-item-open]").forEach((button) => button.addEventListener("click", () => { state.itemSelected = button.dataset.itemOpen; renderItemResults(); content.querySelector(".item-inspector")?.scrollIntoView({ behavior: "smooth", block: "start" }); }));
+  region.querySelectorAll("[data-item-link]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.itemLink; state.itemQuery = ""; state.itemCategory = "all"; renderItems(); }));
+  region.querySelectorAll("[data-station-link]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "structure"; state.itemSelected = button.dataset.stationLink; state.itemQuery = ""; renderItems(); }));
+  region.querySelectorAll("[data-related-pal]").forEach((button) => button.addEventListener("click", () => { state.palQuery = ""; state.palSelected = button.dataset.relatedPal; selectTab("pals"); }));
+  region.querySelectorAll("[data-related-map]").forEach((button) => button.addEventListener("click", () => {
+    const point = state.data.map.points.find((candidate) => candidate.id === button.dataset.relatedMap);
+    if (!point) return;
+    state.mapId = point.mapId; state.mapQuery = point.label; state.layers.add(point.category); state.selected = point; selectTab("map");
+  }));
+  region.querySelector("[data-item-close]")?.addEventListener("click", () => { state.itemSelected = ""; renderItemResults(); });
+  region.querySelector("#item-quantity")?.addEventListener("input", (event) => { state.itemQuantity = Math.max(1, Math.min(999, Number.parseInt(event.target.value, 10) || 1)); renderItemResults(); content.querySelector("#item-quantity")?.focus(); });
+  region.querySelector("[data-item-more]")?.addEventListener("click", () => { state.itemLimit += 60; renderItemResults(); content.querySelector("[data-item-more]")?.focus(); });
+}
+
+function renderItemResults() {
+  paintRegion("[data-item-results]", itemResultsMarkup(), bindItemResults);
+}
+
+// The quick-search chips and the text box carry the same query, so whichever one
+// did not receive the change is synced by hand rather than repainted.
+function syncItemSearchControls() {
+  const input = content.querySelector("#item-search");
+  if (input && input.value !== state.itemQuery) input.value = state.itemQuery;
+  content.querySelectorAll("[data-item-quick]").forEach((button) => button.classList.toggle("active", state.itemQuery === button.dataset.itemQuick));
 }
 
 function renderItems() {
@@ -903,38 +989,20 @@ function renderItems() {
     content.innerHTML = `<div class="error">아이템 데이터를 불러오지 못했습니다.</div>`;
     return;
   }
-  const results = itemResults();
   const categories = [...new Set(state.items.items.map((item) => item.category))].sort();
-  const visible = results.slice(0, state.itemLimit);
   const quickSearches = state.itemKind === "structure" ? ["작업대", "화로", "농원", "채굴장", "발전기"] : ["팰 스피어", "주괴", "케이크", "안장", "작업대"];
   content.innerHTML = `${sectionHeading("04", "아이템·제작·기술 탐색기", `아이템 이미지 ${state.items.counts.itemImages.toLocaleString()}/${state.items.counts.items.toLocaleString()} · 구조물 이미지 ${state.items.counts.structureImages}/${state.items.counts.structures}`)}
-    <div class="item-data-notice"><strong>한글·이미지 기준</strong><span>한글명을 먼저 표시하고 영문명도 함께 검색합니다. 아이콘은 고정된 게임 데이터 출처에서 확인된 파일만 사용하며, 없는 이미지는 별도 목록에 남깁니다.</span></div>
+    <div class="item-data-notice"><strong>한글·이미지 기준</strong><span>모든 아이템과 구조물 정보를 한글로 표시하며, 고정된 게임 데이터 출처에서 확인된 파일만 사용합니다. 없는 이미지는 별도 목록에 남깁니다.</span></div>
     <div class="item-kind-tabs"><button type="button" data-item-kind="item" class="${state.itemKind === "item" ? "active" : ""}">아이템·제작법</button><button type="button" data-item-kind="structure" class="${state.itemKind === "structure" ? "active" : ""}">구조물</button></div>
     <div class="item-quick-search" aria-label="빠른 찾기"><span>빠른 찾기</span>${quickSearches.map((query) => `<button type="button" data-item-quick="${query}" class="${state.itemQuery === query ? "active" : ""}">${query}</button>`).join("")}</div>
-    <div class="item-filters"><div class="search-row"><label for="item-search">한글명·영문명·제작 시설 검색</label><input id="item-search" type="search" value="${escapeHtml(state.itemQuery)}" placeholder="예: 시멘트, Cement, 작업대" autocomplete="off"></div>${state.itemKind === "item" ? `<label>분류<select id="item-category"><option value="all">전체 분류</option>${categories.map((category) => `<option value="${escapeHtml(category)}" ${state.itemCategory === category ? "selected" : ""}>${escapeHtml(itemCategoryLabels[category] || category)}</option>`).join("")}</select></label>` : ""}<label>정렬<select id="item-sort"><option value="tech" ${state.itemSort === "tech" ? "selected" : ""}>기술 레벨</option><option value="name" ${state.itemSort === "name" ? "selected" : ""}>한글 이름</option><option value="category" ${state.itemSort === "category" ? "selected" : ""}>분류</option></select></label></div>
-    <div class="item-result-status" aria-live="polite"><strong>${results.length.toLocaleString()}개</strong><span>검색 결과 · ${Math.min(visible.length, results.length).toLocaleString()}개 표시</span></div>
-    ${renderItemDetail()}
-    <div class="item-catalogue">${visible.map((entry) => `<button type="button" data-item-open="${escapeHtml(entry.id)}" class="${state.itemSelected === entry.id ? "selected" : ""}">${itemImage(entry)}<span class="item-card-copy"><small class="item-card-kind">${state.itemKind === "structure" ? (entry.ancientTech ? "고대 구조물" : "구조물") : escapeHtml(itemCategoryLabels[entry.category] || entry.category)}</small><strong>${escapeHtml(localizedItemName(entry))}</strong>${itemEnglishAlias(entry) ? `<span class="item-english-name">${escapeHtml(itemEnglishAlias(entry))}</span>` : ""}<small>기술 Lv.${itemDataValue(entry.techLevel)}${entry.recipe ? ` · 재료 ${entry.recipe.materials.length}종` : entry.materials ? ` · 재료 ${entry.materials.length}종` : " · 제작법 없음"}${entry.dataVersion === "1.0.3" ? " · v1.0.3" : ""}</small></span></button>`).join("") || `<p class="breeding-empty">검색 결과가 없습니다.</p>`}</div>
-    ${results.length > visible.length ? `<button type="button" class="item-load-more" data-item-more>다음 ${Math.min(60, results.length - visible.length)}개 더 보기</button>` : ""}
-    ${renderMissingItemImages()}
-    <div class="item-source"><span>${escapeHtml(state.items.localization.usageNoteKo)} · 게임 이미지 권리 Pocketpair</span><a href="${safeUrl(state.items.localization.sourceUrl)}" target="_blank" rel="noopener noreferrer">한글·아이콘 출처 ${escapeHtml(state.items.localization.sourceRevision.slice(0, 8))} ↗</a></div>`;
+    <div class="item-filters"><div class="search-row"><label for="item-search">아이템·구조물·제작 시설 검색</label><input id="item-search" type="search" value="${escapeHtml(state.itemQuery)}" placeholder="예: 시멘트, 화로, 작업대" autocomplete="off"></div>${state.itemKind === "item" ? `<label>분류<select id="item-category"><option value="all">전체 분류</option>${categories.map((category) => `<option value="${escapeHtml(category)}" ${state.itemCategory === category ? "selected" : ""}>${escapeHtml(itemCategoryLabels[category] || category)}</option>`).join("")}</select></label>` : ""}<label>정렬<select id="item-sort"><option value="tech" ${state.itemSort === "tech" ? "selected" : ""}>기술 레벨</option><option value="name" ${state.itemSort === "name" ? "selected" : ""}>한글 이름</option><option value="category" ${state.itemSort === "category" ? "selected" : ""}>분류</option></select></label></div>
+    <div class="item-results" data-item-results></div>`;
   content.querySelectorAll("[data-item-kind]").forEach((button) => button.addEventListener("click", () => { state.itemKind = button.dataset.itemKind; state.itemQuery = ""; state.itemSelected = ""; state.itemLimit = 60; renderItems(); }));
-  content.querySelectorAll("[data-item-open]").forEach((button) => button.addEventListener("click", () => { state.itemSelected = button.dataset.itemOpen; renderItems(); content.querySelector(".item-inspector")?.scrollIntoView({ behavior: "smooth", block: "start" }); }));
-  content.querySelectorAll("[data-item-link]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.itemLink; state.itemQuery = ""; state.itemCategory = "all"; renderItems(); }));
-  content.querySelectorAll("[data-station-link]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "structure"; state.itemSelected = button.dataset.stationLink; state.itemQuery = ""; renderItems(); }));
-  content.querySelectorAll("[data-related-pal]").forEach((button) => button.addEventListener("click", () => { state.palQuery = ""; state.palSelected = button.dataset.relatedPal; selectTab("pals"); }));
-  content.querySelectorAll("[data-related-map]").forEach((button) => button.addEventListener("click", () => {
-    const point = state.data.map.points.find((candidate) => candidate.id === button.dataset.relatedMap);
-    if (!point) return;
-    state.mapId = point.mapId; state.mapQuery = point.label; state.layers.add(point.category); state.selected = point; selectTab("map");
-  }));
-  content.querySelector("[data-item-close]")?.addEventListener("click", () => { state.itemSelected = ""; renderItems(); });
-  content.querySelectorAll("[data-item-quick]").forEach((button) => button.addEventListener("click", () => { state.itemQuery = state.itemQuery === button.dataset.itemQuick ? "" : button.dataset.itemQuick; state.itemLimit = 60; renderItems(); }));
-  content.querySelector("#item-search")?.addEventListener("input", (event) => { state.itemQuery = event.target.value; state.itemLimit = 60; renderItems(); const input = content.querySelector("#item-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length); });
-  content.querySelector("#item-category")?.addEventListener("change", (event) => { state.itemCategory = event.target.value; state.itemSelected = ""; state.itemLimit = 60; renderItems(); });
-  content.querySelector("#item-sort")?.addEventListener("change", (event) => { state.itemSort = event.target.value; state.itemLimit = 60; renderItems(); });
-  content.querySelector("#item-quantity")?.addEventListener("input", (event) => { state.itemQuantity = Math.max(1, Math.min(999, Number.parseInt(event.target.value, 10) || 1)); renderItems(); });
-  content.querySelector("[data-item-more]")?.addEventListener("click", () => { state.itemLimit += 60; renderItems(); content.querySelector("[data-item-more]")?.focus(); });
+  content.querySelectorAll("[data-item-quick]").forEach((button) => button.addEventListener("click", () => { state.itemQuery = state.itemQuery === button.dataset.itemQuick ? "" : button.dataset.itemQuick; state.itemLimit = 60; syncItemSearchControls(); renderItemResults(); }));
+  content.querySelector("#item-search")?.addEventListener("input", (event) => { state.itemQuery = event.target.value; state.itemLimit = 60; syncItemSearchControls(); renderItemResults(); });
+  content.querySelector("#item-category")?.addEventListener("change", (event) => { state.itemCategory = event.target.value; state.itemSelected = ""; state.itemLimit = 60; renderItemResults(); });
+  content.querySelector("#item-sort")?.addEventListener("change", (event) => { state.itemSort = event.target.value; state.itemLimit = 60; renderItemResults(); });
+  renderItemResults();
 }
 
 function renderBuilds() {
@@ -1031,32 +1099,47 @@ function filteredMapPoints() {
     && (!query || point.label.toLocaleLowerCase().includes(query) || mapLabel(point).toLocaleLowerCase().includes(query) || (labels[point.category] || "").includes(query)));
 }
 
-function renderMap() {
+function mapResultsMarkup() {
   const regions = state.data.map.regions ?? fallbackMapRegions;
   const region = regions[state.mapId] ?? fallbackMapRegions.main;
-  const allPoints = allMapPoints();
-  const regionIds = ["main", "world_tree", "sunreach"].filter((mapId) => allPoints.some((point) => point.mapId === mapId));
-  const regionPoints = allPoints.filter((point) => point.mapId === state.mapId);
+  const regionPoints = allMapPoints().filter((point) => point.mapId === state.mapId);
   const categories = [...new Set(regionPoints.map((point) => point.category))].sort((a, b) => (labels[a] || a).localeCompare(labels[b] || b, "ko"));
   const points = filteredMapPoints();
   const bounds = region.bounds ?? fallbackMapRegions[state.mapId]?.bounds ?? state.data.map.bounds;
   const plottedPoints = points.filter((point) => pointWithinBounds(point, bounds));
   const mapContent = `<div class="map map-${escapeHtml(state.mapId)}" aria-label="${escapeHtml(mapRegionLabels[state.mapId] || region.label)} 1.0 현행 지형 지도"><svg class="map-markers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="1.0 현행 지도 지점">${plottedPoints.map((point) => { const position = mapPosition(point, bounds); const label = mapLabel(point); return `<circle class="marker ${categoryClass(point.category)}" cx="${position.x.toFixed(3)}" cy="${position.y.toFixed(3)}" r="0.48" data-point="${escapeHtml(point.id)}" tabindex="0" role="button" aria-label="${escapeHtml(label)}"><title>${escapeHtml(label)}</title></circle>`; }).join("")}</svg><span>1.0 현행 지형 · 검증 지점 ${plottedPoints.length}개</span></div>`;
-  content.innerHTML = `${sectionHeading("04", "Palworld 1.0 현행 지도", `검증된 보스·이동 지점 ${points.length}개 표시`)}
-    <div class="map-region-tabs" role="group" aria-label="지도 지역">${regionIds.map((mapId) => `<button type="button" data-map-region="${escapeHtml(mapId)}" aria-pressed="${state.mapId === mapId}">${escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId)}<small>${allPoints.filter((point) => point.mapId === mapId).length}</small></button>`).join("")}</div>
-    <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, Jetragon" autocomplete="off"></div>
-    <div class="map-layout"><aside class="layer-panel"><div class="layer-actions"><button type="button" data-layer-action="default">기본 레이어</button><button type="button" data-layer-action="none">모두 해제</button></div>
+  setHeadingNote(`검증된 보스·이동 지점 ${points.length}개 표시`);
+  return `<div class="map-layout"><aside class="layer-panel"><div class="layer-actions"><button type="button" data-layer-action="default">기본 레이어</button><button type="button" data-layer-action="none">모두 해제</button></div>
       ${categories.map((category) => { const deferred = regionPoints.some((point) => point.category === category && point.deferred); return `<label><input type="checkbox" data-layer="${escapeHtml(category)}" ${state.layers.has(category) ? "checked" : ""}><i class="${categoryClass(category)}"></i><strong>${escapeHtml(labels[category] || category)}</strong>${deferred ? `<small>선택 시 표시</small>` : ""}</label>`; }).join("")}</aside>
       ${mapContent}
       <aside id="point-detail">${pointDetail()}</aside></div>
     <div class="point-list">${points.slice(0, 80).map((point) => { const hud = hudCoordinate(point); return `<button type="button" data-point="${escapeHtml(point.id)}"><i class="${categoryClass(point.category)}"></i><span>${escapeHtml(mapLabel(point))}</span><small>X ${Math.round(hud.x).toLocaleString()} · Y ${Math.round(hud.y).toLocaleString()}</small></button>`; }).join("")}</div>
     ${points.length > 80 ? `<p class="result-note">목록은 80개까지만 표시하지만 지도에는 검색 결과 전체가 표시됩니다.</p>` : ""}`;
-  content.querySelectorAll("[data-layer]").forEach((input) => input.addEventListener("change", () => { input.checked ? state.layers.add(input.dataset.layer) : state.layers.delete(input.dataset.layer); syncMapUrl(); renderMap(); }));
-  content.querySelectorAll("[data-layer-action]").forEach((button) => button.addEventListener("click", () => { state.layers = button.dataset.layerAction === "default" ? new Set(defaultLayers.filter((category) => categories.includes(category))) : new Set(); syncMapUrl(); renderMap(); }));
+}
+
+function bindMapResults(region) {
+  const categories = [...new Set(allMapPoints().filter((point) => point.mapId === state.mapId).map((point) => point.category))];
+  region.querySelectorAll("[data-layer]").forEach((input) => input.addEventListener("change", () => { input.checked ? state.layers.add(input.dataset.layer) : state.layers.delete(input.dataset.layer); syncMapUrl(); renderMapResults(); }));
+  region.querySelectorAll("[data-layer-action]").forEach((button) => button.addEventListener("click", () => { state.layers = button.dataset.layerAction === "default" ? new Set(defaultLayers.filter((category) => categories.includes(category))) : new Set(); syncMapUrl(); renderMapResults(); }));
+  region.querySelectorAll("[data-point]").forEach((button) => button.addEventListener("click", () => { state.selected = allMapPoints().find((point) => point.id === button.dataset.point) || null; content.querySelector("#point-detail").innerHTML = pointDetail(); }));
+  region.querySelectorAll("circle[data-point]").forEach((marker) => marker.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); marker.dispatchEvent(new MouseEvent("click", { bubbles: true })); } }));
+}
+
+function renderMapResults() {
+  paintRegion("[data-map-results]", mapResultsMarkup(), bindMapResults);
+}
+
+function renderMap() {
+  const regions = state.data.map.regions ?? fallbackMapRegions;
+  const allPoints = allMapPoints();
+  const regionIds = ["main", "world_tree", "sunreach"].filter((mapId) => allPoints.some((point) => point.mapId === mapId));
+  content.innerHTML = `${sectionHeading("04", "Palworld 1.0 현행 지도", `검증된 보스·이동 지점 ${filteredMapPoints().length}개 표시`)}
+    <div class="map-region-tabs" role="group" aria-label="지도 지역">${regionIds.map((mapId) => `<button type="button" data-map-region="${escapeHtml(mapId)}" aria-pressed="${state.mapId === mapId}">${escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId)}<small>${allPoints.filter((point) => point.mapId === mapId).length}</small></button>`).join("")}</div>
+    <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, 제트래곤" autocomplete="off"></div>
+    <div class="map-results" data-map-results></div>`;
   content.querySelectorAll("[data-map-region]").forEach((button) => button.addEventListener("click", () => { state.mapId = button.dataset.mapRegion; state.selected = null; syncMapUrl(); renderMap(); }));
-  content.querySelectorAll("[data-point]").forEach((button) => button.addEventListener("click", () => { state.selected = allPoints.find((point) => point.id === button.dataset.point) || null; document.querySelector("#point-detail").innerHTML = pointDetail(); }));
-  content.querySelectorAll("circle[data-point]").forEach((marker) => marker.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); marker.dispatchEvent(new MouseEvent("click", { bubbles: true })); } }));
-  document.querySelector("#map-search").addEventListener("input", (event) => { state.mapQuery = event.target.value; syncMapUrl(); renderMap(); const input = document.querySelector("#map-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length); });
+  content.querySelector("#map-search").addEventListener("input", (event) => { state.mapQuery = event.target.value; syncMapUrl(); renderMapResults(); });
+  renderMapResults();
 }
 
 // Recommendations name traits without explaining them. Resolving a name against
@@ -1130,12 +1213,8 @@ function traitChip(name) {
 }
 
 
-function renderTraits() {
+function traitResultsMarkup() {
   const catalogue = state.traits?.traits ?? [];
-  if (catalogue.length === 0) {
-    content.innerHTML = `${sectionHeading("05", "특성 사전", "자료를 불러오지 못했습니다")}<div class="error">특성 자료를 불러오지 못했습니다.</div>`;
-    return;
-  }
   const query = state.traitQuery.trim().toLocaleLowerCase();
   const filtered = catalogue.filter((trait) => {
     if (state.traitUsage === "all") return true;
@@ -1145,30 +1224,42 @@ function renderTraits() {
     return trait.polarity !== "negative" && traitUsage(trait).has(state.traitUsage);
   }).filter((trait) => !query || trait.name.toLocaleLowerCase().includes(query) || String(trait.nameKo ?? "").includes(query)
     || String(trait.descriptionKo || trait.description).toLocaleLowerCase().includes(query));
-  const usages = ["all", "combat", "base", "avoid"];
-  const tiers = ["legend", "tier3", "tier2", "tier1", "neg1", "neg2", "neg3"];
-
-  content.innerHTML = `${sectionHeading("05", "특성 사전", `${catalogue.length}종 · 번식으로 붙이는 특성`)}
-    <div class="roles" role="group" aria-label="특성 용도">${usages.map((id) => `<button type="button" data-trait-usage="${escapeHtml(id)}" class="${state.traitUsage === id ? "active" : ""}${id === "avoid" ? " usage-avoid" : ""}">${escapeHtml(usageLabels[id])}</button>`).join("")}</div>
-    <div class="tier-legend">${tiers.map((tier) => `<span class="tier-key tier-${tier}"><i></i>${escapeHtml(tierLabels[tier])}</span>`).join("")}</div>
-    <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 장인, 작업 속도, Artisan" autocomplete="off"></div>
-    <div class="trait-grid">${filtered.map((trait) => {
+  return `<div class="trait-grid">${filtered.map((trait) => {
       const usage = [...traitUsage(trait)].map((id) => usageLabels[id]);
       return `<article class="trait-card tier-${traitTier(trait)}">
       <div class="trait-card-head"><h3>${escapeHtml(traitLabel(trait))}</h3>${trait.rating === null ? "" : `<span class="trait-rating">${trait.rating > 0 ? `+${trait.rating}` : trait.rating}</span>`}</div>
-      ${trait.nameKo ? `<span class="trait-alias">${escapeHtml(trait.name)}</span>` : ""}
       <p>${escapeHtml(trait.descriptionKo || trait.description)}</p>
       <small>${escapeHtml(tierLabels[traitTier(trait)])}${usage.length ? ` · ${escapeHtml(usage.join("·"))}` : ""}${trait.stacks ? " · 중첩 가능" : ""}</small>
     </article>`;
     }).join("")}</div>
     ${filtered.length === 0 ? `<p class="result-note">조건에 맞는 특성이 없습니다.</p>` : ""}
-    <div class="attribution"><h3>출처</h3><p>특성 명칭과 효과는 팰월드 공식 한국어 표기를 기준으로 하며, 영문 원문 명칭을 함께 표기합니다.</p></div>`;
+    <div class="attribution"><h3>출처</h3><p>특성 명칭과 효과는 팰월드 공식 한국어 표기를 기준으로 합니다.</p></div>`;
+}
 
-  content.querySelectorAll("[data-trait-usage]").forEach((button) => button.addEventListener("click", () => { state.traitUsage = button.dataset.traitUsage; renderTraits(); }));
-  document.querySelector("#trait-search").addEventListener("input", (event) => {
-    state.traitQuery = event.target.value; renderTraits();
-    const input = document.querySelector("#trait-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length);
-  });
+function renderTraitResults() {
+  paintRegion("[data-trait-results]", traitResultsMarkup());
+}
+
+function renderTraits() {
+  const catalogue = state.traits?.traits ?? [];
+  if (catalogue.length === 0) {
+    content.innerHTML = `${sectionHeading("05", "특성 사전", "자료를 불러오지 못했습니다")}<div class="error">특성 자료를 불러오지 못했습니다.</div>`;
+    return;
+  }
+  const usages = ["all", "combat", "base", "avoid"];
+  const tiers = ["legend", "tier3", "tier2", "tier1", "neg1", "neg2", "neg3"];
+  content.innerHTML = `${sectionHeading("05", "특성 사전", `${catalogue.length}종 · 번식으로 붙이는 특성`)}
+    <div class="roles" role="group" aria-label="특성 용도">${usages.map((id) => `<button type="button" data-trait-usage="${escapeHtml(id)}" class="${state.traitUsage === id ? "active" : ""}${id === "avoid" ? " usage-avoid" : ""}">${escapeHtml(usageLabels[id])}</button>`).join("")}</div>
+    <div class="tier-legend">${tiers.map((tier) => `<span class="tier-key tier-${tier}"><i></i>${escapeHtml(tierLabels[tier])}</span>`).join("")}</div>
+    <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 장인 기질, 작업 속도, 전설" autocomplete="off"></div>
+    <div class="trait-results" data-trait-results></div>`;
+  content.querySelectorAll("[data-trait-usage]").forEach((button) => button.addEventListener("click", () => {
+    state.traitUsage = button.dataset.traitUsage;
+    content.querySelectorAll("[data-trait-usage]").forEach((item) => item.classList.toggle("active", item.dataset.traitUsage === state.traitUsage));
+    renderTraitResults();
+  }));
+  content.querySelector("#trait-search").addEventListener("input", (event) => { state.traitQuery = event.target.value; renderTraitResults(); });
+  renderTraitResults();
 }
 
 const toolLabels = { boss: "보스 대응", base: "생산 플래너", tips: "공략 팁", progress: "진행 체크", activities: "낚시·원정", save: "세이브 분석", patch: "패치 비교" };
@@ -1186,18 +1277,36 @@ function renderBossTool() {
   return `<div class="tool-panel"><div class="tool-controls"><label>보스 선택<select id="boss-select">${bosses.map((entry) => `<option value="${escapeHtml(entry.id)}" ${entry.id === state.bossSelected ? "selected" : ""}>${escapeHtml(bossTypeLabels[entry.type] || entry.type)} · ${escapeHtml(bossDisplayName(entry.pal))}</option>`).join("")}</select></label></div>${boss ? `<article class="tool-summary"><span>${escapeHtml(bossTypeLabels[boss.type] || boss.type)} · 1.0${boss.preliminary ? " · 예비 자료" : ""}</span><h3>${boss.leader ? `${escapeHtml(leaderLabels[boss.leader] || boss.leader)} &amp; ` : ""}${escapeHtml(bossDisplayName(boss.pal))}</h3><p>레벨 ${boss.level ?? "확인 필요"} · 권장 레벨 ${boss.recommendedPlayerLevel ?? "확인 필요"}</p><p>유효 속성: ${(boss.counterElements ?? []).map((element) => escapeHtml(elementLabels[element] || element)).join(" · ") || "자료 없음"}</p></article><p class="tool-note">후보 점수는 확인된 HP + 원거리 공격 + 방어력의 단순 합입니다.${ownedNames.length ? " 번식 도구의 보유 펠만 사용했습니다." : " 보유 펠이 비어 있어 전체 펠에서 찾았습니다."}</p><div class="tool-card-grid">${candidates.map(({ pal, score, matchedElements }) => `<article>${palImage(pal.name, "tool-pal-image")}<h4>${escapeHtml(displayPalName(pal.name))}</h4><p>${matchedElements.map((element) => escapeHtml(elementLabels[element] || element)).join(" · ")} · ${score}</p><button type="button" data-open-pal="${escapeHtml(pal.name)}">도감에서 보기</button></article>`).join("") || `<p class="empty-data">조건에 맞는 확인된 후보가 없습니다.</p>`}</div>` : ""}</div>`;
 }
 
-function renderBaseTool() {
-  if (!state.items) return `<p class="empty-data">아이템 데이터를 불러오지 못했습니다.</p>`;
+const baseEntryLabel = (entry) => state.baseKind === "structure" ? (entry.nameKo || entry.name) : localizedItemName(entry);
+
+function baseToolEntries() {
   const entries = state.baseKind === "structure" ? state.items.structures : state.items.items;
   if (!entries.some((entry) => entry.id === state.baseTarget)) state.baseTarget = entries[0]?.id ?? "";
-  const entryLabel = (entry) => state.baseKind === "structure" ? (entry.nameKo || entry.name) : localizedItemName(entry);
+  return entries;
+}
+
+function baseToolResultsMarkup() {
+  const entries = baseToolEntries();
   const query = state.baseQuery.trim().toLocaleLowerCase();
-  const matches = entries.filter((entry) => !query || entryLabel(entry).toLocaleLowerCase().includes(query) || entry.name.toLocaleLowerCase().includes(query)).slice(0, 40);
+  const matches = entries.filter((entry) => !query || baseEntryLabel(entry).toLocaleLowerCase().includes(query) || entry.name.toLocaleLowerCase().includes(query)).slice(0, 40);
   const selectedEntry = entries.find((entry) => entry.id === state.baseTarget) ?? null;
   let plan = null; let error = "";
   try { plan = productionPlan(state.baseKind, state.baseTarget, state.baseQuantity, state.itemIndex, state.details?.pals); } catch (nextError) { error = nextError instanceof RecipeCycleError ? "원재료 데이터에 순환 제작법이 있어 전체 합계를 계산하지 못했습니다." : "생산 계획을 계산하지 못했습니다."; }
   const stationLabel = (name) => state.items.structures.find((structure) => structure.name === name)?.nameKo || name;
-  return `<div class="tool-panel"><div class="tool-controls"><div class="roles"><button type="button" data-base-kind="item" class="${state.baseKind === "item" ? "active" : ""}">아이템</button><button type="button" data-base-kind="structure" class="${state.baseKind === "structure" ? "active" : ""}">시설</button></div><label>목표 검색<input id="base-search" type="search" value="${escapeHtml(state.baseQuery)}" placeholder="한글명 또는 영문명"></label><label>수량<input id="base-quantity" type="number" min="1" max="9999" value="${state.baseQuantity}"></label></div><div class="target-results">${matches.map((entry) => `<button type="button" data-base-target="${escapeHtml(entry.id)}" class="${entry.id === state.baseTarget ? "active" : ""}">${escapeHtml(entryLabel(entry))}</button>`).join("")}</div>${error ? `<p class="error">${escapeHtml(error)}</p>` : plan ? `<article class="tool-summary item-visual-heading">${plan.entry.image ? `<img src="${localAsset(plan.entry.image)}" alt="" class="item-detail-image">` : ""}<div><span>확인된 제작법 기준</span><h3>${escapeHtml(entryLabel(plan.entry))} × ${state.baseQuantity}</h3><p>생산 속도와 최소 인원은 검증 자료가 없어 계산하지 않습니다.</p></div></article><div class="tool-split"><article><h4>최종 원재료</h4><ul>${[...plan.expansion.rawMaterials].map(([id, amount]) => `<li><button type="button" data-open-item="${escapeHtml(id)}">${escapeHtml(localizedItemName(state.itemIndex.items.get(id)))} × ${amount.toLocaleString()}</button></li>`).join("") || "<li>추가 원재료 없음</li>"}</ul></article><article><h4>제작 시설과 작업 후보</h4><p>${plan.stations.map((name) => escapeHtml(stationLabel(name))).join(" · ") || "구조물 직접 건축"}</p>${plan.workers.map((group) => `<p><strong>${escapeHtml(group.candidates[0]?.suitability.label || group.work)}</strong> · ${group.candidates.map((candidate) => `${escapeHtml(displayPalName(candidate.pal.name))} Lv.${candidate.suitability.level}`).join(" · ") || "후보 없음"}</p>`).join("") || `<p>시설 명칭만으로 작업 적성을 확정할 수 없어 후보를 제시하지 않습니다.</p>`}</article></div>` : ""}${selectedEntry ? renderRelatedTips(selectedEntry.id, "이 생산 목표와 함께 보는 팁") : ""}</div>`;
+  return `<div class="target-results">${matches.map((entry) => `<button type="button" data-base-target="${escapeHtml(entry.id)}" class="${entry.id === state.baseTarget ? "active" : ""}">${escapeHtml(baseEntryLabel(entry))}</button>`).join("")}</div>${error ? `<p class="error">${escapeHtml(error)}</p>` : plan ? `<article class="tool-summary item-visual-heading">${plan.entry.image ? `<img src="${localAsset(plan.entry.image)}" alt="" class="item-detail-image">` : ""}<div><span>확인된 제작법 기준</span><h3>${escapeHtml(baseEntryLabel(plan.entry))} × ${state.baseQuantity}</h3><p>생산 속도와 최소 인원은 검증 자료가 없어 계산하지 않습니다.</p></div></article><div class="tool-split"><article><h4>최종 원재료</h4><ul>${[...plan.expansion.rawMaterials].map(([id, amount]) => `<li><button type="button" data-open-item="${escapeHtml(id)}">${escapeHtml(localizedItemName(state.itemIndex.items.get(id)))} × ${amount.toLocaleString()}</button></li>`).join("") || "<li>추가 원재료 없음</li>"}</ul></article><article><h4>제작 시설과 작업 후보</h4><p>${plan.stations.map((name) => escapeHtml(stationLabel(name))).join(" · ") || "구조물 직접 건축"}</p>${plan.workers.map((group) => `<p><strong>${escapeHtml(group.candidates[0]?.suitability.label || group.work)}</strong> · ${group.candidates.map((candidate) => `${escapeHtml(displayPalName(candidate.pal.name))} Lv.${candidate.suitability.level}`).join(" · ") || "후보 없음"}</p>`).join("") || `<p>시설 명칭만으로 작업 적성을 확정할 수 없어 후보를 제시하지 않습니다.</p>`}</article></div>` : ""}${selectedEntry ? renderRelatedTips(selectedEntry.id, "이 생산 목표와 함께 보는 팁") : ""}`;
+}
+
+// Only the plan below the controls is repainted while the target search box is
+// being typed into, so the input node — and the IME composition attached to it —
+// survives every keystroke.
+function renderBaseToolResults() {
+  paintRegion("[data-base-results]", baseToolResultsMarkup(), bindTools);
+}
+
+function renderBaseTool() {
+  if (!state.items) return `<p class="empty-data">아이템 데이터를 불러오지 못했습니다.</p>`;
+  baseToolEntries();
+  return `<div class="tool-panel"><div class="tool-controls"><div class="roles"><button type="button" data-base-kind="item" class="${state.baseKind === "item" ? "active" : ""}">아이템</button><button type="button" data-base-kind="structure" class="${state.baseKind === "structure" ? "active" : ""}">시설</button></div><label>목표 검색<input id="base-search" type="search" value="${escapeHtml(state.baseQuery)}" placeholder="아이템 또는 시설 검색"></label><label>수량<input id="base-quantity" type="number" min="1" max="9999" value="${state.baseQuantity}"></label></div><div class="base-results" data-base-results>${baseToolResultsMarkup()}</div></div>`;
 }
 
 function progressGroups() {
@@ -1215,7 +1324,7 @@ function progressGroups() {
 function renderProgressTool() {
   const groups = progressGroups(); const groupLabels = { pals: "펠 도감", bosses: "보스", fast: "빠른 이동", collectible: "수집물", dungeon: "던전", schematic: "설계도" };
   const entries = groups[state.progressKind] ?? []; const done = entries.filter((entry) => state.progress.completed[entry.id]).length;
-  return `<div class="tool-panel"><div class="roles tool-kind-tabs">${Object.entries(groupLabels).map(([id, label]) => `<button type="button" data-progress-kind="${id}" class="${state.progressKind === id ? "active" : ""}>${label}</button>`).join("")}</div><div class="progress-actions"><strong>${done.toLocaleString()} / ${entries.length.toLocaleString()} 완료</strong><button type="button" data-progress-export>내보내기</button><label class="button-label">가져오기<input id="progress-import" type="file" accept="application/json"></label><button type="button" data-progress-reset>백업 후 초기화</button></div><div class="check-grid">${entries.slice(0, 500).map((entry) => `<label>${entry.image ?? ""}<input type="checkbox" data-progress-id="${escapeHtml(entry.id)}" ${state.progress.completed[entry.id] ? "checked" : ""}><span>${escapeHtml(entry.label)}</span></label>`).join("")}</div>${entries.length > 500 ? `<p class="result-note">성능을 위해 이 화면에는 500개까지 표시합니다.</p>` : ""}<p class="tool-note">진행 상태는 이 브라우저의 로컬 저장소에만 보관되며 서버로 전송되지 않습니다.</p></div>`;
+  return `<div class="tool-panel"><div class="roles tool-kind-tabs">${Object.entries(groupLabels).map(([id, label]) => `<button type="button" data-progress-kind="${id}" class="${state.progressKind === id ? "active" : ""}">${label}</button>`).join("")}</div><div class="progress-actions"><strong>${done.toLocaleString()} / ${entries.length.toLocaleString()} 완료</strong><button type="button" data-progress-export>내보내기</button><label class="button-label">가져오기<input id="progress-import" type="file" accept="application/json"></label><button type="button" data-progress-reset>백업 후 초기화</button></div><div class="check-grid">${entries.slice(0, 500).map((entry) => `<label>${entry.image ?? ""}<input type="checkbox" data-progress-id="${escapeHtml(entry.id)}" ${state.progress.completed[entry.id] ? "checked" : ""}><span>${escapeHtml(entry.label)}</span></label>`).join("")}</div>${entries.length > 500 ? `<p class="result-note">성능을 위해 이 화면에는 500개까지 표시합니다.</p>` : ""}<p class="tool-note">진행 상태는 이 브라우저의 로컬 저장소에만 보관되며 서버로 전송되지 않습니다.</p></div>`;
 }
 
 function renderActivitiesTool() {
@@ -1242,7 +1351,7 @@ function renderTipsTool() {
 
 function renderSaveTool() {
   const result = state.saveResult;
-  return `<div class="tool-panel"><article class="tool-summary"><span>읽기 전용 · 브라우저 내부 처리</span><h3>Palworld 1.0 세이브 분석</h3><p>원본 파일을 수정하거나 업로드하지 않습니다. 현재 PlZ(zlib)만 분석하며 PlM(Oodle)과 CNK는 이유를 표시하고 거부합니다.</p><label class="button-label">.sav 파일 선택<input id="save-file" type="file" accept=".sav"></label></article>${result ? `<article class="save-result"><h4>${escapeHtml(result.format || "분석 결과")}</h4><p>${escapeHtml(result.reason || result.error || `압축 해제 ${Number(result.decompressedSize).toLocaleString()}바이트 · 펠 후보 ${result.pals.length}종`)}</p>${result.pals?.length ? `<div class="tool-card-grid">${result.pals.map((name) => `<article>${palImage(name, "tool-pal-image")}<h4>${escapeHtml(displayPalName(name))}</h4></article>`).join("")}</div><button type="button" data-apply-save-pals>번식 보유 펠에 반영</button>` : ""}</article>` : ""}</div>`;
+  return `<div class="tool-panel"><article class="tool-summary"><span>읽기 전용 · 브라우저 내부 처리</span><h3>팰월드 1.0 세이브 분석</h3><p>원본 파일을 수정하거나 업로드하지 않습니다. 현재 PlZ(zlib)만 분석하며 PlM(Oodle)과 CNK는 이유를 표시하고 거부합니다.</p><label class="button-label">.sav 파일 선택<input id="save-file" type="file" accept=".sav"></label></article>${result ? `<article class="save-result"><h4>${escapeHtml(result.format || "분석 결과")}</h4><p>${escapeHtml(result.reason || result.error || `압축 해제 ${Number(result.decompressedSize).toLocaleString()}바이트 · 펠 후보 ${result.pals.length}종`)}</p>${result.pals?.length ? `<div class="tool-card-grid">${result.pals.map((name) => `<article>${palImage(name, "tool-pal-image")}<h4>${escapeHtml(displayPalName(name))}</h4></article>`).join("")}</div><button type="button" data-apply-save-pals>번식 보유 펠에 반영</button>` : ""}</article>` : ""}</div>`;
 }
 
 function renderPatchTool() {
@@ -1255,29 +1364,35 @@ function downloadProgress() {
   const link = document.createElement("a"); link.href = url; link.download = "palworld-guide-progress.json"; link.click(); URL.revokeObjectURL(url);
 }
 
+// Scoped to a root so a repainted region rebinds only its own controls; the
+// search boxes stay in the untouched shell and keep their listeners.
+function bindTools(root = content) {
+  root.querySelectorAll("[data-tool]").forEach((button) => button.addEventListener("click", () => { state.toolMode = button.dataset.tool; renderTools(); }));
+  root.querySelector("#boss-select")?.addEventListener("change", (event) => { state.bossSelected = event.target.value; renderTools(); });
+  root.querySelectorAll("[data-open-pal]").forEach((button) => button.addEventListener("click", () => { state.palQuery = button.dataset.openPal; selectTab("pals"); }));
+  root.querySelectorAll("[data-base-kind]").forEach((button) => button.addEventListener("click", () => { state.baseKind = button.dataset.baseKind; state.baseTarget = ""; renderTools(); }));
+  root.querySelector("#base-search")?.addEventListener("input", (event) => { state.baseQuery = event.target.value; renderBaseToolResults(); });
+  root.querySelectorAll("[data-base-target]").forEach((button) => button.addEventListener("click", () => { state.baseTarget = button.dataset.baseTarget; renderBaseToolResults(); }));
+  root.querySelector("#base-quantity")?.addEventListener("change", (event) => { state.baseQuantity = Math.max(1, Math.min(9999, Number.parseInt(event.target.value, 10) || 1)); renderBaseToolResults(); });
+  root.querySelectorAll("[data-open-item]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.openItem; selectTab("items"); }));
+  root.querySelectorAll("[data-progress-kind]").forEach((button) => button.addEventListener("click", () => { state.progressKind = button.dataset.progressKind; renderTools(); }));
+  root.querySelectorAll("[data-progress-id]").forEach((input) => input.addEventListener("change", () => { state.progress = toggleProgress(state.progress, input.dataset.progressId); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); }));
+  root.querySelector("[data-progress-export]")?.addEventListener("click", downloadProgress);
+  root.querySelector("#progress-import")?.addEventListener("change", async (event) => { try { state.progress = importProgress(await event.target.files[0].text(), Object.values(progressGroups()).flat().map((entry) => entry.id)); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); } catch (error) { alert(`가져오기 실패: ${error.message}`); } });
+  root.querySelector("[data-progress-reset]")?.addEventListener("click", () => { if (!confirm("현재 진행 상태를 백업한 뒤 모두 초기화할까요?")) return; downloadProgress(); state.progress = emptyProgress(); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); });
+  root.querySelectorAll("[data-activity]").forEach((button) => button.addEventListener("click", () => { state.activityMode = button.dataset.activity; renderTools(); }));
+  root.querySelectorAll("[data-tip-context]").forEach((button) => button.addEventListener("click", () => { state.tipContext = button.dataset.tipContext; renderTools(); }));
+  root.querySelectorAll("[data-tip-item]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.tipItem; state.itemQuery = ""; selectTab("items"); }));
+  root.querySelectorAll("[data-tip-structure]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "structure"; state.itemSelected = button.dataset.tipStructure; state.itemQuery = ""; selectTab("items"); }));
+  root.querySelector("[data-open-fishing-map]")?.addEventListener("click", () => { state.layers = new Set(["fishing", "rare_fishing"]); state.mapId = "main"; syncMapUrl(); selectTab("map"); });
+  root.querySelector("#save-file")?.addEventListener("change", async (event) => { const file = event.target.files[0]; if (!file) return; if (file.size > 512 * 1024 * 1024) { state.saveResult = { error: "512MB를 초과하는 파일은 브라우저 메모리 보호를 위해 거부했습니다." }; renderTools(); return; } try { state.saveResult = await analyzeSave(await file.arrayBuffer(), Object.values(state.details?.pals ?? {})); } catch (error) { state.saveResult = { error: error.message }; } renderTools(); });
+  root.querySelector("[data-apply-save-pals]")?.addEventListener("click", () => { for (const name of state.saveResult.pals) { const match = state.breeding?.pals.find((pal) => pal.name === name); if (match) state.breedOwned.add(match.id); } localStorage.setItem(BREEDING_STORAGE_KEY, JSON.stringify([...state.breedOwned])); renderTools(); });
+}
+
 function renderTools() {
   const panels = { boss: renderBossTool, base: renderBaseTool, tips: renderTipsTool, progress: renderProgressTool, activities: renderActivitiesTool, save: renderSaveTool, patch: renderPatchTool };
   content.innerHTML = `${sectionHeading("도구", "한 화면에서 이어 쓰는 공략 도구", "계산 결과와 출처 상태를 분리하고 개인 데이터는 브라우저에만 저장합니다.")}${toolNav()}${panels[state.toolMode]()}`;
-  content.querySelectorAll("[data-tool]").forEach((button) => button.addEventListener("click", () => { state.toolMode = button.dataset.tool; renderTools(); }));
-  document.querySelector("#boss-select")?.addEventListener("change", (event) => { state.bossSelected = event.target.value; renderTools(); });
-  content.querySelectorAll("[data-open-pal]").forEach((button) => button.addEventListener("click", () => { state.palQuery = button.dataset.openPal; selectTab("pals"); }));
-  content.querySelectorAll("[data-base-kind]").forEach((button) => button.addEventListener("click", () => { state.baseKind = button.dataset.baseKind; state.baseTarget = ""; renderTools(); }));
-  document.querySelector("#base-search")?.addEventListener("input", (event) => { state.baseQuery = event.target.value; renderTools(); const input = document.querySelector("#base-search"); input.focus(); input.setSelectionRange(input.value.length, input.value.length); });
-  content.querySelectorAll("[data-base-target]").forEach((button) => button.addEventListener("click", () => { state.baseTarget = button.dataset.baseTarget; renderTools(); }));
-  document.querySelector("#base-quantity")?.addEventListener("change", (event) => { state.baseQuantity = Math.max(1, Math.min(9999, Number.parseInt(event.target.value, 10) || 1)); renderTools(); });
-  content.querySelectorAll("[data-open-item]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.openItem; selectTab("items"); }));
-  content.querySelectorAll("[data-progress-kind]").forEach((button) => button.addEventListener("click", () => { state.progressKind = button.dataset.progressKind; renderTools(); }));
-  content.querySelectorAll("[data-progress-id]").forEach((input) => input.addEventListener("change", () => { state.progress = toggleProgress(state.progress, input.dataset.progressId); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); }));
-  content.querySelector("[data-progress-export]")?.addEventListener("click", downloadProgress);
-  document.querySelector("#progress-import")?.addEventListener("change", async (event) => { try { state.progress = importProgress(await event.target.files[0].text(), Object.values(progressGroups()).flat().map((entry) => entry.id)); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); } catch (error) { alert(`가져오기 실패: ${error.message}`); } });
-  content.querySelector("[data-progress-reset]")?.addEventListener("click", () => { if (!confirm("현재 진행 상태를 백업한 뒤 모두 초기화할까요?")) return; downloadProgress(); state.progress = emptyProgress(); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); });
-  content.querySelectorAll("[data-activity]").forEach((button) => button.addEventListener("click", () => { state.activityMode = button.dataset.activity; renderTools(); }));
-  content.querySelectorAll("[data-tip-context]").forEach((button) => button.addEventListener("click", () => { state.tipContext = button.dataset.tipContext; renderTools(); }));
-  content.querySelectorAll("[data-tip-item]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.tipItem; state.itemQuery = ""; selectTab("items"); }));
-  content.querySelectorAll("[data-tip-structure]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "structure"; state.itemSelected = button.dataset.tipStructure; state.itemQuery = ""; selectTab("items"); }));
-  content.querySelector("[data-open-fishing-map]")?.addEventListener("click", () => { state.layers = new Set(["fishing", "rare_fishing"]); state.mapId = "main"; syncMapUrl(); selectTab("map"); });
-  document.querySelector("#save-file")?.addEventListener("change", async (event) => { const file = event.target.files[0]; if (!file) return; if (file.size > 512 * 1024 * 1024) { state.saveResult = { error: "512MB를 초과하는 파일은 브라우저 메모리 보호를 위해 거부했습니다." }; renderTools(); return; } try { state.saveResult = await analyzeSave(await file.arrayBuffer(), Object.values(state.details?.pals ?? {})); } catch (error) { state.saveResult = { error: error.message }; } renderTools(); });
-  content.querySelector("[data-apply-save-pals]")?.addEventListener("click", () => { for (const name of state.saveResult.pals) { const match = state.breeding?.pals.find((pal) => pal.name === name); if (match) state.breedOwned.add(match.id); } localStorage.setItem(BREEDING_STORAGE_KEY, JSON.stringify([...state.breedOwned])); renderTools(); });
+  bindTools();
 }
 
 // Sources moved out of the tab bar into a panel at the foot of every page, so
@@ -1301,8 +1416,8 @@ function render() {
 
 // One delegated handler covers every trait mention on the page, whichever tab
 // rendered it.
-function bindTraitChips() {
-  content.querySelectorAll("[data-trait]").forEach((button) => {
+function bindTraitChips(root = content) {
+  root.querySelectorAll("[data-trait]").forEach((button) => {
     button.addEventListener("click", () => {
       const existing = button.nextElementSibling;
       const open = existing?.classList.contains("trait-tip");

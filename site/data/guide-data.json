@@ -6951,6 +6951,11 @@
       "weakAgainst": [
         "Water"
       ],
+      "stats": {
+        "attack": 130,
+        "defense": 100,
+        "hp": 130
+      },
       "party": [
         {
           "pal": "Jormuntide Ignis",
@@ -7089,6 +7094,11 @@
       "weakAgainst": [
         "Grass"
       ],
+      "stats": {
+        "attack": 135,
+        "defense": 120,
+        "hp": 125
+      },
       "party": [
         {
           "pal": "Hartalis",
@@ -7156,6 +7166,11 @@
         "Dragon",
         "Poison immune"
       ],
+      "stats": {
+        "attack": 120,
+        "defense": 110,
+        "hp": 110
+      },
       "party": [
         {
           "pal": "Bakemi",
@@ -7202,6 +7217,310 @@
       ],
       "swapAdvice": "중독 면역이나 강한 저항을 가진 상대에게는 순수 상성 공격 파티로 교체합니다.",
       "warning": "상태이상 면역이면 우라미와 스콜피어스 두 슬롯의 가치가 동시에 크게 내려갑니다.",
+      "gameVersion": "1.0.3 확인",
+      "confidence": "1.0 게임 데이터·복수 공략 교차 검토",
+      "sourceUrls": [
+        "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=english",
+        "https://www.palmods.gg/blog/palworld-1-0-strongest-pals",
+        "https://www.palmods.gg/guides/teams",
+        "https://allthings.how/palworld-1-0-the-best-combat-pals-and-damage-party-builds/"
+      ]
+    },
+    {
+      "id": "gobfin-player-hypercarry",
+      "pal": "Gobfin",
+      "title": "샤키드 4체 플레이어 화력 파티",
+      "kind": "combat",
+      "archetype": "플레이어 공격력 200%+ 극대화",
+      "summary": "샤키드 4마리의 공격력 중첩과 속성 변환 탈것을 엮어 플레이어 단독으로 보스를 순식간에 제압하는 메타 조합입니다.",
+      "elements": [
+        "Water",
+        "Dark"
+      ],
+      "strongAgainst": [
+        "Fire",
+        "Neutral"
+      ],
+      "weakAgainst": [
+        "Electric",
+        "Dragon"
+      ],
+      "stats": {
+        "attack": 100,
+        "defense": 105,
+        "hp": 95
+      },
+      "party": [
+        {
+          "pal": "Gobfin",
+          "role": "주력 버퍼 1",
+          "effect": "파트너 스킬 4단계 풀농축으로 플레이어 공격력을 20% 강화합니다."
+        },
+        {
+          "pal": "Gobfin",
+          "role": "공격력 중첩 2",
+          "effect": "돌격 지휘자(+10%)와 파트너 스킬(+20%)로 공격력을 중첩합니다."
+        },
+        {
+          "pal": "Gobfin",
+          "role": "공격력 중첩 3",
+          "effect": "돌격 지휘자(+10%)와 파트너 스킬(+20%)로 공격력을 중첩합니다."
+        },
+        {
+          "pal": "Gobfin",
+          "role": "공격력 중첩 4",
+          "effect": "돌격 지휘자(+10%)와 파트너 스킬(+20%)로 공격력을 중첩합니다."
+        },
+        {
+          "pal": "Frostallion Noct",
+          "role": "속성 변환 탈것",
+          "effect": "탑승 시 플레이어 공격을 어둠으로 전환하고 피해를 100% 증폭합니다."
+        }
+      ],
+      "passives": [
+        "돌격 지휘자",
+        "철옹성의 책사",
+        "신속",
+        "재빠름"
+      ],
+      "rotation": [
+        "샤키드 4마리 풀농축 상태 확인",
+        "보스 상성에 맞춰 속성 변환 탈것(흑천마/빙천마/적토룡) 탑승",
+        "돌격 지휘자 4중첩(+40%) 및 샤키드 버프(+80%) 발동",
+        "전설 로켓/돌격소총으로 보스 약점 폭격"
+      ],
+      "swapAdvice": "보스 속성에 따라 탈것을 빙천마(용 상대), 적토룡(풀·얼음 상대), 라이가루다(물 상대)로 교체합니다.",
+      "warning": "플레이어 본인의 무기 등급(전설)과 탄약 소모량이 성패를 결정합니다.",
+      "gameVersion": "1.0.3 확인",
+      "confidence": "1.0 게임 데이터·복수 공략 교차 검토",
+      "sourceUrls": [
+        "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=english",
+        "https://www.palmods.gg/blog/palworld-1-0-strongest-pals",
+        "https://www.palmods.gg/guides/teams",
+        "https://allthings.how/palworld-1-0-the-best-combat-pals-and-damage-party-builds/"
+      ]
+    },
+    {
+      "id": "jetragon-supersonic-bomber",
+      "pal": "Jetragon",
+      "title": "제트래곤 초음속 용 폭격 빌드",
+      "kind": "combat",
+      "archetype": "최강 공중 화력 & 기동",
+      "summary": "게임 내 최고 비행 속도와 쿨타임 감소를 활용해 공중에서 용 메테오와 빔을 난사하는 0티어 딜러입니다.",
+      "elements": [
+        "Dragon"
+      ],
+      "strongAgainst": [
+        "Dark"
+      ],
+      "weakAgainst": [
+        "Ice"
+      ],
+      "stats": {
+        "attack": 140,
+        "defense": 110,
+        "hp": 110
+      },
+      "party": [
+        {
+          "pal": "Jetragon",
+          "role": "주력 공중 딜러",
+          "effect": "최고 비행 속도와 미사일 폭격, 전용 용 스킬을 쏟아붓습니다."
+        },
+        {
+          "pal": "Xenolord",
+          "role": "파트너 스킬 증폭",
+          "effect": "무기 탑재 펠의 파트너 스킬 화력을 추가 강화합니다."
+        },
+        {
+          "pal": "Orserk",
+          "role": "용 슬롯 & 누적 버프",
+          "effect": "용 속성 시너지를 유지하며 활성 펠 공격·방어를 누적 강화합니다."
+        },
+        {
+          "pal": "Blazamut Ryu",
+          "role": "화염 보조 딜러",
+          "effect": "얼음 속성 적이 나올 때 즉시 교대할 화염 딜러입니다."
+        },
+        {
+          "pal": "Lyleen",
+          "role": "비상 회복",
+          "effect": "공중 피격 누적 시 파티 체력을 즉시 완충합니다."
+        }
+      ],
+      "passives": [
+        "전설",
+        "신룡",
+        "냉철함",
+        "사나움"
+      ],
+      "skills": [
+        "빔 슬라이서",
+        "드래곤 메테오",
+        "파이어 볼"
+      ],
+      "rotation": [
+        "제트래곤 탑승 후 미사일 포격 개시",
+        "냉철함으로 쿨이 줄어든 드래곤 메테오와 파이어 볼 투하",
+        "빔 슬라이서로 지속 폭격",
+        "얼음 기술 회피 시 고속 상승"
+      ],
+      "swapAdvice": "얼음 보스전에는 블라자무트 류나 아그니드라로 교체합니다.",
+      "warning": "이동 전용 세팅(신속·달리기왕)과 전투 세팅(신룡·사나움)을 구분하여 육성하세요.",
+      "gameVersion": "1.0.3 확인",
+      "confidence": "1.0 게임 데이터·복수 공략 교차 검토",
+      "sourceUrls": [
+        "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=english",
+        "https://www.palmods.gg/blog/palworld-1-0-strongest-pals",
+        "https://www.palmods.gg/guides/teams",
+        "https://allthings.how/palworld-1-0-the-best-combat-pals-and-damage-party-builds/"
+      ]
+    },
+    {
+      "id": "blazamut-ryu-raid-annihilator",
+      "pal": "Blazamut Ryu",
+      "title": "블라자무트 류 레이드 화염 분쇄 파티",
+      "kind": "combat",
+      "archetype": "최강 화염·용 레이드 딜러",
+      "summary": "1.0 최강 레이드 보스의 전용 마그마 스킬과 염제 화력을 집중시켜 풀·얼음 보스를 녹여버립니다.",
+      "elements": [
+        "Fire",
+        "Dragon"
+      ],
+      "strongAgainst": [
+        "Grass",
+        "Ice"
+      ],
+      "weakAgainst": [
+        "Water"
+      ],
+      "stats": {
+        "attack": 145,
+        "defense": 120,
+        "hp": 130
+      },
+      "party": [
+        {
+          "pal": "Blazamut Ryu",
+          "role": "주력 레이드 딜러",
+          "effect": "전용기 마그마 디재스터와 화염 돌진으로 전장을 초토화합니다."
+        },
+        {
+          "pal": "Jormuntide Ignis",
+          "role": "화염 연소 지속딜",
+          "effect": "화염 브레스로 연소 상태를 안정적으로 유지합니다."
+        },
+        {
+          "pal": "Kelpsea Ignis",
+          "role": "불 속성 강화",
+          "effect": "파티 내 불 속성 펠들의 공격력을 증폭합니다."
+        },
+        {
+          "pal": "Orserk",
+          "role": "용 편성 & 누적 강화",
+          "effect": "사격으로 활성 펠 공격·방어를 누적 강화합니다."
+        },
+        {
+          "pal": "Lyleen",
+          "role": "회복 안전장치",
+          "effect": "광역 레이드 패턴에서 파티 체력을 복구합니다."
+        }
+      ],
+      "passives": [
+        "전설",
+        "염제",
+        "냉철함",
+        "사나움"
+      ],
+      "skills": [
+        "마그마 디재스터",
+        "화염 돌진",
+        "드래곤 메테오"
+      ],
+      "rotation": [
+        "마그마 디재스터로 전방위 광역 화염 타격",
+        "화염 돌진으로 틈새 연타",
+        "쿨타임 감소된 드래곤 메테오 폭격",
+        "체력 저하 시 릴린으로 즉시 회복"
+      ],
+      "swapAdvice": "물 속성 상대 시 전룡맨 중심 번개 파티로 교체합니다.",
+      "warning": "덩치가 커서 보스의 다단히트 장판 공격에 노출되기 쉬우므로 회피 타이밍을 숙지하세요.",
+      "gameVersion": "1.0.3 확인",
+      "confidence": "1.0 게임 데이터·복수 공략 교차 검토",
+      "sourceUrls": [
+        "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=english",
+        "https://www.palmods.gg/blog/palworld-1-0-strongest-pals",
+        "https://www.palmods.gg/guides/teams",
+        "https://allthings.how/palworld-1-0-the-best-combat-pals-and-damage-party-builds/"
+      ]
+    },
+    {
+      "id": "bellanoir-libero-soul-reaper",
+      "pal": "Bellanoir Libero",
+      "title": "벨라루주 나이트메어 흡혈 딜러",
+      "kind": "combat",
+      "archetype": "어둠 유도탄 & 자가 회복",
+      "summary": "전용 유도탄 나이트메어 블룸과 흡혈귀 패시브를 조합해 쓰러지지 않고 지속 딜을 넣는 어둠 종결 딜러입니다.",
+      "elements": [
+        "Dark"
+      ],
+      "strongAgainst": [
+        "Neutral"
+      ],
+      "weakAgainst": [
+        "Dragon"
+      ],
+      "stats": {
+        "attack": 140,
+        "defense": 110,
+        "hp": 100
+      },
+      "party": [
+        {
+          "pal": "Bellanoir Libero",
+          "role": "주력 자율 딜러",
+          "effect": "나이트메어 블룸과 다크 레이저로 원거리 폭딜을 넣습니다."
+        },
+        {
+          "pal": "Necromus",
+          "role": "어둠 화력 보조",
+          "effect": "높은 공격력과 쌍창 공격으로 화력 공백을 메웁니다."
+        },
+        {
+          "pal": "Frostallion Noct",
+          "role": "어둠 약점 증폭",
+          "effect": "어둠 속성 피해를 보조하며 교대 딜러로 활약합니다."
+        },
+        {
+          "pal": "Orserk",
+          "role": "사격 누적 버프",
+          "effect": "플레이어 연사로 벨라루주의 공격과 방어를 누적 강화합니다."
+        },
+        {
+          "pal": "Lyleen",
+          "role": "비상 생존",
+          "effect": "대형 광역기에 대비한 2차 회복 안전망입니다."
+        }
+      ],
+      "passives": [
+        "명왕",
+        "냉철함",
+        "사나움",
+        "흡혈귀"
+      ],
+      "skills": [
+        "나이트메어 블룸",
+        "다크 레이저",
+        "다크 위스프"
+      ],
+      "rotation": [
+        "벨라루주 소환 후 나이트메어 블룸 시전",
+        "플레이어 연사로 오서크 버프 중첩",
+        "흡혈귀 패시브로 입힌 피해 5% 자가 회복",
+        "위험 패턴 시 켄타나이트로 교대 후 재배치"
+      ],
+      "swapAdvice": "용 속성 보스 상대로는 빙천마 중심 얼음 파티로 교체합니다.",
+      "warning": "탑승이 불가능하므로 플레이어의 기동은 지상 회피 및 와이어로 보완해야 합니다.",
       "gameVersion": "1.0.3 확인",
       "confidence": "1.0 게임 데이터·복수 공략 교차 검토",
       "sourceUrls": [
