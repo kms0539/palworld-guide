@@ -617,6 +617,142 @@
   background: var(--tier);
 }
 
+/* 근거 수준과 패치 민감도를 함께 보여 주는 공략 팁 */
+.tips-panel {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.tip-contexts button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tip-contexts button span {
+  min-width: 18px;
+  border-radius: 999px;
+  padding: 1px 5px;
+  background: rgba(148, 197, 238, .14);
+  font-size: 9px;
+  text-align: center;
+}
+
+.tips-grid,
+.related-tips > div {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.tip-card {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  flex-direction: column;
+  gap: 11px;
+  border: 1px solid rgba(89, 200, 255, .22);
+  border-radius: 15px;
+  padding: 18px;
+  background: linear-gradient(150deg, rgba(20, 48, 70, .84), rgba(8, 22, 37, .96));
+}
+
+.tip-card h4,
+.tip-card p,
+.tip-card ol { margin: 0; }
+
+.tip-card h4 { color: #e8f7ff; font-size: 15px; }
+.tip-card p,
+.tip-card li { color: #bfd3df; font-size: 11px; line-height: 1.65; }
+.tip-card ol { display: grid; gap: 5px; padding-left: 19px; }
+
+.tip-card-meta,
+.tip-sources,
+.tip-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.tip-card-meta span,
+.tip-card-meta strong {
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(89, 200, 255, .12);
+  color: var(--sky2);
+  font-size: 9px;
+}
+
+.tip-card-meta strong {
+  background: rgba(251, 146, 60, .14);
+  color: #fdba74;
+}
+
+.tip-card aside {
+  display: flex;
+  gap: 8px;
+  border-left: 2px solid rgba(251, 146, 60, .58);
+  padding: 9px 11px;
+  background: rgba(251, 146, 60, .06);
+  color: #d5c8bc;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.tip-card aside strong,
+.tip-sources > strong,
+.tip-related > strong { flex: 0 0 auto; color: #fdba74; font-size: 9px; }
+
+.tip-sources { margin-top: auto; }
+.tip-sources > strong { color: var(--muted); }
+.tip-sources a { max-width: 100%; color: var(--sky2); font-size: 9px; overflow-wrap: anywhere; }
+
+.tip-related button {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(148, 197, 238, .22);
+  border-radius: 9px;
+  padding: 5px 8px;
+  background: rgba(6, 18, 31, .72);
+  color: #d7ecfb;
+  font-size: 9px;
+}
+
+.tip-related button span { overflow-wrap: anywhere; }
+
+.tip-related-image {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.related-tips {
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.related-tips > h4 { margin: 0 0 10px; color: var(--sky2); font-size: 12px; }
+.tip-card-compact { padding: 14px; }
+.tip-card-compact h4 { font-size: 12px; }
+.tip-card-compact p { font-size: 10px; }
+
+@media (max-width: 760px) {
+  .tips-grid,
+  .related-tips > div { grid-template-columns: 1fr; }
+}
+
 /* 피해야 할 특성 필터는 붉게 — 붙이면 안 되는 특성임을 색으로 먼저 알린다 */
 .roles button.usage-avoid { color: #ffb3bf; }
 

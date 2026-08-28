@@ -1,10 +1,28 @@
-# 팰월드(Palworld) v1.0.3 한국어 및 글로벌 커뮤니티 통합 마스터 기록 (진실 검증 & 돌연변이 공식 포함)
+# 팰월드(Palworld) v1.0.3 한국어 및 글로벌 커뮤니티 수집·공개 반영 기록
 
-본 문서는 한국 대형 커뮤니티(**디시인사이드 팰월드 갤러리, 루리웹, 인벤, 아카라이브, OP.GG**)와 해외 대형 커뮤니티(**Reddit r/Palworld, r/PalworldBreeding**)의 데이터 및 꿀팁을 수집한 뒤, **코드 및 테스트 체계(`node --test tests/*.test.mjs`), 공식 패치 노트, 교배 돌연변이(Mutation) 공식**을 실증적으로 검증하여 `[검증완료]` 및 `[검증미완료]`로 명확히 구분하여 기록한 마스터 참조 문서입니다.
+본 문서는 한국 대형 커뮤니티(**디시인사이드 팰월드 갤러리, 루리웹, 인벤, 아카라이브, OP.GG**)와 해외 커뮤니티(**Reddit r/Palworld, r/PalworldBreeding**)에서 수집한 데이터와 꿀팁의 **검토 후보 기록**입니다. 커뮤니티 게시판 홈이나 검색 결과만으로는 개별 주장의 근거가 되지 않으므로, 공개 사이트에는 아래 `0. 공개 반영 판정`에서 승인한 항목만 사용합니다.
+
+> 주의: 이 문서의 과거 `[검증완료]` 표시는 수집 당시의 메모이며 공개 데이터의 최종 판정이 아닙니다. 최종 공개 데이터는 `site/data/community-tips.json`의 출처, 버전, 근거 수준 및 패치 민감도 계약을 따릅니다.
 
 - **작성/검증 일시:** 2026년 8월 28일
 - **대상 게임 버전:** `v1.0.3` (1.0 정식 출시 및 v1.0.3 밸런스 패치 반영)
 - **진실 검증 방식:** 코드 및 데이터 파일 검증 (`game-data`), 공식 패치 노트 검증 (`official`), 알고리즘 및 테스트 체계 검증 (`computed`), 2개 이상 독립 출처 교차 검증 (`community-verified`)
+
+---
+
+## 0. 공개 반영 판정
+
+| 후보 | 공개 판정 | 반영 위치 | 판정 근거 |
+| :--- | :---: | :--- | :--- |
+| 힘 조절의 반지로 HP 1 남기기 | **반영** | 공략 팁 · 아이템 상세 | 현행 아이템 데이터와 효과 설명 확인 |
+| 길드 상자 거점 간 공유 | **반영** | 공략 팁 · 구조물 상세 · 생산 플래너 | 현행 1.0 자료 2곳에서 교차 확인. 일반 상자는 공유되지 않음을 함께 명시 |
+| 음식 정렬 후 유통기한 갱신 | **조건부 반영** | 공략 팁 | 최근 1.0 재현 사례와 별도 안내를 교차 확인. 공식 기능이 아니므로 `패치 민감` 표시 |
+| 과적 상태 갈고리 총 이동 | **조건부 반영** | 공략 팁 · 관련 아이템 상세 | 최근 1.0 재현 사례와 별도 안내를 교차 확인. 공식 기능이 아니므로 `패치 민감` 표시 |
+| 돌연변이 확률·케이크별 배율·IV 보장 | **보류** | 미반영 | 현재 저장소의 버전 고정 원본 데이터와 재현 가능한 계산 근거가 없음 |
+| 던전 우수법으로 보스방 100% 도달 | **보류** | 미반영 | 벽 따라가기 알고리즘의 조건만으로 실제 던전 구조와 목적지 도달을 보장할 수 없음 |
+| 포획·도축 더블 드롭 | **제외** | 미반영 | 비정상 동기화에 의존하는 버그성 행위이며 현행 패치 재현 근거가 없음 |
+| 상인 포획 후 거점 상점 유지 | **보류** | 미반영 | 현행 1.0.3의 직접 확인 자료가 부족함 |
+| 하이퍼캐리·특정 5인 파티 메타 | **보류** | 미반영 | 빌드 입력 수치와 비교 기준이 문서에 없어 편집형 추천으로도 검증 불가 |
 
 ---
 
@@ -13,14 +31,14 @@
 | 출처 ID | 커뮤니티 / 수집처 명칭 | 출처 분류 | 공식 URL / 서비스 주소 | 주요 검증 항목 | 진실 검증 상태 |
 | :--- | :--- | :---: | :--- | :--- | :---: |
 | `steam-v103` | Steam Official Palworld News | `official` | [Steam Store News Page](https://store.steampowered.com/news/app/1623730) | v1.0.3 패치 밸런스, 제트래곤 70레벨, 성수 무게 | `검증완료` |
-| `palworld-gg-ko` | Palworld.gg 한국어 도감 | `community-verified` | [palworld.gg/ko/pals](https://palworld.gg/ko/pals) | 161개 패시브 정식 명칭, 299종 펠 한국어 도감 명칭 | `검증완료` |
+| `palworld-gg-ko` | Palworld.gg 한국어 도감 | `community` | [palworld.gg/ko/pals](https://palworld.gg/ko/pals) | 한국어명 비교 후보 | `부분반영` |
 | `palworld-wiki-gg` | Palworld Wiki GG | `community-verified` | [palworld.wiki.gg/wiki/Breeding](https://palworld.wiki.gg/wiki/Breeding) | 번식 수식 $\lfloor (A+B+1)/2 \rfloor$, 164개 특수 교배 조합 | `검증완료` |
-| `paldb-cc-mutation` | PalDB Mutation Mechanics | `game-data` | [paldb.cc](https://paldb.cc) | 돌연변이 확률 (0.6%~3%), 케이크별 변이 가중치, IV 90~100 | `검증완료` |
-| `dcinside-palworld` | 디시인사이드 팰월드 갤러리 | `community-verified` | [dcinside.com/board/palworld](https://gall.dcinside.com/mgallery/board/lists/?id=palworld) | 정렬 유통기한 100% 리셋, 갈고리총 중량 초과 이동 | `검증완료` |
-| `inven-palworld` | 팰월드 인벤 (Inven) | `community-verified` | [palworld.inven.co.kr](https://palworld.inven.co.kr/) | 상인 포획 거점 상주작, 힘 조절의 반지 HP 1 고정 | `검증완료` |
+| `paldb-cc-mutation` | PalDB Mutation Mechanics | `game-data` 후보 | [paldb.cc](https://paldb.cc) | 돌연변이 확률, 케이크별 변이 가중치, IV 주장 | `검증보류` |
+| `dcinside-palworld` | 디시인사이드 팰월드 갤러리 | `community` | [dcinside.com/board/palworld](https://gall.dcinside.com/mgallery/board/lists/?id=palworld) | 정렬 유통기한, 갈고리총 중량 초과 이동 후보 수집 | `부분반영` |
+| `inven-palworld` | 팰월드 인벤 (Inven) | `community` | [palworld.inven.co.kr](https://palworld.inven.co.kr/) | 상인 포획, 힘 조절의 반지 후보 수집 | `부분반영` |
 | `arca-palworld` | 아카라이브 팰월드 채널 | `community-verified` | [arca.live/b/palworld](https://arca.live/b/palworld) | 포획 직전 도축 더블 드롭 기믹, 케이크 변이 꿀팁 | `검증미완료` |
-| `reddit-palworld` | Reddit r/Palworld | `community-verified` | [reddit.com/r/Palworld](https://www.reddit.com/r/Palworld/) | Guild Chest 자원 공유, 1.0 하이퍼캐리 메타, Serenity/Demon God | `검증완료` |
-| `opgg-palworld` | OP.GG Palworld 커뮤니티 | `editorial` | [op.gg/g/palworld](https://op.gg/g/palworld) | 샤키드 4마리 존윅 샷건 파티, 몽마둥이 오토 포탑 파티 | `검증완료` |
+| `reddit-palworld` | Reddit r/Palworld | `community` | [reddit.com/r/Palworld](https://www.reddit.com/r/Palworld/) | Guild Chest 자원 공유, 1.0 활용 사례 | `부분반영` |
+| `opgg-palworld` | OP.GG Palworld 커뮤니티 | `editorial` | [op.gg/g/palworld](https://op.gg/g/palworld) | 샤키드 4마리 파티, 몽마둥이 파티 후보 | `검증보류` |
 
 ---
 
@@ -39,18 +57,18 @@
 
 ---
 
-## 3. 팰월드 돌연변이(Mutation) 출현 공식 및 메커니즘 상세 대조 (`paldb-cc-mutation`)
+## 3. 팰월드 돌연변이(Mutation) 주장 검토 보류 (`paldb-cc-mutation`)
 
-1.0 정식 패치에서 확장된 **교배 돌연변이(Mutation) 메커니즘**의 공식 수치와 케이크별 가중치 검증 결과입니다.
+아래 내용은 커뮤니티 수집 후보를 보존한 것입니다. 현재 저장소에 버전 고정 원본 데이터, 추출 경로, 재현 가능한 테스트가 없어 **공식 수치로 간주하지 않으며 사이트에 공개하지 않습니다.**
 
 ### 3.1 케이크 종류별 돌연변이 발생 확률 공식
 
 | 케이크 종류 (Cake Type) | 돌연변이 발생 확률 (Mutation Rate) | 특수 부가 효과 (Bonus Mechanic) | 진실 검증 상태 |
 | :--- | :---: | :--- | :---: |
-| **기본 케이크 / 버섯 케이크 (Standard Cake)** | **약 0.6% ~ 1.0%** | 일반 알 생성 (돌연변이 알 낮음), 자식 IV 상승 가중치 | **`검증완료`** |
-| **호화 야채 케이크 (Extravagant Vegetable Cake)** | **약 3.0% (3배 상향)** | 돌연변이 알(Mutated Egg) 발생률 극대화 | **`검증완료`** |
-| **야채 케이크 (Vegetable Cake)** | **약 1.0%** | 1회 교배 시 **알 2개 동시 생성** (단위시간당 변이 시도 횟수 2배) | **`검증완료`** |
-| **특제 케이크 (Special Cake)** | **약 1.0%** | 부모 팰 원본 패시브 유전 확률 **1.5배~2배** 보장 | **`검증완료`** |
+| **기본 케이크 / 버섯 케이크 (Standard Cake)** | **약 0.6% ~ 1.0% 주장** | 일반 알 생성, 자식 IV 상승 가중치 주장 | **`검증보류`** |
+| **호화 야채 케이크 (Extravagant Vegetable Cake)** | **약 3.0% 주장** | 돌연변이 알 발생률 증가 주장 | **`검증보류`** |
+| **야채 케이크 (Vegetable Cake)** | **약 1.0% 주장** | 알 2개 생성 주장 | **`검증보류`** |
+| **특제 케이크 (Special Cake)** | **약 1.0% 주장** | 패시브 유전 확률 증가 주장 | **`검증보류`** |
 
 ---
 
@@ -83,11 +101,11 @@
 
 | 도감 번호 | 영문 ID / Slug | 영문 이름 | 한국어 정식 명칭 | 대표 속성 | 진실 검증 상태 | 검증 근거 및 체계 |
 | :---: | :--- | :--- | :--- | :---: | :---: | :--- |
-| 001 | `cattiva` | Cattiva | 까부리 | 무속성 | **`검증완료`** | `site/data/pal-details.json` 및 도감 체계 검증 |
-| 002 | `chikipi` | Chikipi | 꼬꼬닭 | 무속성 | **`검증완료`** | `site/data/pal-details.json` 및 도감 체계 검증 |
-| 003 | `lifmunk` | Lifmunk | 리프몬 | 풀속성 | **`검증완료`** | `site/data/pal-details.json` 및 도감 체계 검증 |
-| 004 | `foxparks` | Foxparks | 도로롱 | 불속성 | **`검증완료`** | `site/data/pal-details.json` 및 도감 체계 검증 |
-| 031 | `gobfin` | Gobfin | 샤키드 | 물속성 | **`검증완료`** | `site/data/pal-details.json` 및 도감 체계 검증 |
+| 002 | `cattiva` | Cattiva | 까부냥 | 무속성 | **`검증완료`** | `site/data/pal-details.json`, `site/data/visual-assets.json` 검증 |
+| 003 | `chikipi` | Chikipi | 꼬꼬닭 | 무속성 | **`검증완료`** | `site/data/pal-details.json`, `site/data/visual-assets.json` 검증 |
+| 004 | `lifmunk` | Lifmunk | 큐룰리스 | 풀속성 | **`검증완료`** | `site/data/pal-details.json`, `site/data/visual-assets.json` 검증 |
+| 029 | `foxparks` | Foxparks | 파이호 | 불속성 | **`검증완료`** | `site/data/pal-details.json`, `site/data/visual-assets.json` 검증 |
+| 055 | `gobfin` | Gobfin | 샤키드 | 물속성 | **`검증완료`** | `site/data/pal-details.json`, `site/data/visual-assets.json` 검증 |
 | 085B | `relaxaurus-lux` | Relaxaurus Lux | 전렉스 | 용 / 번개 | **`검증완료`** | `tests/breeding-engine.test.mjs` (Test #2) 통과 |
 | 096B | `blazamut-ryu` | Blazamut Ryu | 전뇌룡 | 불 / 용 | **`검증완료`** | v1.0 레이드 보스 데이터셋 검증 |
 | 100 | `anubis` | Anubis | 아누비스 | 땅속성 | **`검증완료`** | `site/data/pal-details.json` 및 도감 체계 검증 |
@@ -99,25 +117,25 @@
 
 ## 5. 커뮤니티 꿀팁 & 메커니즘 진실 검증 리포트
 
-### 5.1 요리 / 자원 유통기한 타임아웃 100% 리셋 꼼수
+### 5.1 요리 / 자원 유통기한 정렬 갱신 현상
 - **출처**: [`dcinside-palworld`](https://gall.dcinside.com/mgallery/board/lists/?id=palworld)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 게임 클라이언트 내 보관 상자 '정렬(Sort)' 및 인벤토리 재배치 처리 시 아이템 타임스탬프가 재초기화되는 클라이언트 메커니즘 검증 완료.
+- **진실 검증 상태**: **`조건부 반영 · 패치 민감`**
+- **검증 근거**: 최근 1.0 재현 사례와 별도 공략을 교차 확인했습니다. 정렬로 아이템 위치가 실제 바뀐 뒤 표시를 확인해야 하며, 공식 보장 기능으로 표현하지 않습니다.
 
 ### 5.2 소지 중량 무한 초과 시 '갈고리총(Grappling Gun)' 고속 이동
 - **출처**: [`inven-palworld`](https://palworld.inven.co.kr/) / [`dcinside-palworld`](https://gall.dcinside.com/mgallery/board/lists/?id=palworld)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 물리 앵커 기계 구조상 과적 속도 감쇄 상태(Encumbered)를 무시하고 앵커 지점으로 견인 이동함을 검증 완료.
+- **진실 검증 상태**: **`조건부 반영 · 패치 민감`**
+- **검증 근거**: 최근 1.0 재현 사례와 별도 공략을 교차 확인했습니다. 공식 운반 기능이 아니며 지형과 사거리의 영향을 받는 활용법으로만 안내합니다.
 
 ### 5.3 '힘 조절의 반지 (Ring of Mercy)' HP 1 고정 포획 팁
 - **출처**: [`inven-palworld`](https://palworld.inven.co.kr/)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 장신구 데미지 캡 적용 로직에 의해 대상 HP가 0으로 떨어지는 것을 방지함이 검증 완료.
+- **진실 검증 상태**: **`반영 · game-data`**
+- **검증 근거**: 현행 아이템 데이터에서 착용자의 공격이 대상 HP를 1 아래로 낮추지 않는 효과와 기술 레벨 18을 확인했습니다.
 
 ### 5.4 던전 외벽 법칙 (Right-Hand Rule) 보스방 탐색
 - **출처**: [`dcinside-palworld`](https://gall.dcinside.com/mgallery/board/lists/?id=palworld)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 수학적 위상 수학/그래프 미로 탐색 이론(Wall Follower Algorithm) 상 단일 연결 미로 구조 던전에서 100% 보스방 도달 증명.
+- **진실 검증 상태**: **`검증보류`**
+- **검증 근거**: 벽 따라가기 알고리즘은 특정 미로 구조에서 출구 탐색을 보장할 뿐, 실제 던전이 조건을 만족하는지와 출구가 보스방인지까지 증명하지 않습니다.
 
 ### 5.5 포획 성공 직전 도축 더블 드롭 (Double Loot) 기믹
 - **출처**: [`arca-palworld`](https://arca.live/b/palworld)
@@ -126,27 +144,28 @@
 
 ### 5.6 암상인 / 방랑상인 거점 포획 상주작
 - **출처**: [`inven-palworld`](https://palworld.inven.co.kr/)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 인간 NPC 스피어 포획 및 거점 상자 배치 시 거래 상점 인터페이스가 정상 유지됨을 검증 완료.
+- **진실 검증 상태**: **`검증보류`**
+- **검증 근거**: 현행 1.0.3에서 직접 확인할 수 있는 개별 자료와 재현 기록이 부족하여 공개하지 않습니다.
 
 ---
 
 ## 6. 해외 대형 커뮤니티 (Reddit r/Palworld) 최신 메타 진실 검증
 
 ### 6.1 '길드 상자 (Guild Chest)' 엔더상자형 거점 통합 시스템
-- **출처**: [`reddit-palworld`](https://www.reddit.com/r/Palworld/)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 1.0 패치로 추가된 멀티 거점 공유 인벤토리 건축물 동작 확인 완료.
+- **출처**: [Palworld Tools 길드 상자](https://www.palworld.tools/buildings/guild-chest) / [Palworld KB 보관 방식](https://github.com/beliarance/palworld-kb/blob/main/docs/guild_stash_and_storage.md)
+- **진실 검증 상태**: **`반영 · community-verified`**
+- **검증 근거**: 현행 자료 2곳에서 거점 간 길드 상자 공유를 교차 확인했습니다. 일반 상자는 공유되지 않는다는 제한을 화면에 함께 표시합니다.
 
 ### 6.2 1.0 팰 스킬 대폭 상향에 따른 '하이퍼캐리 (Hypercarry) 팰' 메타
 - **출처**: [`reddit-palworld`](https://www.reddit.com/r/Palworld/) / [`palmods-gg`](https://www.palmods.gg/)
-- **진실 검증 상태**: **`검증완료`**
-- **검증 근거**: 1.0 패치에서 팰 액티브 스킬 배율 상향 및 쿨타임 감소 패시브(`Serenity`) 추가에 따른 딜 계수 검증 완료.
+- **진실 검증 상태**: **`검증보류`**
+- **검증 근거**: 비교할 빌드 입력 수치, 대상, 장비, 패시브, 난이도 조건이 문서에 없어 현행 메타로 단정하지 않습니다.
 
 ---
 
 ## 7. 종합 검증 결론
 
-- **총 검증 항목**: 30개 주요 메커니즘 / 패치 데이터 / 돌연변이 수식 / 커뮤니티 꿀팁
-- **`검증완료` 수량**: 29개 항목 (코드, 단위 테스트 수트 31개 전체 통과, PalDB 추출 데이터 검증)
-- **`검증미완료` 수량**: 1개 항목 (포획 직전 도축 더블 드롭 기믹 - 디싱크 버그 수정 가능성으로 검증 미완료 처리)
+- 공개 반영: 힘 조절의 반지, 길드 상자 공유.
+- 조건부 공개 반영: 음식 정렬 유통기한 갱신, 과적 상태 갈고리 총 이동. 두 항목 모두 `패치 민감` 경고를 표시합니다.
+- 공개 보류 또는 제외: 돌연변이 확률, 던전 우수법 100% 보장, 더블 드롭, 상인 포획, 근거 수치 없는 메타 빌드.
+- 새 커뮤니티 주장은 게시판 홈이 아니라 **개별 글 URL, 확인 날짜, 대상 게임 버전, 독립 출처 또는 게임 데이터**가 갖춰진 뒤 `site/data/community-tips.json`에 추가합니다.

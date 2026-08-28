@@ -38,7 +38,7 @@ test("every registered public dataset exists and matches its schema contract", a
 
   assert.deepEqual(
     registry.datasets.map(({ id }) => id).sort(),
-    ["activities", "breeding", "guide", "item-localization-report", "items", "map-pois", "pal-details", "patch-report", "trait-names-ko", "traits", "visual-assets"],
+    ["activities", "breeding", "community-tips", "guide", "item-localization-report", "items", "map-pois", "pal-details", "patch-report", "trait-names-ko", "traits", "visual-assets"],
   );
 
   for (const dataset of registry.datasets) {

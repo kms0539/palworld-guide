@@ -12,7 +12,7 @@ const defaultLayers = [
 ];
 
 const state = {
-  data: null, assets: null, traits: null, traitIndex: null, details: null, detailIndex: null, breeding: null, breedingIndex: null, items: null, itemIndex: null, itemReport: null, mapPois: null, activities: null, patchReport: null,
+  data: null, assets: null, traits: null, traitIndex: null, details: null, detailIndex: null, breeding: null, breedingIndex: null, items: null, itemIndex: null, itemReport: null, mapPois: null, activities: null, communityTips: null, patchReport: null,
   tab: "recommendations", role: "combat", palRole: "all",
   palQuery: "", palElement: "all", palWork: "all", palSort: "paldex", palSelected: null, palCompare: new Set(),
   breedingMode: "pair", breedParentA: "", breedParentB: "", breedTarget: "", breedOwnedAdd: "", breedOwned: new Set(),
@@ -21,7 +21,7 @@ const state = {
   traitQuery: "", traitUsage: "all",
   layers: new Set(defaultLayers), selected: null,
   toolMode: "boss", bossSelected: "", baseTarget: "", baseKind: "item", baseQuery: "", baseQuantity: 1,
-  progress: emptyProgress(), progressKind: "pals", activityMode: "fishing", saveResult: null,
+  progress: emptyProgress(), progressKind: "pals", activityMode: "fishing", tipContext: "all", saveResult: null,
 };
 
 const progressionKinds = {
@@ -828,6 +828,42 @@ function relatedDropPals(item) {
   }).join("")}</div></section>`;
 }
 
+const tipEvidenceLabels = {
+  official: "공식 확인",
+  "game-data": "게임 데이터",
+  "community-verified": "커뮤니티 교차 확인",
+  computed: "계산 결과",
+  editorial: "편집형 추천",
+};
+
+function relatedTips(entityId) {
+  return (state.communityTips?.tips ?? []).filter((tip) =>
+    tip.related.itemIds.includes(entityId) || tip.related.structureIds.includes(entityId));
+}
+
+function renderTipSources(tip) {
+  return `<div class="tip-sources"><strong>확인 자료</strong>${tip.sources.map((source) => `<a href="${safeUrl(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.labelKo)} ↗</a>`).join("")}</div>`;
+}
+
+function renderTipCard(tip, { compact = false } = {}) {
+  const relatedItems = tip.related.itemIds.map((id) => state.itemIndex?.items.get(id)).filter(Boolean);
+  const relatedStructures = tip.related.structureIds.map((id) => state.itemIndex?.structures.get(id)).filter(Boolean);
+  return `<article class="tip-card${compact ? " tip-card-compact" : ""}">
+    <div class="tip-card-meta"><span>${escapeHtml(tipEvidenceLabels[tip.evidenceLevel] || tip.evidenceLevel)}</span><span>v${escapeHtml(tip.gameVersion)}</span>${tip.patchSensitive ? `<strong>패치 민감</strong>` : ""}</div>
+    <h4>${escapeHtml(tip.titleKo)}</h4><p>${escapeHtml(tip.summaryKo)}</p>
+    ${compact ? "" : `<ol>${tip.stepsKo.map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>`}
+    <aside><strong>주의</strong><span>${escapeHtml(tip.cautionKo)}</span></aside>
+    ${compact || (!relatedItems.length && !relatedStructures.length) ? "" : `<div class="tip-related"><strong>관련 데이터</strong>${relatedItems.map((entry) => `<button type="button" data-tip-item="${escapeHtml(entry.id)}">${itemImage(entry, "tip-related-image")}<span>${escapeHtml(localizedItemName(entry))}</span></button>`).join("")}${relatedStructures.map((entry) => `<button type="button" data-tip-structure="${escapeHtml(entry.id)}">${itemImage(entry, "tip-related-image")}<span>${escapeHtml(localizedItemName(entry))}</span></button>`).join("")}</div>`}
+    ${renderTipSources(tip)}
+  </article>`;
+}
+
+function renderRelatedTips(entityId, title = "이 데이터와 함께 보는 공략 팁") {
+  const tips = relatedTips(entityId);
+  if (!tips.length) return "";
+  return `<section class="related-tips"><h4>${escapeHtml(title)}</h4><div>${tips.map((tip) => renderTipCard(tip, { compact: true })).join("")}</div></section>`;
+}
+
 function renderItemDetail() {
   if (!state.itemSelected) return "";
   const isStructure = state.itemKind === "structure";
@@ -848,6 +884,7 @@ function renderItemDetail() {
     <div class="item-detail-grid"><article><h4>직접 필요한 재료</h4>${directMaterials(materials, state.itemQuantity)}</article><article><h4>${isStructure ? "시설 정보" : "제작 정보"}</h4>${isStructure ? `<dl><div><dt>담당 작업</dt><dd>${escapeHtml(localizedStructureValue(entry.workers, "workers"))}</dd></div><div><dt>수용량</dt><dd>${escapeHtml(localizedStructureValue(entry.capacity, "capacity"))}</dd></div><div><dt>전력</dt><dd>${entry.requiresPower ? `필요${entry.energyPerSecond ? ` · 초당 ${entry.energyPerSecond}` : ""}` : "불필요"}</dd></div></dl>` : entry.recipe ? `<dl><div><dt>한 번에 생산</dt><dd>${entry.recipe.outputQuantity.toLocaleString()}개</dd></div><div><dt>제작 시설</dt><dd class="item-station-links">${stationLinks(entry.recipe.stations)}</dd></div></dl>` : `<p class="empty-data">확인된 제작법이 없습니다.</p>`}</article></div>
     ${expansionError ? `<p class="item-error">${escapeHtml(expansionError)}</p>` : expanded ? rawMaterialPanel(expanded) : ""}
     ${!isStructure && entry.patchOverride ? `<aside class="item-patch-note"><strong>v1.0.3 확인 보정</strong><span>${escapeHtml(entry.patchOverride.noteKo)}</span><a href="${safeUrl(entry.patchOverride.sourceUrl)}" target="_blank" rel="noopener noreferrer">공식 패치 ↗</a></aside>` : ""}
+    ${renderRelatedTips(entry.id)}
     ${!isStructure ? relatedDropPals(entry) : ""}
     ${!isStructure && entry.obtainedFrom?.length ? `<details class="item-obtained"><summary>영문 원문 획득처 ${entry.obtainedFrom.length}개</summary><p>출처에 한국어 문장이 없어 원문을 접어서 보관합니다.</p><ul lang="en">${entry.obtainedFrom.slice(0, 80).map((source) => `<li>${escapeHtml(source)}</li>`).join("")}</ul>${entry.obtainedFrom.length > 80 ? `<p>첫 80개 획득처를 표시합니다.</p>` : ""}</details>` : ""}
   </section>`;
@@ -1134,7 +1171,7 @@ function renderTraits() {
   });
 }
 
-const toolLabels = { boss: "보스 대응", base: "생산 플래너", progress: "진행 체크", activities: "낚시·원정", save: "세이브 분석", patch: "패치 비교" };
+const toolLabels = { boss: "보스 대응", base: "생산 플래너", tips: "공략 팁", progress: "진행 체크", activities: "낚시·원정", save: "세이브 분석", patch: "패치 비교" };
 
 function toolNav() {
   return `<div class="tool-nav" role="tablist" aria-label="공략 도구">${Object.entries(toolLabels).map(([id, label]) => `<button type="button" data-tool="${id}" class="${state.toolMode === id ? "active" : ""}">${label}</button>`).join("")}</div>`;
@@ -1156,10 +1193,11 @@ function renderBaseTool() {
   const entryLabel = (entry) => state.baseKind === "structure" ? (entry.nameKo || entry.name) : localizedItemName(entry);
   const query = state.baseQuery.trim().toLocaleLowerCase();
   const matches = entries.filter((entry) => !query || entryLabel(entry).toLocaleLowerCase().includes(query) || entry.name.toLocaleLowerCase().includes(query)).slice(0, 40);
+  const selectedEntry = entries.find((entry) => entry.id === state.baseTarget) ?? null;
   let plan = null; let error = "";
-  try { plan = productionPlan(state.baseKind, state.baseTarget, state.baseQuantity, state.itemIndex, state.details?.pals); } catch (nextError) { error = nextError.message; }
+  try { plan = productionPlan(state.baseKind, state.baseTarget, state.baseQuantity, state.itemIndex, state.details?.pals); } catch (nextError) { error = nextError instanceof RecipeCycleError ? "원재료 데이터에 순환 제작법이 있어 전체 합계를 계산하지 못했습니다." : "생산 계획을 계산하지 못했습니다."; }
   const stationLabel = (name) => state.items.structures.find((structure) => structure.name === name)?.nameKo || name;
-  return `<div class="tool-panel"><div class="tool-controls"><div class="roles"><button type="button" data-base-kind="item" class="${state.baseKind === "item" ? "active" : ""}">아이템</button><button type="button" data-base-kind="structure" class="${state.baseKind === "structure" ? "active" : ""}">시설</button></div><label>목표 검색<input id="base-search" type="search" value="${escapeHtml(state.baseQuery)}" placeholder="한글명 또는 영문명"></label><label>수량<input id="base-quantity" type="number" min="1" max="9999" value="${state.baseQuantity}"></label></div><div class="target-results">${matches.map((entry) => `<button type="button" data-base-target="${escapeHtml(entry.id)}" class="${entry.id === state.baseTarget ? "active" : ""}">${escapeHtml(entryLabel(entry))}</button>`).join("")}</div>${error ? `<p class="error">${escapeHtml(error)}</p>` : plan ? `<article class="tool-summary item-visual-heading">${plan.entry.image ? `<img src="${localAsset(plan.entry.image)}" alt="" class="item-detail-image">` : ""}<div><span>확인된 제작법 기준</span><h3>${escapeHtml(entryLabel(plan.entry))} × ${state.baseQuantity}</h3><p>생산 속도와 최소 인원은 검증 자료가 없어 계산하지 않습니다.</p></div></article><div class="tool-split"><article><h4>최종 원재료</h4><ul>${[...plan.expansion.rawMaterials].map(([id, amount]) => `<li><button type="button" data-open-item="${escapeHtml(id)}">${escapeHtml(localizedItemName(state.itemIndex.items.get(id)))} × ${amount.toLocaleString()}</button></li>`).join("") || "<li>추가 원재료 없음</li>"}</ul></article><article><h4>제작 시설과 작업 후보</h4><p>${plan.stations.map((name) => escapeHtml(stationLabel(name))).join(" · ") || "구조물 직접 건축"}</p>${plan.workers.map((group) => `<p><strong>${escapeHtml(group.candidates[0]?.suitability.label || group.work)}</strong> · ${group.candidates.map((candidate) => `${escapeHtml(displayPalName(candidate.pal.name))} Lv.${candidate.suitability.level}`).join(" · ") || "후보 없음"}</p>`).join("") || `<p>시설 명칭만으로 작업 적성을 확정할 수 없어 후보를 제시하지 않습니다.</p>`}</article></div>` : ""}</div>`;
+  return `<div class="tool-panel"><div class="tool-controls"><div class="roles"><button type="button" data-base-kind="item" class="${state.baseKind === "item" ? "active" : ""}">아이템</button><button type="button" data-base-kind="structure" class="${state.baseKind === "structure" ? "active" : ""}">시설</button></div><label>목표 검색<input id="base-search" type="search" value="${escapeHtml(state.baseQuery)}" placeholder="한글명 또는 영문명"></label><label>수량<input id="base-quantity" type="number" min="1" max="9999" value="${state.baseQuantity}"></label></div><div class="target-results">${matches.map((entry) => `<button type="button" data-base-target="${escapeHtml(entry.id)}" class="${entry.id === state.baseTarget ? "active" : ""}">${escapeHtml(entryLabel(entry))}</button>`).join("")}</div>${error ? `<p class="error">${escapeHtml(error)}</p>` : plan ? `<article class="tool-summary item-visual-heading">${plan.entry.image ? `<img src="${localAsset(plan.entry.image)}" alt="" class="item-detail-image">` : ""}<div><span>확인된 제작법 기준</span><h3>${escapeHtml(entryLabel(plan.entry))} × ${state.baseQuantity}</h3><p>생산 속도와 최소 인원은 검증 자료가 없어 계산하지 않습니다.</p></div></article><div class="tool-split"><article><h4>최종 원재료</h4><ul>${[...plan.expansion.rawMaterials].map(([id, amount]) => `<li><button type="button" data-open-item="${escapeHtml(id)}">${escapeHtml(localizedItemName(state.itemIndex.items.get(id)))} × ${amount.toLocaleString()}</button></li>`).join("") || "<li>추가 원재료 없음</li>"}</ul></article><article><h4>제작 시설과 작업 후보</h4><p>${plan.stations.map((name) => escapeHtml(stationLabel(name))).join(" · ") || "구조물 직접 건축"}</p>${plan.workers.map((group) => `<p><strong>${escapeHtml(group.candidates[0]?.suitability.label || group.work)}</strong> · ${group.candidates.map((candidate) => `${escapeHtml(displayPalName(candidate.pal.name))} Lv.${candidate.suitability.level}`).join(" · ") || "후보 없음"}</p>`).join("") || `<p>시설 명칭만으로 작업 적성을 확정할 수 없어 후보를 제시하지 않습니다.</p>`}</article></div>` : ""}${selectedEntry ? renderRelatedTips(selectedEntry.id, "이 생산 목표와 함께 보는 팁") : ""}</div>`;
 }
 
 function progressGroups() {
@@ -1188,6 +1226,20 @@ function renderActivitiesTool() {
   return `<div class="tool-panel"><div class="roles"><button type="button" data-activity="fishing" class="${state.activityMode === "fishing" ? "active" : ""}">낚시</button><button type="button" data-activity="expedition" class="${state.activityMode === "expedition" ? "active" : ""}">원정</button></div>${state.activityMode === "fishing" ? `<article class="tool-summary"><span>1.0.3 반영</span><h3>낚시 펠 ${activities.fishing.pals.length}종</h3><p>${escapeHtml(activities.fishing.patch103?.changesKo?.join(" · ") || "세계수 낚시 성수 획득처를 반영했습니다.")}</p><button type="button" data-open-fishing-map>낚시터 지도 보기</button></article><div class="tool-card-grid fishing-grid">${activities.fishing.pals.map((entry) => `<article>${palImage(entry.pal, "tool-pal-image")}<h4>${escapeHtml(displayPalName(entry.pal))}</h4><p>낚시 레벨 ${entry.minLevel}–${entry.maxLevel}</p></article>`).join("")}</div>` : `<div class="expedition-list">${activities.expeditions.map((mission) => `<article><span>${escapeHtml(difficultyLabels[mission.difficulty] || mission.difficulty)} · ${mission.durationMinutes}분</span><h3>${escapeHtml(mission.nameKo)}</h3><p>요구 화력 ${mission.requiredFirepower.toLocaleString()}${mission.elementRequirement ? ` · ${escapeHtml(elementLabels[mission.elementRequirement.element] || mission.elementRequirement.element)} 속성 펠 ${mission.elementRequirement.palsRequired}마리` : ""}</p><div><strong>확정</strong> ${mission.rewards.filter((reward) => reward.certainty === "guaranteed").map((reward) => `${escapeHtml(rewardLabel(reward))} ${escapeHtml(reward.quantity)}`).join(" · ") || "없음"}</div><div><strong>확률</strong> ${mission.rewards.filter((reward) => reward.certainty !== "guaranteed").map((reward) => `${escapeHtml(rewardLabel(reward))} ${reward.chancePct}%`).join(" · ") || "없음"}</div></article>`).join("")}</div>`}</div>`;
 }
 
+function renderTipsTool() {
+  const tips = state.communityTips?.tips ?? [];
+  if (!tips.length) return `<p class="empty-data">검증된 공략 팁 데이터를 불러오지 못했습니다.</p>`;
+  const contexts = {
+    all: "전체",
+    capture: "포획",
+    base: "거점",
+    inventory: "인벤토리",
+    exploration: "탐험",
+  };
+  const visible = state.tipContext === "all" ? tips : tips.filter((tip) => tip.contexts.includes(state.tipContext));
+  return `<div class="tool-panel tips-panel"><article class="tool-summary"><span>v${escapeHtml(state.communityTips.gameVersion)} · 출처 교차 확인</span><h3>바로 써먹는 공략 팁</h3><p>공식 기능과 커뮤니티 활용법을 구분하고, 패치에 따라 달라질 수 있는 팁은 경고를 붙였습니다.</p></article><div class="roles tip-contexts" role="tablist" aria-label="공략 팁 분류">${Object.entries(contexts).map(([id, label]) => `<button type="button" data-tip-context="${id}" class="${state.tipContext === id ? "active" : ""}">${label}<span>${id === "all" ? tips.length : tips.filter((tip) => tip.contexts.includes(id)).length}</span></button>`).join("")}</div><div class="tips-grid">${visible.map((tip) => renderTipCard(tip)).join("")}</div></div>`;
+}
+
 function renderSaveTool() {
   const result = state.saveResult;
   return `<div class="tool-panel"><article class="tool-summary"><span>읽기 전용 · 브라우저 내부 처리</span><h3>Palworld 1.0 세이브 분석</h3><p>원본 파일을 수정하거나 업로드하지 않습니다. 현재 PlZ(zlib)만 분석하며 PlM(Oodle)과 CNK는 이유를 표시하고 거부합니다.</p><label class="button-label">.sav 파일 선택<input id="save-file" type="file" accept=".sav"></label></article>${result ? `<article class="save-result"><h4>${escapeHtml(result.format || "분석 결과")}</h4><p>${escapeHtml(result.reason || result.error || `압축 해제 ${Number(result.decompressedSize).toLocaleString()}바이트 · 펠 후보 ${result.pals.length}종`)}</p>${result.pals?.length ? `<div class="tool-card-grid">${result.pals.map((name) => `<article>${palImage(name, "tool-pal-image")}<h4>${escapeHtml(displayPalName(name))}</h4></article>`).join("")}</div><button type="button" data-apply-save-pals>번식 보유 펠에 반영</button>` : ""}</article>` : ""}</div>`;
@@ -1204,7 +1256,7 @@ function downloadProgress() {
 }
 
 function renderTools() {
-  const panels = { boss: renderBossTool, base: renderBaseTool, progress: renderProgressTool, activities: renderActivitiesTool, save: renderSaveTool, patch: renderPatchTool };
+  const panels = { boss: renderBossTool, base: renderBaseTool, tips: renderTipsTool, progress: renderProgressTool, activities: renderActivitiesTool, save: renderSaveTool, patch: renderPatchTool };
   content.innerHTML = `${sectionHeading("도구", "한 화면에서 이어 쓰는 공략 도구", "계산 결과와 출처 상태를 분리하고 개인 데이터는 브라우저에만 저장합니다.")}${toolNav()}${panels[state.toolMode]()}`;
   content.querySelectorAll("[data-tool]").forEach((button) => button.addEventListener("click", () => { state.toolMode = button.dataset.tool; renderTools(); }));
   document.querySelector("#boss-select")?.addEventListener("change", (event) => { state.bossSelected = event.target.value; renderTools(); });
@@ -1220,6 +1272,9 @@ function renderTools() {
   document.querySelector("#progress-import")?.addEventListener("change", async (event) => { try { state.progress = importProgress(await event.target.files[0].text(), Object.values(progressGroups()).flat().map((entry) => entry.id)); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); } catch (error) { alert(`가져오기 실패: ${error.message}`); } });
   content.querySelector("[data-progress-reset]")?.addEventListener("click", () => { if (!confirm("현재 진행 상태를 백업한 뒤 모두 초기화할까요?")) return; downloadProgress(); state.progress = emptyProgress(); saveProgress(localStorage, "palworld-guide-progress", state.progress); renderTools(); });
   content.querySelectorAll("[data-activity]").forEach((button) => button.addEventListener("click", () => { state.activityMode = button.dataset.activity; renderTools(); }));
+  content.querySelectorAll("[data-tip-context]").forEach((button) => button.addEventListener("click", () => { state.tipContext = button.dataset.tipContext; renderTools(); }));
+  content.querySelectorAll("[data-tip-item]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "item"; state.itemSelected = button.dataset.tipItem; state.itemQuery = ""; selectTab("items"); }));
+  content.querySelectorAll("[data-tip-structure]").forEach((button) => button.addEventListener("click", () => { state.itemKind = "structure"; state.itemSelected = button.dataset.tipStructure; state.itemQuery = ""; selectTab("items"); }));
   content.querySelector("[data-open-fishing-map]")?.addEventListener("click", () => { state.layers = new Set(["fishing", "rare_fishing"]); state.mapId = "main"; syncMapUrl(); selectTab("map"); });
   document.querySelector("#save-file")?.addEventListener("change", async (event) => { const file = event.target.files[0]; if (!file) return; if (file.size > 512 * 1024 * 1024) { state.saveResult = { error: "512MB를 초과하는 파일은 브라우저 메모리 보호를 위해 거부했습니다." }; renderTools(); return; } try { state.saveResult = await analyzeSave(await file.arrayBuffer(), Object.values(state.details?.pals ?? {})); } catch (error) { state.saveResult = { error: error.message }; } renderTools(); });
   content.querySelector("[data-apply-save-pals]")?.addEventListener("click", () => { for (const name of state.saveResult.pals) { const match = state.breeding?.pals.find((pal) => pal.name === name); if (match) state.breedOwned.add(match.id); } localStorage.setItem(BREEDING_STORAGE_KEY, JSON.stringify([...state.breedOwned])); renderTools(); });
@@ -1295,11 +1350,12 @@ Promise.all([
   fetch("./data/item-localization-report.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/map-pois.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/activities.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
+  fetch("./data/community-tips.json?v=1.14.1", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/patch-report.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
-]).then(([data, assets, traits, details, breeding, items, itemReport, mapPois, activities, patchReport]) => {
+]).then(([data, assets, traits, details, breeding, items, itemReport, mapPois, activities, communityTips, patchReport]) => {
   state.data = data; state.assets = assets; state.traits = traits; state.details = details; state.breeding = breeding;
   if (breeding) { state.breedingIndex = createBreedingIndex(breeding); loadBreedOwned(); }
-  state.items = items; state.itemReport = itemReport; state.mapPois = mapPois; state.activities = activities; state.patchReport = patchReport; if (items) state.itemIndex = createItemIndex(items);
+  state.items = items; state.itemReport = itemReport; state.mapPois = mapPois; state.activities = activities; state.communityTips = communityTips; state.patchReport = patchReport; if (items) state.itemIndex = createItemIndex(items);
   const validProgressIds = Object.values(progressGroups()).flat().map((entry) => entry.id);
   state.progress = loadProgress(localStorage, "palworld-guide-progress", validProgressIds);
   const mapState = parseMapState(location.search, [...new Set(allMapPoints().map((point) => point.category))], ["main", "world_tree", "sunreach"]);

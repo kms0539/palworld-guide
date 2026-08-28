@@ -107,6 +107,13 @@
       "updateMode": "manual-on-patch"
     },
     {
+      "id": "community-tips",
+      "path": "data/community-tips.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
       "id": "patch-report",
       "path": "data/patch-report.json",
       "schemaVersion": 1,
