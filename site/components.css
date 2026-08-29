@@ -1,0 +1,332 @@
+/*
+ * 공통 토큰과 재사용 컴포넌트.
+ *
+ * styles.css(기본 레이아웃) 다음, enhancements.css(화면별 세부) 앞에 로드한다.
+ * 화면마다 따로 쓰던 탭·칩·패널·필드 스타일을 여기 한 곳으로 모으고,
+ * 개별 파일에는 그 화면에서만 필요한 차이점만 남긴다.
+ */
+
+:root {
+  /* 글자 크기: 한글 UI 기준으로 11px를 하한선으로 둔다.
+     예전에는 7~11px가 124곳에 흩어져 있어 화면마다 크기가 달랐다. */
+  --fs-2xs: 11px;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 14px;
+  --fs-base: 15px;
+  --fs-lg: 16px;
+
+  --lh-tight: 1.4;
+  --lh-body: 1.65;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+
+  --r-sm: 8px;
+  --r-md: 11px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+
+  --surface-1: rgba(10, 31, 49, .86);
+  --surface-2: rgba(8, 22, 37, .7);
+  --accent-soft: rgba(89, 200, 255, .12);
+  --accent-line: rgba(89, 200, 255, .38);
+
+  /* 포커스 링은 파란 강조색과 겹치지 않도록 금색을 쓴다. */
+  --focus-ring: #ffd875;
+
+  /* 손가락·마우스 모두 놓치지 않을 최소 크기 */
+  --tap: 40px;
+}
+
+/* ── 기본 타이포그래피 ─────────────────────────────────────────── */
+
+body {
+  /* Pretendard·Noto Sans KR은 설치돼 있지 않은 환경이 많아 라틴 문자는
+     Segoe UI, 한글은 시스템 대체 글꼴로 따로 그려지면서 자간과 굵기가
+     어긋났다. 한글을 담당하는 글꼴을 앞에 두어 한 벌로 그리게 한다. */
+  font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Noto Sans KR", system-ui, "Segoe UI", sans-serif;
+  line-height: var(--lh-body);
+  /* 한글은 어절 안에서 줄바꿈하지 않아야 읽기 쉽다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+h1, h2, h3, h4 { line-height: var(--lh-tight); }
+
+/* ── 포커스 표시 ───────────────────────────────────────────────
+   키보드로 이동할 때 어디에 있는지 보이지 않으면 탐색 자체가 막힌다.
+   마우스 클릭에는 나타나지 않는 :focus-visible만 사용한다. */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ── 탭 묶음 ───────────────────────────────────────────────────
+   주 메뉴, 역할 필터, 도구 전환 등 "여러 개 중 하나 고르기"는 모두 같은 모양. */
+
+.tabs,
+nav,
+.roles {
+  display: flex;
+  gap: var(--sp-1);
+  overflow: auto;
+  padding: var(--sp-1);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: rgba(10, 25, 41, .92);
+  scrollbar-width: thin;
+}
+
+.tab,
+nav button,
+.roles button {
+  flex: 0 0 auto;
+  min-height: var(--tap);
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--fs-md);
+  cursor: pointer;
+}
+
+.tab:hover,
+.tab.active,
+nav button:hover,
+nav button.active,
+.roles button:hover,
+.roles button.active {
+  background: var(--accent-soft);
+  color: #d9f3ff;
+}
+
+/* 역할 필터 줄은 본문 안에 들어가므로 테두리 없이 더 옅게 둔다. */
+.roles {
+  width: max-content;
+  max-width: 100%;
+  margin: var(--sp-5) 0;
+  border: 0;
+  background: rgba(3, 13, 23, .45);
+}
+
+/* 분리형 탭: 배경 묶음 없이 버튼 자체가 경계를 갖는 형태 */
+.segmented,
+.item-kind-tabs,
+.breeding-modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.segmented button,
+.item-kind-tabs button,
+.breeding-modes button {
+  min-height: var(--tap);
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.segmented button.active,
+.item-kind-tabs button.active,
+.breeding-modes button.active {
+  border-color: var(--sky);
+  background: var(--accent-soft);
+  color: #fff;
+}
+
+/* ── 칩(알약형 버튼) ───────────────────────────────────────────
+   빠른 찾기, 도구 전환, 레이어 조작처럼 짧은 낱말 버튼에 공통으로 쓴다. */
+
+.chip,
+.tool-nav button,
+.progress-actions button,
+.button-label,
+.item-quick-search button,
+.layer-actions button {
+  flex: 0 0 auto;
+  min-height: var(--tap);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 8px 13px;
+  background: var(--surface-1);
+  color: var(--muted);
+  font: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.chip:hover,
+.tool-nav button:hover,
+.progress-actions button:hover,
+.button-label:hover,
+.item-quick-search button:hover,
+.layer-actions button:hover {
+  border-color: var(--accent-line);
+  color: #d9f3ff;
+}
+
+.chip.active,
+.tool-nav button.active,
+.item-quick-search button.active {
+  border-color: var(--sky);
+  background: rgba(89, 200, 255, .15);
+  color: #fff;
+}
+
+/* ── 패널 ─────────────────────────────────────────────────────
+   "작은 제목 + 본문"을 담는 상자. 화면마다 테두리 색만 다르다. */
+
+.panel {
+  padding: var(--sp-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: rgba(9, 25, 41, .7);
+}
+
+.panel-head,
+.panel > header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.panel-head span,
+.panel > header span {
+  color: var(--sky);
+  font-size: var(--fs-xs);
+  font-weight: 800;
+}
+
+.panel-head h4,
+.panel > header h4 {
+  margin: 3px 0 11px;
+}
+
+/* ── 입력 필드 ─────────────────────────────────────────────── */
+
+.field label,
+.search-row label {
+  color: var(--sky2);
+  font-size: var(--fs-sm);
+}
+
+.field input,
+.search-row input,
+.tool-controls input,
+select {
+  min-height: var(--tap);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  background: #071522;
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--fs-md);
+}
+
+.field input:focus,
+.search-row input:focus {
+  border-color: rgba(89, 200, 255, .7);
+  box-shadow: 0 0 0 3px rgba(89, 200, 255, .09);
+}
+
+/* ── 작은 라벨 ─────────────────────────────────────────────── */
+
+.tag {
+  display: inline-block;
+  border-radius: var(--r-pill);
+  padding: 3px 9px;
+  background: rgba(148, 197, 238, .14);
+  color: var(--sky2);
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+}
+
+/* 화면에는 없지만 보조 기기에는 읽히는 설명 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 처음 온 사람에게 이 화면에서 무엇을 할 수 있는지 알려주는 안내 줄 */
+.screen-hint {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: var(--sp-3) 0 var(--sp-4);
+  padding: 11px 14px;
+  border: 1px solid rgba(89, 200, 255, .18);
+  border-radius: var(--r-md);
+  background: rgba(89, 200, 255, .05);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+}
+
+.screen-hint strong {
+  flex: 0 0 auto;
+  color: var(--sky2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ── 누르는 영역 보정 ─────────────────────────────────────────
+   체크박스와 목록 버튼이 13~32px로 작아 손가락으로 놓치기 쉬웠다. */
+
+.map-layout label,
+.check-grid label {
+  min-height: var(--tap);
+}
+
+.map-layout label input[type="checkbox"],
+.check-grid input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--sky);
+}
+
+.target-results button,
+.tool-split li button {
+  min-height: 36px;
+}
+
+@media (max-width: 760px) {
+  /* 좁은 화면에서 가로 스크롤 안에 숨어 있던 필터를 모두 보이게 접는다.
+     주 메뉴(nav)는 화면 위에 고정되므로 접지 않고 그대로 옆으로 넘긴다. */
+  .tabs,
+  .roles,
+  .tool-nav,
+  .target-results {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .roles { width: 100%; }
+}

@@ -89,6 +89,17 @@ aquatic.patchOverride = {
   noteKo: "공식 v1.0.3 변경 공지와 현행 위키의 게임 내 수치로 보정",
 };
 
+const jetragonGear = items.find((item) => item.name === "Jetragon's Missile Launcher");
+if (!jetragonGear) throw new Error("Jetragon's Missile Launcher is missing");
+jetragonGear.techLevel = 70;
+jetragonGear.dataVersion = "1.0.3";
+jetragonGear.patchOverride = {
+  sourceUrl: "https://steamcommunity.com/ogg/1623730/announcements/detail/695395286786244642",
+  checkedAt,
+  evidenceLevel: "official",
+  noteKo: "공식 v1.0.3 변경 공지에 따라 해금 요구 레벨을 79에서 70으로 보정",
+};
+
 const itemIds = new Set(items.map((item) => item.id));
 if (itemIds.size !== items.length) throw new Error("duplicate item ID");
 for (const item of items) {

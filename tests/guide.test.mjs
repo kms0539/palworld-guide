@@ -168,7 +168,7 @@ test("trait catalogue explains every trait the guide names", async () => {
 
   // The tab splits by what the trait is actually for.
   assert.match(app, /function traitUsage/);
-  assert.match(app, /data-trait-usage=/);
+  assert.match(app, /data-trait-usage/); // 탭 묶음이 tabGroup 공통 컴포넌트로 바뀌어 속성은 값으로 전달된다
   for (const label of ["전투용", "거점용", "피해야 할 특성"]) assert.ok(app.includes(label), `missing filter: ${label}`);
 
   // Every catalogue entry must land in at least one usage bucket, or a filter

@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "1.0.3",
+  "updatedAt": "2026-08-29",
+  "sourceDocument": "../../docs/korean-data-reference-1.0.3.md",
+  "patchChanges": [
+    {
+      "id": "jetragon-gear-level",
+      "categoryKo": "테크 장비",
+      "titleKo": "제트래곤의 미사일 발사기",
+      "changeKo": "해금 요구 레벨을 79에서 70으로 낮추고 제작 재료를 완화했습니다.",
+      "entityId": "item:jetragon-s-missile-launcher",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "aquatic-construction-kit",
+      "categoryKo": "테크 장비",
+      "titleKo": "수상 건축 키트",
+      "changeKo": "해금 레벨을 23, 고대 기술 포인트를 1로 낮추고 작업량과 제작 재료를 완화했습니다.",
+      "entityId": "item:aquatic-construction-kit",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "world-tree-holy-water",
+      "categoryKo": "소모품",
+      "titleKo": "세계수의 성수",
+      "changeKo": "무게를 0.1로 낮추고 지속 시간을 늘렸으며 세계수 원정·낚시 보상에 추가했습니다.",
+      "entityId": "item:world-tree-holy-water",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "crude-oil-extractor",
+      "categoryKo": "거점 시설",
+      "titleKo": "원유 추출기",
+      "changeKo": "건설 비용을 절반으로 낮추고 원유 생산 속도를 높였습니다.",
+      "entityId": "structure:crude-oil-extractor",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "high-pressure-crude-oil-extractor",
+      "categoryKo": "거점 시설",
+      "titleKo": "원유 추출기(고압형)",
+      "changeKo": "건설 비용과 생산 속도를 조정하고 원유 추출 미션의 완수 대상으로 인정되도록 수정했습니다.",
+      "entityId": "structure:high-pressure-crude-oil-extractor",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "large-power-generator",
+      "categoryKo": "거점 시설",
+      "titleKo": "대형 발전기",
+      "changeKo": "건설 비용을 낮추고 전력 생산 효율을 높였습니다.",
+      "entityId": "structure:large-power-generator",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "enemy-camp-near-base-setting",
+      "categoryKo": "서버 설정",
+      "titleKo": "거점 근처 적 캠프 스폰 허용",
+      "changeKo": "데디케이트 서버 옵션 bAllowEnemyCampSpawnNearBaseCamp를 추가했습니다.",
+      "entityId": null,
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    },
+    {
+      "id": "fiber-from-lumbering",
+      "categoryKo": "자원",
+      "titleKo": "섬유",
+      "changeKo": "나무를 벌목할 때 얻는 섬유 획득량을 2배로 늘렸습니다.",
+      "entityId": "item:fiber",
+      "evidenceLevel": "official",
+      "sourceUrl": "https://store.steampowered.com/news/app/1623730/view/695395286786244641?l=koreana"
+    }
+  ],
+  "builds": [
+    {
+      "id": "paladius-necromus-duo",
+      "kind": "combat",
+      "pal": "Paladius",
+      "title": "팔라디우스·켄타나이트 지상 기동 조합",
+      "summary": "좁은 던전과 실내에서 다단 점프와 물리·어둠 화력을 번갈아 사용하는 지상 전투 조합입니다.",
+      "passives": ["전설", "냉철함", "사나움", "성령 또는 명왕"],
+      "skills": ["팰 블래스터", "돌진 슬래시", "다크 레이저"],
+      "usage": "팔라디우스는 무속성·3단 점프, 켄타나이트는 어둠·2단 점프 역할로 나누고 실내에서는 비행 펠 대신 교대 운용하세요."
+    },
+    {
+      "id": "lyleen-raid-healer",
+      "kind": "combat",
+      "pal": "Lyleen",
+      "title": "릴린 즉시 회복 서포터",
+      "summary": "고난도 보스전에서 파티의 큰 피해를 즉시 복구하는 회복 전담 슬롯입니다.",
+      "passives": ["전설", "정령왕", "냉철함", "신속"],
+      "skills": ["파트너 회복", "풀 속성 견제", "긴급 교대"],
+      "usage": "큰 광역 공격 직후 회복을 사용하고, 회복 재사용 대기 중에는 상성 딜러를 전개하세요."
+    },
+    {
+      "id": "jormuntide-ignis-base-kindling",
+      "kind": "base",
+      "pal": "Jormuntide Ignis",
+      "title": "불 피우기 종결 작업",
+      "summary": "주괴와 케이크 생산 대기열을 전담하는 고단계 불 피우기 작업자입니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["화로 주변 통로 확보", "불 피우기 작업 고정"],
+      "usage": "덩치가 큰 펠이므로 화로 사이 간격을 넓히고 다른 작업으로 새지 않도록 우선순위를 지정하세요."
+    },
+    {
+      "id": "jormuntide-base-watering",
+      "kind": "base",
+      "pal": "Jormuntide",
+      "title": "관개 종결 작업",
+      "summary": "대형 농장과 분쇄기 대기열을 빠르게 처리하는 관개 전담 작업자입니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["농장·분쇄기 동선 단축", "관개 작업 고정"],
+      "usage": "농장과 분쇄기를 같은 작업 구역에 모아 긴 이동과 끼임을 줄이세요."
+    },
+    {
+      "id": "lyleen-base-planting",
+      "kind": "base",
+      "pal": "Lyleen",
+      "title": "파종 종결 작업",
+      "summary": "대형 농장의 파종을 전담하고 비는 시간에는 수작업·제약을 보조합니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["파종 최우선", "제약·수작업은 후순위"],
+      "usage": "농장 대기열이 자주 멈추면 파종을 최우선으로 고정하고 보조 작업 우선순위를 낮추세요."
+    },
+    {
+      "id": "anubis-base-handiwork",
+      "kind": "base",
+      "pal": "Anubis",
+      "title": "수작업 종결 작업",
+      "summary": "제작 대기열을 빠르게 처리하고 비는 시간에는 채굴과 운반을 보조합니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["수작업 최우선", "채굴·운반 후순위"],
+      "usage": "대형 제작 대기열을 넣을 때 제작 시설에 고정 배치해 채굴장으로 이탈하지 않게 하세요."
+    },
+    {
+      "id": "orserk-base-power",
+      "kind": "base",
+      "pal": "Orserk",
+      "title": "발전 종결 작업",
+      "summary": "종반 거점의 대형 발전기와 상시 전력망을 담당합니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["발전 작업 고정", "야간 가동 유지"],
+      "usage": "발전기를 이동이 짧은 전용 구역에 두고 다른 작업보다 발전 우선순위를 높이세요."
+    },
+    {
+      "id": "astegon-base-mining",
+      "kind": "base",
+      "pal": "Astegon",
+      "title": "채굴 종결 작업",
+      "summary": "금속·석탄 채굴장을 밤낮없이 운용하는 채굴 전담 작업자입니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["채굴 작업 고정", "운반 담당 별도 배치"],
+      "usage": "채굴과 운반을 분리하고 광석이 바닥에 쌓이지 않도록 운반 팰을 함께 배치하세요."
+    },
+    {
+      "id": "wumpo-botan-base-transport",
+      "kind": "base",
+      "pal": "Wumpo Botan",
+      "title": "운반 종결 작업",
+      "summary": "한 번에 많은 물자를 옮기는 대형 운반 전담 작업자입니다.",
+      "passives": ["신속", "달리기 왕", "전설", "일 노예"],
+      "skills": ["보관함을 생산 시설 가까이 배치", "운반 동선 단순화"],
+      "usage": "이동 속도보다 동선 길이의 영향이 크므로 생산 시설마다 가까운 보관함을 두세요."
+    },
+    {
+      "id": "bastigor-base-cooling",
+      "kind": "base",
+      "pal": "Bastigor",
+      "title": "냉각 종결 작업",
+      "summary": "대형 냉장 시설을 전담해 음식과 재료의 부패를 늦춥니다.",
+      "passives": ["장인 기질", "일 노예", "성실함", "불면"],
+      "skills": ["냉각 작업 고정", "냉장고 인접 배치"],
+      "usage": "냉각 담당이 다른 작업으로 이동하지 않도록 냉장 시설을 전용 구역에 배치하세요."
+    },
+    {
+      "id": "jetragon-speed-mount",
+      "kind": "travel",
+      "pal": "Jetragon",
+      "title": "장거리 비행 이동 세팅",
+      "summary": "전 맵 장거리 왕복과 고속 탐험에 맞춘 비행 전용 세팅입니다.",
+      "passives": ["전설", "신속", "달리기 왕", "재빠름"],
+      "skills": ["전투용 개체와 이동용 개체 분리"],
+      "usage": "속도 특성을 모두 갖춘 별도 개체를 육성해 전투 특성과 섞이지 않게 관리하세요."
+    },
+    {
+      "id": "fenglope-dungeon-mount",
+      "kind": "travel",
+      "pal": "Fenglope",
+      "title": "던전·지상 기동 세팅",
+      "summary": "좁은 던전에서 2단 점프와 돌진으로 지형을 빠르게 넘는 지상 탈것입니다.",
+      "passives": ["전설", "신속", "달리기 왕", "재빠름"],
+      "skills": ["돌진 이동기", "2단 점프"],
+      "usage": "비행 펠이 끼기 쉬운 동굴과 실내에서 교체해 사용하세요."
+    },
+    {
+      "id": "pyrin-fire-mount",
+      "kind": "travel",
+      "pal": "Pyrin",
+      "title": "지상 질주·화염 변환 세팅",
+      "summary": "빠른 지상 이동과 탑승 중 플레이어 공격의 불 속성 변환을 함께 활용합니다.",
+      "passives": ["전설", "신속", "달리기 왕", "재빠름"],
+      "skills": ["불 약점 상대 탑승 사격", "지상 장거리 질주"],
+      "usage": "풀·얼음 속성 상대에게 탑승 사격을 쓰고, 물 속성 상대에게는 번개 변환 탈것으로 교체하세요."
+    }
+  ],
+  "systems": [
+    {
+      "id": "pal-surgery-table",
+      "kind": "system",
+      "title": "팰 수술대",
+      "summary": "약물과 임플란트로 원하는 특성을 직접 조정해 종결 개체 육성 시간을 줄입니다.",
+      "passives": ["개체값이 좋은 개체를 먼저 선별", "임플란트 적용 전 결과 확인"],
+      "skills": ["특성 슬롯 변경", "육성 개체 재활용"],
+      "usage": "교배로 기본 개체를 확보한 뒤 수술대를 최종 특성 보정 단계로 사용하세요."
+    },
+    {
+      "id": "pal-essence-condenser",
+      "kind": "system",
+      "title": "팰 농축 포드",
+      "summary": "1성 4마리, 2성 16마리, 3성 32마리, 4성 64마리로 총 116마리를 합성하는 최종 강화 단계입니다.",
+      "passives": ["4단계 농축", "작업 적성 +1", "HP·공격·방어 강화"],
+      "skills": ["동일 종 116마리 준비", "작업·전투 개체 구분"],
+      "usage": "농축 대상의 특성과 역할을 확정한 뒤 재료 개체를 투입하세요."
+    },
+    {
+      "id": "statue-of-power",
+      "kind": "system",
+      "title": "힘의 석상 영혼 강화",
+      "summary": "팰 영혼을 사용해 HP·공격·방어·작업 속도를 각각 최대 30%까지 영구 강화합니다.",
+      "passives": ["HP 강화", "공격 강화", "방어 강화", "작업 속도 강화"],
+      "skills": ["전투용은 공격·생존 우선", "작업용은 작업 속도 우선"],
+      "usage": "희귀 영혼은 역할이 확정된 종결 개체부터 투자하세요."
+    }
+  ]
+}

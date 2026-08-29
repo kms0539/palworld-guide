@@ -1,5 +1,5 @@
 import { breed, createBreedingIndex, findParentPairs, findShortestPath } from "./breeding-engine.js?v=1.12.0";
-import { createItemIndex, expandItemMaterials, expandStructureMaterials, RecipeCycleError } from "./item-engine.js?v=1.12.0";
+import { buildCraftTree, buildStructureCraftTree, createItemIndex, expandItemMaterials, expandStructureMaterials, RecipeCycleError, summarizeCraftTree } from "./item-engine.js?v=1.14.2";
 import { filterAndSortItems, itemAssetPath, itemCategoryLabels, itemEnglishAlias, localizedItemName, localizedStructureValue } from "./item-catalog.js?v=1.13.0";
 import { parseMapState, createMapSearch } from "./map-state.js?v=1.13.0";
 import { bossTypeLabels, recommendBossPals } from "./boss-engine.js?v=1.13.0";
@@ -19,7 +19,7 @@ const defaultLayers = [
 ];
 
 const state = {
-  data: null, assets: null, traits: null, traitIndex: null, details: null, detailIndex: null, breeding: null, breedingIndex: null, items: null, itemIndex: null, itemReport: null, mapPois: null, activities: null, communityTips: null, patchReport: null,
+  data: null, assets: null, traits: null, traitIndex: null, details: null, detailIndex: null, breeding: null, breedingIndex: null, items: null, itemIndex: null, itemReport: null, mapPois: null, activities: null, communityTips: null, endgameReference: null, patchReport: null,
   tab: "recommendations", role: "combat", palRole: "all",
   palQuery: "", palElement: "all", palWork: "all", palSort: "paldex", palSelected: null, palCompare: new Set(),
   breedingMode: "pair", breedParentA: "", breedParentB: "", breedTarget: "", breedOwnedAdd: "", breedOwned: new Set(),
@@ -430,6 +430,31 @@ function buildSourceLabel(url) {
   return "근거 자료";
 }
 
+// 화면마다 다시 쓰던 "여러 개 중 하나 고르기" 줄을 한 곳에서 만든다.
+// 선택 상태를 aria-pressed로 알려 주어 낭독기에서도 지금 무엇이 켜져 있는지 알 수 있다.
+// label과 extra는 이미 이스케이프된 HTML로 넘긴다.
+function tabGroup(items, { active, attr, ariaLabel, className = "tabs roles" }) {
+  return `<div class="${className}" role="group"${ariaLabel ? ` aria-label="${escapeHtml(ariaLabel)}"` : ""}>${items.map((item) => {
+    const isActive = item.id === active;
+    return `<button type="button" ${attr}="${escapeHtml(item.id)}" class="tab${isActive ? " active" : ""}${item.className ? ` ${item.className}` : ""}" aria-pressed="${isActive}">${item.label}${item.extra ?? ""}</button>`;
+  }).join("")}</div>`;
+}
+
+// 결과만 다시 그릴 때는 탭 묶음이 남아 있으므로 선택 표시를 손으로 맞춘다.
+// class와 aria-pressed를 함께 바꿔야 눈으로 보는 상태와 낭독기가 읽는 상태가 어긋나지 않는다.
+function syncTabState(attr, active) {
+  content.querySelectorAll(`[${attr}]`).forEach((button) => {
+    const isActive = button.getAttribute(attr) === active;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+}
+
+// 처음 방문한 사람이 이 화면에서 무엇을 할 수 있는지 한 줄로 알려 준다.
+function screenHint(text) {
+  return `<p class="screen-hint"><strong>이렇게 쓰세요</strong><span>${escapeHtml(text)}</span></p>`;
+}
+
 function sectionHeading(number, title, note) {
   return `<div class="heading"><div><span>${number}</span><h2>${title}</h2></div><p data-heading-note>${note}</p></div>`;
 }
@@ -539,8 +564,8 @@ function recommendedWorkTraits() {
 function renderRecommendations() {
   const items = state.data.editorial[state.role] ?? [];
   content.innerHTML = `${sectionHeading("01", "목적별 추천 펠", "외부 공략을 한글로 요약한 참고 순위")}
-    <div class="roles">${["combat", "base", "support", "travel", "breeding", "early"].map((role) =>
-      `<button type="button" data-role="${role}" class="${state.role === role ? "active" : ""}">${labels[role]}</button>`).join("")}</div>
+    ${screenHint("아래 줄에서 목적(전투·거점 등)을 고르면 그 목적에 맞는 순위가 바뀝니다. 카드를 눌러 상세로 이동하세요.")}
+    ${tabGroup(["combat", "base", "support", "travel", "breeding", "early"].map((role) => ({ id: role, label: escapeHtml(labels[role]) })), { active: state.role, attr: "data-role", ariaLabel: "추천 목적" })}
     <div class="cards">${items.map((item) => {
       const palName = state.role === "early" ? item.role : item.pal;
       const metric = recommendationMetric(palName);
@@ -582,6 +607,7 @@ function renderProgression() {
   const kind = progressionKinds[state.progressionKind] || progressionKinds.combat;
   const pals = stage.pals.filter((item) => item.kind === state.progressionKind);
   content.innerHTML = `${sectionHeading("02", "성장 단계별 추천", "획득 시점·역할·다음 교체 시점을 함께 확인")}
+    ${screenHint("지금 내 레벨과 가까운 단계를 고르면 그 구간에서 쓸 펠과 교체 시점을 알려 줍니다.")}
     <div class="stage-timeline" role="tablist" aria-label="성장 단계 선택">${progressionStages.map((item, index) => `<button type="button" role="tab" data-stage="${item.id}" aria-selected="${stage.id === item.id}" class="${stage.id === item.id ? "active" : ""}"><span>${String(index + 1).padStart(2, "0")}</span><strong>${item.label}</strong><small>${item.levels}</small></button>`).join("")}</div>
     <div class="progression-kind-tabs" role="tablist" aria-label="성장 추천 유형 선택">${Object.entries(progressionKinds).map(([id, item]) => `<button type="button" role="tab" data-progression-kind="${id}" aria-selected="${state.progressionKind === id}" class="${state.progressionKind === id ? "active" : ""}">${item.label}<span>${stage.pals.filter((pal) => pal.kind === id).length}</span></button>`).join("")}</div>
     <section class="stage-summary"><div><span>${escapeHtml(stage.levels)}</span><h3>${escapeHtml(stage.label)} ${escapeHtml(kind.label)} 추천 펠</h3><p>${escapeHtml(stage.summary)} ${escapeHtml(kind.description)}</p></div><strong>${escapeHtml(stage.checkpoint)}</strong></section>
@@ -684,7 +710,7 @@ function palResultsMarkup() {
   const items = rolePals();
   const roleOptions = ["all", "combat", "base", "ranch", "early", "groundMount", "flyingMount", "waterMount"];
   setHeadingNote(`${items.length}마리 검색 · 필터 · 정렬 · 최대 3마리 비교`);
-  return `<div class="roles">${roleOptions.map((role) => `<button type="button" data-pal-role="${role}" class="${state.palRole === role ? "active" : ""}">${role === "all" ? "전체" : labels[role]}</button>`).join("")}</div>
+  return `${tabGroup(roleOptions.map((role) => ({ id: role, label: escapeHtml(role === "all" ? "전체" : labels[role]) })), { active: state.palRole, attr: "data-pal-role", ariaLabel: "펠 역할 필터" })}
     ${renderPalComparison()}${renderPalDetail()}
     <div class="pal-grid">${items.slice(0, 160).map((pal) => { const detail = palDetailBySlug(pal.slug); const compared = state.palCompare.has(pal.slug); return `<article class="pal-card ${state.palSelected === pal.slug ? "selected" : ""}"><button type="button" class="pal-card-open" data-pal-detail="${escapeHtml(pal.slug)}">${palImage(pal.name)}<span class="sr-only">${escapeHtml(displayPalName(pal.name))} 상세 보기</span></button><div><span>#${escapeHtml(dataValue(detail?.paldex?.display))} · ${escapeHtml(palFormLabel(detail?.formKind))}</span><h3>${escapeHtml(displayPalName(pal.name))}</h3><p>${(detail?.elements ?? []).map((element) => escapeHtml(elementLabels[element] || element)).join(" · ") || "속성 자료 없음"}${detail?.genus ? ` · ${escapeHtml(genusLabels[detail.genus] || detail.genus)}` : ""}</p><div class="pal-card-actions"><button type="button" data-pal-detail="${escapeHtml(pal.slug)}">상세 보기</button><button type="button" data-compare-toggle="${escapeHtml(pal.slug)}" ${(state.palCompare.size >= 3 && !compared) ? "disabled" : ""}>${compared ? "비교 제거" : "비교 담기"}</button></div></div></article>`; }).join("")}</div>
     ${items.length > 160 ? `<p class="result-note">화면 성능을 위해 첫 160마리만 표시합니다. 검색과 필터는 전체 ${items.length}마리에 적용됩니다.</p>` : ""}`;
@@ -713,6 +739,7 @@ function renderPals() {
   const elements = [...new Set(details.flatMap((pal) => pal.elements ?? []))].sort();
   const works = [...new Map(details.flatMap((pal) => pal.work ?? []).map((entry) => [entry.work, entry.label])).entries()].sort((a, b) => a[1].localeCompare(b[1], "ko"));
   content.innerHTML = `${sectionHeading("02", "상세 펠 도감", `${items.length}마리 검색 · 필터 · 정렬 · 최대 3마리 비교`)}
+    ${screenHint("이름이나 도감 번호로 찾고, 속성·작업 적성으로 좁힐 수 있습니다. '비교 담기'로 최대 3마리를 나란히 볼 수 있습니다.")}
     <div class="pal-filters"><div class="search-row"><label for="pal-search">이름·도감 번호 검색</label><input id="pal-search" type="search" value="${escapeHtml(state.palQuery)}" placeholder="예: 제트래곤, 까부냥, 111" autocomplete="off"></div><label>속성<select id="pal-element"><option value="all">전체 속성</option>${elements.map((element) => `<option value="${escapeHtml(element)}" ${state.palElement === element ? "selected" : ""}>${escapeHtml(elementLabels[element] || element)}</option>`).join("")}</select></label><label>작업 적성<select id="pal-work"><option value="all">전체 작업</option>${works.map(([work, label]) => `<option value="${escapeHtml(work)}" ${state.palWork === work ? "selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label><label>정렬<select id="pal-sort"><option value="paldex" ${state.palSort === "paldex" ? "selected" : ""}>도감 번호</option><option value="name" ${state.palSort === "name" ? "selected" : ""}>이름</option><option value="rarity" ${state.palSort === "rarity" ? "selected" : ""}>희귀도</option><option value="hp" ${state.palSort === "hp" ? "selected" : ""}>HP</option><option value="attack" ${state.palSort === "attack" ? "selected" : ""}>원거리 공격</option></select></label></div>
     <div class="pal-results" data-pal-results></div>`;
   content.querySelector("#pal-search").addEventListener("input", (event) => { state.palQuery = event.target.value; renderPalResults(); });
@@ -799,8 +826,9 @@ function renderBreeding() {
   }
   const modes = [{ id: "pair", label: "부모 → 자식" }, { id: "target", label: "목표 → 부모" }, { id: "path", label: "보유 펠 → 최단 경로" }];
   content.innerHTML = `${sectionHeading("03", "1.0 번식 계산기", `${state.breeding.counts.pals}종 · 특수 조합 ${state.breeding.counts.specialCombos}개 · 데이터 리비전 고정`)}
+    ${screenHint("부모 두 마리로 나올 자식을 확인하거나, 원하는 펠을 골라 부모 조합과 최단 경로를 거꾸로 찾을 수 있습니다.")}
     <div class="breeding-notice"><strong>계산 기준</strong><span>일반 조합은 두 CombiRank의 중간값에 가장 가까운 일반 풀 펠을 선택합니다. 동일 거리 규칙은 현행 출처 간 이견이 있어 결과에 경고를 표시합니다.</span></div>
-    <div class="breeding-modes" role="tablist">${modes.map((mode) => `<button type="button" role="tab" data-breeding-mode="${mode.id}" aria-selected="${state.breedingMode === mode.id}" class="${state.breedingMode === mode.id ? "active" : ""}">${mode.label}</button>`).join("")}</div>
+    ${tabGroup(modes.map((mode) => ({ id: mode.id, label: escapeHtml(mode.label) })), { active: state.breedingMode, attr: "data-breeding-mode", ariaLabel: "번식 계산 방식", className: "segmented breeding-modes" })}
     <section class="breeding-calculator">${state.breedingMode === "target" ? renderTargetCalculator() : state.breedingMode === "path" ? renderPathCalculator() : renderPairCalculator()}</section>
     ${renderBreedingKnowledge()}
     <div class="breeding-source"><span>팰월드 ${escapeHtml(state.breeding.gameVersion)} · ${escapeHtml(state.breeding.provenance.evidenceLevel)} · MIT</span><a href="${safeUrl(state.breeding.provenance.sourceUrl)}" target="_blank" rel="noopener noreferrer">고정 원본 ${escapeHtml(state.breeding.provenance.sourceRevision.slice(0, 8))} ↗</a></div>`;
@@ -853,6 +881,46 @@ function rawMaterialPanel(result) {
     const entry = state.itemIndex.items.get(id);
     return `<button type="button" data-item-link="${escapeHtml(id)}">${itemImage(entry, "raw-material-thumb")}<span>${escapeHtml(itemDisplayName(id))}</span><strong>×${quantity.toLocaleString()}</strong></button>`;
   }).join("")}</div>${result.crafts.length ? `<details><summary>중간 제작 ${result.crafts.length}단계 보기</summary><ol>${result.crafts.map((step) => `<li><span>${escapeHtml(itemDisplayName(step.itemId))}</span><strong>${step.batches}회 · ${step.produced.toLocaleString()}개 생산${step.produced > step.required ? ` · 잉여 ${(step.produced - step.required).toLocaleString()}` : ""}</strong></li>`).join("")}</ol></details>` : ""}</section>`;
+}
+
+function stationDisplayName(name) {
+  const structure = state.items.structures.find((entry) => entry.name === name);
+  return structure ? localizedItemName(structure) : String(name ?? "");
+}
+
+// A material that is itself craftable hides its own materials, so the tree keeps
+// expanding until every branch ends at something that has to be gathered.
+function craftTreeNode(node) {
+  const entry = state.itemIndex.items.get(node.itemId);
+  const stations = (node.stations ?? []).filter(Boolean);
+  return `<li class="craft-node${node.craftable ? "" : " craft-node-raw"}">
+    <div class="craft-node-row">
+      <button type="button" data-item-link="${escapeHtml(node.itemId)}">${entry ? itemImage(entry, "material-thumb") : ""}<span><strong>${escapeHtml(itemDisplayName(node.itemId))}</strong></span></button>
+      <strong class="craft-node-amount">×${node.required.toLocaleString()}</strong>
+      ${node.craftable
+        ? `<small>제작 ${node.batches.toLocaleString()}회 · ${node.produced.toLocaleString()}개 생산${node.surplus > 0 ? ` · 잉여 ${node.surplus.toLocaleString()}` : ""}${stations.length ? ` · ${escapeHtml(stations.map(stationDisplayName).join(", "))}` : ""}</small>`
+        : `<small class="craft-node-tag">원재료 · 채집·드롭</small>`}
+    </div>
+    ${node.children.length ? `<ul>${node.children.map(craftTreeNode).join("")}</ul>` : ""}
+  </li>`;
+}
+
+function craftTreePanel(tree, crafts) {
+  if (!tree?.children.length) return "";
+  return `<section class="craft-tree-panel"><header><div><span>하위 제작법까지 전개</span><h4>단계별 재료 상세</h4></div><strong>${crafts.size ? `중간 제작 ${crafts.size}종` : "중간 제작 없음"}</strong></header>
+    <ul class="craft-tree">${tree.children.map((child) => craftTreeNode(child)).join("")}</ul></section>`;
+}
+
+// The raw totals above say what to gather; this says how much of each
+// intermediate item that gathering has to be turned into.
+function craftTotalsPanel(crafts) {
+  if (!crafts.size) return "";
+  const rows = [...crafts.entries()].sort((a, b) => itemDisplayName(a[0]).localeCompare(itemDisplayName(b[0]), "ko"));
+  return `<section class="craft-total-panel"><header><div><span>처음부터 만들 때</span><h4>중간 제작물 총 수량</h4></div><strong>${rows.length}종</strong></header>
+    <ul>${rows.map(([id, totals]) => {
+      const entry = state.itemIndex.items.get(id);
+      return `<li><button type="button" data-item-link="${escapeHtml(id)}">${entry ? itemImage(entry, "material-thumb") : ""}<span>${escapeHtml(itemDisplayName(id))}</span></button><strong>×${totals.required.toLocaleString()}</strong><small>제작 ${totals.batches.toLocaleString()}회 · ${totals.produced.toLocaleString()}개 생산${totals.produced > totals.required ? ` · 잉여 ${(totals.produced - totals.required).toLocaleString()}` : ""}</small></li>`;
+    }).join("")}</ul></section>`;
 }
 
 function stationLinks(stations = []) {
@@ -912,26 +980,37 @@ function renderRelatedTips(entityId, title = "이 데이터와 함께 보는 공
   return `<section class="related-tips"><h4>${escapeHtml(title)}</h4><div>${tips.map((tip) => renderTipCard(tip, { compact: true })).join("")}</div></section>`;
 }
 
+function renderRelatedPatch(entityId) {
+  const changes = (state.endgameReference?.patchChanges ?? []).filter((change) => change.entityId === entityId);
+  if (!changes.length) return "";
+  return changes.map((change) => `<aside class="item-patch-note"><strong>v${escapeHtml(state.endgameReference.gameVersion)} 공식 변경</strong><span>${escapeHtml(change.changeKo)}</span><a href="${safeUrl(change.sourceUrl)}" target="_blank" rel="noopener noreferrer">공식 패치 ↗</a></aside>`).join("");
+}
+
 function renderItemDetail() {
   if (!state.itemSelected) return "";
   const isStructure = state.itemKind === "structure";
   const entry = isStructure ? state.itemIndex.structures.get(state.itemSelected) : state.itemIndex.items.get(state.itemSelected);
   if (!entry) return "";
   let expanded = null;
+  let tree = null;
   let expansionError = null;
   try {
     expanded = isStructure
       ? expandStructureMaterials(entry.id, state.itemQuantity, state.itemIndex)
       : entry.recipe ? expandItemMaterials(entry.id, state.itemQuantity, state.itemIndex) : null;
+    tree = isStructure
+      ? buildStructureCraftTree(entry.id, state.itemQuantity, state.itemIndex)
+      : entry.recipe ? buildCraftTree(entry.id, state.itemQuantity, state.itemIndex) : null;
   } catch (error) {
     expansionError = error instanceof RecipeCycleError ? `순환 제작법 감지: ${error.path.map(itemDisplayName).join(" → ")}` : "재료 계산을 완료하지 못했습니다.";
   }
+  const craftTotals = tree ? summarizeCraftTree(tree).crafts : new Map();
   const materials = isStructure ? entry.materials : entry.recipe?.materials;
   return `<section class="item-inspector"><header><div class="item-inspector-title">${itemImage(entry, "item-detail-thumb")}<div><span>${isStructure ? "구조물" : escapeHtml(itemCategoryLabels[entry.category] || entry.category)} · ${entry.dataVersion === "1.0.3" ? "v1.0.3 보정" : "v1.0 데이터"}</span><h3>${escapeHtml(localizedItemName(entry))}</h3><p>기술 Lv.${itemDataValue(entry.techLevel)}${entry.ancientTech || entry.ancientTechPoints !== null ? ` · 고대 기술${entry.ancientTechPoints !== null ? ` ${entry.ancientTechPoints}점` : ""}` : ""}</p></div></div><button type="button" data-item-close aria-label="상세 정보 닫기">닫기</button></header>
     <div class="item-quantity"><label for="item-quantity">필요 수량</label><input id="item-quantity" type="number" min="1" max="999" step="1" value="${state.itemQuantity}"><span>${isStructure ? "채" : "개"}</span></div>
     <div class="item-detail-grid"><article><h4>직접 필요한 재료</h4>${directMaterials(materials, state.itemQuantity)}</article><article><h4>${isStructure ? "시설 정보" : "제작 정보"}</h4>${isStructure ? `<dl><div><dt>담당 작업</dt><dd>${escapeHtml(localizedStructureValue(entry.workers, "workers"))}</dd></div><div><dt>수용량</dt><dd>${escapeHtml(localizedStructureValue(entry.capacity, "capacity"))}</dd></div><div><dt>전력</dt><dd>${entry.requiresPower ? `필요${entry.energyPerSecond ? ` · 초당 ${entry.energyPerSecond}` : ""}` : "불필요"}</dd></div></dl>` : entry.recipe ? `<dl><div><dt>한 번에 생산</dt><dd>${entry.recipe.outputQuantity.toLocaleString()}개</dd></div><div><dt>제작 시설</dt><dd class="item-station-links">${stationLinks(entry.recipe.stations)}</dd></div></dl>` : `<p class="empty-data">확인된 제작법이 없습니다.</p>`}</article></div>
-    ${expansionError ? `<p class="item-error">${escapeHtml(expansionError)}</p>` : expanded ? rawMaterialPanel(expanded) : ""}
-    ${!isStructure && entry.patchOverride ? `<aside class="item-patch-note"><strong>v1.0.3 확인 보정</strong><span>${escapeHtml(entry.patchOverride.noteKo)}</span><a href="${safeUrl(entry.patchOverride.sourceUrl)}" target="_blank" rel="noopener noreferrer">공식 패치 ↗</a></aside>` : ""}
+    ${expansionError ? `<p class="item-error">${escapeHtml(expansionError)}</p>` : `${craftTreePanel(tree, craftTotals)}${expanded ? rawMaterialPanel(expanded) : ""}${craftTotalsPanel(craftTotals)}`}
+    ${entry.patchOverride ? `<aside class="item-patch-note"><strong>v1.0.3 확인 보정</strong><span>${escapeHtml(entry.patchOverride.noteKo)}</span><a href="${safeUrl(entry.patchOverride.sourceUrl)}" target="_blank" rel="noopener noreferrer">공식 패치 ↗</a></aside>` : renderRelatedPatch(entry.id)}
     ${renderRelatedTips(entry.id)}
     ${!isStructure ? relatedDropPals(entry) : ""}
     ${!isStructure && entry.obtainedFrom?.length ? `<details class="item-obtained"><summary>획득처 ${entry.obtainedFrom.length}개</summary><p>게임 내 드롭 및 획득 경로입니다.</p><ul>${entry.obtainedFrom.slice(0, 80).map((source) => `<li>${escapeHtml(translateObtained(source, displayPalName))}</li>`).join("")}</ul>${entry.obtainedFrom.length > 80 ? `<p>첫 80개 획득처를 표시합니다.</p>` : ""}</details>` : ""}
@@ -981,7 +1060,7 @@ function renderItemResults() {
 function syncItemSearchControls() {
   const input = content.querySelector("#item-search");
   if (input && input.value !== state.itemQuery) input.value = state.itemQuery;
-  content.querySelectorAll("[data-item-quick]").forEach((button) => button.classList.toggle("active", state.itemQuery === button.dataset.itemQuick));
+  syncTabState("data-item-quick", state.itemQuery);
 }
 
 function renderItems() {
@@ -992,8 +1071,9 @@ function renderItems() {
   const categories = [...new Set(state.items.items.map((item) => item.category))].sort();
   const quickSearches = state.itemKind === "structure" ? ["작업대", "화로", "농원", "채굴장", "발전기"] : ["팰 스피어", "주괴", "케이크", "안장", "작업대"];
   content.innerHTML = `${sectionHeading("04", "아이템·제작·기술 탐색기", `아이템 이미지 ${state.items.counts.itemImages.toLocaleString()}/${state.items.counts.items.toLocaleString()} · 구조물 이미지 ${state.items.counts.structureImages}/${state.items.counts.structures}`)}
+    ${screenHint("한글·영문 이름으로 찾은 뒤 카드를 누르면 하위 재료까지 펼친 제작 단계와, 처음부터 모을 총 수량이 나옵니다.")}
     <div class="item-data-notice"><strong>한글·이미지 기준</strong><span>모든 아이템과 구조물 정보를 한글로 표시하며, 고정된 게임 데이터 출처에서 확인된 파일만 사용합니다. 없는 이미지는 별도 목록에 남깁니다.</span></div>
-    <div class="item-kind-tabs"><button type="button" data-item-kind="item" class="${state.itemKind === "item" ? "active" : ""}">아이템·제작법</button><button type="button" data-item-kind="structure" class="${state.itemKind === "structure" ? "active" : ""}">구조물</button></div>
+    ${tabGroup([{ id: "item", label: "아이템·제작법" }, { id: "structure", label: "구조물" }], { active: state.itemKind, attr: "data-item-kind", ariaLabel: "아이템 종류", className: "segmented item-kind-tabs" })}
     <div class="item-quick-search" aria-label="빠른 찾기"><span>빠른 찾기</span>${quickSearches.map((query) => `<button type="button" data-item-quick="${query}" class="${state.itemQuery === query ? "active" : ""}">${query}</button>`).join("")}</div>
     <div class="item-filters"><div class="search-row"><label for="item-search">아이템·구조물·제작 시설 검색</label><input id="item-search" type="search" value="${escapeHtml(state.itemQuery)}" placeholder="예: 시멘트, 화로, 작업대" autocomplete="off"></div>${state.itemKind === "item" ? `<label>분류<select id="item-category"><option value="all">전체 분류</option>${categories.map((category) => `<option value="${escapeHtml(category)}" ${state.itemCategory === category ? "selected" : ""}>${escapeHtml(itemCategoryLabels[category] || category)}</option>`).join("")}</select></label>` : ""}<label>정렬<select id="item-sort"><option value="tech" ${state.itemSort === "tech" ? "selected" : ""}>기술 레벨</option><option value="name" ${state.itemSort === "name" ? "selected" : ""}>한글 이름</option><option value="category" ${state.itemSort === "category" ? "selected" : ""}>분류</option></select></label></div>
     <div class="item-results" data-item-results></div>`;
@@ -1005,13 +1085,22 @@ function renderItems() {
   renderItemResults();
 }
 
+function allBuilds() {
+  const merged = new Map((state.data?.builds ?? []).map((build) => [build.id, build]));
+  for (const build of state.endgameReference?.builds ?? []) merged.set(build.id, { gameVersion: state.endgameReference.gameVersion, confidence: "한국어 v1.0.3 레퍼런스", reference: true, ...build });
+  for (const system of state.endgameReference?.systems ?? []) merged.set(system.id, { gameVersion: state.endgameReference.gameVersion, confidence: "한국어 v1.0.3 레퍼런스", reference: true, ...system });
+  return [...merged.values()];
+}
+
 function renderBuilds() {
-  const builds = state.data.builds.filter((build) => build.kind === state.buildKind);
+  const builds = allBuilds().filter((build) => build.kind === state.buildKind);
+  const kindLabels = { combat: "전투 파티", base: "거점 작업", travel: "이동·탐험", system: "종결 육성" };
   content.innerHTML = `${sectionHeading("03", "추천 빌드", "상성·서포트 펠·파티 운용까지 확인하는 실전 구성")}
-    <div class="roles"><button type="button" data-build-kind="combat" class="${state.buildKind === "combat" ? "active" : ""}">전투 파티</button><button type="button" data-build-kind="base" class="${state.buildKind === "base" ? "active" : ""}">거점 작업</button></div>
+    ${screenHint("종류를 고르면 해당 상황의 추천 구성이 나옵니다. 특성 이름을 누르면 효과 설명이 열립니다.")}
+    ${tabGroup(Object.entries(kindLabels).map(([kind, label]) => ({ id: kind, label: escapeHtml(label) })), { active: state.buildKind, attr: "data-build-kind", ariaLabel: "빌드 종류" })}
     ${state.buildKind === "combat" ? `<div class="build-guide-note"><strong>읽는 법</strong><span>강점은 공격 속성 기준이며, 약점은 주력 펠이 받는 상성입니다. 같은 종의 지원 효과는 대개 중복되지 않으므로 서로 다른 서포트 펠을 우선합니다.</span></div>` : ""}
     <div class="builds">${builds.map((build) => {
-      const translated = buildKo[build.id] ?? build;
+      const translated = build.reference ? build : (buildKo[build.id] ?? build);
       if (build.party?.length) {
         return `<article class="team-build"><div class="build-hero">${palImage(build.pal, "build-pal-image")}<div><span>${escapeHtml(build.archetype)} · ${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(translated.title)}</h3><p>${escapeHtml(translated.summary)}</p>
           <div class="element-badges">${(build.elements ?? []).map((element) => `<b>${escapeHtml(elementLabels[element] || element)}</b>`).join("")}</div></div></div>
@@ -1022,9 +1111,10 @@ function renderBuilds() {
           <div class="build-advice"><p><strong>교체 기준</strong> ${escapeHtml(build.swapAdvice || "보스 속성과 보유 펠에 맞춰 교체하세요.")}</p><p><strong>주의</strong> ${escapeHtml(build.warning || "패치와 월드 설정에 따라 효율이 달라질 수 있습니다.")}</p></div>
           <div class="build-sources">${(build.sourceUrls ?? [build.sourceUrl]).filter(Boolean).map((url) => `<a href="${safeUrl(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(buildSourceLabel(url))} ↗</a>`).join("")}<small>${escapeHtml(build.confidence)}</small></div></article>`;
       }
-      return `<article><div class="build-hero">${palImage(build.pal, "build-pal-image")}<div><span>${build.kind === "base" ? "거점 작업" : "개별 전투"} · v${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(displayPalName(build.pal))} · ${escapeHtml(translated.title)}</h3><p>${escapeHtml(translated.summary)}</p></div></div>
-        <div class="build-grid"><div><h4>추천 패시브</h4><ul>${(translated.passives ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>추천 스킬</h4><ul>${(translated.skills ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
-        <p class="usage">${escapeHtml(translated.usage)}</p><a href="${safeUrl(build.sourceUrl)}" target="_blank" rel="noopener noreferrer">원문 공략 확인 ↗</a></article>`;
+      const heading = build.pal ? `${displayPalName(build.pal)} · ${translated.title}` : translated.title;
+      return `<article><div class="build-hero">${build.pal ? palImage(build.pal, "build-pal-image") : ""}<div><span>${escapeHtml(kindLabels[build.kind] || "추천 구성")} · v${escapeHtml(build.gameVersion)}</span><h3>${escapeHtml(heading)}</h3><p>${escapeHtml(translated.summary)}</p></div></div>
+        <div class="build-grid"><div><h4>${build.kind === "system" ? "핵심 효과" : "추천 특성"}</h4><ul>${(translated.passives ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div><div><h4>${build.kind === "system" ? "준비 순서" : "운용 포인트"}</h4><ul>${(translated.skills ?? []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div></div>
+        <p class="usage">${escapeHtml(translated.usage)}</p>${build.sourceUrl ? `<a href="${safeUrl(build.sourceUrl)}" target="_blank" rel="noopener noreferrer">원문 공략 확인 ↗</a>` : `<small>${escapeHtml(build.confidence)}</small>`}</article>`;
     }).join("")}</div>`;
   content.querySelectorAll("[data-build-kind]").forEach((button) => button.addEventListener("click", () => { state.buildKind = button.dataset.buildKind; renderBuilds(); }));
 }
@@ -1134,7 +1224,8 @@ function renderMap() {
   const allPoints = allMapPoints();
   const regionIds = ["main", "world_tree", "sunreach"].filter((mapId) => allPoints.some((point) => point.mapId === mapId));
   content.innerHTML = `${sectionHeading("04", "Palworld 1.0 현행 지도", `검증된 보스·이동 지점 ${filteredMapPoints().length}개 표시`)}
-    <div class="map-region-tabs" role="group" aria-label="지도 지역">${regionIds.map((mapId) => `<button type="button" data-map-region="${escapeHtml(mapId)}" aria-pressed="${state.mapId === mapId}">${escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId)}<small>${allPoints.filter((point) => point.mapId === mapId).length}</small></button>`).join("")}</div>
+    ${screenHint("왼쪽 레이어에서 보고 싶은 종류만 켜세요. 검색은 켜 둔 레이어 안에서만 찾습니다. 지도의 점이나 아래 목록을 누르면 좌표가 나옵니다.")}
+    ${tabGroup(regionIds.map((mapId) => ({ id: mapId, label: escapeHtml(mapRegionLabels[mapId] || regions[mapId]?.label || mapId), extra: `<small>${allPoints.filter((point) => point.mapId === mapId).length}</small>` })), { active: state.mapId, attr: "data-map-region", ariaLabel: "지도 지역", className: "segmented map-region-tabs" })}
     <div class="search-row map-search"><label for="map-search">장소 검색</label><input id="map-search" type="search" value="${escapeHtml(state.mapQuery)}" placeholder="예: 석탄, 보스, 제트래곤" autocomplete="off"></div>
     <div class="map-results" data-map-results></div>`;
   content.querySelectorAll("[data-map-region]").forEach((button) => button.addEventListener("click", () => { state.mapId = button.dataset.mapRegion; state.selected = null; syncMapUrl(); renderMap(); }));
@@ -1249,13 +1340,14 @@ function renderTraits() {
   const usages = ["all", "combat", "base", "avoid"];
   const tiers = ["legend", "tier3", "tier2", "tier1", "neg1", "neg2", "neg3"];
   content.innerHTML = `${sectionHeading("05", "특성 사전", `${catalogue.length}종 · 번식으로 붙이는 특성`)}
-    <div class="roles" role="group" aria-label="특성 용도">${usages.map((id) => `<button type="button" data-trait-usage="${escapeHtml(id)}" class="${state.traitUsage === id ? "active" : ""}${id === "avoid" ? " usage-avoid" : ""}">${escapeHtml(usageLabels[id])}</button>`).join("")}</div>
+    ${screenHint("용도별로 좁혀 보고, 붉은 '피해야 할 특성'은 번식으로 붙이면 손해인 특성입니다.")}
+    ${tabGroup(usages.map((id) => ({ id, label: escapeHtml(usageLabels[id]), className: id === "avoid" ? "usage-avoid" : "" })), { active: state.traitUsage, attr: "data-trait-usage", ariaLabel: "특성 용도" })}
     <div class="tier-legend">${tiers.map((tier) => `<span class="tier-key tier-${tier}"><i></i>${escapeHtml(tierLabels[tier])}</span>`).join("")}</div>
     <div class="search-row"><label for="trait-search">특성 검색</label><input id="trait-search" type="search" value="${escapeHtml(state.traitQuery)}" placeholder="예: 장인 기질, 작업 속도, 전설" autocomplete="off"></div>
     <div class="trait-results" data-trait-results></div>`;
   content.querySelectorAll("[data-trait-usage]").forEach((button) => button.addEventListener("click", () => {
     state.traitUsage = button.dataset.traitUsage;
-    content.querySelectorAll("[data-trait-usage]").forEach((item) => item.classList.toggle("active", item.dataset.traitUsage === state.traitUsage));
+    syncTabState("data-trait-usage", state.traitUsage);
     renderTraitResults();
   }));
   content.querySelector("#trait-search").addEventListener("input", (event) => { state.traitQuery = event.target.value; renderTraitResults(); });
@@ -1265,7 +1357,7 @@ function renderTraits() {
 const toolLabels = { boss: "보스 대응", base: "생산 플래너", tips: "공략 팁", progress: "진행 체크", activities: "낚시·원정", save: "세이브 분석", patch: "패치 비교" };
 
 function toolNav() {
-  return `<div class="tool-nav" role="tablist" aria-label="공략 도구">${Object.entries(toolLabels).map(([id, label]) => `<button type="button" data-tool="${id}" class="${state.toolMode === id ? "active" : ""}">${label}</button>`).join("")}</div>`;
+  return `${tabGroup(Object.entries(toolLabels).map(([id, label]) => ({ id, label: escapeHtml(label) })), { active: state.toolMode, attr: "data-tool", ariaLabel: "공략 도구", className: "tool-nav" })}`;
 }
 
 function renderBossTool() {
@@ -1306,7 +1398,7 @@ function renderBaseToolResults() {
 function renderBaseTool() {
   if (!state.items) return `<p class="empty-data">아이템 데이터를 불러오지 못했습니다.</p>`;
   baseToolEntries();
-  return `<div class="tool-panel"><div class="tool-controls"><div class="roles"><button type="button" data-base-kind="item" class="${state.baseKind === "item" ? "active" : ""}">아이템</button><button type="button" data-base-kind="structure" class="${state.baseKind === "structure" ? "active" : ""}">시설</button></div><label>목표 검색<input id="base-search" type="search" value="${escapeHtml(state.baseQuery)}" placeholder="아이템 또는 시설 검색"></label><label>수량<input id="base-quantity" type="number" min="1" max="9999" value="${state.baseQuantity}"></label></div><div class="base-results" data-base-results>${baseToolResultsMarkup()}</div></div>`;
+  return `<div class="tool-panel"><div class="tool-controls">${tabGroup([{ id: "item", label: "아이템" }, { id: "structure", label: "시설" }], { active: state.baseKind, attr: "data-base-kind", ariaLabel: "생산 목표 종류" })}<label>목표 검색<input id="base-search" type="search" value="${escapeHtml(state.baseQuery)}" placeholder="아이템 또는 시설 검색"></label><label>수량<input id="base-quantity" type="number" min="1" max="9999" value="${state.baseQuantity}"></label></div><div class="base-results" data-base-results>${baseToolResultsMarkup()}</div></div>`;
 }
 
 function progressGroups() {
@@ -1324,7 +1416,7 @@ function progressGroups() {
 function renderProgressTool() {
   const groups = progressGroups(); const groupLabels = { pals: "펠 도감", bosses: "보스", fast: "빠른 이동", collectible: "수집물", dungeon: "던전", schematic: "설계도" };
   const entries = groups[state.progressKind] ?? []; const done = entries.filter((entry) => state.progress.completed[entry.id]).length;
-  return `<div class="tool-panel"><div class="roles tool-kind-tabs">${Object.entries(groupLabels).map(([id, label]) => `<button type="button" data-progress-kind="${id}" class="${state.progressKind === id ? "active" : ""}">${label}</button>`).join("")}</div><div class="progress-actions"><strong>${done.toLocaleString()} / ${entries.length.toLocaleString()} 완료</strong><button type="button" data-progress-export>내보내기</button><label class="button-label">가져오기<input id="progress-import" type="file" accept="application/json"></label><button type="button" data-progress-reset>백업 후 초기화</button></div><div class="check-grid">${entries.slice(0, 500).map((entry) => `<label>${entry.image ?? ""}<input type="checkbox" data-progress-id="${escapeHtml(entry.id)}" ${state.progress.completed[entry.id] ? "checked" : ""}><span>${escapeHtml(entry.label)}</span></label>`).join("")}</div>${entries.length > 500 ? `<p class="result-note">성능을 위해 이 화면에는 500개까지 표시합니다.</p>` : ""}<p class="tool-note">진행 상태는 이 브라우저의 로컬 저장소에만 보관되며 서버로 전송되지 않습니다.</p></div>`;
+  return `<div class="tool-panel">${tabGroup(Object.entries(groupLabels).map(([id, label]) => ({ id, label: escapeHtml(label) })), { active: state.progressKind, attr: "data-progress-kind", ariaLabel: "진행 체크 분류", className: "tabs roles tool-kind-tabs" })}<div class="progress-actions"><strong>${done.toLocaleString()} / ${entries.length.toLocaleString()} 완료</strong><button type="button" data-progress-export>내보내기</button><label class="button-label">가져오기<input id="progress-import" type="file" accept="application/json"></label><button type="button" data-progress-reset>백업 후 초기화</button></div><div class="check-grid">${entries.slice(0, 500).map((entry) => `<label>${entry.image ?? ""}<input type="checkbox" data-progress-id="${escapeHtml(entry.id)}" ${state.progress.completed[entry.id] ? "checked" : ""}><span>${escapeHtml(entry.label)}</span></label>`).join("")}</div>${entries.length > 500 ? `<p class="result-note">성능을 위해 이 화면에는 500개까지 표시합니다.</p>` : ""}<p class="tool-note">진행 상태는 이 브라우저의 로컬 저장소에만 보관되며 서버로 전송되지 않습니다.</p></div>`;
 }
 
 function renderActivitiesTool() {
@@ -1332,7 +1424,7 @@ function renderActivitiesTool() {
   if (!activities) return `<p class="empty-data">활동 데이터를 불러오지 못했습니다.</p>`;
   const rewardLabel = (reward) => localizedItemName(state.itemIndex?.items.get(reward.itemId)) || reward.item;
   const difficultyLabels = { Easy: "쉬움", Normal: "보통", Hard: "어려움", VeryHard: "매우 어려움" };
-  return `<div class="tool-panel"><div class="roles"><button type="button" data-activity="fishing" class="${state.activityMode === "fishing" ? "active" : ""}">낚시</button><button type="button" data-activity="expedition" class="${state.activityMode === "expedition" ? "active" : ""}">원정</button></div>${state.activityMode === "fishing" ? `<article class="tool-summary"><span>1.0.3 반영</span><h3>낚시 펠 ${activities.fishing.pals.length}종</h3><p>${escapeHtml(activities.fishing.patch103?.changesKo?.join(" · ") || "세계수 낚시 성수 획득처를 반영했습니다.")}</p><button type="button" data-open-fishing-map>낚시터 지도 보기</button></article><div class="tool-card-grid fishing-grid">${activities.fishing.pals.map((entry) => `<article>${palImage(entry.pal, "tool-pal-image")}<h4>${escapeHtml(displayPalName(entry.pal))}</h4><p>낚시 레벨 ${entry.minLevel}–${entry.maxLevel}</p></article>`).join("")}</div>` : `<div class="expedition-list">${activities.expeditions.map((mission) => `<article><span>${escapeHtml(difficultyLabels[mission.difficulty] || mission.difficulty)} · ${mission.durationMinutes}분</span><h3>${escapeHtml(mission.nameKo)}</h3><p>요구 화력 ${mission.requiredFirepower.toLocaleString()}${mission.elementRequirement ? ` · ${escapeHtml(elementLabels[mission.elementRequirement.element] || mission.elementRequirement.element)} 속성 펠 ${mission.elementRequirement.palsRequired}마리` : ""}</p><div><strong>확정</strong> ${mission.rewards.filter((reward) => reward.certainty === "guaranteed").map((reward) => `${escapeHtml(rewardLabel(reward))} ${escapeHtml(reward.quantity)}`).join(" · ") || "없음"}</div><div><strong>확률</strong> ${mission.rewards.filter((reward) => reward.certainty !== "guaranteed").map((reward) => `${escapeHtml(rewardLabel(reward))} ${reward.chancePct}%`).join(" · ") || "없음"}</div></article>`).join("")}</div>`}</div>`;
+  return `<div class="tool-panel">${tabGroup([{ id: "fishing", label: "낚시" }, { id: "expedition", label: "원정" }], { active: state.activityMode, attr: "data-activity", ariaLabel: "활동 종류" })}${state.activityMode === "fishing" ? `<article class="tool-summary"><span>1.0.3 반영</span><h3>낚시 펠 ${activities.fishing.pals.length}종</h3><p>${escapeHtml(activities.fishing.patch103?.changesKo?.join(" · ") || "세계수 낚시 성수 획득처를 반영했습니다.")}</p><button type="button" data-open-fishing-map>낚시터 지도 보기</button></article><div class="tool-card-grid fishing-grid">${activities.fishing.pals.map((entry) => `<article>${palImage(entry.pal, "tool-pal-image")}<h4>${escapeHtml(displayPalName(entry.pal))}</h4><p>낚시 레벨 ${entry.minLevel}–${entry.maxLevel}</p></article>`).join("")}</div>` : `<div class="expedition-list">${activities.expeditions.map((mission) => `<article><span>${escapeHtml(difficultyLabels[mission.difficulty] || mission.difficulty)} · ${mission.durationMinutes}분</span><h3>${escapeHtml(mission.nameKo)}</h3><p>요구 화력 ${mission.requiredFirepower.toLocaleString()}${mission.elementRequirement ? ` · ${escapeHtml(elementLabels[mission.elementRequirement.element] || mission.elementRequirement.element)} 속성 펠 ${mission.elementRequirement.palsRequired}마리` : ""}</p><div><strong>확정</strong> ${mission.rewards.filter((reward) => reward.certainty === "guaranteed").map((reward) => `${escapeHtml(rewardLabel(reward))} ${escapeHtml(reward.quantity)}`).join(" · ") || "없음"}</div><div><strong>확률</strong> ${mission.rewards.filter((reward) => reward.certainty !== "guaranteed").map((reward) => `${escapeHtml(rewardLabel(reward))} ${reward.chancePct}%`).join(" · ") || "없음"}</div></article>`).join("")}</div>`}</div>`;
 }
 
 function renderTipsTool() {
@@ -1346,7 +1438,7 @@ function renderTipsTool() {
     exploration: "탐험",
   };
   const visible = state.tipContext === "all" ? tips : tips.filter((tip) => tip.contexts.includes(state.tipContext));
-  return `<div class="tool-panel tips-panel"><article class="tool-summary"><span>v${escapeHtml(state.communityTips.gameVersion)} · 출처 교차 확인</span><h3>바로 써먹는 공략 팁</h3><p>공식 기능과 커뮤니티 활용법을 구분하고, 패치에 따라 달라질 수 있는 팁은 경고를 붙였습니다.</p></article><div class="roles tip-contexts" role="tablist" aria-label="공략 팁 분류">${Object.entries(contexts).map(([id, label]) => `<button type="button" data-tip-context="${id}" class="${state.tipContext === id ? "active" : ""}">${label}<span>${id === "all" ? tips.length : tips.filter((tip) => tip.contexts.includes(id)).length}</span></button>`).join("")}</div><div class="tips-grid">${visible.map((tip) => renderTipCard(tip)).join("")}</div></div>`;
+  return `<div class="tool-panel tips-panel"><article class="tool-summary"><span>v${escapeHtml(state.communityTips.gameVersion)} · 출처 교차 확인</span><h3>바로 써먹는 공략 팁</h3><p>공식 기능과 커뮤니티 활용법을 구분하고, 패치에 따라 달라질 수 있는 팁은 경고를 붙였습니다.</p></article>${tabGroup(Object.entries(contexts).map(([id, label]) => ({ id, label: escapeHtml(label), extra: `<span>${id === "all" ? tips.length : tips.filter((tip) => tip.contexts.includes(id)).length}</span>` })), { active: state.tipContext, attr: "data-tip-context", ariaLabel: "공략 팁 분류", className: "tabs roles tip-contexts" })}<div class="tips-grid">${visible.map((tip) => renderTipCard(tip)).join("")}</div></div>`;
 }
 
 function renderSaveTool() {
@@ -1356,7 +1448,8 @@ function renderSaveTool() {
 
 function renderPatchTool() {
   const report = state.patchReport;
-  return `<div class="tool-panel"><article class="tool-summary"><span>공식 확인 패치 ${escapeHtml(report?.gameVersion || "1.0.3")}</span><h3>패치 데이터 검수 게이트</h3><p>${escapeHtml(report?.messageKo || "패치 비교 보고서를 불러오지 못했습니다.")}</p></article><div class="tool-split"><article><h4>현재 상태</h4><p>${report?.status === "awaiting-baseline" ? "1.0.3 기준선 저장 완료 · 다음 버전 대기" : escapeHtml(report?.status || "확인 필요")}</p></article><article><h4>공개 안전장치</h4><p>검수 승인: ${report?.publishApproved ? "완료" : "미승인"} · 롤백 스냅샷: ${escapeHtml(report?.rollbackSnapshot || "없음")}</p></article></div><p class="tool-note">공식 버전이 바뀌지 않으면 전체 외부 수집을 실행하지 않습니다. 다음 버전에서 추가·삭제·변경을 분리한 뒤 검수 승인 전까지 공개하지 않습니다.</p></div>`;
+  const changes = state.endgameReference?.patchChanges ?? [];
+  return `<div class="tool-panel"><article class="tool-summary"><span>공식 확인 패치 ${escapeHtml(report?.gameVersion || "1.0.3")}</span><h3>패치 데이터 검수 게이트</h3><p>${escapeHtml(report?.messageKo || "패치 비교 보고서를 불러오지 못했습니다.")}</p></article><div class="tool-split"><article><h4>현재 상태</h4><p>${report?.status === "awaiting-baseline" ? "1.0.3 기준선 저장 완료 · 다음 버전 대기" : escapeHtml(report?.status || "확인 필요")}</p></article><article><h4>공개 안전장치</h4><p>검수 승인: ${report?.publishApproved ? "완료" : "미승인"} · 롤백 스냅샷: ${escapeHtml(report?.rollbackSnapshot || "없음")}</p></article></div>${changes.length ? `<section class="patch-change-list"><h4>v${escapeHtml(state.endgameReference.gameVersion)} 공개 반영 항목 ${changes.length}개</h4><div class="tool-card-grid">${changes.map((change) => `<article><span>${escapeHtml(change.categoryKo)}</span><h4>${escapeHtml(change.titleKo)}</h4><p>${escapeHtml(change.changeKo)}</p><a href="${safeUrl(change.sourceUrl)}" target="_blank" rel="noopener noreferrer">공식 패치 ↗</a></article>`).join("")}</div></section>` : ""}<p class="tool-note">공식 버전이 바뀌지 않으면 전체 외부 수집을 실행하지 않습니다. 다음 버전에서 추가·삭제·변경을 분리한 뒤 검수 승인 전까지 공개하지 않습니다.</p></div>`;
 }
 
 function downloadProgress() {
@@ -1391,7 +1484,7 @@ function bindTools(root = content) {
 
 function renderTools() {
   const panels = { boss: renderBossTool, base: renderBaseTool, tips: renderTipsTool, progress: renderProgressTool, activities: renderActivitiesTool, save: renderSaveTool, patch: renderPatchTool };
-  content.innerHTML = `${sectionHeading("도구", "한 화면에서 이어 쓰는 공략 도구", "계산 결과와 출처 상태를 분리하고 개인 데이터는 브라우저에만 저장합니다.")}${toolNav()}${panels[state.toolMode]()}`;
+  content.innerHTML = `${sectionHeading("도구", "한 화면에서 이어 쓰는 공략 도구", "계산 결과와 출처 상태를 분리하고 개인 데이터는 브라우저에만 저장합니다.")}${screenHint("아래 알약 버튼으로 도구를 바꿉니다. 보스 대응·생산 계산·진행 체크 모두 이 화면 안에서 이어집니다.")}${toolNav()}${panels[state.toolMode]()}`;
   bindTools();
 }
 
@@ -1466,11 +1559,12 @@ Promise.all([
   fetch("./data/map-pois.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/activities.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/community-tips.json?v=1.14.1", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
+  fetch("./data/endgame-reference.json?v=1.14.3", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
   fetch("./data/patch-report.json?v=1.13.0", { cache: "no-store" }).then((response) => (response.ok ? response.json() : null)).catch(() => null),
-]).then(([data, assets, traits, details, breeding, items, itemReport, mapPois, activities, communityTips, patchReport]) => {
+]).then(([data, assets, traits, details, breeding, items, itemReport, mapPois, activities, communityTips, endgameReference, patchReport]) => {
   state.data = data; state.assets = assets; state.traits = traits; state.details = details; state.breeding = breeding;
   if (breeding) { state.breedingIndex = createBreedingIndex(breeding); loadBreedOwned(); }
-  state.items = items; state.itemReport = itemReport; state.mapPois = mapPois; state.activities = activities; state.communityTips = communityTips; state.patchReport = patchReport; if (items) state.itemIndex = createItemIndex(items);
+  state.items = items; state.itemReport = itemReport; state.mapPois = mapPois; state.activities = activities; state.communityTips = communityTips; state.endgameReference = endgameReference; state.patchReport = patchReport; if (items) state.itemIndex = createItemIndex(items);
   const validProgressIds = Object.values(progressGroups()).flat().map((entry) => entry.id);
   state.progress = loadProgress(localStorage, "palworld-guide-progress", validProgressIds);
   const mapState = parseMapState(location.search, [...new Set(allMapPoints().map((point) => point.category))], ["main", "world_tree", "sunreach"]);

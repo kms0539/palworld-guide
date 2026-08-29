@@ -114,6 +114,13 @@
       "updateMode": "manual-on-patch"
     },
     {
+      "id": "endgame-reference-1-0-3",
+      "path": "data/endgame-reference.json",
+      "schemaVersion": 1,
+      "required": false,
+      "updateMode": "manual-on-patch"
+    },
+    {
       "id": "patch-report",
       "path": "data/patch-report.json",
       "schemaVersion": 1,

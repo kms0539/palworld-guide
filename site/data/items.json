@@ -9,7 +9,7 @@
     "recipes": 647,
     "technologies": 371,
     "structures": 125,
-    "patchOverrides": 1,
+    "patchOverrides": 2,
     "itemImages": 1185,
     "structureImages": 124,
     "gameDataKoreanNames": 1291,
@@ -36709,7 +36709,7 @@
       "id": "item:jetragon-s-missile-launcher",
       "name": "Jetragon's Missile Launcher",
       "category": "key_item",
-      "techLevel": 79,
+      "techLevel": 70,
       "ancientTechPoints": null,
       "recipe": {
         "outputQuantity": 1,
@@ -36742,8 +36742,13 @@
       },
       "obtainedFrom": [],
       "schematicSources": [],
-      "dataVersion": "1.0",
-      "patchOverride": null,
+      "dataVersion": "1.0.3",
+      "patchOverride": {
+        "sourceUrl": "https://steamcommunity.com/ogg/1623730/announcements/detail/695395286786244642",
+        "checkedAt": "2026-08-29T00:00:00.000Z",
+        "evidenceLevel": "official",
+        "noteKo": "공식 v1.0.3 변경 공지에 따라 해금 요구 레벨을 79에서 70으로 보정"
+      },
       "nameKo": "제트래곤의 미사일 발사기",
       "localizationStatus": "game-data",
       "localizationSourceKey": "SkillUnlock_JetDragon",

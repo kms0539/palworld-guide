@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { createItemIndex, expandItemMaterials, expandStructureMaterials, RecipeCycleError } from "../site/item-engine.js";
+import { buildCraftTree, buildStructureCraftTree, createItemIndex, expandItemMaterials, expandStructureMaterials, RecipeCycleError, summarizeCraftTree } from "../site/item-engine.js";
 
 const root = new URL("../", import.meta.url);
 const data = JSON.parse(await readFile(new URL("site/data/items.json", root), "utf8"));
@@ -10,6 +10,7 @@ const index = createItemIndex(data);
 const app = await readFile(new URL("site/app.js", root), "utf8");
 const html = await readFile(new URL("site/index.html", root), "utf8");
 const pkg = JSON.parse(await readFile(new URL("package.json", root), "utf8"));
+const itemName = (id) => index.items.get(id)?.name ?? index.structures.get(id)?.name ?? id;
 
 test("item dataset preserves recipes, structures and the verified 1.0.3 override", () => {
   assert.equal(data.items.length, 1_195);
@@ -30,6 +31,11 @@ test("item dataset preserves recipes, structures and the verified 1.0.3 override
   assert.deepEqual(Object.fromEntries(aquatic.recipe.materials.map((item) => [item.name, item.quantity])), {
     Cement: 30, Ingot: 10, "Wooden Board": 15,
   });
+  const jetragonGear = index.items.get("item:jetragon-s-missile-launcher");
+  assert.equal(jetragonGear.dataVersion, "1.0.3");
+  assert.equal(jetragonGear.techLevel, 70);
+  assert.equal(jetragonGear.patchOverride.evidenceLevel, "official");
+  assert.equal(data.counts.patchOverrides, 2);
 });
 
 test("every item and structure has a Korean primary label and image coverage is reported", () => {
@@ -83,6 +89,67 @@ test("structure materials expand through item recipes", () => {
   assert.deepEqual(Object.fromEntries(campfire.rawMaterials), { "item:wood": 30 });
 });
 
+test("the craft tree expands every craftable material down to gathered goods", () => {
+  const tree = buildCraftTree("item:aquatic-construction-kit", 1, index);
+  assert.equal(tree.craftable, true);
+  assert.equal(tree.required, 1);
+  assert.deepEqual(tree.children.map((child) => [itemName(child.itemId), child.required, child.craftable]), [
+    ["Cement", 30, true], ["Ingot", 10, true], ["Wooden Board", 15, true],
+  ]);
+
+  const cement = tree.children[0];
+  assert.equal(cement.batches, 3);
+  assert.equal(cement.produced, 30);
+  assert.equal(cement.surplus, 0);
+  assert.deepEqual(cement.children.map((child) => [itemName(child.itemId), child.required, child.craftable]), [
+    ["Stone", 60, false], ["Bone", 3, false], ["Aquatic Pal Fluids", 3, false],
+  ]);
+  // Gathered goods end a branch instead of being listed with an empty recipe.
+  assert.ok(cement.children.every((child) => child.children.length === 0));
+
+  // A craftable material keeps expanding, and rounding up to whole batches is
+  // visible on the tree itself rather than only in the totals.
+  const board = tree.children[2];
+  assert.deepEqual(board.children.map((child) => [itemName(child.itemId), child.required, child.craftable]), [
+    ["Wood", 150, false], ["Fiber", 75, true], ["Nail", 15, true],
+  ]);
+  const fiber = board.children[1];
+  assert.equal(fiber.batches, 38);
+  assert.equal(fiber.produced, 76);
+  assert.equal(fiber.surplus, 1);
+  assert.deepEqual(board.children[2].children.map((child) => itemName(child.itemId)), ["Ingot"]);
+});
+
+test("tree totals agree with the flat expansion and add intermediate craft counts", () => {
+  for (const [itemId, quantity] of [["item:aquatic-construction-kit", 1], ["item:cement", 11], ["item:nail", 9]]) {
+    const summary = summarizeCraftTree(buildCraftTree(itemId, quantity, index));
+    assert.deepEqual(Object.fromEntries(summary.rawMaterials), Object.fromEntries(expandItemMaterials(itemId, quantity, index).rawMaterials), itemId);
+  }
+
+  const summary = summarizeCraftTree(buildCraftTree("item:aquatic-construction-kit", 1, index));
+  // Ingot is needed by the kit and again by the nails inside its wooden boards,
+  // so the from-scratch total has to add both branches up.
+  assert.deepEqual(Object.fromEntries([...summary.crafts].map(([id, totals]) => [itemName(id), totals])), {
+    Cement: { required: 30, batches: 3, produced: 30 },
+    Ingot: { required: 13, batches: 13, produced: 13 },
+    "Wooden Board": { required: 15, batches: 15, produced: 15 },
+    Fiber: { required: 75, batches: 38, produced: 76 },
+    Nail: { required: 15, batches: 3, produced: 15 },
+  });
+  // The target itself is reported above the totals, so it stays out of them.
+  assert.ok(![...summary.crafts.keys()].includes("item:aquatic-construction-kit"));
+});
+
+test("structure craft trees expand each build material and total the crafts", () => {
+  const tree = buildStructureCraftTree("structure:campfire", 3, index);
+  assert.equal(tree.structure, true);
+  assert.deepEqual(tree.children.map((child) => [itemName(child.itemId), child.required, child.craftable]), [["Wood", 30, false]]);
+
+  const summary = summarizeCraftTree(tree);
+  assert.deepEqual(Object.fromEntries(summary.rawMaterials), Object.fromEntries(expandStructureMaterials("structure:campfire", 3, index).rawMaterials));
+  assert.equal(summary.crafts.size, 0);
+});
+
 test("cyclic recipes fail with a trace instead of recursing forever", () => {
   const cycleData = {
     items: [
@@ -93,6 +160,11 @@ test("cyclic recipes fail with a trace instead of recursing forever", () => {
   };
   const cycleIndex = createItemIndex(cycleData);
   assert.throws(() => expandItemMaterials("item:a", 1, cycleIndex), (error) => {
+    assert.ok(error instanceof RecipeCycleError);
+    assert.deepEqual(error.path, ["item:a", "item:b", "item:a"]);
+    return true;
+  });
+  assert.throws(() => buildCraftTree("item:a", 1, cycleIndex), (error) => {
     assert.ok(error instanceof RecipeCycleError);
     assert.deepEqual(error.path, ["item:a", "item:b", "item:a"]);
     return true;
@@ -111,6 +183,10 @@ test("item UI exposes search, recursive totals and verified cross-navigation", (
   assert.match(app, /localizedItemName\(entry\)/);
   assert.match(app, /이미지 미확인/);
   assert.match(app, /최종 원재료 합계/);
+  assert.match(app, /단계별 재료 상세/);
+  assert.match(app, /중간 제작물 총 수량/);
+  assert.match(app, /function craftTreeNode/);
+  assert.match(app, /summarizeCraftTree/);
   assert.match(app, /v1\.0\.3 확인 보정/);
   assert.match(app, /data-related-pal/);
   assert.match(app, /data-related-map/);

@@ -20,6 +20,23 @@
 - 공개 데이터 계약: `site/data/data-registry.json`
 - 이미지 미확인 목록: `docs/missing-item-images.md`
 
+## 화면 스타일 구조
+
+CSS는 아래 순서로 불러오며, 뒤 파일이 앞 파일을 덮어씁니다.
+
+| 파일 | 역할 |
+| --- | --- |
+| `site/styles.css` | 페이지 골격(머리말·히어로·격자 배치) |
+| `site/components.css` | **공통 토큰과 재사용 컴포넌트** — 글자 크기 척도, 여백·모서리, 포커스 링, 탭·칩·패널·입력 필드 |
+| `site/progression.css` | 성장 단계 화면 전용 |
+| `site/enhancements.css` | 화면별 세부 스타일 |
+| `site/map-markers.css` | 지도·마커 전용 |
+
+- 글자 크기는 `--fs-2xs`(11px)~`--fs-lg`(16px) 토큰만 사용합니다. 화면마다 7~11px가 흩어져 있으면 한글이 읽기 어려워지므로 px를 직접 쓰지 않습니다.
+- "여러 개 중 하나 고르기" 줄은 `site/app.js`의 `tabGroup()`으로 만듭니다. 선택 상태는 `.active`와 `aria-pressed`가 항상 함께 바뀝니다(`syncTabState()`).
+- 알약형 버튼은 `.chip`, 분리형 탭은 `.segmented`, 제목+본문 상자는 `.panel`을 씁니다.
+- 누르는 영역은 `--tap`(40px)을 최소로 둡니다.
+
 ## 로컬 갱신
 
 ```powershell

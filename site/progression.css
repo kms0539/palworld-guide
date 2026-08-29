@@ -21,12 +21,12 @@
 .stage-timeline button span {
   grid-row: 1 / 3;
   color: var(--sky);
-  font-size: 10px;
+  font-size: var(--fs-sm);
   font-weight: 800;
 }
 
-.stage-timeline button strong { color: var(--ink); font-size: 14px; }
-.stage-timeline button small { font-size: 9px; }
+.stage-timeline button strong { color: var(--ink); font-size: var(--fs-lg); }
+.stage-timeline button small { font-size: var(--fs-xs); }
 
 .stage-timeline button:hover,
 .stage-timeline button.active {
@@ -56,7 +56,7 @@
   padding: 10px 18px;
   background: transparent;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--fs-md);
   font-weight: 800;
   cursor: pointer;
 }
@@ -67,7 +67,7 @@
   padding: 3px 6px;
   background: rgba(157, 220, 255, .1);
   color: var(--sky2);
-  font-size: 9px;
+  font-size: var(--fs-xs);
 }
 
 .progression-kind-tabs button:hover,
@@ -93,10 +93,10 @@
   background: linear-gradient(120deg, rgba(31, 104, 157, .2), rgba(7, 22, 37, .9));
 }
 
-.stage-summary span { color: var(--sky); font-size: 10px; font-weight: 800; }
+.stage-summary span { color: var(--sky); font-size: var(--fs-sm); font-weight: 800; }
 .stage-summary h3 { margin: 5px 0 7px; font-size: 25px; }
-.stage-summary p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
-.stage-summary > strong { max-width: 280px; text-align: right; color: var(--sky2); font-size: 12px; }
+.stage-summary p { margin: 0; color: var(--muted); font-size: var(--fs-md); line-height: 1.6; }
+.stage-summary > strong { max-width: 280px; text-align: right; color: var(--sky2); font-size: var(--fs-base); }
 
 .base-install-guide {
   margin-bottom: 16px;
@@ -116,10 +116,10 @@
 
 .base-guide-header span,
 .base-guide-card > span,
-.base-staffing > div:first-child > span { color: #80e6b5; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+.base-staffing > div:first-child > span { color: #80e6b5; font-size: var(--fs-xs); font-weight: 800; letter-spacing: .08em; }
 .base-guide-header h3 { margin: 5px 0 7px; font-size: 23px; }
-.base-guide-header p { max-width: 680px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.65; }
-.base-guide-header > strong { border-radius: 999px; padding: 7px 10px; background: rgba(128, 230, 181, .1); color: #a5f0ca; font-size: 10px; white-space: nowrap; }
+.base-guide-header p { max-width: 680px; margin: 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.65; }
+.base-guide-header > strong { border-radius: 999px; padding: 7px 10px; background: rgba(128, 230, 181, .1); color: #a5f0ca; font-size: var(--fs-sm); white-space: nowrap; }
 
 .base-guide-layout {
   display: grid;
@@ -138,7 +138,7 @@
 .base-guide-card h4,
 .base-staffing h4 { margin: 5px 0 9px; font-size: 15px; }
 .base-guide-card p,
-.base-guide-card li { color: var(--muted); font-size: 10px; line-height: 1.65; }
+.base-guide-card li { color: var(--muted); font-size: var(--fs-sm); line-height: 1.65; }
 .base-guide-card p { margin: 0; }
 .base-guide-card ol { margin: 0; padding-left: 18px; }
 .base-guide-card li + li { margin-top: 4px; }
@@ -146,15 +146,15 @@
 .base-staffing { margin-top: 10px; padding: 16px; }
 .base-staff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .base-staff-card { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid rgba(128, 230, 181, .55); padding: 9px 11px; background: rgba(128, 230, 181, .045); }
-.base-staff-card strong { color: #a5f0ca; font-size: 9px; }
-.base-staff-card span { color: var(--ink); font-size: 11px; font-weight: 750; }
-.base-staff-card small { color: var(--muted); font-size: 9px; }
+.base-staff-card strong { color: #a5f0ca; font-size: var(--fs-xs); }
+.base-staff-card span { color: var(--ink); font-size: var(--fs-md); font-weight: 750; }
+.base-staff-card small { color: var(--muted); font-size: var(--fs-xs); }
 
-.base-guide-tip { margin: 10px 0 0; border-radius: 12px; padding: 12px 14px; background: rgba(26, 94, 74, .24); color: var(--muted); font-size: 10px; line-height: 1.65; }
+.base-guide-tip { margin: 10px 0 0; border-radius: 12px; padding: 12px 14px; background: rgba(26, 94, 74, .24); color: var(--muted); font-size: var(--fs-sm); line-height: 1.65; }
 .base-guide-tip strong { margin-right: 8px; color: #a5f0ca; }
 .base-guide-sources { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; margin-top: 12px; }
-.base-guide-sources strong { color: var(--muted); font-size: 9px; }
-.base-guide-sources a { color: #a5f0ca; font-size: 9px; text-decoration: none; }
+.base-guide-sources strong { color: var(--muted); font-size: var(--fs-xs); }
+.base-guide-sources a { color: #a5f0ca; font-size: var(--fs-xs); text-decoration: none; }
 .base-guide-sources a:hover { text-decoration: underline; }
 
 .progression-grid {
@@ -194,13 +194,13 @@
   padding: 5px 9px;
   background: rgba(4, 14, 24, .72);
   color: var(--sky2);
-  font-size: 9px;
+  font-size: var(--fs-xs);
 }
 
 .progression-body { padding: 16px; }
 .progression-body h3 { margin: 0 0 12px; font-size: 20px; }
-.progression-body p { margin: 8px 0; color: var(--muted); font-size: 10px; line-height: 1.65; }
-.progression-body p strong { display: block; margin-bottom: 2px; color: var(--sky2); font-size: 9px; }
+.progression-body p { margin: 8px 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.65; }
+.progression-body p strong { display: block; margin-bottom: 2px; color: var(--sky2); font-size: var(--fs-xs); }
 .progression-body .replace { padding-top: 9px; border-top: 1px solid var(--line); color: #c2cfdb; }
 
 .progression-notes {
@@ -215,10 +215,10 @@
   background: rgba(5, 17, 29, .58);
 }
 
-.progression-notes p { max-width: 660px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.progression-notes p { max-width: 660px; margin: 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.6; }
 .progression-notes p strong { color: var(--sky2); }
 .progression-notes div { display: flex; gap: 9px; flex-wrap: wrap; justify-content: flex-end; }
-.progression-notes a { color: var(--sky2); font-size: 9px; text-decoration: none; }
+.progression-notes a { color: var(--sky2); font-size: var(--fs-xs); text-decoration: none; }
 .progression-notes a:hover { text-decoration: underline; }
 
 @media (max-width: 1000px) {

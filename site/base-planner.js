@@ -1,4 +1,4 @@
-import { expandItemMaterials, expandStructureMaterials } from "./item-engine.js?v=1.12.0";
+import { expandItemMaterials, expandStructureMaterials } from "./item-engine.js?v=1.14.2";
 
 export function productionPlan(kind, id, quantity, itemIndex, pals) {
   const entry = kind === "structure" ? itemIndex.structures.get(id) : itemIndex.items.get(id);
