@@ -65,16 +65,21 @@ export function itemAssetPath(entry) {
   return /^\.\/assets\/(?:items|structures)\/[a-z0-9_-]+\.webp$/.test(entry?.image ?? "") ? entry.image : "";
 }
 
+function normalizeSearchText(value) {
+  return String(value ?? "").normalize("NFKC").toLocaleLowerCase("ko-KR").replace(/[\s\p{P}\p{S}]+/gu, "");
+}
+
 export function filterAndSortItems(entries, { query = "", category = "all", sort = "tech", isStructure = false } = {}) {
-  const normalizedQuery = query.trim().toLocaleLowerCase("ko-KR");
+  const normalizedQuery = normalizeSearchText(query);
   return entries.filter((entry) => {
     const searchable = [
       localizedItemName(entry),
       entry.name,
       ...(entry.recipe?.stations ?? []),
       entry.workers,
-    ].filter(Boolean).join(" ").toLocaleLowerCase("ko-KR");
-    const matchesQuery = !normalizedQuery || searchable.includes(normalizedQuery);
+    ].filter(Boolean).join(" ");
+    const normalizedSearchable = normalizeSearchText(searchable);
+    const matchesQuery = !normalizedQuery || normalizedSearchable.includes(normalizedQuery);
     const matchesCategory = isStructure || category === "all" || entry.category === category;
     return matchesQuery && matchesCategory;
   }).sort((a, b) => {

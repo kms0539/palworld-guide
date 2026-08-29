@@ -5,6 +5,8 @@ import { filterAndSortItems, itemAssetPath, itemEnglishAlias, localizedItemName,
 const entries = [
   { id: "item:cement", name: "Cement", nameKo: "시멘트", category: "material", techLevel: 19, image: "./assets/items/cement.webp", recipe: { stations: ["High Quality Workbench"] } },
   { id: "item:wood", name: "Wood", nameKo: "목재", category: "material", techLevel: null, image: null },
+  { id: "item:wing-pack", name: "Wing Pack", nameKo: "윙 팩", category: "technology", techLevel: 60, image: null },
+  { id: "item:ai-core", name: "AI Core", nameKo: "AI 코어", category: "material", techLevel: null, image: null },
 ];
 
 test("Korean names are primary and English remains an explicit alias", () => {
@@ -17,6 +19,8 @@ test("search accepts Korean, English and crafting-station terms", () => {
   assert.deepEqual(filterAndSortItems(entries, { query: "시멘트" }).map(({ id }) => id), ["item:cement"]);
   assert.deepEqual(filterAndSortItems(entries, { query: "wood" }).map(({ id }) => id), ["item:wood"]);
   assert.deepEqual(filterAndSortItems(entries, { query: "workbench" }).map(({ id }) => id), ["item:cement"]);
+  assert.deepEqual(filterAndSortItems(entries, { query: "윙팩" }).map(({ id }) => id), ["item:wing-pack"]);
+  assert.deepEqual(filterAndSortItems(entries, { query: "ai코어" }).map(({ id }) => id), ["item:ai-core"]);
 });
 
 test("only local allow-listed WebP paths are accepted", () => {

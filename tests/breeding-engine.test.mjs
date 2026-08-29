@@ -69,6 +69,12 @@ test("breeding UI exposes all three calculators and browser-only owned storage",
   assert.match(app, /localStorage\.setItem\(BREEDING_STORAGE_KEY/);
   assert.match(app, /이 브라우저에만 저장되며 서버로 전송되지 않습니다/);
   assert.match(app, /타이브레이크에 출처 이견/);
+  assert.match(app, /role="combobox"/);
+  assert.match(app, /data-breeding-picker/);
+  assert.match(app, /한국어·영문·도감 번호로 목표 검색/);
+  assert.match(app, /event\.key === "ArrowDown"/);
+  assert.doesNotMatch(app, /<select id="breed-/);
   assert.match(css, /\.breeding-calculator/);
   assert.match(css, /\.breeding-path/);
+  assert.match(css, /\.breeding-picker-list/);
 });

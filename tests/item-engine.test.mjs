@@ -14,7 +14,7 @@ const itemName = (id) => index.items.get(id)?.name ?? index.structures.get(id)?.
 
 test("item dataset preserves recipes, structures and the verified 1.0.3 override", () => {
   assert.equal(data.items.length, 1_195);
-  assert.equal(data.counts.recipes, 647);
+  assert.equal(data.counts.recipes, 646);
   assert.equal(data.structures.length, 125);
   assert.equal(new Set(data.items.map((item) => item.id)).size, data.items.length);
   assert.equal(data.provenance.sourceRevision, "cf9ecbe832e3a2a9e2d78d6579a082d968b68f17");
@@ -36,6 +36,11 @@ test("item dataset preserves recipes, structures and the verified 1.0.3 override
   assert.equal(jetragonGear.techLevel, 70);
   assert.equal(jetragonGear.patchOverride.evidenceLevel, "official");
   assert.equal(data.counts.patchOverrides, 2);
+
+  const paldium = index.items.get("item:paldium-fragment");
+  assert.deepEqual(paldium.recipe.materials.map(({ itemId, quantity }) => [itemId, quantity]), [["item:stone", 5]]);
+  assert.equal(index.items.get("item:small-pal-soul").recipe, null);
+  assert.deepEqual(index.items.get("item:medium-pal-soul").recipe.materials.map(({ itemId, quantity }) => [itemId, quantity]), [["item:small-pal-soul", 2]]);
 });
 
 test("every item and structure has a Korean primary label and image coverage is reported", () => {
@@ -138,6 +143,31 @@ test("tree totals agree with the flat expansion and add intermediate craft count
   });
   // The target itself is reported above the totals, so it stays out of them.
   assert.ok(![...summary.crafts.keys()].includes("item:aquatic-construction-kit"));
+});
+
+test("Wing Pack expands AI Core and Thermal Core through every nested recipe", () => {
+  const tree = buildCraftTree("item:wing-pack", 1, index);
+  const summary = summarizeCraftTree(tree);
+  const crafts = Object.fromEntries(summary.crafts);
+  const raw = Object.fromEntries(summary.rawMaterials);
+
+  assert.equal(crafts["item:ai-core"].required, 20);
+  assert.equal(crafts["item:thermal-core"].required, 60);
+  assert.equal(crafts["item:computer"].required, 100);
+  assert.ok(!("item:ai-core" in raw));
+  assert.ok(!("item:thermal-core" in raw));
+  assert.ok(!("item:computer" in raw));
+  assert.equal(raw["item:flame-organ"], 640);
+  assert.equal(raw["item:coal"], 1_680);
+  assert.equal(raw["item:stone"], 150);
+  assert.equal(raw["item:ancient-civilization-core"], 30);
+  assert.deepEqual(raw, Object.fromEntries(expandItemMaterials("item:wing-pack", 1, index).rawMaterials));
+
+  const aiCore = tree.children.find(({ itemId }) => itemId === "item:ai-core");
+  const thermalCore = aiCore.children.find(({ itemId }) => itemId === "item:thermal-core");
+  assert.equal(aiCore.required, 20);
+  assert.equal(thermalCore.required, 40);
+  assert.ok(thermalCore.children.length > 0);
 });
 
 test("structure craft trees expand each build material and total the crafts", () => {

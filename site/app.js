@@ -1,6 +1,6 @@
 import { breed, createBreedingIndex, findParentPairs, findShortestPath } from "./breeding-engine.js?v=1.12.0";
-import { buildCraftTree, buildStructureCraftTree, createItemIndex, expandItemMaterials, expandStructureMaterials, RecipeCycleError, summarizeCraftTree } from "./item-engine.js?v=1.14.2";
-import { filterAndSortItems, itemAssetPath, itemCategoryLabels, itemEnglishAlias, localizedItemName, localizedStructureValue } from "./item-catalog.js?v=1.13.0";
+import { buildCraftTree, buildStructureCraftTree, createItemIndex, expandItemMaterials, expandStructureMaterials, RecipeCycleError, summarizeCraftTree } from "./item-engine.js?v=1.14.5";
+import { filterAndSortItems, itemAssetPath, itemCategoryLabels, itemEnglishAlias, localizedItemName, localizedStructureValue } from "./item-catalog.js?v=1.14.5";
 import { parseMapState, createMapSearch } from "./map-state.js?v=1.13.0";
 import { bossTypeLabels, recommendBossPals } from "./boss-engine.js?v=1.13.0";
 import { productionPlan } from "./base-planner.js?v=1.13.0";
@@ -766,8 +766,68 @@ function breedingOptionLabel(pal) {
   return `${localized} · #${pal.paldex}`;
 }
 
-function breedingOptions(selected, placeholder = "펠을 선택하세요") {
-  return `<option value="">${placeholder}</option>${state.breeding.pals.map((pal) => `<option value="${escapeHtml(pal.id)}" ${selected === pal.id ? "selected" : ""}>${escapeHtml(breedingOptionLabel(pal))}</option>`).join("")}`;
+function breedingSearchText(pal) {
+  return [breedingName(pal.id), pal.name, pal.slug, pal.paldex, `#${pal.paldex}`].filter(Boolean).join(" ").normalize("NFKC").toLocaleLowerCase("ko").replace(/[\s\p{P}\p{S}]+/gu, "");
+}
+
+function breedingPicker(field, { label, selected, placeholder, detail = "" }) {
+  const inputId = `breeding-${field.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`;
+  const listId = `${inputId}-list`;
+  const selectedPal = breedingPal(selected);
+  const selectedLabel = selectedPal ? breedingOptionLabel(selectedPal) : "";
+  return `<div class="breeding-picker" data-breeding-picker data-breeding-field="${escapeHtml(field)}">
+    <label for="${inputId}">${escapeHtml(label)}</label>
+    <div class="breeding-picker-control"><input id="${inputId}" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="${listId}" autocomplete="off" value="${escapeHtml(selectedLabel)}" data-selected-label="${escapeHtml(selectedLabel)}" placeholder="${escapeHtml(placeholder)}"><button type="button" data-breeding-clear aria-label="${escapeHtml(label)} 선택 지우기" ${selected ? "" : "disabled"}>지우기</button></div>
+    <div id="${listId}" class="breeding-picker-list" role="listbox" hidden><p data-breeding-result-count>전체 ${state.breeding.pals.length}종</p>${state.breeding.pals.map((pal) => `<button type="button" role="option" data-breeding-value="${escapeHtml(pal.id)}" data-breeding-search="${escapeHtml(breedingSearchText(pal))}" aria-selected="${selected === pal.id}"><strong>${escapeHtml(breedingName(pal.id))}</strong><span>${escapeHtml(pal.name)} · #${escapeHtml(pal.paldex)}</span></button>`).join("")}</div>
+    ${detail}
+  </div>`;
+}
+
+function bindBreedingPicker(picker) {
+  const field = picker.dataset.breedingField;
+  const input = picker.querySelector('input[role="combobox"]');
+  const list = picker.querySelector('[role="listbox"]');
+  const count = picker.querySelector("[data-breeding-result-count]");
+  const options = [...list.querySelectorAll('[role="option"]')];
+  let activeIndex = -1;
+
+  const visibleOptions = () => options.filter((option) => !option.hidden);
+  const setExpanded = (expanded) => {
+    list.hidden = !expanded;
+    input.setAttribute("aria-expanded", String(expanded));
+    if (!expanded) activeIndex = -1;
+  };
+  const filter = (query) => {
+    const normalized = String(query ?? "").normalize("NFKC").toLocaleLowerCase("ko").replace(/[\s\p{P}\p{S}]+/gu, "");
+    let matches = 0;
+    for (const option of options) {
+      const matched = !normalized || option.dataset.breedingSearch.includes(normalized);
+      option.hidden = !matched || matches >= 60;
+      if (matched) matches += 1;
+      option.removeAttribute("data-active");
+    }
+    count.textContent = matches ? `${matches.toLocaleString()}종 검색됨${matches > 60 ? " · 상위 60종 표시" : ""}` : "검색 결과가 없습니다.";
+    activeIndex = -1;
+    setExpanded(true);
+  };
+  const move = (amount) => {
+    const visible = visibleOptions();
+    if (!visible.length) return;
+    activeIndex = (activeIndex + amount + visible.length) % visible.length;
+    for (const option of visible) option.toggleAttribute("data-active", option === visible[activeIndex]);
+    visible[activeIndex].scrollIntoView({ block: "nearest" });
+  };
+
+  input.addEventListener("focus", () => { filter(input.value === input.dataset.selectedLabel ? "" : input.value); input.select(); });
+  input.addEventListener("input", () => filter(input.value));
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") { event.preventDefault(); if (list.hidden) filter(input.value); move(event.key === "ArrowDown" ? 1 : -1); }
+    else if (event.key === "Enter" && activeIndex >= 0) { event.preventDefault(); visibleOptions()[activeIndex]?.click(); }
+    else if (event.key === "Escape") { setExpanded(false); input.blur(); }
+  });
+  picker.querySelectorAll("[data-breeding-value]").forEach((option) => option.addEventListener("click", () => { state[field] = option.dataset.breedingValue; renderBreeding(); }));
+  picker.querySelector("[data-breeding-clear]")?.addEventListener("click", () => { state[field] = ""; renderBreeding(); });
+  picker.addEventListener("focusout", () => setTimeout(() => { if (!picker.contains(document.activeElement)) setExpanded(false); }, 0));
 }
 
 function breedingResultCard(childId, result) {
@@ -781,13 +841,13 @@ function renderPairCalculator() {
   const result = state.breedParentA && state.breedParentB ? breed(state.breedParentA, state.breedParentB, state.breedingIndex) : null;
   const parentA = breedingPal(state.breedParentA);
   const parentB = breedingPal(state.breedParentB);
-  return `<div class="breeding-select-grid"><label>부모 A<select id="breed-parent-a">${breedingOptions(state.breedParentA, "첫 번째 부모")}</select>${parentA ? `<small>수컷 확률 ${dataValue(parentA.maleProbability)}%</small>` : ""}</label><span>＋</span><label>부모 B<select id="breed-parent-b">${breedingOptions(state.breedParentB, "두 번째 부모")}</select>${parentB ? `<small>수컷 확률 ${dataValue(parentB.maleProbability)}%</small>` : ""}</label></div>
+  return `<div class="breeding-select-grid">${breedingPicker("breedParentA", { label: "부모 A", selected: state.breedParentA, placeholder: "이름·도감 번호로 첫 번째 부모 검색", detail: parentA ? `<small>수컷 확률 ${dataValue(parentA.maleProbability)}%</small>` : "" })}<span>＋</span>${breedingPicker("breedParentB", { label: "부모 B", selected: state.breedParentB, placeholder: "이름·도감 번호로 두 번째 부모 검색", detail: parentB ? `<small>수컷 확률 ${dataValue(parentB.maleProbability)}%</small>` : "" })}</div>
     ${result ? `<div class="breeding-results"><h3>예상 자식 ${result.childIds.length > 1 ? `${result.childIds.length}종 후보` : ""}</h3>${result.childIds.map((childId) => breedingResultCard(childId, result)).join("")}</div>` : `<p class="breeding-empty">부모 두 종을 선택하면 1.0 조합 결과를 계산합니다.</p>`}`;
 }
 
 function renderTargetCalculator() {
   const pairs = state.breedTarget ? findParentPairs(state.breedTarget, state.breedingIndex, 500) : [];
-  return `<label class="breeding-target-select">목표 자식<select id="breed-target">${breedingOptions(state.breedTarget, "만들고 싶은 펠")}</select></label>
+  return `<div class="breeding-target-select">${breedingPicker("breedTarget", { label: "목표 자식", selected: state.breedTarget, placeholder: "한국어·영문·도감 번호로 목표 검색" })}</div>
     ${state.breedTarget ? `<div class="parent-pair-list"><header><h3>${escapeHtml(breedingName(state.breedTarget))} 부모 조합</h3><span>${pairs.length.toLocaleString()}쌍${pairs.length === 500 ? " 이상" : ""}</span></header>${pairs.slice(0, 160).map((pair) => `<article><div><strong>${escapeHtml(breedingName(pair.parentAId))}</strong><span>＋</span><strong>${escapeHtml(breedingName(pair.parentBId))}</strong></div><small>${pair.kind === "special" ? "특수 고정 조합" : pair.kind === "same-species" ? "동종 번식" : "일반 공식"}${pair.disputedTie ? " · 타이브레이크 이견" : ""}</small></article>`).join("") || `<p class="breeding-empty">확인된 부모 조합이 없습니다.</p>`}${pairs.length > 160 ? `<p class="result-note">첫 160쌍을 표시합니다.</p>` : ""}</div>` : `<p class="breeding-empty">목표 펠을 선택하면 가능한 부모 쌍을 역검색합니다.</p>`}`;
 }
 
@@ -808,8 +868,8 @@ function renderPathCalculator() {
   const path = state.breedTarget && state.breedOwned.size
     ? findShortestPath([...state.breedOwned], state.breedTarget, state.breedingIndex, 8)
     : null;
-  return `<div class="owned-pal-panel"><header><div><h3>내가 보유한 펠</h3><p>이 목록은 이 브라우저에만 저장되며 서버로 전송되지 않습니다.</p></div><strong>${state.breedOwned.size}종</strong></header><div class="owned-pal-add"><select id="breed-owned-add">${breedingOptions(state.breedOwnedAdd, "보유 펠 추가")}</select><button type="button" data-owned-add>추가</button><button type="button" data-owned-clear ${state.breedOwned.size ? "" : "disabled"}>전체 비우기</button></div><div class="owned-pal-chips">${[...state.breedOwned].map((id) => `<button type="button" data-owned-remove="${escapeHtml(id)}">${escapeHtml(breedingName(id))} ×</button>`).join("") || `<span>아직 등록한 펠이 없습니다.</span>`}</div></div>
-    <label class="breeding-target-select">목표 펠<select id="breed-target">${breedingOptions(state.breedTarget, "경로를 찾을 목표")}</select></label>
+  return `<div class="owned-pal-panel"><header><div><h3>내가 보유한 펠</h3><p>이 목록은 이 브라우저에만 저장되며 서버로 전송되지 않습니다.</p></div><strong>${state.breedOwned.size}종</strong></header><div class="owned-pal-add">${breedingPicker("breedOwnedAdd", { label: "보유 펠 검색", selected: state.breedOwnedAdd, placeholder: "추가할 펠 이름·도감 번호 검색" })}<button type="button" data-owned-add>추가</button><button type="button" data-owned-clear ${state.breedOwned.size ? "" : "disabled"}>전체 비우기</button></div><div class="owned-pal-chips">${[...state.breedOwned].map((id) => `<button type="button" data-owned-remove="${escapeHtml(id)}">${escapeHtml(breedingName(id))} ×</button>`).join("") || `<span>아직 등록한 펠이 없습니다.</span>`}</div></div>
+    <div class="breeding-target-select">${breedingPicker("breedTarget", { label: "목표 펠", selected: state.breedTarget, placeholder: "경로를 찾을 목표 이름·도감 번호 검색" })}</div>
     ${path ? path.reachable ? `<section class="breeding-path"><header><h3>최단 경로 · ${path.generations}세대</h3><span>${path.steps.length}회 번식</span></header>${path.steps.length ? `<ol>${path.steps.map((step) => `<li><span>${escapeHtml(breedingName(step.parentAId))} ＋ ${escapeHtml(breedingName(step.parentBId))}</span><strong>→ ${escapeHtml(breedingName(step.childId))}</strong><small>${step.kind === "special" ? "특수 조합" : "일반 공식"}${step.disputedTie ? " · 타이브레이크 이견" : ""}</small></li>`).join("")}</ol>` : `<p>목표 펠을 이미 보유하고 있습니다.</p>`}</section>` : `<p class="breeding-empty breeding-warning">보유 목록만으로 8세대 안에 도달하는 경로를 찾지 못했습니다.</p>` : `<p class="breeding-empty">보유 펠과 목표를 선택하면 최대 8세대의 최단 경로를 계산합니다.</p>`}
     <p class="breeding-caveat">경로 계산은 보유 “종”을 기준으로 합니다. 실제 번식에는 각 단계마다 수컷·암컷 한 쌍과 케이크가 필요하며, 필요한 개체 수와 성별 보유 여부는 별도로 확인해야 합니다.</p>`;
 }
@@ -833,10 +893,7 @@ function renderBreeding() {
     ${renderBreedingKnowledge()}
     <div class="breeding-source"><span>팰월드 ${escapeHtml(state.breeding.gameVersion)} · ${escapeHtml(state.breeding.provenance.evidenceLevel)} · MIT</span><a href="${safeUrl(state.breeding.provenance.sourceUrl)}" target="_blank" rel="noopener noreferrer">고정 원본 ${escapeHtml(state.breeding.provenance.sourceRevision.slice(0, 8))} ↗</a></div>`;
   content.querySelectorAll("[data-breeding-mode]").forEach((button) => button.addEventListener("click", () => { state.breedingMode = button.dataset.breedingMode; renderBreeding(); }));
-  content.querySelector("#breed-parent-a")?.addEventListener("change", (event) => { state.breedParentA = event.target.value; renderBreeding(); });
-  content.querySelector("#breed-parent-b")?.addEventListener("change", (event) => { state.breedParentB = event.target.value; renderBreeding(); });
-  content.querySelector("#breed-target")?.addEventListener("change", (event) => { state.breedTarget = event.target.value; renderBreeding(); });
-  content.querySelector("#breed-owned-add")?.addEventListener("change", (event) => { state.breedOwnedAdd = event.target.value; });
+  content.querySelectorAll("[data-breeding-picker]").forEach(bindBreedingPicker);
   content.querySelector("[data-owned-add]")?.addEventListener("click", () => { if (state.breedingIndex.byId.has(state.breedOwnedAdd)) { state.breedOwned.add(state.breedOwnedAdd); state.breedOwnedAdd = ""; saveBreedOwned(); renderBreeding(); } });
   content.querySelectorAll("[data-owned-remove]").forEach((button) => button.addEventListener("click", () => { state.breedOwned.delete(button.dataset.ownedRemove); saveBreedOwned(); renderBreeding(); }));
   content.querySelector("[data-owned-clear]")?.addEventListener("click", () => { state.breedOwned.clear(); saveBreedOwned(); renderBreeding(); });
@@ -877,7 +934,7 @@ function directMaterials(materials, multiplier = 1) {
 }
 
 function rawMaterialPanel(result) {
-  return `<section class="raw-material-panel"><header><div><span>하위 제작법 재귀 계산</span><h4>최종 원재료 합계</h4></div><strong>${result.rawMaterials.size}종</strong></header><div>${[...result.rawMaterials.entries()].sort((a, b) => itemDisplayName(a[0]).localeCompare(itemDisplayName(b[0]))).map(([id, quantity]) => {
+  return `<section class="raw-material-panel"><header><div><span>하위 제작법 재귀 계산</span><h4>최종 원재료 합계</h4><p>중간 제작물을 끝까지 펼쳐 실제로 모아야 하는 최하위 재료 수량입니다.</p></div><strong>${result.rawMaterials.size}종</strong></header><div>${[...result.rawMaterials.entries()].sort((a, b) => itemDisplayName(a[0]).localeCompare(itemDisplayName(b[0]))).map(([id, quantity]) => {
     const entry = state.itemIndex.items.get(id);
     return `<button type="button" data-item-link="${escapeHtml(id)}">${itemImage(entry, "raw-material-thumb")}<span>${escapeHtml(itemDisplayName(id))}</span><strong>×${quantity.toLocaleString()}</strong></button>`;
   }).join("")}</div>${result.crafts.length ? `<details><summary>중간 제작 ${result.crafts.length}단계 보기</summary><ol>${result.crafts.map((step) => `<li><span>${escapeHtml(itemDisplayName(step.itemId))}</span><strong>${step.batches}회 · ${step.produced.toLocaleString()}개 생산${step.produced > step.required ? ` · 잉여 ${(step.produced - step.required).toLocaleString()}` : ""}</strong></li>`).join("")}</ol></details>` : ""}</section>`;

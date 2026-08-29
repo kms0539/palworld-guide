@@ -6,7 +6,7 @@
   "updatedAt": "2026-08-28T08:57:03.348Z",
   "counts": {
     "items": 1195,
-    "recipes": 647,
+    "recipes": 646,
     "technologies": 371,
     "structures": 125,
     "patchOverrides": 2,
@@ -2581,20 +2581,7 @@
       "category": "material",
       "techLevel": null,
       "ancientTechPoints": null,
-      "recipe": {
-        "outputQuantity": 2,
-        "stations": [
-          "Crusher",
-          "Refrigerated Crusher"
-        ],
-        "materials": [
-          {
-            "itemId": "item:medium-pal-soul",
-            "name": "Medium Pal Soul",
-            "quantity": 1
-          }
-        ]
-      },
+      "recipe": null,
       "obtainedFrom": [
         "Dropped by Tombat x1 (1%)",
         "Dropped by Felbat x1 (3%)",
@@ -2669,11 +2656,6 @@
             "itemId": "item:small-pal-soul",
             "name": "Small Pal Soul",
             "quantity": 2
-          },
-          {
-            "itemId": "item:large-pal-soul",
-            "name": "Large Pal Soul",
-            "quantity": 1
           }
         ]
       },
@@ -2744,11 +2726,6 @@
             "itemId": "item:medium-pal-soul",
             "name": "Medium Pal Soul",
             "quantity": 2
-          },
-          {
-            "itemId": "item:giant-pal-soul",
-            "name": "Giant Pal Soul",
-            "quantity": 1
           }
         ]
       },
@@ -5054,66 +5031,6 @@
             "itemId": "item:stone",
             "name": "Stone",
             "quantity": 5
-          },
-          {
-            "itemId": "item:meteorite-fragment",
-            "name": "Meteorite Fragment",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:ore",
-            "name": "Ore",
-            "quantity": 2
-          },
-          {
-            "itemId": "item:pal-sphere",
-            "name": "Pal Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:mega-sphere",
-            "name": "Mega Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:giga-sphere",
-            "name": "Giga Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:hyper-sphere",
-            "name": "Hyper Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:ultra-sphere",
-            "name": "Ultra Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:legendary-sphere",
-            "name": "Legendary Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:ultimate-sphere",
-            "name": "Ultimate Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:exotic-sphere",
-            "name": "Exotic Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:sol-sphere",
-            "name": "Sol Sphere",
-            "quantity": 1
-          },
-          {
-            "itemId": "item:ancient-sphere",
-            "name": "Ancient Sphere",
-            "quantity": 1
           }
         ]
       },

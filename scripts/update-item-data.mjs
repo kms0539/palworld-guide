@@ -67,6 +67,35 @@ const items = sourceItems.items.map((item) => ({
   patchOverride: null,
 }));
 
+// The upstream snapshot stores every Crusher conversion route in one flat
+// material object. Those entries are alternatives, not ingredients that must
+// all be supplied together. Keep one forward, from-scratch route so recursive
+// expansion is deterministic and cannot loop through spheres or soul grades.
+const canonicalCrusherRecipes = new Map([
+  ["Paldium Fragment", { materials: [["Stone", 5]] }],
+  ["Small Pal Soul", null],
+  ["Medium Pal Soul", { materials: [["Small Pal Soul", 2]] }],
+  ["Large Pal Soul", { materials: [["Medium Pal Soul", 2]] }],
+  ["Giant Pal Soul", { materials: [["Large Pal Soul", 2]] }],
+]);
+for (const [name, canonical] of canonicalCrusherRecipes) {
+  const item = items.find((entry) => entry.name === name);
+  if (!item) throw new Error(`${name} is missing`);
+  if (!canonical) {
+    item.recipe = null;
+    continue;
+  }
+  item.recipe = {
+    outputQuantity: 1,
+    stations: ["Crusher", "Refrigerated Crusher"],
+    materials: canonical.materials.map(([materialName, quantity]) => ({
+      itemId: stableId("item", materialName),
+      name: materialName,
+      quantity,
+    })),
+  };
+}
+
 const aquatic = items.find((item) => item.name === "Aquatic Construction Kit");
 if (!aquatic) throw new Error("Aquatic Construction Kit is missing");
 aquatic.techLevel = 23;
